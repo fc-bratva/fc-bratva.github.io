@@ -271,6 +271,11 @@ body {
 }
 
 /* --- Immersive Mode (Triggered by Upper Bar Logo — Zero Blackout) --- */
+#app {
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1), filter 0.45s ease;
+  transform-origin: center 20%;
+}
+
 body.immersive-mode {
   overflow: hidden !important;
   touch-action: none !important;
@@ -279,7 +284,8 @@ body.immersive-mode {
 body.immersive-mode #app {
   opacity: 0 !important;
   pointer-events: none !important;
-  transform: scale(0.96);
+  transform: scale(0.95) translateY(-8px);
+  filter: blur(4px);
 }
 body.immersive-mode .bg-3d-canvas-container {
   opacity: 0.95 !important;

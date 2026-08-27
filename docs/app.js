@@ -448,27 +448,28 @@ const Flag3DManager = {
   },
 
   setupInteractions() {
-    // Global Mouse & Touch Interaction for smooth tilt
+    // Global Mouse & Touch Interaction (Active ONLY during Immersive Mode)
     window.addEventListener('mousemove', (e) => {
+      if (!document.body.classList.contains('immersive-mode')) {
+        this.targetRotationY = 0;
+        this.targetRotationX = 0;
+        return;
+      }
       this.mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
       this.mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      const mult = document.body.classList.contains('immersive-mode') ? 0.75 : 0.35;
-      this.targetRotationY = this.mouseX * mult;
-      this.targetRotationX = this.mouseY * mult * 0.7;
+      this.targetRotationY = this.mouseX * 0.75;
+      this.targetRotationX = this.mouseY * 0.55;
     });
 
     window.addEventListener('touchmove', (e) => {
+      if (!document.body.classList.contains('immersive-mode')) return;
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         this.mouseX = (touch.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
         this.mouseY = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-        const mult = document.body.classList.contains('immersive-mode') ? 0.75 : 0.35;
-        this.targetRotationY = this.mouseX * mult;
-        this.targetRotationX = this.mouseY * mult * 0.7;
-
-        if (document.body.classList.contains('immersive-mode')) {
-          e.preventDefault();
-        }
+        this.targetRotationY = this.mouseX * 0.75;
+        this.targetRotationX = this.mouseY * 0.55;
+        e.preventDefault();
       }
     }, { passive: false });
 
@@ -746,11 +747,14 @@ const CinematicDirector = {
     const hud = document.getElementById('cinematic-hud');
     const appEl = document.getElementById('app');
 
+    // Immediately start fading out HUD
+    if (hud) hud.classList.remove('visible');
+
+    // Fade to black smoothly
     if (blackout) blackout.classList.add('fade-in');
 
     setTimeout(() => {
       if (overlay) overlay.classList.remove('active');
-      if (hud) hud.classList.remove('visible');
       if (appEl) appEl.style.opacity = '1';
 
       if (Flag3DManager.bgCamera) {
@@ -763,8 +767,10 @@ const CinematicDirector = {
         Flag3DManager.bgMesh.rotation.set(0, 0, 0);
       }
 
-      if (blackout) blackout.classList.remove('fade-in');
-    }, 450);
+      setTimeout(() => {
+        if (blackout) blackout.classList.remove('fade-in');
+      }, 60);
+    }, 380);
   },
 
   populateHUD() {
