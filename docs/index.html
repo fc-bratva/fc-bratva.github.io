@@ -8,7 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Patrick+Hand&family=Caveat:wght@400..700&family=Aref+Ruqaa:wght@400;700&family=Rubik+Marker+Hatch&family=Amatic+SC:wght@700&family=Neucha&family=Pangolin&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=14">
+  <link rel="stylesheet" href="style.css?v=15">
+  <!-- Three.js CDN for 3D Fabric Flag Animation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
 <body>
 
@@ -17,12 +19,19 @@
     <!-- Header -->
     <header class="app-header">
       <div class="brand">
+        <!-- 3D Waving Fabric Flag Logo -->
+        <div id="flag-3d-header" class="brand-flag-3d" title="Click for Interactive 3D Flag"></div>
         <div class="brand-details">
           <div class="brand-text"><span class="brand-red">БРАТВА</span> <span class="brand-blue">LEAGUE</span></div>
         </div>
       </div>
 
       <div class="header-right">
+        <!-- Audio / Music Toggle Button -->
+        <button class="audio-btn" id="audio-toggle-btn" aria-label="Toggle Sound & Music" title="Sound & Music">
+          <span id="audio-icon">🔊</span>
+        </button>
+
         <!-- Language Dropdown Selector with Tape -->
         <div class="lang-dropdown">
           <button class="lang-btn" id="lang-toggle-btn" aria-label="Select Language">
@@ -174,6 +183,22 @@
       <button class="close-tape" id="modal-close-x">Close X</button>
       <div class="modal-page" id="modal-page">
         <div id="modal-player-content"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D Interactive Flag Modal -->
+  <div class="modal-overlay" id="flag-modal">
+    <div class="modal-wrapper" style="max-width: 520px; height: 80vh; max-height: 580px;">
+      <button class="close-tape" id="flag-modal-close-x">Close X</button>
+      <div class="modal-page" style="display:flex; flex-direction:column; padding: 15px 15px 15px 45px; overflow:hidden; height:100%;">
+        <div class="card-title" style="margin-bottom: 8px; font-size: 1.3rem;">
+          <span>БРАТВА — 3D FABRIC FLAG</span>
+        </div>
+        <div id="flag-modal-canvas-container" style="flex:1; width:100%; position:relative; border-radius:4px; overflow:hidden; background: radial-gradient(circle at center, #261f38 0%, #0d0a17 100%);"></div>
+        <div class="hand-text" style="text-align:center; font-size:0.95rem; color:var(--pencil-light); margin-top:8px;">
+          (Move mouse or drag finger to rotate 3D fabric flag)
+        </div>
       </div>
     </div>
   </div>

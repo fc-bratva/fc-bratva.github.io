@@ -195,9 +195,355 @@ const SoundManager = {
   }
 };
 
-document.addEventListener('click', () => {
+// --- Audio Manager (Background Music & Flag Flapping) ---
+const AudioManager = {
+  bgMusic: null,
+  flagSound: null,
+  isMuted: localStorage.getItem('fcm_audio_muted') === 'true',
+  initialized: false,
+
+  init() {
+    if (this.initialized) return;
+    this.initialized = true;
+
+    try {
+      this.bgMusic = new Audio('assets/vaitsez-game-game-music-574073.mp3');
+      this.bgMusic.loop = true;
+      this.bgMusic.volume = 0.15; // Low background volume
+
+      this.flagSound = new Audio('assets/Flag Flapping Sound Effect (128kbit_AAC).m4a');
+      this.flagSound.loop = true;
+      this.flagSound.volume = 0.25; // Loop flag flapping
+
+      if (!this.isMuted) {
+        this.play();
+      }
+    } catch (e) {
+      console.warn('Audio init error:', e);
+    }
+    this.updateUI();
+  },
+
+  play() {
+    this.isMuted = false;
+    localStorage.setItem('fcm_audio_muted', 'false');
+    if (this.bgMusic) this.bgMusic.play().catch(() => {});
+    if (this.flagSound) this.flagSound.play().catch(() => {});
+    this.updateUI();
+  },
+
+  pause() {
+    this.isMuted = true;
+    localStorage.setItem('fcm_audio_muted', 'true');
+    if (this.bgMusic) this.bgMusic.pause();
+    if (this.flagSound) this.flagSound.pause();
+    this.updateUI();
+  },
+
+  toggle() {
+    if (!this.initialized) {
+      this.init();
+      return;
+    }
+    if (this.isMuted) {
+      this.play();
+    } else {
+      this.pause();
+    }
+  },
+
+  updateUI() {
+    const btn = document.getElementById('audio-toggle-btn');
+    if (btn) {
+      btn.innerHTML = this.isMuted ? '🔇' : '🔊';
+      btn.classList.toggle('muted', this.isMuted);
+    }
+  }
+};
+
+// --- 3D Fabric Flag Animation with Three.js ---
+const Flag3DManager = {
+  headerRenderer: null,
+  headerScene: null,
+  headerCamera: null,
+  headerMesh: null,
+  headerPosAttr: null,
+  headerInitPos: null,
+  headerGeometry: null,
+  clock: null,
+
+  modalRenderer: null,
+  modalScene: null,
+  modalCamera: null,
+  modalMesh: null,
+  modalPosAttr: null,
+  modalInitPos: null,
+  modalGeometry: null,
+  modalActive: false,
+  modalMouseX: 0,
+  modalMouseY: 0,
+  modalTargetRotX: 0,
+  modalTargetRotY: 0,
+
+  texture: null,
+
+  init() {
+    if (typeof THREE === 'undefined') return;
+    this.clock = new THREE.Clock();
+
+    const textureLoader = new THREE.TextureLoader();
+    textureLoader.load('assets/fc-bratva-logo.png', (tex) => {
+      tex.generateMipmaps = true;
+      tex.minFilter = THREE.LinearMipmapLinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      this.texture = tex;
+
+      this.initHeaderFlag();
+      this.animate();
+    });
+
+    this.setupInteractions();
+  },
+
+  initHeaderFlag() {
+    const container = document.getElementById('flag-3d-header');
+    if (!container || !this.texture) return;
+
+    const width = container.clientWidth || 48;
+    const height = container.clientHeight || 48;
+
+    this.headerScene = new THREE.Scene();
+    this.headerCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+    this.headerCamera.position.set(0, 0, 4.6);
+
+    this.headerRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    this.headerRenderer.setSize(width, height);
+    this.headerRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.headerRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.headerRenderer.toneMappingExposure = 1.15;
+    container.innerHTML = '';
+    container.appendChild(this.headerRenderer.domElement);
+
+    // 3D Lighting for fabric folds
+    const ambient = new THREE.AmbientLight(0xffffff, 1.0);
+    this.headerScene.add(ambient);
+    const dir1 = new THREE.DirectionalLight(0xffeedd, 1.4);
+    dir1.position.set(4, 4, 3);
+    this.headerScene.add(dir1);
+    const dir2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
+    dir2.position.set(-4, -2, 2);
+    this.headerScene.add(dir2);
+
+    // Plane Geometry with mesh grid for ripple animation
+    const geoW = 2.8;
+    const geoH = 2.8;
+    const segments = 48;
+    this.headerGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
+    this.headerPosAttr = this.headerGeometry.attributes.position;
+    this.headerInitPos = this.headerPosAttr.array.slice();
+
+    const material = new THREE.MeshStandardMaterial({
+      map: this.texture,
+      side: THREE.DoubleSide,
+      roughness: 0.35,
+      metalness: 0.1,
+      transparent: true,
+      alphaTest: 0.05
+    });
+
+    this.headerMesh = new THREE.Mesh(this.headerGeometry, material);
+    this.headerScene.add(this.headerMesh);
+  },
+
+  openModal() {
+    const modal = document.getElementById('flag-modal');
+    const container = document.getElementById('flag-modal-canvas-container');
+    if (!modal || !container || !this.texture) return;
+
+    modal.style.display = 'flex';
+    this.modalActive = true;
+
+    if (!this.modalRenderer) {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      this.modalScene = new THREE.Scene();
+      this.modalCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
+      this.modalCamera.position.set(0, 0, 7.8);
+
+      this.modalRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+      this.modalRenderer.setSize(width, height);
+      this.modalRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      this.modalRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+      this.modalRenderer.toneMappingExposure = 1.2;
+      container.innerHTML = '';
+      container.appendChild(this.modalRenderer.domElement);
+
+      const ambient = new THREE.AmbientLight(0xffffff, 0.95);
+      this.modalScene.add(ambient);
+      const dir1 = new THREE.DirectionalLight(0xffe8d6, 1.5);
+      dir1.position.set(5, 5, 4);
+      this.modalScene.add(dir1);
+      const dir2 = new THREE.DirectionalLight(0x7a5cff, 0.9);
+      dir2.position.set(-5, -3, 3);
+      this.modalScene.add(dir2);
+
+      const geoW = 4.2;
+      const geoH = 4.2;
+      const segments = 96;
+      this.modalGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
+      this.modalPosAttr = this.modalGeometry.attributes.position;
+      this.modalInitPos = this.modalPosAttr.array.slice();
+
+      const material = new THREE.MeshStandardMaterial({
+        map: this.texture,
+        side: THREE.DoubleSide,
+        roughness: 0.35,
+        metalness: 0.1,
+        transparent: true,
+        alphaTest: 0.05
+      });
+
+      this.modalMesh = new THREE.Mesh(this.modalGeometry, material);
+      this.modalScene.add(this.modalMesh);
+
+      // Interactive mouse and touch rotation
+      container.addEventListener('mousemove', (e) => {
+        const rect = container.getBoundingClientRect();
+        this.modalMouseX = ((e.clientX - rect.left) - rect.width / 2) / (rect.width / 2);
+        this.modalMouseY = ((e.clientY - rect.top) - rect.height / 2) / (rect.height / 2);
+        this.modalTargetRotY = this.modalMouseX * 0.45;
+        this.modalTargetRotX = this.modalMouseY * 0.35;
+      });
+
+      container.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+          const rect = container.getBoundingClientRect();
+          const touch = e.touches[0];
+          this.modalMouseX = ((touch.clientX - rect.left) - rect.width / 2) / (rect.width / 2);
+          this.modalMouseY = ((touch.clientY - rect.top) - rect.height / 2) / (rect.height / 2);
+          this.modalTargetRotY = this.modalMouseX * 0.45;
+          this.modalTargetRotX = this.modalMouseY * 0.35;
+        }
+      }, { passive: true });
+    } else {
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      this.modalCamera.aspect = width / height;
+      this.modalCamera.updateProjectionMatrix();
+      this.modalRenderer.setSize(width, height);
+    }
+  },
+
+  closeModal() {
+    const modal = document.getElementById('flag-modal');
+    if (modal) modal.style.display = 'none';
+    this.modalActive = false;
+  },
+
+  setupInteractions() {
+    const headerFlag = document.getElementById('flag-3d-header');
+    if (headerFlag) {
+      headerFlag.addEventListener('click', () => {
+        SoundManager.playClick();
+        this.openModal();
+      });
+    }
+
+    const closeBtn = document.getElementById('flag-modal-close-x');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
+        SoundManager.playClick();
+        this.closeModal();
+      });
+    }
+
+    const modal = document.getElementById('flag-modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          SoundManager.playClick();
+          this.closeModal();
+        }
+      });
+    }
+
+    window.addEventListener('resize', () => {
+      if (this.headerRenderer && this.headerCamera) {
+        const container = document.getElementById('flag-3d-header');
+        if (container) {
+          const w = container.clientWidth || 48;
+          const h = container.clientHeight || 48;
+          this.headerCamera.aspect = w / h;
+          this.headerCamera.updateProjectionMatrix();
+          this.headerRenderer.setSize(w, h);
+        }
+      }
+      if (this.modalActive && this.modalRenderer && this.modalCamera) {
+        const container = document.getElementById('flag-modal-canvas-container');
+        if (container) {
+          const w = container.clientWidth;
+          const h = container.clientHeight;
+          this.modalCamera.aspect = w / h;
+          this.modalCamera.updateProjectionMatrix();
+          this.modalRenderer.setSize(w, h);
+        }
+      }
+    });
+  },
+
+  animate() {
+    requestAnimationFrame(() => this.animate());
+    const elapsedTime = this.clock ? this.clock.getElapsedTime() : 0;
+
+    // 1. Animate Header Flag
+    if (this.headerMesh && this.headerPosAttr && this.headerInitPos) {
+      const positions = this.headerPosAttr.array;
+      const width = 2.8;
+      for (let i = 0; i < positions.length; i += 3) {
+        const u = this.headerInitPos[i];
+        const v = this.headerInitPos[i + 1];
+        const wave1 = Math.sin(u * 2.4 + elapsedTime * 3.4) * 0.20;
+        const wave2 = Math.cos(v * 1.9 + elapsedTime * 2.6) * 0.12;
+        const microWave = Math.sin((u + v) * 4.8 + elapsedTime * 4.2) * 0.05;
+        const windWeight = (u + width / 2) / width;
+        positions[i + 2] = (wave1 + wave2 + microWave) * (0.35 + windWeight * 0.75);
+      }
+      this.headerPosAttr.needsUpdate = true;
+      this.headerGeometry.computeVertexNormals();
+      this.headerRenderer.render(this.headerScene, this.headerCamera);
+    }
+
+    // 2. Animate Modal Flag
+    if (this.modalActive && this.modalMesh && this.modalPosAttr && this.modalInitPos) {
+      this.modalMesh.rotation.y += (this.modalTargetRotY - this.modalMesh.rotation.y) * 0.06;
+      this.modalMesh.rotation.x += (this.modalTargetRotX - this.modalMesh.rotation.x) * 0.06;
+
+      const positions = this.modalPosAttr.array;
+      const width = 4.2;
+      for (let i = 0; i < positions.length; i += 3) {
+        const u = this.modalInitPos[i];
+        const v = this.modalInitPos[i + 1];
+        const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
+        const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
+        const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
+        const windWeight = (u + width / 2) / width;
+        positions[i + 2] = (wave1 + wave2 + microWave) * (0.4 + windWeight * 0.8);
+      }
+      this.modalPosAttr.needsUpdate = true;
+      this.modalGeometry.computeVertexNormals();
+      this.modalRenderer.render(this.modalScene, this.modalCamera);
+    }
+  }
+};
+
+// Unlock Web Audio & Background Music on first user interaction
+const unlockAudio = () => {
   SoundManager.init();
-}, { once: true });
+  AudioManager.init();
+};
+document.addEventListener('click', unlockAudio, { once: true });
+document.addEventListener('touchstart', unlockAudio, { once: true });
 
 const state = {
   lang: 'en',
@@ -228,6 +574,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupNavigation();
   setupSearch();
   setupFilterControls();
+
+  // Audio Toggle Button
+  const audioBtn = document.getElementById('audio-toggle-btn');
+  if (audioBtn) {
+    audioBtn.addEventListener('click', () => {
+      SoundManager.playClick();
+      AudioManager.toggle();
+    });
+    AudioManager.updateUI();
+  }
+
+  // Initialize 3D Waving Flag
+  Flag3DManager.init();
 
   // Scroll transparency for nav-bar
   let scrollTimeout;
