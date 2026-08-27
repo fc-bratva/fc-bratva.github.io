@@ -41,7 +41,13 @@ const I18N = {
     verdict_no_tournament: 'No tournament today',
     eligibility_ok: 'Eligible (0 Fails)',
     eligibility_warn: 'Warning ({n} Fails)',
-    eligibility_flagged: 'FLAGGED (3 Fails!)'
+    eligibility_flagged: 'FLAGGED (3 Fails!)',
+    watch_overview: 'WATCH',
+    matches_played: 'Matches Played',
+    win_rate: 'Win Rate',
+    total_goals: 'Total Goals',
+    top_performer_spotlight: 'Top Performer',
+    double_tap_exit: 'DOUBLE-TAP OR ESC TO RETURN'
   },
   ar: {
     dir: 'rtl',
@@ -80,7 +86,13 @@ const I18N = {
     verdict_no_tournament: 'لا توجد بطولة',
     eligibility_ok: 'مؤهل (0 فشل)',
     eligibility_warn: 'تحذير ({n} فشل)',
-    eligibility_flagged: 'مراجعة (3 فشل!)'
+    eligibility_flagged: 'مراجعة (3 فشل!)',
+    watch_overview: 'عرض شامل',
+    matches_played: 'المباريات الملعوبة',
+    win_rate: 'نسبة الفوز',
+    total_goals: 'إجمالي الأهداف',
+    top_performer_spotlight: 'أفضل هداف',
+    double_tap_exit: 'انقر مرتين أو اضغط ESC للعودة'
   },
   ru: {
     dir: 'ltr',
@@ -119,7 +131,13 @@ const I18N = {
     verdict_no_tournament: 'Нет турнира',
     eligibility_ok: 'Допущен (0 провалов)',
     eligibility_warn: 'Внимание ({n} пров.)',
-    eligibility_flagged: 'БАН? (3 провала!)'
+    eligibility_flagged: 'БАН? (3 провала!)',
+    watch_overview: 'ОБЗОР',
+    matches_played: 'Сыграно матчей',
+    win_rate: 'Процент побед',
+    total_goals: 'Всего голов',
+    top_performer_spotlight: 'Лучший бомбардир',
+    double_tap_exit: 'ДВОЙНОЙ ТАП ИЛИ ESC ДЛЯ ВЫХОДА'
   },
   es: {
     dir: 'ltr',
@@ -158,7 +176,13 @@ const I18N = {
     verdict_no_tournament: 'Sin torneo',
     eligibility_ok: 'Elegible (0 fallos)',
     eligibility_warn: 'Aviso ({n} fallos)',
-    eligibility_flagged: 'REVISIÓN (3 fallos!)'
+    eligibility_flagged: 'REVISIÓN (3 fallos!)',
+    watch_overview: 'VER',
+    matches_played: 'Partidos Jugados',
+    win_rate: 'Tasa de Victoria',
+    total_goals: 'Goles Totales',
+    top_performer_spotlight: 'Goleador Estrella',
+    double_tap_exit: 'DOBLE TOQUE O ESC PARA SALIR'
   }
 };
 
@@ -517,15 +541,19 @@ const Flag3DManager = {
 
     // 1. Animate Background 3D Flag
     if (this.bgMesh && this.bgPosAttr && this.bgInitPos) {
-      this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.05;
-      this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.05;
+      if (CinematicDirector.active) {
+        CinematicDirector.update(performance.now(), this.bgCamera, this.bgMesh);
+      } else {
+        this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.05;
+        this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.05;
+      }
 
       const positions = this.bgPosAttr.array;
       for (let i = 0; i < positions.length; i += 3) {
         const u = this.bgInitPos[i];
         const v = this.bgInitPos[i + 1];
 
-        // Exact Harmonic Wave equation
+        // Harmonic Wave equation with wind weight
         const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
         const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
         const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
@@ -537,7 +565,7 @@ const Flag3DManager = {
       this.bgRenderer.render(this.bgScene, this.bgCamera);
     }
 
-    // 3. Animate Modal 3D Flag
+    // 2. Animate Modal 3D Flag
     if (this.modalActive && this.modalMesh && this.modalPosAttr && this.modalInitPos) {
       this.modalMesh.rotation.y += (this.targetRotationY - this.modalMesh.rotation.y) * 0.05;
       this.modalMesh.rotation.x += (this.targetRotationX - this.modalMesh.rotation.x) * 0.05;
@@ -547,7 +575,6 @@ const Flag3DManager = {
         const u = this.modalInitPos[i];
         const v = this.modalInitPos[i + 1];
 
-        // Exact Harmonic Wave equation
         const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
         const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
         const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
@@ -558,6 +585,242 @@ const Flag3DManager = {
       this.modalGeometry.computeVertexNormals();
       this.modalRenderer.render(this.modalScene, this.modalCamera);
     }
+  }
+};
+
+// --- Cinematic 3D Showcase Director (Filmmaker Multi-Shot Choreography) ---
+const CinematicDirector = {
+  active: false,
+  startTime: 0,
+  currentShot: 1,
+  lastTapTime: 0,
+  targetCamPos: null,
+  targetLookAt: null,
+  currentLookAt: null,
+
+  init() {
+    if (typeof THREE !== 'undefined') {
+      this.targetCamPos = new THREE.Vector3(0, 0, 7.5);
+      this.targetLookAt = new THREE.Vector3(0, 0, 0);
+      this.currentLookAt = new THREE.Vector3(0, 0, 0);
+    }
+
+    const playBtn = document.getElementById('watch-overview-btn');
+    if (playBtn) {
+      playBtn.addEventListener('click', () => {
+        SoundManager.playClick();
+        this.start();
+      });
+    }
+
+    const overlay = document.getElementById('cinematic-overlay');
+    if (overlay) {
+      // Double tap / double click detection to exit
+      overlay.addEventListener('click', (e) => {
+        const now = Date.now();
+        if (now - this.lastTapTime < 350) {
+          SoundManager.playClick();
+          this.stop();
+        }
+        this.lastTapTime = now;
+      });
+
+      overlay.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - this.lastTapTime < 350) {
+          SoundManager.playClick();
+          this.stop();
+        }
+        this.lastTapTime = now;
+      });
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (this.active && (e.key === 'Escape' || e.key === 'Esc')) {
+        SoundManager.playClick();
+        this.stop();
+      }
+    });
+  },
+
+  start() {
+    if (this.active || !Flag3DManager.bgCamera) return;
+    this.active = true;
+    this.startTime = performance.now();
+    this.currentShot = 1;
+    this.currentLookAt.set(0, 0, 0);
+
+    const overlay = document.getElementById('cinematic-overlay');
+    const blackout = document.getElementById('cinematic-blackout');
+    const hud = document.getElementById('cinematic-hud');
+    const appEl = document.getElementById('app');
+
+    // Populate Cinematic HUD Data
+    this.populateHUD();
+
+    if (overlay) overlay.classList.add('active');
+    if (blackout) blackout.classList.add('fade-in');
+    if (hud) hud.classList.remove('visible');
+
+    // Fade to black then unveil cinematic camera sequence
+    setTimeout(() => {
+      if (!this.active) return;
+      if (appEl) appEl.style.opacity = '0';
+      if (blackout) blackout.classList.remove('fade-in');
+    }, 450);
+  },
+
+  stop() {
+    if (!this.active) return;
+    this.active = false;
+
+    const overlay = document.getElementById('cinematic-overlay');
+    const blackout = document.getElementById('cinematic-blackout');
+    const hud = document.getElementById('cinematic-hud');
+    const appEl = document.getElementById('app');
+
+    if (blackout) blackout.classList.add('fade-in');
+
+    setTimeout(() => {
+      if (overlay) overlay.classList.remove('active');
+      if (hud) hud.classList.remove('visible');
+      if (appEl) appEl.style.opacity = '1';
+
+      if (Flag3DManager.bgCamera) {
+        Flag3DManager.bgCamera.position.set(0, 0, 7.5);
+        Flag3DManager.bgCamera.rotation.set(0, 0, 0);
+        Flag3DManager.bgCamera.lookAt(0, 0, 0);
+      }
+      if (Flag3DManager.bgMesh) {
+        Flag3DManager.bgMesh.position.set(0, 0, 0);
+        Flag3DManager.bgMesh.rotation.set(0, 0, 0);
+      }
+
+      if (blackout) blackout.classList.remove('fade-in');
+    }, 450);
+  },
+
+  populateHUD() {
+    const completed = state.tournaments.filter(t => t.status === 'complete');
+    const wins = completed.filter(t => t.result === 'win').length;
+    const losses = completed.filter(t => t.result === 'loss').length;
+    const draws = completed.filter(t => t.result === 'draw').length;
+    const totalGoals = state.tournaments.reduce((sum, t) => sum + (t.our_total_goals || 0), 0);
+    const winRate = completed.length > 0 ? ((wins / completed.length) * 100).toFixed(1) : '0.0';
+
+    const matchesEl = document.getElementById('cine-total-matches');
+    const winRateEl = document.getElementById('cine-win-rate');
+    const goalsEl = document.getElementById('cine-total-goals');
+    const recordEl = document.getElementById('cine-record');
+    const mvpNameEl = document.getElementById('cine-mvp-name');
+    const mvpStatsEl = document.getElementById('cine-mvp-stats');
+
+    if (matchesEl) matchesEl.textContent = state.tournaments.length;
+    if (winRateEl) winRateEl.textContent = `${winRate}%`;
+    if (goalsEl) goalsEl.textContent = totalGoals;
+    if (recordEl) recordEl.textContent = `${wins}W - ${draws}D - ${losses}L`;
+
+    // Top Scorer
+    const sorted = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
+    if (sorted.length > 0) {
+      const topP = sorted[0];
+      const pGoals = getPlayerGoals(topP);
+      const pMatches = topP.matches ? topP.matches.length : 0;
+      const pAvg = pMatches > 0 ? (pGoals / pMatches).toFixed(1) : '0.0';
+
+      if (mvpNameEl) mvpNameEl.textContent = topP.display_name;
+      if (mvpStatsEl) mvpStatsEl.textContent = `${pGoals} ${t('goals')} • ${pAvg} ${t('avg_goals')}`;
+    }
+  },
+
+  update(now, camera, mesh) {
+    if (!this.active || !camera || !mesh) return;
+
+    const elapsed = (now - this.startTime) / 1000; // in seconds
+
+    // 5-Shot Professional Filmmaker Camera Choreography
+    if (elapsed < 3.0) {
+      // Shot 1: Dramatic Low-Angle Macro Orbit (0s - 3s)
+      this.currentShot = 1;
+      const progress = elapsed / 3.0;
+      const ease = this.easeInOutQuad(progress);
+
+      camera.position.set(
+        -2.2 + ease * 1.0,
+        -1.8 + ease * 0.8,
+        3.8 + Math.sin(progress * Math.PI) * 0.4
+      );
+      this.targetLookAt.set(-0.4 + ease * 0.4, -0.2 + ease * 0.2, 0);
+      mesh.position.set(0, 0, 0);
+      mesh.rotation.z = Math.sin(elapsed * 1.5) * 0.05;
+    } else if (elapsed < 6.0) {
+      // Shot 2: High-Altitude Sweeping Dutch Glide (3s - 6s)
+      this.currentShot = 2;
+      const progress = (elapsed - 3.0) / 3.0;
+      const ease = this.easeInOutQuad(progress);
+
+      camera.position.set(
+        2.5 - ease * 1.5,
+        2.2 - ease * 0.5,
+        4.5 - ease * 0.5
+      );
+      this.targetLookAt.set(0.3 - ease * 0.3, 0.2 - ease * 0.2, 0);
+      mesh.position.set(0, 0, 0);
+      mesh.rotation.z = (1 - ease) * 0.08;
+    } else if (elapsed < 8.5) {
+      // Shot 3: Macro Cloth Wave Ripple Profile (6s - 8.5s)
+      this.currentShot = 3;
+      const progress = (elapsed - 6.0) / 2.5;
+      const ease = this.easeInOutQuad(progress);
+
+      camera.position.set(
+        -2.8 + ease * 1.2,
+        0.2 + ease * 0.4,
+        3.2 + ease * 0.8
+      );
+      this.targetLookAt.set(-0.8 + ease * 0.8, 0, 0);
+      mesh.position.set(0, 0, 0);
+      mesh.rotation.z = 0;
+    } else if (elapsed < 11.0) {
+      // Shot 4: Grand Centered Pull-Back (8.5s - 11s)
+      this.currentShot = 4;
+      const progress = (elapsed - 8.5) / 2.5;
+      const ease = this.easeInOutCubic(progress);
+
+      camera.position.set(0, 0, 4.5 + ease * 3.2);
+      this.targetLookAt.set(0, 0, 0);
+      mesh.position.set(0, 0, 0);
+      mesh.rotation.z = 0;
+    } else {
+      // Shot 5: Flag Elevates to Upper-Third + Cinematic HUD Reveal (11s+)
+      this.currentShot = 5;
+      const progress = Math.min((elapsed - 11.0) / 1.5, 1.0);
+      const ease = this.easeInOutCubic(progress);
+
+      camera.position.set(0, 0.4 * ease, 7.8);
+      this.targetLookAt.set(0, 0.8 * ease, 0);
+      mesh.position.set(0, 1.1 * ease, 0);
+      mesh.rotation.z = 0;
+
+      const hud = document.getElementById('cinematic-hud');
+      if (hud && !hud.classList.contains('visible')) {
+        hud.classList.add('visible');
+      }
+    }
+
+    // Smoothly interpolate current lookAt towards targetLookAt
+    if (this.currentLookAt && this.targetLookAt) {
+      this.currentLookAt.lerp(this.targetLookAt, 0.08);
+      camera.lookAt(this.currentLookAt);
+    }
+  },
+
+  easeInOutQuad(t) {
+    return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+  },
+
+  easeInOutCubic(t) {
+    return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
   }
 };
 
@@ -609,8 +872,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     AudioManager.updateUI();
   }
 
-  // Initialize 3D Waving Flag
+  // Initialize 3D Waving Flag & Cinematic Showcase Director
   Flag3DManager.init();
+  CinematicDirector.init();
 
   // Scroll transparency for nav-bar
   let scrollTimeout;

@@ -292,6 +292,198 @@ body {
   margin-bottom: 14px;
 }
 
+.watch-overview-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 212, 255, 0.12);
+  border: 1px solid rgba(0, 212, 255, 0.35);
+  color: var(--ucl-cyan);
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.watch-overview-btn:hover {
+  background: var(--ucl-cyan);
+  color: #020819;
+  transform: scale(1.05);
+}
+
+/* Fullscreen Cinematic 3D Showcase */
+.cinematic-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 24px 20px 48px;
+}
+.cinematic-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Black Dissolve Transition Layer */
+.cinematic-blackout {
+  position: absolute;
+  inset: 0;
+  background: #000000;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+.cinematic-blackout.fade-in {
+  opacity: 1;
+}
+
+/* Cinematic HUD (Shot 5 Reveal) */
+.cinematic-hud {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 580px;
+  background: rgba(4, 12, 34, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ucl-border);
+  border-radius: 16px;
+  padding: 22px 20px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+.cinematic-hud.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cinematic-badge {
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 2.5px;
+  color: var(--ucl-cyan);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.cinematic-title {
+  font-family: var(--font-main);
+  font-size: 1.65rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.cinematic-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.cinematic-stat-card {
+  background: rgba(8, 20, 52, 0.65);
+  border: 1px solid var(--ucl-border);
+  border-radius: 10px;
+  padding: 12px 8px;
+}
+
+.cinematic-stat-val {
+  font-family: var(--font-main);
+  font-size: 1.45rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+.cinematic-stat-val.cyan { color: var(--ucl-cyan); }
+.cinematic-stat-val.gold { color: #f6c851; }
+.cinematic-stat-val.green { color: var(--ucl-win); }
+
+.cinematic-stat-lbl {
+  font-family: var(--font-main);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--ucl-slate);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+}
+
+.cinematic-mvp-card {
+  background: rgba(14, 30, 74, 0.65);
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.cinematic-mvp-tag {
+  font-family: var(--font-main);
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: var(--ucl-cyan);
+  letter-spacing: 1px;
+}
+.cinematic-mvp-name {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+.cinematic-mvp-stats {
+  font-family: var(--font-main);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--ucl-slate);
+}
+
+.cinematic-exit-hint {
+  font-family: var(--font-main);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ucl-muted);
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ucl-cyan);
+  animation: pulseDot 1.5s infinite ease-in-out;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 0.4; transform: scale(0.9); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
 .card-title {
   font-family: var(--font-main);
   font-size: 0.95rem;
