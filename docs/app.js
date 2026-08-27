@@ -42,7 +42,7 @@ const I18N = {
     eligibility_ok: 'Eligible (0 Fails)',
     eligibility_warn: 'Warning ({n} Fails)',
     eligibility_flagged: 'FLAGGED (3 Fails!)',
-    watch_overview: 'WATCH',
+    full_view: 'FULL VIEW',
     matches_played: 'Matches Played',
     win_rate: 'Win Rate',
     total_goals: 'Total Goals',
@@ -87,7 +87,7 @@ const I18N = {
     eligibility_ok: 'مؤهل (0 فشل)',
     eligibility_warn: 'تحذير ({n} فشل)',
     eligibility_flagged: 'مراجعة (3 فشل!)',
-    watch_overview: 'عرض شامل',
+    full_view: 'عرض كامل',
     matches_played: 'المباريات الملعوبة',
     win_rate: 'نسبة الفوز',
     total_goals: 'إجمالي الأهداف',
@@ -132,7 +132,7 @@ const I18N = {
     eligibility_ok: 'Допущен (0 провалов)',
     eligibility_warn: 'Внимание ({n} пров.)',
     eligibility_flagged: 'БАН? (3 провала!)',
-    watch_overview: 'ОБЗОР',
+    full_view: 'ПОЛНЫЙ ЭКРАН',
     matches_played: 'Сыграно матчей',
     win_rate: 'Процент побед',
     total_goals: 'Всего голов',
@@ -177,7 +177,7 @@ const I18N = {
     eligibility_ok: 'Elegible (0 fallos)',
     eligibility_warn: 'Aviso ({n} fallos)',
     eligibility_flagged: 'REVISIÓN (3 fallos!)',
-    watch_overview: 'VER',
+    full_view: 'PANTALLA COMPLETA',
     matches_played: 'Partidos Jugados',
     win_rate: 'Tasa de Victoria',
     total_goals: 'Goles Totales',
@@ -307,24 +307,6 @@ const Flag3DManager = {
   modalInitPos: null,
   modalGeometry: null,
   modalActive: false,
-  zenMode: false,
-  isDragging: false,
-  prevX: 0,
-  prevY: 0,
-
-  toggleZenMode(forceState) {
-    this.zenMode = forceState !== undefined ? forceState : !this.zenMode;
-    const appEl = document.getElementById('app');
-    const bgContainer = document.getElementById('bg-3d-canvas-container');
-
-    if (this.zenMode) {
-      if (appEl) appEl.classList.add('zen-hidden');
-      if (bgContainer) bgContainer.classList.add('zen-focus');
-    } else {
-      if (appEl) appEl.classList.remove('zen-hidden');
-      if (bgContainer) bgContainer.classList.remove('zen-focus');
-    }
-  },
 
   // Mouse / Interaction tracking
   mouseX: 0,
@@ -369,7 +351,7 @@ const Flag3DManager = {
     container.innerHTML = '';
     container.appendChild(this.bgRenderer.domElement);
 
-    // Natural Clean Studio Lighting
+    // Natural Clean Studio Lighting (No color tinting)
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     this.bgScene.add(ambientLight);
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.3);
@@ -466,77 +448,78 @@ const Flag3DManager = {
   },
 
   setupInteractions() {
-    // Header Logo Click -> Toggle Zen 3D Mode (Disappear UI, No Blackout)
+    // Global Mouse & Touch Interaction for smooth tilt
+    window.addEventListener('mousemove', (e) => {
+      this.mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      this.mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      const mult = document.body.classList.contains('immersive-mode') ? 0.75 : 0.35;
+      this.targetRotationY = this.mouseX * mult;
+      this.targetRotationX = this.mouseY * mult * 0.7;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        this.mouseX = (touch.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        this.mouseY = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+        const mult = document.body.classList.contains('immersive-mode') ? 0.75 : 0.35;
+        this.targetRotationY = this.mouseX * mult;
+        this.targetRotationX = this.mouseY * mult * 0.7;
+
+        if (document.body.classList.contains('immersive-mode')) {
+          e.preventDefault();
+        }
+      }
+    }, { passive: false });
+
+    // Drag & Drop image support
+    window.addEventListener('dragover', (e) => e.preventDefault());
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          new THREE.TextureLoader().load(event.target.result, (tex) => {
+            tex.generateMipmaps = true;
+            tex.minFilter = THREE.LinearMipmapLinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+            this.texture = tex;
+            if (this.bgMesh) this.bgMesh.material.map = tex;
+            if (this.headerMesh) this.headerMesh.material.map = tex;
+            if (this.modalMesh) this.modalMesh.material.map = tex;
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
     const brandLogo = document.querySelector('.brand-logo-img') || document.querySelector('.brand');
     if (brandLogo) {
       brandLogo.addEventListener('click', (e) => {
         e.stopPropagation();
         SoundManager.playClick();
-        this.toggleZenMode(true);
+        ImmersiveMode.start();
       });
     }
 
-    // Tap anywhere on screen while in Zen Mode -> Restore Dashboard
-    window.addEventListener('click', (e) => {
-      if (this.zenMode && !e.target.closest('.brand')) {
+    const closeBtn = document.getElementById('flag-modal-close-x');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => {
         SoundManager.playClick();
-        this.toggleZenMode(false);
-      }
-    });
+        this.closeModal();
+      });
+    }
 
-    // Touch & Mouse Drag Control (Rotation with NO scrolling!)
-    const onStart = (clientX, clientY) => {
-      this.isDragging = true;
-      this.prevX = clientX;
-      this.prevY = clientY;
-    };
-
-    const onMove = (clientX, clientY, e) => {
-      if (this.isDragging) {
-        const deltaX = clientX - this.prevX;
-        const deltaY = clientY - this.prevY;
-        this.targetRotationY += deltaX * 0.007;
-        this.targetRotationX += deltaY * 0.005;
-        this.prevX = clientX;
-        this.prevY = clientY;
-        if (e && e.cancelable && (this.zenMode || e.target.closest('#bg-3d-canvas-container'))) {
-          e.preventDefault(); // Prevent page scrolling during 3D drag
+    const modal = document.getElementById('flag-modal');
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          SoundManager.playClick();
+          this.closeModal();
         }
-      } else {
-        this.mouseX = (clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-        this.mouseY = (clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-        if (!this.zenMode && !CinematicDirector.active) {
-          this.targetRotationY = this.mouseX * 0.35;
-          this.targetRotationX = this.mouseY * 0.25;
-        }
-      }
-    };
-
-    const onEnd = () => {
-      this.isDragging = false;
-    };
-
-    window.addEventListener('mousedown', (e) => onStart(e.clientX, e.clientY));
-    window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY, e));
-    window.addEventListener('mouseup', onEnd);
-
-    window.addEventListener('touchstart', (e) => {
-      if (e.touches.length > 0) {
-        onStart(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    }, { passive: true });
-
-    window.addEventListener('touchmove', (e) => {
-      if (e.touches.length > 0) {
-        if (this.zenMode) {
-          onMove(e.touches[0].clientX, e.touches[0].clientY, e);
-        } else {
-          onMove(e.touches[0].clientX, e.touches[0].clientY, null);
-        }
-      }
-    }, { passive: false });
-
-    window.addEventListener('touchend', onEnd);
+      });
+    }
 
     window.addEventListener('resize', () => {
       if (this.bgRenderer && this.bgCamera) {
@@ -544,20 +527,32 @@ const Flag3DManager = {
         this.bgCamera.updateProjectionMatrix();
         this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
       }
+      if (this.modalActive && this.modalRenderer && this.modalCamera) {
+        const container = document.getElementById('flag-modal-canvas-container');
+        if (container) {
+          const w = container.clientWidth;
+          const h = container.clientHeight;
+          this.modalCamera.aspect = w / h;
+          this.modalCamera.updateProjectionMatrix();
+          this.modalRenderer.setSize(w, h);
+        }
+      }
     });
   },
 
+  // Exact Animation Loop with Harmonic Wave Equation & Mouse Tilting
   animate() {
     requestAnimationFrame(() => this.animate());
     const elapsedTime = this.clock ? this.clock.getElapsedTime() : 0;
     const width = 4.2;
 
+    // 1. Animate Background 3D Flag
     if (this.bgMesh && this.bgPosAttr && this.bgInitPos) {
       if (CinematicDirector.active) {
         CinematicDirector.update(performance.now(), this.bgCamera, this.bgMesh);
       } else {
-        this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.08;
-        this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.08;
+        this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.05;
+        this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.05;
       }
 
       const positions = this.bgPosAttr.array;
@@ -565,6 +560,7 @@ const Flag3DManager = {
         const u = this.bgInitPos[i];
         const v = this.bgInitPos[i + 1];
 
+        // Harmonic Wave equation with wind weight
         const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
         const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
         const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
@@ -575,10 +571,93 @@ const Flag3DManager = {
       this.bgGeometry.computeVertexNormals();
       this.bgRenderer.render(this.bgScene, this.bgCamera);
     }
+
+    // 2. Animate Modal 3D Flag
+    if (this.modalActive && this.modalMesh && this.modalPosAttr && this.modalInitPos) {
+      this.modalMesh.rotation.y += (this.targetRotationY - this.modalMesh.rotation.y) * 0.05;
+      this.modalMesh.rotation.x += (this.targetRotationX - this.modalMesh.rotation.x) * 0.05;
+
+      const positions = this.modalPosAttr.array;
+      for (let i = 0; i < positions.length; i += 3) {
+        const u = this.modalInitPos[i];
+        const v = this.modalInitPos[i + 1];
+
+        const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
+        const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
+        const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
+        const windWeight = (u + width / 2) / width;
+        positions[i + 2] = (wave1 + wave2 + microWave) * (0.4 + windWeight * 0.8);
+      }
+      this.modalPosAttr.needsUpdate = true;
+      this.modalGeometry.computeVertexNormals();
+      this.modalRenderer.render(this.modalScene, this.modalCamera);
+    }
   }
 };
 
-// --- Cinematic 3D Showcase Director (Call of Duty Heroic Rank Promotion Style) ---
+// --- Immersive 3D Mode (Upper Bar Logo Click — Zero Blackout & Pure 3D Tilt) ---
+const ImmersiveMode = {
+  active: false,
+  touchStartX: 0,
+  touchStartY: 0,
+  touchStartTime: 0,
+
+  init() {
+    // Tap anywhere to exit immersive mode
+    window.addEventListener('click', (e) => {
+      if (this.active) {
+        if (Date.now() - this.touchStartTime > 250) {
+          SoundManager.playClick();
+          this.stop();
+        }
+      }
+    });
+
+    window.addEventListener('touchstart', (e) => {
+      if (this.active && e.touches.length > 0) {
+        this.touchStartX = e.touches[0].clientX;
+        this.touchStartY = e.touches[0].clientY;
+        this.touchStartTime = Date.now();
+      }
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+      if (this.active) {
+        const touchDuration = Date.now() - this.touchStartTime;
+        if (touchDuration < 250 && e.changedTouches.length > 0) {
+          const dx = Math.abs(e.changedTouches[0].clientX - this.touchStartX);
+          const dy = Math.abs(e.changedTouches[0].clientY - this.touchStartY);
+          if (dx < 12 && dy < 12) {
+            SoundManager.playClick();
+            this.stop();
+          }
+        }
+      }
+    }, { passive: true });
+
+    window.addEventListener('keydown', (e) => {
+      if (this.active && (e.key === 'Escape' || e.key === 'Esc')) {
+        SoundManager.playClick();
+        this.stop();
+      }
+    });
+  },
+
+  start() {
+    if (this.active) return;
+    this.active = true;
+    this.touchStartTime = Date.now();
+    document.body.classList.add('immersive-mode');
+  },
+
+  stop() {
+    if (!this.active) return;
+    this.active = false;
+    document.body.classList.remove('immersive-mode');
+  }
+};
+
+// --- Cinematic 3D Full View Director (Smooth Grand Animation & Frameless Stats) ---
 const CinematicDirector = {
   active: false,
   startTime: 0,
@@ -586,7 +665,6 @@ const CinematicDirector = {
   targetCamPos: null,
   targetLookAt: null,
   currentLookAt: null,
-  lastShotId: 0,
 
   init() {
     if (typeof THREE !== 'undefined') {
@@ -605,6 +683,7 @@ const CinematicDirector = {
 
     const overlay = document.getElementById('cinematic-overlay');
     if (overlay) {
+      // Double tap / double click detection to exit
       overlay.addEventListener('click', (e) => {
         const now = Date.now();
         if (now - this.lastTapTime < 350) {
@@ -613,14 +692,29 @@ const CinematicDirector = {
         }
         this.lastTapTime = now;
       });
+
+      overlay.addEventListener('touchend', (e) => {
+        const now = Date.now();
+        if (now - this.lastTapTime < 350) {
+          SoundManager.playClick();
+          this.stop();
+        }
+        this.lastTapTime = now;
+      });
     }
+
+    window.addEventListener('keydown', (e) => {
+      if (this.active && (e.key === 'Escape' || e.key === 'Esc')) {
+        SoundManager.playClick();
+        this.stop();
+      }
+    });
   },
 
   start() {
     if (this.active || !Flag3DManager.bgCamera) return;
     this.active = true;
     this.startTime = performance.now();
-    this.lastShotId = 0;
     if (this.currentLookAt) this.currentLookAt.set(0, 0, 0);
 
     const overlay = document.getElementById('cinematic-overlay');
@@ -628,19 +722,19 @@ const CinematicDirector = {
     const hud = document.getElementById('cinematic-hud');
     const appEl = document.getElementById('app');
 
-    // Populate Floating Cinematic HUD Data
+    // Populate Frameless HUD Data
     this.populateHUD();
 
     if (overlay) overlay.classList.add('active');
     if (blackout) blackout.classList.add('fade-in');
     if (hud) hud.classList.remove('visible');
 
-    // Fast blackout cut into Shot 1
+    // Fade to black then unveil the single grand smooth camera movement
     setTimeout(() => {
       if (!this.active) return;
       if (appEl) appEl.style.opacity = '0';
       if (blackout) blackout.classList.remove('fade-in');
-    }, 300);
+    }, 450);
   },
 
   stop() {
@@ -670,17 +764,7 @@ const CinematicDirector = {
       }
 
       if (blackout) blackout.classList.remove('fade-in');
-    }, 350);
-  },
-
-  triggerBlackoutDip() {
-    const blackout = document.getElementById('cinematic-blackout');
-    if (blackout) {
-      blackout.classList.add('fade-in');
-      setTimeout(() => {
-        blackout.classList.remove('fade-in');
-      }, 180);
-    }
+    }, 450);
   },
 
   populateHUD() {
@@ -703,6 +787,7 @@ const CinematicDirector = {
     if (goalsEl) goalsEl.textContent = totalGoals;
     if (recordEl) recordEl.textContent = `${wins}W - ${draws}D - ${losses}L`;
 
+    // Top Scorer
     const sorted = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
     if (sorted.length > 0) {
       const topP = sorted[0];
@@ -720,71 +805,17 @@ const CinematicDirector = {
 
     const elapsed = (now - this.startTime) / 1000; // in seconds
 
-    // Call of Duty Style Multi-Shot Timeline with Black Dips
-    if (elapsed < 2.0) {
-      // Shot 1: Aggressive Low-Angle Power Zoom-In (0s - 2.0s)
-      if (this.lastShotId !== 1) {
-        this.lastShotId = 1;
-      }
-      const progress = elapsed / 2.0;
-      const ease = this.easeOutExpo(progress);
+    // Single Grand Smooth Reveal (Logo elevates to upper half + stats reveal across entire screen)
+    const animDuration = 2.0;
+    const progress = Math.min(elapsed / animDuration, 1.0);
+    const ease = this.easeInOutCubic(progress);
 
-      camera.position.set(-2.4 + ease * 1.0, -2.2 + ease * 1.2, 3.4 + progress * 0.4);
-      this.targetLookAt.set(-0.3 + ease * 0.3, -0.2 + ease * 0.2, 0);
-      mesh.position.set(0, 0, 0);
-      mesh.rotation.z = Math.sin(elapsed * 2.0) * 0.08;
+    camera.position.set(0, 0.45 * ease, 6.2 + ease * 1.8);
+    if (this.targetLookAt) this.targetLookAt.set(0, 0.75 * ease, 0);
+    mesh.position.set(0, 1.15 * ease, 0);
+    mesh.rotation.z = Math.sin(elapsed * 0.8) * 0.02;
 
-      if (elapsed > 1.82 && this.lastShotId === 1) {
-        this.lastShotId = 1.5;
-        this.triggerBlackoutDip();
-      }
-    } else if (elapsed < 4.0) {
-      // Shot 2: High-Altitude Top-Down Dutch Strike (2.0s - 4.0s)
-      if (this.lastShotId < 2) {
-        this.lastShotId = 2;
-      }
-      const progress = (elapsed - 2.0) / 2.0;
-      const ease = this.easeOutCubic(progress);
-
-      camera.position.set(3.0 - ease * 1.8, 2.8 - ease * 0.8, 4.2 - ease * 0.4);
-      this.targetLookAt.set(0.4 - ease * 0.4, 0.2 - ease * 0.2, 0);
-      mesh.position.set(0, 0, 0);
-      mesh.rotation.z = (1 - ease) * 0.12;
-
-      if (elapsed > 3.82 && this.lastShotId === 2) {
-        this.lastShotId = 2.5;
-        this.triggerBlackoutDip();
-      }
-    } else if (elapsed < 5.8) {
-      // Shot 3: Extreme Macro Profile Glide (4.0s - 5.8s)
-      if (this.lastShotId < 3) {
-        this.lastShotId = 3;
-      }
-      const progress = (elapsed - 4.0) / 1.8;
-      const ease = this.easeOutQuad(progress);
-
-      camera.position.set(-3.2 + ease * 1.4, 0.3 + ease * 0.2, 2.8 + ease * 1.0);
-      this.targetLookAt.set(-0.8 + ease * 0.8, 0, 0);
-      mesh.position.set(0, 0, 0);
-      mesh.rotation.z = 0;
-
-      if (elapsed > 5.62 && this.lastShotId === 3) {
-        this.lastShotId = 3.5;
-        this.triggerBlackoutDip();
-      }
-    } else {
-      // Shot 4 / Final Stage: Centered Smash-Zoom Back + Fullscreen Floating Stats Reveal
-      if (this.lastShotId < 4) {
-        this.lastShotId = 4;
-      }
-      const progress = Math.min((elapsed - 5.8) / 1.4, 1.0);
-      const ease = this.easeOutExpo(progress);
-
-      camera.position.set(0, 0.8 * ease, 7.8 + (1 - ease) * 2.0);
-      this.targetLookAt.set(0, 1.2 * ease, 0);
-      mesh.position.set(0, 1.2 * ease, 0);
-      mesh.rotation.z = 0;
-
+    if (progress >= 0.7) {
       const hud = document.getElementById('cinematic-hud');
       if (hud && !hud.classList.contains('visible')) {
         hud.classList.add('visible');
@@ -855,8 +886,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     AudioManager.updateUI();
   }
 
-  // Initialize 3D Waving Flag & Cinematic Showcase Director
+  // Initialize 3D Waving Flag, Immersive Mode & Full View Director
   Flag3DManager.init();
+  ImmersiveMode.init();
   CinematicDirector.init();
 
   // Scroll transparency for nav-bar
