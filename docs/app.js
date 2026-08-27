@@ -1112,7 +1112,8 @@ function renderDashboard() {
   document.getElementById('hero-wins').textContent = wins;
   document.getElementById('hero-draws').textContent = draws;
   document.getElementById('hero-losses').textContent = losses;
-  document.getElementById('hero-winrate-badge').textContent = `${winRate}% WR`;
+  const winRateBadge = document.getElementById('hero-winrate-badge');
+  if (winRateBadge) winRateBadge.textContent = `${winRate}% WR`;
 
   // Recent match
   const recentBox = document.getElementById('recent-match-container');

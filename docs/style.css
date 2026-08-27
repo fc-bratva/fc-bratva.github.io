@@ -329,6 +329,7 @@ body.immersive-mode .bg-3d-canvas-container {
   display: flex;
   align-items: center;
   gap: 8px;
+  white-space: nowrap;
 }
 .card-title::before {
   content: '';
