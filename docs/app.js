@@ -1020,7 +1020,25 @@ async function loadData() {
   state.tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-// --- Navigation Tab Switching ---
+// --- Navigation Tab Switching with Sliding Ice Box & Page Drift ---
+function updateNavIndicator(activeNavBtn) {
+  if (typeof document === 'undefined' || !document.querySelector) return;
+  const indicator = document.getElementById('nav-indicator-ice');
+  const navBar = document.querySelector('.nav-bar');
+  if (!indicator || !navBar) return;
+
+  const btn = activeNavBtn || document.querySelector(`.nav-item[data-tab="${state.activeTab}"]`);
+  if (!btn || !btn.getBoundingClientRect || !navBar.getBoundingClientRect) return;
+
+  const navRect = navBar.getBoundingClientRect();
+  const btnRect = btn.getBoundingClientRect();
+  const offsetLeft = btnRect.left - navRect.left;
+  const width = btnRect.width;
+
+  indicator.style.transform = `translateX(${offsetLeft}px)`;
+  indicator.style.width = `${width}px`;
+}
+
 function setupNavigation() {
   const navs = document.querySelectorAll('.nav-item');
   navs.forEach(nav => {
@@ -1031,24 +1049,33 @@ function setupNavigation() {
       
       navs.forEach(n => n.classList.remove('active'));
       nav.classList.add('active');
+      updateNavIndicator(nav);
       switchTab(newTab);
     });
   });
+
+  setTimeout(() => updateNavIndicator(), 50);
+  window.addEventListener('resize', () => updateNavIndicator());
 }
 
 function switchTab(newTabName) {
+  const oldIndex = tabsOrder.indexOf(state.activeTab);
+  const newIndex = tabsOrder.indexOf(newTabName);
+  const driftClass = newIndex >= oldIndex ? 'drift-from-right' : 'drift-from-left';
+
   document.querySelectorAll('.tab-page').forEach(p => {
-    p.classList.remove('active');
+    p.classList.remove('active', 'drift-from-right', 'drift-from-left');
     p.style.display = 'none';
   });
 
   const newPage = document.getElementById(`tab-${newTabName}`);
   if (newPage) {
-    newPage.classList.add('active');
+    newPage.classList.add('active', driftClass);
     newPage.style.display = 'block';
   }
 
   state.activeTab = newTabName;
+  updateNavIndicator();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
