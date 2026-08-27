@@ -1140,9 +1140,20 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
   const isFlagged = p.eligibility_streak?.flagged_for_review;
 
   let rankClass = '';
-  if (rank === 1) rankClass = 'fc-card-gold';
-  else if (rank === 2) rankClass = 'fc-card-silver';
-  else if (rank === 3) rankClass = 'fc-card-bronze';
+  let badgeHTML = '';
+
+  if (rank === 1) {
+    rankClass = 'fc-card-gold';
+    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-gold" title="1st Place - Gold Champion"><span class="silk-num-gold">1</span></div>`;
+  } else if (rank === 2) {
+    rankClass = 'fc-card-silver';
+    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-silver" title="2nd Place - Silver Runner-up"><span class="silk-num-silver">2</span></div>`;
+  } else if (rank === 3) {
+    rankClass = 'fc-card-bronze';
+    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-bronze" title="3rd Place - Bronze Podium"><span class="silk-num-bronze">3</span></div>`;
+  } else {
+    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-competitor" title="Rank ${rank}"><span class="silk-num-competitor">${rank}</span></div>`;
+  }
 
   const lastMatch = matches.length > 0 ? matches[matches.length - 1] : null;
   const lastTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : (lastMatch.goals_for ? 3 : 0)) : 3;
@@ -1151,7 +1162,7 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
   return `
     <div class="fc-player-card ${rankClass}" onclick="openPlayerModal('${p.player_id}')">
       <div class="fc-card-left">
-        <div class="fc-ovr-badge">#${rank}</div>
+        ${badgeHTML}
         <div class="fc-player-info">
           <div class="fc-player-name">
             ${escapeHTML(p.display_name)}
