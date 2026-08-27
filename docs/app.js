@@ -309,18 +309,18 @@ const Flag3DManager = {
     const container = document.getElementById('flag-3d-header');
     if (!container || !this.texture) return;
 
-    const width = container.clientWidth || 52;
-    const height = container.clientHeight || 52;
+    const width = container.clientWidth || 72;
+    const height = container.clientHeight || 72;
 
     this.headerScene = new THREE.Scene();
-    this.headerCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
-    this.headerCamera.position.set(0, 0, 4.3);
+    this.headerCamera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    this.headerCamera.position.set(0, 0, 4.35);
 
     this.headerRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.headerRenderer.setSize(width, height);
     this.headerRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.headerRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.headerRenderer.toneMappingExposure = 1.2;
+    this.headerRenderer.toneMappingExposure = 1.25;
     container.innerHTML = '';
     container.appendChild(this.headerRenderer.domElement);
 
@@ -501,15 +501,15 @@ const Flag3DManager = {
     // 1. Animate Header Flag
     if (this.headerMesh && this.headerPosAttr && this.headerInitPos) {
       const positions = this.headerPosAttr.array;
-      const width = 2.8;
+      const width = 2.9;
       for (let i = 0; i < positions.length; i += 3) {
         const u = this.headerInitPos[i];
         const v = this.headerInitPos[i + 1];
-        const wave1 = Math.sin(u * 2.4 + elapsedTime * 3.4) * 0.20;
-        const wave2 = Math.cos(v * 1.9 + elapsedTime * 2.6) * 0.12;
-        const microWave = Math.sin((u + v) * 4.8 + elapsedTime * 4.2) * 0.05;
+        const wave1 = Math.sin(u * 2.0 + elapsedTime * 3.0) * 0.14;
+        const wave2 = Math.cos(v * 1.5 + elapsedTime * 2.2) * 0.08;
+        const microWave = Math.sin((u + v) * 4.0 + elapsedTime * 3.6) * 0.03;
         const windWeight = (u + width / 2) / width;
-        positions[i + 2] = (wave1 + wave2 + microWave) * (0.35 + windWeight * 0.75);
+        positions[i + 2] = (wave1 + wave2 + microWave) * (0.3 + windWeight * 0.7);
       }
       this.headerPosAttr.needsUpdate = true;
       this.headerGeometry.computeVertexNormals();
