@@ -128,32 +128,22 @@ body::before {
   gap: 14px;
 }
 
-/* --- Cinematic Ambient Background Logo Backdrop --- */
-.cinematic-bg-backdrop {
+/* --- Real-Time 3D Fabric Flag Background Canvas --- */
+.bg-3d-canvas-container {
   position: fixed;
-  top: 60px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(88vw, 520px);
-  height: min(88vw, 520px);
-  background: url('assets/fc-bratva-logo.png') no-repeat center center;
-  background-size: contain;
-  opacity: 0.08;
-  filter: drop-shadow(0 0 60px rgba(168, 85, 247, 0.4)) saturate(1.15);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 1;
-  animation: ambientFloat 9s ease-in-out infinite alternate;
+  z-index: 0;
+  opacity: 0.32;
+  overflow: hidden;
 }
-
-@keyframes ambientFloat {
-  0% {
-    opacity: 0.06;
-    transform: translateX(-50%) translateY(0px) scale(0.97);
-  }
-  100% {
-    opacity: 0.11;
-    transform: translateX(-50%) translateY(-10px) scale(1.03);
-  }
+.bg-3d-canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
 /* 3D Waving Fabric Flag (Completely Frameless, Floating with Organic Physics) */

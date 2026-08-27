@@ -263,6 +263,16 @@ const AudioManager = {
 
 // --- 3D Fabric Flag Animation with Three.js ---
 const Flag3DManager = {
+  // Background 3D Flag
+  bgRenderer: null,
+  bgScene: null,
+  bgCamera: null,
+  bgMesh: null,
+  bgPosAttr: null,
+  bgInitPos: null,
+  bgGeometry: null,
+
+  // Header 3D Flag
   headerRenderer: null,
   headerScene: null,
   headerCamera: null,
@@ -270,8 +280,8 @@ const Flag3DManager = {
   headerPosAttr: null,
   headerInitPos: null,
   headerGeometry: null,
-  clock: null,
 
+  // Modal 3D Flag
   modalRenderer: null,
   modalScene: null,
   modalCamera: null,
@@ -280,11 +290,13 @@ const Flag3DManager = {
   modalInitPos: null,
   modalGeometry: null,
   modalActive: false,
-  modalMouseX: 0,
-  modalMouseY: 0,
-  modalTargetRotX: 0,
-  modalTargetRotY: 0,
 
+  // Mouse / Interaction tracking
+  mouseX: 0,
+  mouseY: 0,
+  targetRotationX: 0,
+  targetRotationY: 0,
+  clock: null,
   texture: null,
 
   init() {
@@ -298,6 +310,7 @@ const Flag3DManager = {
       tex.magFilter = THREE.LinearFilter;
       this.texture = tex;
 
+      this.initBgFlag();
       this.initHeaderFlag();
       this.animate();
     });
@@ -305,6 +318,54 @@ const Flag3DManager = {
     this.setupInteractions();
   },
 
+  // Fullscreen Background 3D Flag
+  initBgFlag() {
+    const container = document.getElementById('bg-3d-canvas-container');
+    if (!container || !this.texture) return;
+
+    this.bgScene = new THREE.Scene();
+    this.bgCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.bgCamera.position.set(0, 0, 8);
+
+    this.bgRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
+    this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
+    this.bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    this.bgRenderer.toneMapping = THREE.ACESFilmicToneMapping;
+    this.bgRenderer.toneMappingExposure = 1.1;
+    container.innerHTML = '';
+    container.appendChild(this.bgRenderer.domElement);
+
+    // Exact Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    this.bgScene.add(ambientLight);
+    const dirLight1 = new THREE.DirectionalLight(0xffe8d6, 1.4);
+    dirLight1.position.set(5, 5, 4);
+    this.bgScene.add(dirLight1);
+    const dirLight2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
+    dirLight2.position.set(-5, -3, 3);
+    this.bgScene.add(dirLight2);
+
+    // Exact Geometry: width 4.2, height 4.2, segments 128
+    const width = 4.2;
+    const height = 4.2;
+    const segments = 128;
+    this.bgGeometry = new THREE.PlaneGeometry(width, height, segments, segments);
+    this.bgPosAttr = this.bgGeometry.attributes.position;
+    this.bgInitPos = this.bgPosAttr.array.slice();
+
+    const material = new THREE.MeshStandardMaterial({
+      map: this.texture,
+      side: THREE.DoubleSide,
+      roughness: 0.35,
+      metalness: 0.1,
+      transparent: true
+    });
+
+    this.bgMesh = new THREE.Mesh(this.bgGeometry, material);
+    this.bgScene.add(this.bgMesh);
+  },
+
+  // Header 3D Flag Emblem
   initHeaderFlag() {
     const container = document.getElementById('flag-3d-header');
     if (!container || !this.texture) return;
@@ -313,32 +374,31 @@ const Flag3DManager = {
     const height = container.clientHeight || 72;
 
     this.headerScene = new THREE.Scene();
-    this.headerCamera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
-    this.headerCamera.position.set(0, 0, 4.35);
+    this.headerCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+    this.headerCamera.position.set(0, 0, 8);
 
     this.headerRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.headerRenderer.setSize(width, height);
     this.headerRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.headerRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.headerRenderer.toneMappingExposure = 1.0;
+    this.headerRenderer.toneMappingExposure = 1.1;
     container.innerHTML = '';
     container.appendChild(this.headerRenderer.domElement);
 
-    // Pure neutral 3D lighting (no color tinting)
-    const ambient = new THREE.AmbientLight(0xffffff, 1.4);
-    this.headerScene.add(ambient);
-    const dir1 = new THREE.DirectionalLight(0xffffff, 0.6);
-    dir1.position.set(3, 4, 3);
-    this.headerScene.add(dir1);
-    const dir2 = new THREE.DirectionalLight(0xffffff, 0.3);
-    dir2.position.set(-3, -2, 2);
-    this.headerScene.add(dir2);
+    // Exact Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    this.headerScene.add(ambientLight);
+    const dirLight1 = new THREE.DirectionalLight(0xffe8d6, 1.4);
+    dirLight1.position.set(5, 5, 4);
+    this.headerScene.add(dirLight1);
+    const dirLight2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
+    dirLight2.position.set(-5, -3, 3);
+    this.headerScene.add(dirLight2);
 
-    // Accurate aspect ratio (1440 x 1416)
-    const aspect = 1416 / 1440;
-    const geoW = 2.9;
-    const geoH = 2.9 * aspect;
-    const segments = 64;
+    // Exact Geometry: width 4.2, height 4.2, segments 128
+    const geoW = 4.2;
+    const geoH = 4.2;
+    const segments = 128;
     this.headerGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
     this.headerPosAttr = this.headerGeometry.attributes.position;
     this.headerInitPos = this.headerPosAttr.array.slice();
@@ -346,16 +406,16 @@ const Flag3DManager = {
     const material = new THREE.MeshStandardMaterial({
       map: this.texture,
       side: THREE.DoubleSide,
-      roughness: 0.65,
-      metalness: 0.0,
-      transparent: true,
-      alphaTest: 0.05
+      roughness: 0.35,
+      metalness: 0.1,
+      transparent: true
     });
 
     this.headerMesh = new THREE.Mesh(this.headerGeometry, material);
     this.headerScene.add(this.headerMesh);
   },
 
+  // Interactive 3D Modal
   openModal() {
     const modal = document.getElementById('flag-modal');
     const container = document.getElementById('flag-modal-canvas-container');
@@ -369,30 +429,29 @@ const Flag3DManager = {
       const height = container.clientHeight || 400;
 
       this.modalScene = new THREE.Scene();
-      this.modalCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      this.modalCamera.position.set(0, 0, 6.8);
+      this.modalCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
+      this.modalCamera.position.set(0, 0, 8);
 
       this.modalRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
       this.modalRenderer.setSize(width, height);
       this.modalRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       this.modalRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.modalRenderer.toneMappingExposure = 1.0;
+      this.modalRenderer.toneMappingExposure = 1.1;
       container.innerHTML = '';
       container.appendChild(this.modalRenderer.domElement);
 
-      const ambient = new THREE.AmbientLight(0xffffff, 1.4);
-      this.modalScene.add(ambient);
-      const dir1 = new THREE.DirectionalLight(0xffffff, 0.7);
-      dir1.position.set(4, 4, 3);
-      this.modalScene.add(dir1);
-      const dir2 = new THREE.DirectionalLight(0xffffff, 0.3);
-      dir2.position.set(-4, -2, 2);
-      this.modalScene.add(dir2);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+      this.modalScene.add(ambientLight);
+      const dirLight1 = new THREE.DirectionalLight(0xffe8d6, 1.4);
+      dirLight1.position.set(5, 5, 4);
+      this.modalScene.add(dirLight1);
+      const dirLight2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
+      dirLight2.position.set(-5, -3, 3);
+      this.modalScene.add(dirLight2);
 
-      const aspect = 1416 / 1440;
       const geoW = 4.2;
-      const geoH = 4.2 * aspect;
-      const segments = 96;
+      const geoH = 4.2;
+      const segments = 128;
       this.modalGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
       this.modalPosAttr = this.modalGeometry.attributes.position;
       this.modalInitPos = this.modalPosAttr.array.slice();
@@ -400,34 +459,13 @@ const Flag3DManager = {
       const material = new THREE.MeshStandardMaterial({
         map: this.texture,
         side: THREE.DoubleSide,
-        roughness: 0.65,
-        metalness: 0.0,
-        transparent: true,
-        alphaTest: 0.05
+        roughness: 0.35,
+        metalness: 0.1,
+        transparent: true
       });
 
       this.modalMesh = new THREE.Mesh(this.modalGeometry, material);
       this.modalScene.add(this.modalMesh);
-
-      // Interactive mouse and touch rotation
-      container.addEventListener('mousemove', (e) => {
-        const rect = container.getBoundingClientRect();
-        this.modalMouseX = ((e.clientX - rect.left) - rect.width / 2) / (rect.width / 2);
-        this.modalMouseY = ((e.clientY - rect.top) - rect.height / 2) / (rect.height / 2);
-        this.modalTargetRotY = this.modalMouseX * 0.45;
-        this.modalTargetRotX = this.modalMouseY * 0.35;
-      });
-
-      container.addEventListener('touchmove', (e) => {
-        if (e.touches.length > 0) {
-          const rect = container.getBoundingClientRect();
-          const touch = e.touches[0];
-          this.modalMouseX = ((touch.clientX - rect.left) - rect.width / 2) / (rect.width / 2);
-          this.modalMouseY = ((touch.clientY - rect.top) - rect.height / 2) / (rect.height / 2);
-          this.modalTargetRotY = this.modalMouseX * 0.45;
-          this.modalTargetRotX = this.modalMouseY * 0.35;
-        }
-      }, { passive: true });
     } else {
       const width = container.clientWidth;
       const height = container.clientHeight;
@@ -444,6 +482,46 @@ const Flag3DManager = {
   },
 
   setupInteractions() {
+    // Global Mouse Interaction for smooth tilt
+    window.addEventListener('mousemove', (e) => {
+      this.mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+      this.mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+      this.targetRotationY = this.mouseX * 0.35;
+      this.targetRotationX = this.mouseY * 0.25;
+    });
+
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        this.mouseX = (touch.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        this.mouseY = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+        this.targetRotationY = this.mouseX * 0.35;
+        this.targetRotationX = this.mouseY * 0.25;
+      }
+    }, { passive: true });
+
+    // Drag & Drop image support
+    window.addEventListener('dragover', (e) => e.preventDefault());
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          new THREE.TextureLoader().load(event.target.result, (tex) => {
+            tex.generateMipmaps = true;
+            tex.minFilter = THREE.LinearMipmapLinearFilter;
+            tex.magFilter = THREE.LinearFilter;
+            this.texture = tex;
+            if (this.bgMesh) this.bgMesh.material.map = tex;
+            if (this.headerMesh) this.headerMesh.material.map = tex;
+            if (this.modalMesh) this.modalMesh.material.map = tex;
+          });
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
     const headerFlag = document.getElementById('flag-3d-header');
     if (headerFlag) {
       headerFlag.addEventListener('click', () => {
@@ -471,11 +549,16 @@ const Flag3DManager = {
     }
 
     window.addEventListener('resize', () => {
+      if (this.bgRenderer && this.bgCamera) {
+        this.bgCamera.aspect = window.innerWidth / window.innerHeight;
+        this.bgCamera.updateProjectionMatrix();
+        this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
+      }
       if (this.headerRenderer && this.headerCamera) {
         const container = document.getElementById('flag-3d-header');
         if (container) {
-          const w = container.clientWidth || 48;
-          const h = container.clientHeight || 48;
+          const w = container.clientWidth || 72;
+          const h = container.clientHeight || 72;
           this.headerCamera.aspect = w / h;
           this.headerCamera.updateProjectionMatrix();
           this.headerRenderer.setSize(w, h);
@@ -494,38 +577,67 @@ const Flag3DManager = {
     });
   },
 
+  // Exact Animation Loop with Harmonic Wave Equation & Mouse Tilting
   animate() {
     requestAnimationFrame(() => this.animate());
     const elapsedTime = this.clock ? this.clock.getElapsedTime() : 0;
+    const width = 4.2;
 
-    // 1. Animate Header Flag
+    // 1. Animate Background 3D Flag
+    if (this.bgMesh && this.bgPosAttr && this.bgInitPos) {
+      this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.05;
+      this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.05;
+
+      const positions = this.bgPosAttr.array;
+      for (let i = 0; i < positions.length; i += 3) {
+        const u = this.bgInitPos[i];
+        const v = this.bgInitPos[i + 1];
+
+        // Exact Harmonic Wave equation
+        const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
+        const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
+        const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
+        const windWeight = (u + width / 2) / width;
+        positions[i + 2] = (wave1 + wave2 + microWave) * (0.4 + windWeight * 0.8);
+      }
+      this.bgPosAttr.needsUpdate = true;
+      this.bgGeometry.computeVertexNormals();
+      this.bgRenderer.render(this.bgScene, this.bgCamera);
+    }
+
+    // 2. Animate Header 3D Flag
     if (this.headerMesh && this.headerPosAttr && this.headerInitPos) {
+      this.headerMesh.rotation.y += (this.targetRotationY - this.headerMesh.rotation.y) * 0.05;
+      this.headerMesh.rotation.x += (this.targetRotationX - this.headerMesh.rotation.x) * 0.05;
+
       const positions = this.headerPosAttr.array;
-      const width = 2.9;
       for (let i = 0; i < positions.length; i += 3) {
         const u = this.headerInitPos[i];
         const v = this.headerInitPos[i + 1];
-        const wave1 = Math.sin(u * 2.0 + elapsedTime * 3.0) * 0.14;
-        const wave2 = Math.cos(v * 1.5 + elapsedTime * 2.2) * 0.08;
-        const microWave = Math.sin((u + v) * 4.0 + elapsedTime * 3.6) * 0.03;
+
+        // Exact Harmonic Wave equation
+        const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
+        const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
+        const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
         const windWeight = (u + width / 2) / width;
-        positions[i + 2] = (wave1 + wave2 + microWave) * (0.3 + windWeight * 0.7);
+        positions[i + 2] = (wave1 + wave2 + microWave) * (0.4 + windWeight * 0.8);
       }
       this.headerPosAttr.needsUpdate = true;
       this.headerGeometry.computeVertexNormals();
       this.headerRenderer.render(this.headerScene, this.headerCamera);
     }
 
-    // 2. Animate Modal Flag
+    // 3. Animate Modal 3D Flag
     if (this.modalActive && this.modalMesh && this.modalPosAttr && this.modalInitPos) {
-      this.modalMesh.rotation.y += (this.modalTargetRotY - this.modalMesh.rotation.y) * 0.06;
-      this.modalMesh.rotation.x += (this.modalTargetRotX - this.modalMesh.rotation.x) * 0.06;
+      this.modalMesh.rotation.y += (this.targetRotationY - this.modalMesh.rotation.y) * 0.05;
+      this.modalMesh.rotation.x += (this.targetRotationX - this.modalMesh.rotation.x) * 0.05;
 
       const positions = this.modalPosAttr.array;
-      const width = 4.2;
       for (let i = 0; i < positions.length; i += 3) {
         const u = this.modalInitPos[i];
         const v = this.modalInitPos[i + 1];
+
+        // Exact Harmonic Wave equation
         const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
         const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
         const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
