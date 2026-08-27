@@ -317,17 +317,20 @@ body {
 /* Fullscreen Cinematic 3D Showcase */
 .cinematic-overlay {
   position: fixed;
+/* Fullscreen Cinematic 3D Showcase (Call of Duty Promotion Style) */
+.cinematic-overlay {
+  position: fixed;
   inset: 0;
   z-index: 1000;
   pointer-events: none;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.6s ease, visibility 0.6s ease;
+  transition: opacity 0.4s ease, visibility 0.4s ease;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  padding: 24px 20px 48px;
+  padding: 16px 16px 36px;
 }
 .cinematic-overlay.active {
   opacity: 1;
@@ -335,76 +338,94 @@ body {
   pointer-events: auto;
 }
 
-/* Black Dissolve Transition Layer */
+/* Quick Blackout Pulse between Camera Shots */
 .cinematic-blackout {
   position: absolute;
   inset: 0;
   background: #000000;
   opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: opacity 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
+  z-index: 20;
 }
 .cinematic-blackout.fade-in {
   opacity: 1;
 }
 
-/* Cinematic HUD (Shot 5 Reveal) */
+/* Floating Unboxed Cinematic Stats (Shot 5 Reveal) */
 .cinematic-hud {
   position: relative;
   z-index: 10;
   width: 100%;
-  max-width: 580px;
-  background: rgba(4, 12, 34, 0.82);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--ucl-border);
-  border-radius: 16px;
-  padding: 22px 20px;
+  max-width: 640px;
+  background: transparent;
+  border: none;
+  box-shadow: none;
   text-align: center;
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.85);
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px) scale(0.98);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 .cinematic-hud.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(0) scale(1);
   pointer-events: auto;
+}
+
+.cinematic-hero-header {
+  margin-bottom: 4px;
 }
 
 .cinematic-badge {
   font-family: var(--font-main);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   font-weight: 800;
-  letter-spacing: 2.5px;
+  letter-spacing: 3px;
   color: var(--ucl-cyan);
   text-transform: uppercase;
-  margin-bottom: 4px;
+  margin-bottom: 2px;
 }
 
 .cinematic-title {
   font-family: var(--font-main);
-  font-size: 1.65rem;
+  font-size: 1.85rem;
   font-weight: 900;
-  letter-spacing: 1px;
+  letter-spacing: 1.5px;
   color: #ffffff;
   text-transform: uppercase;
-  margin-bottom: 16px;
+  line-height: 1.1;
 }
 
+/* 4 Symmetrical Floating Stat Columns */
 .cinematic-stats-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 14px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  width: 100%;
+}
+@media (max-width: 520px) {
+  .cinematic-stats-grid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
-.cinematic-stat-card {
-  background: rgba(8, 20, 52, 0.65);
-  border: 1px solid var(--ucl-border);
+.cinematic-stat-item {
+  background: rgba(4, 12, 34, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 212, 255, 0.18);
   border-radius: 10px;
-  padding: 12px 8px;
+  padding: 12px 6px;
+  text-align: center;
+  transition: border-color 0.2s;
+}
+.cinematic-stat-item:hover {
+  border-color: var(--ucl-cyan);
 }
 
 .cinematic-stat-val {
@@ -420,21 +441,23 @@ body {
 
 .cinematic-stat-lbl {
   font-family: var(--font-main);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: var(--ucl-slate);
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 0.6px;
   margin-top: 4px;
 }
 
-.cinematic-mvp-card {
-  background: rgba(14, 30, 74, 0.65);
-  border: 1px solid rgba(0, 212, 255, 0.25);
+/* Floating MVP Spotlight */
+.cinematic-mvp-box {
+  background: rgba(4, 12, 34, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(246, 200, 81, 0.35);
   border-radius: 10px;
-  padding: 10px 14px;
-  margin-bottom: 16px;
-  display: flex;
+  padding: 8px 18px;
+  display: inline-flex;
   flex-direction: column;
   align-items: center;
   gap: 2px;
@@ -442,9 +465,9 @@ body {
 
 .cinematic-mvp-tag {
   font-family: var(--font-main);
-  font-size: 0.68rem;
+  font-size: 0.65rem;
   font-weight: 800;
-  color: var(--ucl-cyan);
+  color: #f6c851;
   letter-spacing: 1px;
 }
 .cinematic-mvp-name {
@@ -455,14 +478,14 @@ body {
 }
 .cinematic-mvp-stats {
   font-family: var(--font-main);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--ucl-slate);
 }
 
 .cinematic-exit-hint {
   font-family: var(--font-main);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--ucl-muted);
   letter-spacing: 1px;
@@ -470,6 +493,29 @@ body {
   align-items: center;
   justify-content: center;
   gap: 6px;
+  margin-top: 2px;
+}
+
+/* --- Zen 3D Flag Mode (Header Logo Tap - Zero Black Fade) --- */
+#app {
+  transition: opacity 0.45s ease, transform 0.45s ease;
+}
+
+#app.zen-hidden {
+  opacity: 0 !important;
+  transform: scale(0.95) !important;
+  pointer-events: none !important;
+}
+
+.bg-3d-canvas-container.zen-focus {
+  opacity: 1 !important;
+  pointer-events: auto !important;
+  touch-action: none !important;
+  z-index: 50 !important;
+  cursor: grab;
+}
+.bg-3d-canvas-container.zen-focus:active {
+  cursor: grabbing;
 }
 
 .pulse-dot {

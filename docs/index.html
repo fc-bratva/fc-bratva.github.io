@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=300">
+  <link rel="stylesheet" href="style.css?v=400">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -21,29 +21,31 @@
 <div id="cinematic-overlay" class="cinematic-overlay" aria-hidden="true">
   <div class="cinematic-blackout" id="cinematic-blackout"></div>
   <div class="cinematic-hud" id="cinematic-hud">
-    <div class="cinematic-badge">PREMIER CAMPAIGN OVERVIEW</div>
-    <div class="cinematic-title">БРАТВА LEAGUE</div>
+    <div class="cinematic-hero-header">
+      <div class="cinematic-badge">PREMIER CAMPAIGN OVERVIEW</div>
+      <div class="cinematic-title">БРАТВА LEAGUE</div>
+    </div>
     
     <div class="cinematic-stats-grid">
-      <div class="cinematic-stat-card">
+      <div class="cinematic-stat-item">
         <div class="cinematic-stat-val" id="cine-total-matches">0</div>
         <div class="cinematic-stat-lbl" data-i18n="matches_played">MATCHES PLAYED</div>
       </div>
-      <div class="cinematic-stat-card">
+      <div class="cinematic-stat-item">
         <div class="cinematic-stat-val cyan" id="cine-win-rate">0.0%</div>
         <div class="cinematic-stat-lbl" data-i18n="win_rate">WIN RATE</div>
       </div>
-      <div class="cinematic-stat-card">
+      <div class="cinematic-stat-item">
         <div class="cinematic-stat-val gold" id="cine-total-goals">0</div>
         <div class="cinematic-stat-lbl" data-i18n="total_goals">TOTAL GOALS</div>
       </div>
-      <div class="cinematic-stat-card">
+      <div class="cinematic-stat-item">
         <div class="cinematic-stat-val green" id="cine-record">0W - 0D - 0L</div>
         <div class="cinematic-stat-lbl" data-i18n="league_record">CAMPAIGN RECORD</div>
       </div>
     </div>
 
-    <div class="cinematic-mvp-card" id="cine-mvp-card">
+    <div class="cinematic-mvp-box" id="cine-mvp-card">
       <div class="cinematic-mvp-tag" data-i18n="top_performer_spotlight">TOP PERFORMER</div>
       <div class="cinematic-mvp-name" id="cine-mvp-name">-</div>
       <div class="cinematic-mvp-stats" id="cine-mvp-stats">0 Goals • 0.0 Avg</div>
@@ -235,6 +237,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=300"></script>
+<script src="app.js?v=400"></script>
 </body>
 </html>

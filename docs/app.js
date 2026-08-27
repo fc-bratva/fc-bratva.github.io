@@ -307,6 +307,24 @@ const Flag3DManager = {
   modalInitPos: null,
   modalGeometry: null,
   modalActive: false,
+  zenMode: false,
+  isDragging: false,
+  prevX: 0,
+  prevY: 0,
+
+  toggleZenMode(forceState) {
+    this.zenMode = forceState !== undefined ? forceState : !this.zenMode;
+    const appEl = document.getElementById('app');
+    const bgContainer = document.getElementById('bg-3d-canvas-container');
+
+    if (this.zenMode) {
+      if (appEl) appEl.classList.add('zen-hidden');
+      if (bgContainer) bgContainer.classList.add('zen-focus');
+    } else {
+      if (appEl) appEl.classList.remove('zen-hidden');
+      if (bgContainer) bgContainer.classList.remove('zen-focus');
+    }
+  },
 
   // Mouse / Interaction tracking
   mouseX: 0,
@@ -351,7 +369,7 @@ const Flag3DManager = {
     container.innerHTML = '';
     container.appendChild(this.bgRenderer.domElement);
 
-    // Natural Clean Studio Lighting (No color tinting)
+    // Natural Clean Studio Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     this.bgScene.add(ambientLight);
     const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.3);
@@ -448,71 +466,77 @@ const Flag3DManager = {
   },
 
   setupInteractions() {
-    // Global Mouse Interaction for smooth tilt
-    window.addEventListener('mousemove', (e) => {
-      this.mouseX = (e.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-      this.mouseY = (e.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-      this.targetRotationY = this.mouseX * 0.35;
-      this.targetRotationX = this.mouseY * 0.25;
+    // Header Logo Click -> Toggle Zen 3D Mode (Disappear UI, No Blackout)
+    const brandLogo = document.querySelector('.brand-logo-img') || document.querySelector('.brand');
+    if (brandLogo) {
+      brandLogo.addEventListener('click', (e) => {
+        e.stopPropagation();
+        SoundManager.playClick();
+        this.toggleZenMode(true);
+      });
+    }
+
+    // Tap anywhere on screen while in Zen Mode -> Restore Dashboard
+    window.addEventListener('click', (e) => {
+      if (this.zenMode && !e.target.closest('.brand')) {
+        SoundManager.playClick();
+        this.toggleZenMode(false);
+      }
     });
 
-    window.addEventListener('touchmove', (e) => {
+    // Touch & Mouse Drag Control (Rotation with NO scrolling!)
+    const onStart = (clientX, clientY) => {
+      this.isDragging = true;
+      this.prevX = clientX;
+      this.prevY = clientY;
+    };
+
+    const onMove = (clientX, clientY, e) => {
+      if (this.isDragging) {
+        const deltaX = clientX - this.prevX;
+        const deltaY = clientY - this.prevY;
+        this.targetRotationY += deltaX * 0.007;
+        this.targetRotationX += deltaY * 0.005;
+        this.prevX = clientX;
+        this.prevY = clientY;
+        if (e && e.cancelable && (this.zenMode || e.target.closest('#bg-3d-canvas-container'))) {
+          e.preventDefault(); // Prevent page scrolling during 3D drag
+        }
+      } else {
+        this.mouseX = (clientX - window.innerWidth / 2) / (window.innerWidth / 2);
+        this.mouseY = (clientY - window.innerHeight / 2) / (window.innerHeight / 2);
+        if (!this.zenMode && !CinematicDirector.active) {
+          this.targetRotationY = this.mouseX * 0.35;
+          this.targetRotationX = this.mouseY * 0.25;
+        }
+      }
+    };
+
+    const onEnd = () => {
+      this.isDragging = false;
+    };
+
+    window.addEventListener('mousedown', (e) => onStart(e.clientX, e.clientY));
+    window.addEventListener('mousemove', (e) => onMove(e.clientX, e.clientY, e));
+    window.addEventListener('mouseup', onEnd);
+
+    window.addEventListener('touchstart', (e) => {
       if (e.touches.length > 0) {
-        const touch = e.touches[0];
-        this.mouseX = (touch.clientX - window.innerWidth / 2) / (window.innerWidth / 2);
-        this.mouseY = (touch.clientY - window.innerHeight / 2) / (window.innerHeight / 2);
-        this.targetRotationY = this.mouseX * 0.35;
-        this.targetRotationX = this.mouseY * 0.25;
+        onStart(e.touches[0].clientX, e.touches[0].clientY);
       }
     }, { passive: true });
 
-    // Drag & Drop image support
-    window.addEventListener('dragover', (e) => e.preventDefault());
-    window.addEventListener('drop', (e) => {
-      e.preventDefault();
-      const file = e.dataTransfer.files[0];
-      if (file && file.type.startsWith('image/')) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          new THREE.TextureLoader().load(event.target.result, (tex) => {
-            tex.generateMipmaps = true;
-            tex.minFilter = THREE.LinearMipmapLinearFilter;
-            tex.magFilter = THREE.LinearFilter;
-            this.texture = tex;
-            if (this.bgMesh) this.bgMesh.material.map = tex;
-            if (this.headerMesh) this.headerMesh.material.map = tex;
-            if (this.modalMesh) this.modalMesh.material.map = tex;
-          });
-        };
-        reader.readAsDataURL(file);
-      }
-    });
-
-    const brandLogo = document.querySelector('.brand-logo-img') || document.querySelector('.brand');
-    if (brandLogo) {
-      brandLogo.addEventListener('click', () => {
-        SoundManager.playClick();
-        this.openModal();
-      });
-    }
-
-    const closeBtn = document.getElementById('flag-modal-close-x');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', () => {
-        SoundManager.playClick();
-        this.closeModal();
-      });
-    }
-
-    const modal = document.getElementById('flag-modal');
-    if (modal) {
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          SoundManager.playClick();
-          this.closeModal();
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        if (this.zenMode) {
+          onMove(e.touches[0].clientX, e.touches[0].clientY, e);
+        } else {
+          onMove(e.touches[0].clientX, e.touches[0].clientY, null);
         }
-      });
-    }
+      }
+    }, { passive: false });
+
+    window.addEventListener('touchend', onEnd);
 
     window.addEventListener('resize', () => {
       if (this.bgRenderer && this.bgCamera) {
@@ -520,32 +544,20 @@ const Flag3DManager = {
         this.bgCamera.updateProjectionMatrix();
         this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
       }
-      if (this.modalActive && this.modalRenderer && this.modalCamera) {
-        const container = document.getElementById('flag-modal-canvas-container');
-        if (container) {
-          const w = container.clientWidth;
-          const h = container.clientHeight;
-          this.modalCamera.aspect = w / h;
-          this.modalCamera.updateProjectionMatrix();
-          this.modalRenderer.setSize(w, h);
-        }
-      }
     });
   },
 
-  // Exact Animation Loop with Harmonic Wave Equation & Mouse Tilting
   animate() {
     requestAnimationFrame(() => this.animate());
     const elapsedTime = this.clock ? this.clock.getElapsedTime() : 0;
     const width = 4.2;
 
-    // 1. Animate Background 3D Flag
     if (this.bgMesh && this.bgPosAttr && this.bgInitPos) {
       if (CinematicDirector.active) {
         CinematicDirector.update(performance.now(), this.bgCamera, this.bgMesh);
       } else {
-        this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.05;
-        this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.05;
+        this.bgMesh.rotation.y += (this.targetRotationY - this.bgMesh.rotation.y) * 0.08;
+        this.bgMesh.rotation.x += (this.targetRotationX - this.bgMesh.rotation.x) * 0.08;
       }
 
       const positions = this.bgPosAttr.array;
@@ -553,7 +565,6 @@ const Flag3DManager = {
         const u = this.bgInitPos[i];
         const v = this.bgInitPos[i + 1];
 
-        // Harmonic Wave equation with wind weight
         const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
         const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
         const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
@@ -564,39 +575,18 @@ const Flag3DManager = {
       this.bgGeometry.computeVertexNormals();
       this.bgRenderer.render(this.bgScene, this.bgCamera);
     }
-
-    // 2. Animate Modal 3D Flag
-    if (this.modalActive && this.modalMesh && this.modalPosAttr && this.modalInitPos) {
-      this.modalMesh.rotation.y += (this.targetRotationY - this.modalMesh.rotation.y) * 0.05;
-      this.modalMesh.rotation.x += (this.targetRotationX - this.modalMesh.rotation.x) * 0.05;
-
-      const positions = this.modalPosAttr.array;
-      for (let i = 0; i < positions.length; i += 3) {
-        const u = this.modalInitPos[i];
-        const v = this.modalInitPos[i + 1];
-
-        const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
-        const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
-        const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
-        const windWeight = (u + width / 2) / width;
-        positions[i + 2] = (wave1 + wave2 + microWave) * (0.4 + windWeight * 0.8);
-      }
-      this.modalPosAttr.needsUpdate = true;
-      this.modalGeometry.computeVertexNormals();
-      this.modalRenderer.render(this.modalScene, this.modalCamera);
-    }
   }
 };
 
-// --- Cinematic 3D Showcase Director (Filmmaker Multi-Shot Choreography) ---
+// --- Cinematic 3D Showcase Director (Call of Duty Heroic Rank Promotion Style) ---
 const CinematicDirector = {
   active: false,
   startTime: 0,
-  currentShot: 1,
   lastTapTime: 0,
   targetCamPos: null,
   targetLookAt: null,
   currentLookAt: null,
+  lastShotId: 0,
 
   init() {
     if (typeof THREE !== 'undefined') {
@@ -615,7 +605,6 @@ const CinematicDirector = {
 
     const overlay = document.getElementById('cinematic-overlay');
     if (overlay) {
-      // Double tap / double click detection to exit
       overlay.addEventListener('click', (e) => {
         const now = Date.now();
         if (now - this.lastTapTime < 350) {
@@ -624,50 +613,34 @@ const CinematicDirector = {
         }
         this.lastTapTime = now;
       });
-
-      overlay.addEventListener('touchend', (e) => {
-        const now = Date.now();
-        if (now - this.lastTapTime < 350) {
-          SoundManager.playClick();
-          this.stop();
-        }
-        this.lastTapTime = now;
-      });
     }
-
-    window.addEventListener('keydown', (e) => {
-      if (this.active && (e.key === 'Escape' || e.key === 'Esc')) {
-        SoundManager.playClick();
-        this.stop();
-      }
-    });
   },
 
   start() {
     if (this.active || !Flag3DManager.bgCamera) return;
     this.active = true;
     this.startTime = performance.now();
-    this.currentShot = 1;
-    this.currentLookAt.set(0, 0, 0);
+    this.lastShotId = 0;
+    if (this.currentLookAt) this.currentLookAt.set(0, 0, 0);
 
     const overlay = document.getElementById('cinematic-overlay');
     const blackout = document.getElementById('cinematic-blackout');
     const hud = document.getElementById('cinematic-hud');
     const appEl = document.getElementById('app');
 
-    // Populate Cinematic HUD Data
+    // Populate Floating Cinematic HUD Data
     this.populateHUD();
 
     if (overlay) overlay.classList.add('active');
     if (blackout) blackout.classList.add('fade-in');
     if (hud) hud.classList.remove('visible');
 
-    // Fade to black then unveil cinematic camera sequence
+    // Fast blackout cut into Shot 1
     setTimeout(() => {
       if (!this.active) return;
       if (appEl) appEl.style.opacity = '0';
       if (blackout) blackout.classList.remove('fade-in');
-    }, 450);
+    }, 300);
   },
 
   stop() {
@@ -697,7 +670,17 @@ const CinematicDirector = {
       }
 
       if (blackout) blackout.classList.remove('fade-in');
-    }, 450);
+    }, 350);
+  },
+
+  triggerBlackoutDip() {
+    const blackout = document.getElementById('cinematic-blackout');
+    if (blackout) {
+      blackout.classList.add('fade-in');
+      setTimeout(() => {
+        blackout.classList.remove('fade-in');
+      }, 180);
+    }
   },
 
   populateHUD() {
@@ -720,7 +703,6 @@ const CinematicDirector = {
     if (goalsEl) goalsEl.textContent = totalGoals;
     if (recordEl) recordEl.textContent = `${wins}W - ${draws}D - ${losses}L`;
 
-    // Top Scorer
     const sorted = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
     if (sorted.length > 0) {
       const topP = sorted[0];
@@ -738,68 +720,69 @@ const CinematicDirector = {
 
     const elapsed = (now - this.startTime) / 1000; // in seconds
 
-    // 5-Shot Professional Filmmaker Camera Choreography
-    if (elapsed < 3.0) {
-      // Shot 1: Dramatic Low-Angle Macro Orbit (0s - 3s)
-      this.currentShot = 1;
-      const progress = elapsed / 3.0;
-      const ease = this.easeInOutQuad(progress);
+    // Call of Duty Style Multi-Shot Timeline with Black Dips
+    if (elapsed < 2.0) {
+      // Shot 1: Aggressive Low-Angle Power Zoom-In (0s - 2.0s)
+      if (this.lastShotId !== 1) {
+        this.lastShotId = 1;
+      }
+      const progress = elapsed / 2.0;
+      const ease = this.easeOutExpo(progress);
 
-      camera.position.set(
-        -2.2 + ease * 1.0,
-        -1.8 + ease * 0.8,
-        3.8 + Math.sin(progress * Math.PI) * 0.4
-      );
-      this.targetLookAt.set(-0.4 + ease * 0.4, -0.2 + ease * 0.2, 0);
+      camera.position.set(-2.4 + ease * 1.0, -2.2 + ease * 1.2, 3.4 + progress * 0.4);
+      this.targetLookAt.set(-0.3 + ease * 0.3, -0.2 + ease * 0.2, 0);
       mesh.position.set(0, 0, 0);
-      mesh.rotation.z = Math.sin(elapsed * 1.5) * 0.05;
-    } else if (elapsed < 6.0) {
-      // Shot 2: High-Altitude Sweeping Dutch Glide (3s - 6s)
-      this.currentShot = 2;
-      const progress = (elapsed - 3.0) / 3.0;
-      const ease = this.easeInOutQuad(progress);
+      mesh.rotation.z = Math.sin(elapsed * 2.0) * 0.08;
 
-      camera.position.set(
-        2.5 - ease * 1.5,
-        2.2 - ease * 0.5,
-        4.5 - ease * 0.5
-      );
-      this.targetLookAt.set(0.3 - ease * 0.3, 0.2 - ease * 0.2, 0);
+      if (elapsed > 1.82 && this.lastShotId === 1) {
+        this.lastShotId = 1.5;
+        this.triggerBlackoutDip();
+      }
+    } else if (elapsed < 4.0) {
+      // Shot 2: High-Altitude Top-Down Dutch Strike (2.0s - 4.0s)
+      if (this.lastShotId < 2) {
+        this.lastShotId = 2;
+      }
+      const progress = (elapsed - 2.0) / 2.0;
+      const ease = this.easeOutCubic(progress);
+
+      camera.position.set(3.0 - ease * 1.8, 2.8 - ease * 0.8, 4.2 - ease * 0.4);
+      this.targetLookAt.set(0.4 - ease * 0.4, 0.2 - ease * 0.2, 0);
       mesh.position.set(0, 0, 0);
-      mesh.rotation.z = (1 - ease) * 0.08;
-    } else if (elapsed < 8.5) {
-      // Shot 3: Macro Cloth Wave Ripple Profile (6s - 8.5s)
-      this.currentShot = 3;
-      const progress = (elapsed - 6.0) / 2.5;
-      const ease = this.easeInOutQuad(progress);
+      mesh.rotation.z = (1 - ease) * 0.12;
 
-      camera.position.set(
-        -2.8 + ease * 1.2,
-        0.2 + ease * 0.4,
-        3.2 + ease * 0.8
-      );
+      if (elapsed > 3.82 && this.lastShotId === 2) {
+        this.lastShotId = 2.5;
+        this.triggerBlackoutDip();
+      }
+    } else if (elapsed < 5.8) {
+      // Shot 3: Extreme Macro Profile Glide (4.0s - 5.8s)
+      if (this.lastShotId < 3) {
+        this.lastShotId = 3;
+      }
+      const progress = (elapsed - 4.0) / 1.8;
+      const ease = this.easeOutQuad(progress);
+
+      camera.position.set(-3.2 + ease * 1.4, 0.3 + ease * 0.2, 2.8 + ease * 1.0);
       this.targetLookAt.set(-0.8 + ease * 0.8, 0, 0);
       mesh.position.set(0, 0, 0);
       mesh.rotation.z = 0;
-    } else if (elapsed < 11.0) {
-      // Shot 4: Grand Centered Pull-Back (8.5s - 11s)
-      this.currentShot = 4;
-      const progress = (elapsed - 8.5) / 2.5;
-      const ease = this.easeInOutCubic(progress);
 
-      camera.position.set(0, 0, 4.5 + ease * 3.2);
-      this.targetLookAt.set(0, 0, 0);
-      mesh.position.set(0, 0, 0);
-      mesh.rotation.z = 0;
+      if (elapsed > 5.62 && this.lastShotId === 3) {
+        this.lastShotId = 3.5;
+        this.triggerBlackoutDip();
+      }
     } else {
-      // Shot 5: Flag Elevates to Upper-Third + Cinematic HUD Reveal (11s+)
-      this.currentShot = 5;
-      const progress = Math.min((elapsed - 11.0) / 1.5, 1.0);
-      const ease = this.easeInOutCubic(progress);
+      // Shot 4 / Final Stage: Centered Smash-Zoom Back + Fullscreen Floating Stats Reveal
+      if (this.lastShotId < 4) {
+        this.lastShotId = 4;
+      }
+      const progress = Math.min((elapsed - 5.8) / 1.4, 1.0);
+      const ease = this.easeOutExpo(progress);
 
-      camera.position.set(0, 0.4 * ease, 7.8);
-      this.targetLookAt.set(0, 0.8 * ease, 0);
-      mesh.position.set(0, 1.1 * ease, 0);
+      camera.position.set(0, 0.8 * ease, 7.8 + (1 - ease) * 2.0);
+      this.targetLookAt.set(0, 1.2 * ease, 0);
+      mesh.position.set(0, 1.2 * ease, 0);
       mesh.rotation.z = 0;
 
       const hud = document.getElementById('cinematic-hud');
