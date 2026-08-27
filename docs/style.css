@@ -1079,42 +1079,49 @@ body.immersive-mode .bg-3d-canvas-container {
   filter: drop-shadow(0 2px 8px rgba(0, 212, 255, 0.6));
 }
 
-/* Tab pages with fast physics drift animation */
+/* Main Viewport & Tab Pages */
+.main-viewport {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden;
+}
+
 .tab-page {
   display: none;
-  padding-bottom: calc(var(--tabbar-h) + 24px);
-  animation-duration: 0.22s;
+  padding-bottom: calc(var(--tabbar-h) + 64px); /* Generous clearance so cards never touch the dock */
+  animation-duration: 0.25s;
   animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   animation-fill-mode: both;
+  will-change: transform, opacity;
 }
 .tab-page.active {
   display: block;
 }
 .tab-page.drift-from-right {
-  animation-name: tabDriftRight;
+  animation-name: pageFluidRevealRight;
 }
 .tab-page.drift-from-left {
-  animation-name: tabDriftLeft;
+  animation-name: pageFluidRevealLeft;
 }
 
-@keyframes tabDriftRight {
+@keyframes pageFluidRevealRight {
   0% {
     opacity: 0;
-    transform: translateX(24px) scale(0.985);
+    transform: translateY(12px) scale(0.99);
   }
   100% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }
 
-@keyframes tabDriftLeft {
+@keyframes pageFluidRevealLeft {
   0% {
     opacity: 0;
-    transform: translateX(-24px) scale(0.985);
+    transform: translateY(12px) scale(0.99);
   }
   100% {
     opacity: 1;
-    transform: translateX(0) scale(1);
+    transform: translateY(0) scale(1);
   }
 }

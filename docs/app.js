@@ -284,7 +284,7 @@ const AudioManager = {
     try {
       this.bgMusic = new Audio('assets/vaitsez-game-game-music-574073.mp3');
       this.bgMusic.loop = true;
-      this.bgMusic.volume = 0.075; // Lowered by 50% as requested
+      this.bgMusic.volume = 0.05; // Lowered by additional 30%
 
       this.flagSound = new Audio('assets/Flag Flapping Sound Effect (128kbit_AAC).m4a');
       this.flagSound.loop = true;
