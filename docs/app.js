@@ -827,7 +827,7 @@ async function loadData() {
   state.tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-// --- Navigation with Slide Animations ---
+// --- Navigation Tab Switching ---
 function setupNavigation() {
   const navs = document.querySelectorAll('.nav-item');
   navs.forEach(nav => {
@@ -844,33 +844,19 @@ function setupNavigation() {
 }
 
 function switchTab(newTabName) {
-  const oldIdx = tabsOrder.indexOf(state.activeTab);
-  const newIdx = tabsOrder.indexOf(newTabName);
-  const direction = newIdx > oldIdx ? 'right' : 'left';
-  const isRTL = I18N[state.lang].dir === 'rtl';
-  
-  // Adjust animation direction for RTL
-  const moveNext = isRTL ? (direction === 'left') : (direction === 'right');
-
-  const oldPage = document.getElementById(`tab-${state.activeTab}`);
-  const newPage = document.getElementById(`tab-${newTabName}`);
-
-  // Clean up previous animation classes
   document.querySelectorAll('.tab-page').forEach(p => {
-    p.classList.remove('slide-in-right', 'slide-in-left', 'slide-out-right', 'slide-out-left', 'active');
+    p.classList.remove('active');
+    p.style.display = 'none';
   });
 
-  // Apply new animations
-  oldPage.classList.add('active');
-  if (moveNext) {
-    oldPage.classList.add('slide-out-left');
-    newPage.classList.add('active', 'slide-in-right');
-  } else {
-    oldPage.classList.add('slide-out-right');
-    newPage.classList.add('active', 'slide-in-left');
+  const newPage = document.getElementById(`tab-${newTabName}`);
+  if (newPage) {
+    newPage.classList.add('active');
+    newPage.style.display = 'block';
   }
 
   state.activeTab = newTabName;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // --- Renderers ---
