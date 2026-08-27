@@ -309,35 +309,36 @@ const Flag3DManager = {
     const container = document.getElementById('flag-3d-header');
     if (!container || !this.texture) return;
 
-    const width = container.clientWidth || 48;
-    const height = container.clientHeight || 48;
+    const width = container.clientWidth || 52;
+    const height = container.clientHeight || 52;
 
     this.headerScene = new THREE.Scene();
-    this.headerCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-    this.headerCamera.position.set(0, 0, 4.6);
+    this.headerCamera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
+    this.headerCamera.position.set(0, 0, 4.3);
 
     this.headerRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.headerRenderer.setSize(width, height);
     this.headerRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.headerRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.headerRenderer.toneMappingExposure = 1.15;
+    this.headerRenderer.toneMappingExposure = 1.2;
     container.innerHTML = '';
     container.appendChild(this.headerRenderer.domElement);
 
     // 3D Lighting for fabric folds
-    const ambient = new THREE.AmbientLight(0xffffff, 1.0);
+    const ambient = new THREE.AmbientLight(0xffffff, 1.1);
     this.headerScene.add(ambient);
-    const dir1 = new THREE.DirectionalLight(0xffeedd, 1.4);
+    const dir1 = new THREE.DirectionalLight(0xffeedd, 1.5);
     dir1.position.set(4, 4, 3);
     this.headerScene.add(dir1);
-    const dir2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
+    const dir2 = new THREE.DirectionalLight(0x9d4edd, 1.0);
     dir2.position.set(-4, -2, 2);
     this.headerScene.add(dir2);
 
-    // Plane Geometry with mesh grid for ripple animation
-    const geoW = 2.8;
-    const geoH = 2.8;
-    const segments = 48;
+    // Accurate aspect ratio (1440 x 1416)
+    const aspect = 1416 / 1440;
+    const geoW = 2.9;
+    const geoH = 2.9 * aspect;
+    const segments = 64;
     this.headerGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
     this.headerPosAttr = this.headerGeometry.attributes.position;
     this.headerInitPos = this.headerPosAttr.array.slice();
@@ -345,8 +346,8 @@ const Flag3DManager = {
     const material = new THREE.MeshStandardMaterial({
       map: this.texture,
       side: THREE.DoubleSide,
-      roughness: 0.35,
-      metalness: 0.1,
+      roughness: 0.3,
+      metalness: 0.15,
       transparent: true,
       alphaTest: 0.05
     });
@@ -364,32 +365,33 @@ const Flag3DManager = {
     this.modalActive = true;
 
     if (!this.modalRenderer) {
-      const width = container.clientWidth;
-      const height = container.clientHeight;
+      const width = container.clientWidth || 400;
+      const height = container.clientHeight || 400;
 
       this.modalScene = new THREE.Scene();
       this.modalCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-      this.modalCamera.position.set(0, 0, 7.8);
+      this.modalCamera.position.set(0, 0, 6.8);
 
       this.modalRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
       this.modalRenderer.setSize(width, height);
       this.modalRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       this.modalRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.modalRenderer.toneMappingExposure = 1.2;
+      this.modalRenderer.toneMappingExposure = 1.25;
       container.innerHTML = '';
       container.appendChild(this.modalRenderer.domElement);
 
-      const ambient = new THREE.AmbientLight(0xffffff, 0.95);
+      const ambient = new THREE.AmbientLight(0xffffff, 1.0);
       this.modalScene.add(ambient);
-      const dir1 = new THREE.DirectionalLight(0xffe8d6, 1.5);
+      const dir1 = new THREE.DirectionalLight(0xffeedd, 1.6);
       dir1.position.set(5, 5, 4);
       this.modalScene.add(dir1);
-      const dir2 = new THREE.DirectionalLight(0x7a5cff, 0.9);
+      const dir2 = new THREE.DirectionalLight(0x9d4edd, 1.1);
       dir2.position.set(-5, -3, 3);
       this.modalScene.add(dir2);
 
+      const aspect = 1416 / 1440;
       const geoW = 4.2;
-      const geoH = 4.2;
+      const geoH = 4.2 * aspect;
       const segments = 96;
       this.modalGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
       this.modalPosAttr = this.modalGeometry.attributes.position;
@@ -399,7 +401,7 @@ const Flag3DManager = {
         map: this.texture,
         side: THREE.DoubleSide,
         roughness: 0.35,
-        metalness: 0.1,
+        metalness: 0.15,
         transparent: true,
         alphaTest: 0.05
       });
@@ -792,28 +794,28 @@ function renderDashboard() {
     const oppPct = totalGoals > 0 ? ((tItem.opponent_total_goals / totalGoals) * 100).toFixed(1) : 50;
 
     recentBox.innerHTML = `
-      <div style="cursor: pointer; padding: 5px;" onclick="openTournamentModal('${tItem.tournament_id}')">
-        <div style="display: flex; justify-content: space-around; align-items: center;">
-          <div style="text-align: center;">
-            <div class="username" style="font-size: 1.2rem;">Братва</div>
-            <div style="font-size: 1.8rem; font-family: var(--font-formal); font-weight: bold;">${tItem.our_total_goals}</div>
+      <div style="cursor: pointer; padding: 4px;" onclick="openTournamentModal('${tItem.tournament_id}')">
+        <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 12px;">
+          <div style="text-align: center; flex: 1;">
+            <div class="username" style="font-size: 1.15rem; color: var(--gold-main); font-weight: 800;">Братва</div>
+            <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff; text-shadow: 0 0 12px rgba(255, 209, 92, 0.4);">${tItem.our_total_goals}</div>
           </div>
-          <div style="text-align: center; font-family: var(--font-hand); color: var(--pencil-light);">VS</div>
-          <div style="text-align: center;">
-            <div class="username" style="font-size: 1.2rem; max-width: 80px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(tItem.opponent_league)}</div>
-            <div style="font-size: 1.8rem; font-family: var(--font-formal); font-weight: bold;">${tItem.opponent_total_goals}</div>
+          <div style="font-family: var(--font-heading); font-weight: 800; color: var(--gold-main); font-size: 0.9rem; background: rgba(255, 209, 92, 0.12); border: 1px solid rgba(255, 209, 92, 0.35); border-radius: 6px; padding: 3px 10px; letter-spacing: 1px;">VS</div>
+          <div style="text-align: center; flex: 1;">
+            <div class="username" style="font-size: 1.15rem; color: var(--text-secondary); max-width: 130px; margin: 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(tItem.opponent_league)}</div>
+            <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
           </div>
         </div>
 
-        <!-- Scribble Gauge -->
-        <div class="gauge-wrap" style="height: 10px; margin: 10px 0;">
+        <!-- Power Goal Gauge -->
+        <div class="gauge-wrap" style="height: 10px; margin: 12px 0;">
           <div class="gauge-fill" style="width: ${ourPct}%;"></div>
           <div class="gauge-fill-opp" style="width: ${oppPct}%;"></div>
         </div>
 
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-          <span class="stamp ${stampClass}" style="font-size: 0.8rem;">${tItem.result ? tItem.result : 'In Progress'}</span>
-          <span class="hand-text" style="color:var(--pencil-light); font-size: 0.9rem;">${tItem.date}</span>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 8px;">
+          <span class="stamp ${stampClass}">${tItem.result ? tItem.result : 'In Progress'}</span>
+          <span class="hand-text" style="color:var(--text-muted); font-size: 0.85rem; font-weight: 600;">${tItem.date}</span>
         </div>
       </div>
     `;
@@ -832,12 +834,12 @@ function renderDashboard() {
 
     return `
     <tr class="${rowClass}" onclick="openPlayerModal('${p.player_id}')">
-      <td style="font-family: system-ui, -apple-system, sans-serif; font-weight: bold;">
+      <td style="font-family: var(--font-score); font-weight: 800; font-size: 1rem;">
         #${idx + 1}
       </td>
       <td class="username">${escapeHTML(p.display_name)}</td>
-      <td style="text-align:right; font-weight:bold; font-family: system-ui, -apple-system, sans-serif; color: var(--pencil-blue);">${getPlayerGoals(p)}</td>
-      <td style="text-align:right; color:var(--pencil-light);">${p.matches ? p.matches.length : 0}</td>
+      <td style="text-align:right; font-weight:800; font-family: var(--font-score); font-size: 1.1rem; color: var(--gold-main);">${getPlayerGoals(p)}</td>
+      <td style="text-align:right; color:var(--text-muted); font-weight:600;">${p.matches ? p.matches.length : 0}</td>
     </tr>
     `;
   }).join('');
@@ -850,9 +852,9 @@ function renderDashboard() {
   if (flagged.length > 0) {
     flaggedBox.style.display = 'block';
     flaggedList.innerHTML = flagged.map(p => `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:5px 0; border-bottom:1px dashed var(--pencil-red); cursor:pointer;" onclick="openPlayerModal('${p.player_id}')">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255, 56, 96, 0.3); cursor:pointer;" onclick="openPlayerModal('${p.player_id}')">
         <span class="username">${escapeHTML(p.display_name)}</span>
-        <span class="hand-text" style="color: var(--pencil-red); font-weight: bold;">${p.eligibility_streak.current_fail_streak} FAILS!</span>
+        <span class="stamp stamp-loss">${p.eligibility_streak.current_fail_streak} FAILS</span>
       </div>
     `).join('');
   } else {
@@ -865,23 +867,23 @@ function renderTournaments() {
   container.innerHTML = state.tournaments.map(tItem => {
     const stampClass = tItem.result === 'win' ? 'stamp-win' : tItem.result === 'loss' ? 'stamp-loss' : 'stamp-draw';
     return `
-      <div style="border-bottom: 1px dashed var(--pencil-light); margin-bottom: 8px; padding-bottom: 8px; cursor: pointer;" onclick="openTournamentModal('${tItem.tournament_id}')">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+      <div style="background: rgba(18, 10, 36, 0.7); border: 1px solid rgba(157, 78, 221, 0.2); border-radius: 12px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s;" onclick="openTournamentModal('${tItem.tournament_id}')">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="stamp ${stampClass}" style="font-size: 0.7rem; padding: 1px 4px;">${tItem.result || 'In Progress'}</span>
-            <span class="hand-text" style="color: var(--pencil-light); font-size: 0.8rem;">${tItem.date}</span>
+            <span class="stamp ${stampClass}">${tItem.result || 'In Progress'}</span>
+            <span class="hand-text" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">${tItem.date}</span>
           </div>
-          <span class="hand-text" style="color: var(--pencil-light); font-size: 0.8rem;">${tItem.format || '32v32'}</span>
+          <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; color: var(--gold-main); background: rgba(255, 209, 92, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255, 209, 92, 0.25);">${tItem.format || '32v32'}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; font-family: system-ui, -apple-system, sans-serif;">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
           <div style="flex: 1; text-align: left;">
-            <div style="font-weight: 500; font-size: 0.95rem; line-height: 1.1; margin-bottom: 4px; word-break: break-word;">Братва</div>
-            <div style="font-weight: bold; font-size: 1.1rem;">${tItem.our_total_goals}</div>
+            <div style="font-weight: 700; font-size: 1rem; color: var(--gold-main); margin-bottom: 2px; word-break: break-word;">Братва</div>
+            <div style="font-family: var(--font-score); font-weight: 800; font-size: 1.35rem; color: #ffffff;">${tItem.our_total_goals}</div>
           </div>
-          <div style="width: 30px; text-align: center; font-family: var(--font-hand); color: var(--pencil-light); font-size: 0.8rem;">VS</div>
+          <div style="width: 36px; text-align: center; font-family: var(--font-heading); font-weight: 800; color: var(--gold-main); font-size: 0.8rem; background: rgba(255,209,92,0.12); border-radius: 4px; padding: 2px 0;">VS</div>
           <div style="flex: 1; text-align: right;">
-            <div style="font-weight: 500; font-size: 0.95rem; line-height: 1.1; margin-bottom: 4px; word-break: break-word;">${escapeHTML(tItem.opponent_league)}</div>
-            <div style="font-weight: bold; font-size: 1.1rem;">${tItem.opponent_total_goals}</div>
+            <div style="font-weight: 700; font-size: 1rem; color: var(--text-secondary); margin-bottom: 2px; word-break: break-word;">${escapeHTML(tItem.opponent_league)}</div>
+            <div style="font-family: var(--font-score); font-weight: 800; font-size: 1.35rem; color: #ffffff;">${tItem.opponent_total_goals}</div>
           </div>
         </div>
       </div>
@@ -1005,41 +1007,38 @@ function openPlayerModal(playerId) {
   const chartData = build7DayPerformanceData(player);
 
   content.innerHTML = `
-    <div style="border-bottom: 2px solid var(--pencil-main); padding-bottom: 5px; margin-bottom: 15px;">
-      <div class="username" style="font-size: 1.8rem; line-height: 1.2;">${escapeHTML(player.display_name)}</div>
-      <div>${eligHTML}</div>
+    <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 16px;">
+      <div class="username" style="font-size: 1.6rem; color: var(--gold-main); font-weight: 800;">${escapeHTML(player.display_name)}</div>
+      <div style="margin-top: 4px;">${eligHTML}</div>
     </div>
 
     <div class="card-title">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
       ${t('performance_chart')}
     </div>
     
-    <div class="chart-wrap">
+    <div class="chart-wrap" style="background: rgba(14, 8, 28, 0.7); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px; margin-bottom: 14px;">
       ${renderSketchyChart(chartData)}
     </div>
 
-    <div id="chart-point-summary" style="background: rgba(255,255,255,0.6); padding: 10px; border: 1px dashed var(--pencil-light); border-radius: 4px; margin-bottom: 20px;">
-      <div class="hand-text" id="summary-date-label" style="color: var(--pencil-light);">${t('click_point_hint')}</div>
-      <div class="username" id="summary-verdict-label" style="font-size: 1.1rem;">-</div>
+    <div id="chart-point-summary" style="background: rgba(22, 12, 42, 0.9); padding: 12px; border: 1px solid var(--border-subtle); border-radius: 8px; margin-bottom: 18px;">
+      <div class="hand-text" id="summary-date-label" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">${t('click_point_hint')}</div>
+      <div class="username" id="summary-verdict-label" style="font-size: 1.05rem; margin-top: 4px;">-</div>
     </div>
 
     <div class="card-title">${t('tournament_history')}</div>
-    <div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
       ${(player.matches || []).map(m => `
-        <div style="display:flex; justify-content:space-between; border-bottom: 1px dashed var(--pencil-light); padding: 5px 0;">
-          <span class="hand-text">vs ${escapeHTML(m.opponent_display_name)}</span>
-          <span style="font-family: system-ui, -apple-system, sans-serif; font-weight:bold;">${m.goals_for} G <span class="hand-text" style="font-weight:normal;">(${m.turns_played !== undefined ? m.turns_played : 3}/3)</span></span>
+        <div style="display:flex; justify-content:space-between; align-items:center; background: rgba(16, 9, 32, 0.5); border: 1px solid rgba(157, 78, 221, 0.15); border-radius: 8px; padding: 8px 12px;">
+          <span class="hand-text" style="color: var(--text-secondary); font-weight: 600;">vs ${escapeHTML(m.opponent_display_name)}</span>
+          <span style="font-family: var(--font-score); font-weight: 800; color: var(--gold-main); font-size: 1rem;">${m.goals_for} G <span class="hand-text" style="font-weight: 600; font-size: 0.75rem; color: var(--text-muted);">(${m.turns_played !== undefined ? m.turns_played : 3}/3)</span></span>
         </div>
       `).join('')}
     </div>
   `;
 
   overlay.style.display = 'flex';
-  
-  // Randomize rotation slightly for notebook feel
-  const randRot = (Math.random() * 2 - 1).toFixed(1);
-  page.style.transform = `rotate(${randRot}deg)`;
+  page.style.transform = 'none';
 
   attachChartPointListeners(chartData);
 }
@@ -1085,16 +1084,27 @@ function renderSketchyChart(daysData) {
   const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
 
   return `
-    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:100%;">
-      <!-- X Axis -->
-      <line x1="${px}" y1="${h-py}" x2="${w-px}" y2="${h-py}" class="chart-axis"/>
-      <!-- The squiggly line -->
-      <path d="${pathD}" class="sketch-line"/>
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:100%; overflow:visible;">
+      <defs>
+        <linearGradient id="neonLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#9d4edd" />
+          <stop offset="50%" stop-color="#c77dff" />
+          <stop offset="100%" stop-color="#ffd15c" />
+        </linearGradient>
+        <linearGradient id="chartAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(157, 78, 221, 0.35)" />
+          <stop offset="100%" stop-color="rgba(157, 78, 221, 0.0)" />
+        </linearGradient>
+      </defs>
+      <!-- Grid / Axis -->
+      <line x1="${px}" y1="${h-py}" x2="${w-px}" y2="${h-py}" stroke="rgba(157, 78, 221, 0.3)" stroke-width="1.5"/>
+      <!-- Glowing Line -->
+      <path d="${pathD}" fill="none" stroke="url(#neonLineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(157,78,221,0.6));"/>
       <!-- Data points -->
       ${points.map((p, i) => `
-        <circle cx="${p.x}" cy="${p.y}" class="sketch-point" data-index="${i}" 
-                style="${p.data.status==='absent' ? 'fill:var(--pencil-red);' : ''}" />
-        <text x="${p.x}" y="${h-4}" class="hand-text" font-size="10" fill="var(--pencil-main)" text-anchor="middle">${p.data.dayLabel}</text>
+        <circle cx="${p.x}" cy="${p.y}" r="5" class="sketch-point" data-index="${i}" 
+                style="cursor:pointer; fill:${p.data.status==='absent' ? 'var(--loss-color)' : 'var(--gold-main)'}; stroke:var(--bg-midnight); stroke-width:2; filter: drop-shadow(0 0 6px rgba(255,209,92,0.6));" />
+        <text x="${p.x}" y="${h-4}" font-family="var(--font-heading)" font-weight="700" font-size="9" fill="var(--text-muted)" text-anchor="middle">${p.data.dayLabel}</text>
       `).join('')}
     </svg>
   `;
@@ -1110,21 +1120,21 @@ function attachChartPointListeners(daysData) {
       const d = daysData[parseInt(pt.dataset.index, 10)];
       summaryDate.textContent = `${d.dateStr} (${d.dayLabel})`;
       if (d.status === 'no_tournament') {
-        summaryVerdict.innerHTML = `<span style="color:var(--pencil-light);">${t('verdict_no_tournament')}</span>`;
+        summaryVerdict.innerHTML = `<span style="color:var(--text-muted);">${t('verdict_no_tournament')}</span>`;
       } else if (d.status === 'absent') {
-        summaryVerdict.innerHTML = `<span style="color:var(--pencil-red);">${t('verdict_absent')}</span>`;
+        summaryVerdict.innerHTML = `<span style="color:var(--loss-color); font-weight:bold;">${t('verdict_absent')}</span>`;
       } else {
-        let color = 'var(--pencil-red)';
+        let color = 'var(--loss-color)';
         let verdictKey = 'verdict_needs_work';
-        if (d.status === 'legendary') { color = '#8e44ad'; verdictKey = 'verdict_legendary'; }
-        else if (d.status === 'champion') { color = 'var(--pencil-gold)'; verdictKey = 'verdict_champion'; }
-        else if (d.status === 'perfect') { color = 'var(--pencil-blue)'; verdictKey = 'verdict_perfect'; }
-        else if (d.status === 'good') { color = 'var(--pencil-green)'; verdictKey = 'verdict_good'; }
-        else if (d.status === 'acceptable') { color = '#555555'; verdictKey = 'verdict_acceptable'; }
+        if (d.status === 'legendary') { color = '#c77dff'; verdictKey = 'verdict_legendary'; }
+        else if (d.status === 'champion') { color = 'var(--gold-main)'; verdictKey = 'verdict_champion'; }
+        else if (d.status === 'perfect') { color = '#00f59b'; verdictKey = 'verdict_perfect'; }
+        else if (d.status === 'good') { color = '#60a5fa'; verdictKey = 'verdict_good'; }
+        else if (d.status === 'acceptable') { color = '#94a3b8'; verdictKey = 'verdict_acceptable'; }
         
         summaryVerdict.innerHTML = `
-          <span style="color:${color}; font-weight:bold;">${t(verdictKey)} (${d.match.goals_for}G)</span>
-          <div class="hand-text" style="font-size:0.9rem; margin-top:2px;">vs ${escapeHTML(d.match.opponent_display_name)} • ${d.match.turns_played !== undefined ? d.match.turns_played : (d.match.goals_for ? 3 : 0)}/3 ${t('turns_completed')}</div>
+          <span style="color:${color}; font-weight:800; font-size:1.1rem; text-shadow: 0 0 8px ${color}88;">${t(verdictKey)} (${d.match.goals_for}G)</span>
+          <div class="hand-text" style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">vs ${escapeHTML(d.match.opponent_display_name)} • ${d.match.turns_played !== undefined ? d.match.turns_played : (d.match.goals_for ? 3 : 0)}/3 ${t('turns_completed')}</div>
         `;
       }
     });
@@ -1137,6 +1147,7 @@ function openTournamentModal(tId) {
 
   const overlay = document.getElementById('player-modal');
   const content = document.getElementById('modal-player-content');
+  const page = document.getElementById('modal-page');
   
   SoundManager.playClick();
 
@@ -1149,35 +1160,36 @@ function openTournamentModal(tId) {
   const matches = [...(tItem.matches || [])].sort((a, b) => b.goals_for - a.goals_for);
 
   content.innerHTML = `
-    <div style="border-bottom: 2px solid var(--pencil-main); padding-bottom: 10px; margin-bottom: 15px;">
-      <div class="username" style="font-size: 1.5rem;">vs ${escapeHTML(tItem.opponent_league)}</div>
-      <div class="hand-text" style="color: var(--pencil-light);">${tItem.date} • ${tItem.format || '32v32'}</div>
+    <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 16px;">
+      <div class="username" style="font-size: 1.5rem; color: var(--gold-main); font-weight: 800;">vs ${escapeHTML(tItem.opponent_league)}</div>
+      <div class="hand-text" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">${tItem.date} • ${tItem.format || '32v32'}</div>
     </div>
 
-    <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px;">
-      <div style="text-align:center;">
-        <div class="username">Братва</div>
-        <div style="font-size: 2rem; font-family: system-ui, -apple-system, sans-serif; font-weight: bold;">${tItem.our_total_goals}</div>
+    <div style="display: flex; justify-content: space-around; align-items: center; background: rgba(14, 8, 28, 0.7); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; margin-bottom: 18px;">
+      <div style="text-align:center; flex: 1;">
+        <div class="username" style="color: var(--gold-main); font-weight: 800;">Братва</div>
+        <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff; text-shadow: 0 0 10px rgba(255,209,92,0.4);">${tItem.our_total_goals}</div>
       </div>
-      <div class="hand-text">VS</div>
-      <div style="text-align:center;">
-        <div class="username" style="max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHTML(tItem.opponent_league)}</div>
-        <div style="font-size: 2rem; font-family: system-ui, -apple-system, sans-serif; font-weight: bold;">${tItem.opponent_total_goals}</div>
+      <div style="font-family: var(--font-heading); font-weight: 800; color: var(--gold-main); font-size: 0.85rem; background: rgba(255,209,92,0.12); padding: 3px 8px; border-radius: 6px;">VS</div>
+      <div style="text-align:center; flex: 1;">
+        <div class="username" style="max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin: 0 auto; color: var(--text-secondary);">${escapeHTML(tItem.opponent_league)}</div>
+        <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
       </div>
     </div>
 
     <div class="card-title">${t('player')} Scores</div>
-    <div>
+    <div style="display: flex; flex-direction: column; gap: 6px;">
       ${matches.map(m => `
-        <div class="sketch-row" style="display:flex; justify-content:space-between; border-bottom: 1px dashed var(--pencil-light); padding: 5px 0;" onclick="openPlayerModal('${m.player_id}')">
-          <span class="username">${escapeHTML(m.player_display_name || m.player_id)} <span class="hand-text" style="font-size:0.8rem; font-weight:normal;">(${m.turns_played !== undefined ? m.turns_played : 3}/3)</span></span>
-          <span style="font-family: system-ui, -apple-system, sans-serif; font-weight:bold;">${m.goals_for} G</span>
+        <div class="sketch-row" style="display:flex; justify-content:space-between; align-items:center; padding: 10px 14px;" onclick="openPlayerModal('${m.player_id}')">
+          <span class="username">${escapeHTML(m.player_display_name || m.player_id)} <span class="hand-text" style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">(${m.turns_played !== undefined ? m.turns_played : 3}/3)</span></span>
+          <span style="font-family: var(--font-score); font-weight:800; color: var(--gold-main); font-size: 1.05rem;">${m.goals_for} G</span>
         </div>
       `).join('')}
     </div>
   `;
 
   overlay.style.display = 'flex';
+  page.style.transform = 'none';
 }
 
 function getPlayerGoals(player) {
