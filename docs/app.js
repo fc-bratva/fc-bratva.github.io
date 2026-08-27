@@ -274,15 +274,6 @@ const Flag3DManager = {
   bgInitPos: null,
   bgGeometry: null,
 
-  // Header 3D Flag
-  headerRenderer: null,
-  headerScene: null,
-  headerCamera: null,
-  headerMesh: null,
-  headerPosAttr: null,
-  headerInitPos: null,
-  headerGeometry: null,
-
   // Modal 3D Flag
   modalRenderer: null,
   modalScene: null,
@@ -313,7 +304,6 @@ const Flag3DManager = {
       this.texture = tex;
 
       this.initBgFlag();
-      this.initHeaderFlag();
       this.animate();
     });
 
@@ -327,27 +317,27 @@ const Flag3DManager = {
 
     this.bgScene = new THREE.Scene();
     this.bgCamera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-    this.bgCamera.position.set(0, 0, 8);
+    this.bgCamera.position.set(0, 0, 7.5);
 
     this.bgRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
     this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
     this.bgRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.bgRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.bgRenderer.toneMappingExposure = 1.1;
+    this.bgRenderer.toneMappingExposure = 1.15;
     container.innerHTML = '';
     container.appendChild(this.bgRenderer.domElement);
 
-    // Exact Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
+    // Natural Clean Studio Lighting (No color tinting)
+    const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
     this.bgScene.add(ambientLight);
-    const dirLight1 = new THREE.DirectionalLight(0xffe8d6, 1.4);
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.3);
     dirLight1.position.set(5, 5, 4);
     this.bgScene.add(dirLight1);
-    const dirLight2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
+    const dirLight2 = new THREE.DirectionalLight(0xdce7ff, 0.7);
     dirLight2.position.set(-5, -3, 3);
     this.bgScene.add(dirLight2);
 
-    // Exact Geometry: width 4.2, height 4.2, segments 128
+    // Geometry: width 4.2, height 4.2, segments 128
     const width = 4.2;
     const height = 4.2;
     const segments = 128;
@@ -365,56 +355,6 @@ const Flag3DManager = {
 
     this.bgMesh = new THREE.Mesh(this.bgGeometry, material);
     this.bgScene.add(this.bgMesh);
-  },
-
-  // Header 3D Flag Emblem (50% Bigger: 108px)
-  initHeaderFlag() {
-    const container = document.getElementById('flag-3d-header');
-    if (!container || !this.texture) return;
-
-    const width = container.clientWidth || 108;
-    const height = container.clientHeight || 108;
-
-    this.headerScene = new THREE.Scene();
-    this.headerCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-    this.headerCamera.position.set(0, 0, 8);
-
-    this.headerRenderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: 'high-performance' });
-    this.headerRenderer.setSize(width, height);
-    this.headerRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    this.headerRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.headerRenderer.toneMappingExposure = 1.1;
-    container.innerHTML = '';
-    container.appendChild(this.headerRenderer.domElement);
-
-    // Exact Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.85);
-    this.headerScene.add(ambientLight);
-    const dirLight1 = new THREE.DirectionalLight(0xffe8d6, 1.4);
-    dirLight1.position.set(5, 5, 4);
-    this.headerScene.add(dirLight1);
-    const dirLight2 = new THREE.DirectionalLight(0x7a5cff, 0.8);
-    dirLight2.position.set(-5, -3, 3);
-    this.headerScene.add(dirLight2);
-
-    // Exact Geometry: width 4.2, height 4.2, segments 128
-    const geoW = 4.2;
-    const geoH = 4.2;
-    const segments = 128;
-    this.headerGeometry = new THREE.PlaneGeometry(geoW, geoH, segments, segments);
-    this.headerPosAttr = this.headerGeometry.attributes.position;
-    this.headerInitPos = this.headerPosAttr.array.slice();
-
-    const material = new THREE.MeshStandardMaterial({
-      map: this.texture,
-      side: THREE.DoubleSide,
-      roughness: 0.35,
-      metalness: 0.1,
-      transparent: true
-    });
-
-    this.headerMesh = new THREE.Mesh(this.headerGeometry, material);
-    this.headerScene.add(this.headerMesh);
   },
 
   // Interactive 3D Modal
@@ -524,9 +464,9 @@ const Flag3DManager = {
       }
     });
 
-    const headerFlag = document.getElementById('flag-3d-header');
-    if (headerFlag) {
-      headerFlag.addEventListener('click', () => {
+    const brandLogo = document.querySelector('.brand-logo-img') || document.querySelector('.brand');
+    if (brandLogo) {
+      brandLogo.addEventListener('click', () => {
         SoundManager.playClick();
         this.openModal();
       });
@@ -555,16 +495,6 @@ const Flag3DManager = {
         this.bgCamera.aspect = window.innerWidth / window.innerHeight;
         this.bgCamera.updateProjectionMatrix();
         this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
-      }
-      if (this.headerRenderer && this.headerCamera) {
-        const container = document.getElementById('flag-3d-header');
-        if (container) {
-          const w = container.clientWidth || 108;
-          const h = container.clientHeight || 108;
-          this.headerCamera.aspect = w / h;
-          this.headerCamera.updateProjectionMatrix();
-          this.headerRenderer.setSize(w, h);
-        }
       }
       if (this.modalActive && this.modalRenderer && this.modalCamera) {
         const container = document.getElementById('flag-modal-canvas-container');
@@ -605,28 +535,6 @@ const Flag3DManager = {
       this.bgPosAttr.needsUpdate = true;
       this.bgGeometry.computeVertexNormals();
       this.bgRenderer.render(this.bgScene, this.bgCamera);
-    }
-
-    // 2. Animate Header 3D Flag
-    if (this.headerMesh && this.headerPosAttr && this.headerInitPos) {
-      this.headerMesh.rotation.y += (this.targetRotationY - this.headerMesh.rotation.y) * 0.05;
-      this.headerMesh.rotation.x += (this.targetRotationX - this.headerMesh.rotation.x) * 0.05;
-
-      const positions = this.headerPosAttr.array;
-      for (let i = 0; i < positions.length; i += 3) {
-        const u = this.headerInitPos[i];
-        const v = this.headerInitPos[i + 1];
-
-        // Exact Harmonic Wave equation
-        const wave1 = Math.sin(u * 2.2 + elapsedTime * 3.2) * 0.22;
-        const wave2 = Math.cos(v * 1.8 + elapsedTime * 2.4) * 0.15;
-        const microWave = Math.sin((u + v) * 4.5 + elapsedTime * 4.0) * 0.06;
-        const windWeight = (u + width / 2) / width;
-        positions[i + 2] = (wave1 + wave2 + microWave) * (0.4 + windWeight * 0.8);
-      }
-      this.headerPosAttr.needsUpdate = true;
-      this.headerGeometry.computeVertexNormals();
-      this.headerRenderer.render(this.headerScene, this.headerCamera);
     }
 
     // 3. Animate Modal 3D Flag
@@ -1032,7 +940,11 @@ function renderRoster() {
   list.sort((a, b) => a.display_name.localeCompare(b.display_name));
 
   if (cardsContainer) {
-    cardsContainer.innerHTML = list.map((p, idx) => renderPlayerCard(p, idx + 1)).join('');
+    if (list.length === 0) {
+      cardsContainer.innerHTML = `<div style="text-align:center; padding:24px; color:var(--ucl-slate); font-weight:600;">No players found</div>`;
+    } else {
+      cardsContainer.innerHTML = list.map((p, idx) => renderPlayerCard(p, idx + 1)).join('');
+    }
   }
 }
 

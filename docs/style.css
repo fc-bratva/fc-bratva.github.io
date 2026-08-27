@@ -1,6 +1,6 @@
 /* =========================================================
    FC BRATVA — OFFICIAL CHAMPIONS LEAGUE (UCL) BROADCAST THEME
-   Clean, Symmetrical, Authoritative, Zero-Glow Elite Design
+   Translucent Frosted Glass Layers & Clean Broadcast Layout
    ========================================================= */
 
 *, *::before, *::after {
@@ -13,10 +13,11 @@
   /* Official UEFA Champions League Navy Palette */
   --ucl-abyss: #020819;
   --ucl-navy: #051138;
-  --ucl-card: #0a173d;
-  --ucl-card-hover: #0e1e4a;
-  --ucl-tile: #06112d;
-  --ucl-border: rgba(0, 180, 255, 0.15);
+  --ucl-card: rgba(8, 20, 52, 0.42);
+  --ucl-card-hover: rgba(14, 30, 74, 0.55);
+  --ucl-tile: rgba(4, 12, 34, 0.48);
+  --ucl-tile-hover: rgba(10, 24, 64, 0.6);
+  --ucl-border: rgba(0, 180, 255, 0.16);
   --ucl-border-hover: rgba(0, 212, 255, 0.45);
   
   /* Primary & Accent Colors */
@@ -25,7 +26,7 @@
   --ucl-slate: #8ea3c7;
   --ucl-muted: #5e7399;
   
-  /* Clean Status Colors (No Blurs) */
+  /* Status Colors */
   --ucl-win: #00e676;
   --ucl-loss: #ff3b5c;
   --ucl-draw: #ffb300;
@@ -34,7 +35,7 @@
   --font-main: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  --header-h: 78px;
+  --header-h: 74px;
   --tabbar-h: 64px;
 }
 
@@ -61,7 +62,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fullscreen Background 3D Flag Canvas */
+/* Fullscreen Background 3D Flag Canvas (Clearly Visible through Translucent Layers) */
 .bg-3d-canvas-container {
   position: fixed;
   top: 0;
@@ -70,7 +71,7 @@ body {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.18;
+  opacity: 0.55;
   overflow: hidden;
 }
 .bg-3d-canvas-container canvas {
@@ -106,7 +107,7 @@ body {
   justify-content: space-between;
   padding: 10px 0;
   min-height: var(--header-h);
-  background: rgba(3, 10, 30, 0.94);
+  background: rgba(3, 10, 30, 0.62);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--ucl-border);
@@ -116,32 +117,20 @@ body {
 .brand {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
-/* Header Flag Logo */
-.brand-flag-3d {
-  width: 58px;
-  height: 58px;
-  position: relative;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.brand-flag-3d canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-.flag-fallback-img {
-  width: 100%;
-  height: 100%;
+/* Original Resource Logo (Static & Crisp) */
+.brand-logo-img {
+  width: 48px;
+  height: 48px;
   object-fit: contain;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.brand-logo-img:hover {
+  transform: scale(1.06);
 }
 
 /* Pristine UCL Header Typography */
@@ -189,6 +178,7 @@ body {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+  backdrop-filter: blur(8px);
   transition: border-color 0.15s, background 0.15s;
   user-select: none;
 }
@@ -220,6 +210,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
+  backdrop-filter: blur(8px);
   transition: border-color 0.15s, background 0.15s;
 }
 .lang-btn:hover {
@@ -231,7 +222,8 @@ body {
   position: absolute;
   top: calc(100% + 6px);
   right: 0;
-  background: #040d28;
+  background: rgba(4, 13, 40, 0.95);
+  backdrop-filter: blur(16px);
   border: 1px solid var(--ucl-border);
   border-radius: 10px;
   padding: 6px;
@@ -270,18 +262,20 @@ body {
   text-align: right;
 }
 .lang-opt:hover, .lang-opt.active {
-  background: rgba(0, 212, 255, 0.12);
+  background: rgba(0, 212, 255, 0.15);
   color: var(--ucl-cyan);
 }
 
-/* --- Clean UCL Cards (Msetef M9ad) --- */
+/* --- Translucent UCL Cards (Frosted Glass) --- */
 .note-card {
   background: var(--ucl-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--ucl-border);
   border-radius: 12px;
   padding: 18px 20px;
   margin-bottom: 16px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
   transition: border-color 0.2s ease;
@@ -318,11 +312,6 @@ body {
   border-radius: 2px;
 }
 
-/* Hide legacy notebook elements */
-.pin, .pin-blue, .pin-gold, .tape, .tape::after {
-  display: none !important;
-}
-
 /* --- Metric Grid (Symmetric 3-Column Overview) --- */
 .metric-grid {
   display: grid;
@@ -337,6 +326,7 @@ body {
   border-radius: 8px;
   padding: 14px 6px;
   text-align: center;
+  backdrop-filter: blur(8px);
   transition: border-color 0.15s, background 0.15s;
 }
 .metric-box:hover {
@@ -374,7 +364,7 @@ body {
   font-size: 0.8rem;
   font-weight: 800;
   color: var(--ucl-cyan);
-  background: rgba(0, 212, 255, 0.1);
+  background: rgba(0, 212, 255, 0.12);
   border: 1px solid rgba(0, 212, 255, 0.3) !important;
   border-radius: 20px;
   padding: 3px 10px !important;
@@ -389,6 +379,7 @@ body {
   border-radius: 10px;
   padding: 16px;
   cursor: pointer;
+  backdrop-filter: blur(8px);
   transition: border-color 0.15s, background 0.15s;
 }
 .ucl-match-box:hover {
@@ -443,7 +434,7 @@ body {
   font-weight: 800;
   font-size: 0.75rem;
   color: var(--ucl-slate);
-  background: #0b1940;
+  background: rgba(11, 25, 64, 0.6);
   border-radius: 6px;
   border: 1px solid var(--ucl-border);
 }
@@ -454,7 +445,7 @@ body {
   border-radius: 3px;
   display: flex;
   overflow: hidden;
-  background: #091330;
+  background: rgba(9, 19, 48, 0.6);
   margin: 12px 0 8px;
 }
 .gauge-fill {
@@ -496,7 +487,7 @@ body {
   border: 1px solid rgba(255, 179, 0, 0.35);
 }
 
-/* --- UCL Clean Player List (Msetef M9ad) --- */
+/* --- UCL Clean Player List (Frosted Cards) --- */
 .fc-player-cards-list {
   display: flex;
   flex-direction: column;
@@ -512,6 +503,7 @@ body {
   border-radius: 8px;
   padding: 10px 14px;
   cursor: pointer;
+  backdrop-filter: blur(8px);
   transition: background 0.15s, border-color 0.15s;
 }
 .fc-player-card:hover {
@@ -530,7 +522,7 @@ body {
   width: 34px;
   height: 34px;
   border-radius: 6px;
-  background: #09173d;
+  background: rgba(9, 23, 61, 0.6);
   border: 1px solid var(--ucl-border);
   display: flex;
   align-items: center;
@@ -543,17 +535,17 @@ body {
 }
 
 .fc-card-gold .fc-ovr-badge {
-  background: rgba(212, 175, 55, 0.15);
+  background: rgba(212, 175, 55, 0.18);
   border-color: rgba(212, 175, 55, 0.5);
   color: #f6c851;
 }
 .fc-card-silver .fc-ovr-badge {
-  background: rgba(168, 178, 193, 0.15);
+  background: rgba(168, 178, 193, 0.18);
   border-color: rgba(168, 178, 193, 0.5);
   color: #e2e8f0;
 }
 .fc-card-bronze .fc-ovr-badge {
-  background: rgba(205, 127, 50, 0.15);
+  background: rgba(205, 127, 50, 0.18);
   border-color: rgba(205, 127, 50, 0.5);
   color: #f97316;
 }
@@ -639,6 +631,7 @@ body {
   font-size: 0.9rem;
   color: var(--ucl-white);
   outline: none;
+  backdrop-filter: blur(8px);
   transition: border-color 0.15s;
   margin-bottom: 14px;
 }
@@ -664,6 +657,7 @@ body {
   padding: 6px 14px;
   border-radius: 6px;
   cursor: pointer;
+  backdrop-filter: blur(8px);
   transition: all 0.15s;
 }
 .filter-pill:hover, .filter-pill.active {
@@ -698,7 +692,8 @@ body {
 .modal-page {
   width: 100%;
   flex: 1;
-  background: #09163a;
+  background: rgba(9, 22, 58, 0.92);
+  backdrop-filter: blur(20px);
   border: 1px solid var(--ucl-border);
   border-radius: 12px;
   padding: 20px;
@@ -732,7 +727,7 @@ body {
   left: -6px;
 }
 
-/* Floating Clean Bottom Navigation Dock */
+/* Floating Clean Bottom Navigation Dock (Translucent Glass) */
 .nav-bar {
   position: fixed;
   bottom: 12px;
@@ -741,11 +736,11 @@ body {
   width: calc(100% - 32px);
   max-width: 500px;
   height: var(--tabbar-h);
-  background: rgba(4, 12, 34, 0.96);
+  background: rgba(4, 12, 34, 0.78);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--ucl-border);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: space-around;
   align-items: center;
