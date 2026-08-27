@@ -194,28 +194,79 @@ const SoundManager = {
   ctx: null,
   init() {
     if (!this.ctx) {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) this.ctx = new AudioCtx();
+    }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
     }
   },
+
+  // Realistic, fast crisp mechanical mouse click
   playClick() {
+    if (!this.ctx) this.init();
     if (!this.ctx) return;
-    const osc = this.ctx.createOscillator();
-    const gain = this.ctx.createGain();
-    osc.connect(gain);
-    gain.connect(this.ctx.destination);
-    
-    // Mature, premium UI "tick" (Subtle, short, and muted)
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(600, this.ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(300, this.ctx.currentTime + 0.01);
-    
-    // Incredibly short envelope (15ms)
-    gain.gain.setValueAtTime(0, this.ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 0.002);
-    gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.015);
-    
-    osc.start();
-    osc.stop(this.ctx.currentTime + 0.015);
+    try {
+      const now = this.ctx.currentTime;
+
+      // Layer 1: High crisp mechanical snap
+      const osc1 = this.ctx.createOscillator();
+      const gain1 = this.ctx.createGain();
+      osc1.type = 'triangle';
+      osc1.frequency.setValueAtTime(2200, now);
+      osc1.frequency.exponentialRampToValueAtTime(420, now + 0.009);
+      gain1.gain.setValueAtTime(0.09, now);
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.009);
+      osc1.connect(gain1);
+      gain1.connect(this.ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.01);
+
+      // Layer 2: Subtle tactile thud
+      const osc2 = this.ctx.createOscillator();
+      const gain2 = this.ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(260, now);
+      osc2.frequency.exponentialRampToValueAtTime(70, now + 0.014);
+      gain2.gain.setValueAtTime(0.07, now);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
+      osc2.connect(gain2);
+      gain2.connect(this.ctx.destination);
+      osc2.start(now);
+      osc2.stop(now + 0.015);
+    } catch (e) {}
+  },
+
+  // Aerodynamic crystal / ice tab slide sound effect
+  playTabSlide() {
+    if (!this.ctx) this.init();
+    if (!this.ctx) return;
+    try {
+      const now = this.ctx.currentTime;
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      const filter = this.ctx.createBiquadFilter();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(420, now);
+      osc.frequency.exponentialRampToValueAtTime(1050, now + 0.04);
+      osc.frequency.exponentialRampToValueAtTime(650, now + 0.09);
+
+      filter.type = 'bandpass';
+      filter.frequency.setValueAtTime(850, now);
+      filter.Q.value = 3.5;
+
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.linearRampToValueAtTime(0.05, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(this.ctx.destination);
+
+      osc.start(now);
+      osc.stop(now + 0.1);
+    } catch (e) {}
   }
 };
 
@@ -233,11 +284,11 @@ const AudioManager = {
     try {
       this.bgMusic = new Audio('assets/vaitsez-game-game-music-574073.mp3');
       this.bgMusic.loop = true;
-      this.bgMusic.volume = 0.15; // Low background volume
+      this.bgMusic.volume = 0.075; // Lowered by 50% as requested
 
       this.flagSound = new Audio('assets/Flag Flapping Sound Effect (128kbit_AAC).m4a');
       this.flagSound.loop = true;
-      this.flagSound.volume = 0.25; // Loop flag flapping
+      this.flagSound.volume = 0.25; // Maintained full flag flapping volume
 
       if (!this.isMuted) {
         this.play();
@@ -1043,7 +1094,7 @@ function setupNavigation() {
   const navs = document.querySelectorAll('.nav-item');
   navs.forEach(nav => {
     nav.addEventListener('click', () => {
-      SoundManager.playClick();
+      SoundManager.playTabSlide();
       const newTab = nav.dataset.tab;
       if (newTab === state.activeTab) return;
       

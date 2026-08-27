@@ -83,8 +83,7 @@ body {
 
 /* Clean Centered Command Center App Wrapper */
 #app {
-  max-width: 680px;
-  margin: 0 auto;
+  width: 100%;
   min-height: 100dvh;
   position: relative;
   display: flex;
@@ -95,25 +94,35 @@ body {
 .content-wrapper {
   position: relative;
   z-index: 2;
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
   padding: 0 16px;
   flex: 1;
 }
 
-/* --- Clean UCL Header --- */
+/* --- Clean UCL Header (Spans 100% Edge-to-Edge of Screen) --- */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
+  width: 100%;
+  background: rgba(3, 10, 30, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--ucl-border);
+  margin-bottom: 18px;
+}
+
+.app-header-inner {
+  max-width: 680px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 16px;
+  min-height: var(--header-h);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
-  min-height: var(--header-h);
-  background: rgba(3, 10, 30, 0.62);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--ucl-border);
-  margin-bottom: 18px;
 }
 
 .brand {

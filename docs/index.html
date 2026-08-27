@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=800">
+  <link rel="stylesheet" href="style.css?v=900">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -56,9 +56,9 @@
 </div>
 
 <div id="app">
-  <div class="content-wrapper">
-    <!-- Header -->
-    <header class="app-header">
+  <!-- Header (Spans 100% to edges of screen) -->
+  <header class="app-header">
+    <div class="app-header-inner">
       <div class="brand">
         <!-- Original High-Res Logo Resource -->
         <img src="assets/fc-bratva-logo.png" alt="FC Bratva Logo" class="brand-logo-img" />
@@ -88,7 +88,10 @@
           </div>
         </div>
       </div>
-    </header>
+    </div>
+  </header>
+
+  <div class="content-wrapper">
 
     <!-- Main Viewport -->
     <main class="main-viewport">
@@ -233,6 +236,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=800"></script>
+<script src="app.js?v=900"></script>
 </body>
 </html>
