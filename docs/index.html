@@ -7,8 +7,8 @@
   <meta name="description" content="Official FC Bratva Premier Mobile League Portal">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;900&family=Chakra+Petch:ital,wght@0,500;0,600;0,700;0,800;1,700&family=Cinzel:wght@700;900&family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Rajdhani:wght@600;700&family=Teko:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=100">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=200">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -38,17 +38,17 @@
           <svg id="audio-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
         </button>
 
-        <!-- Language Dropdown Selector with Tape -->
+        <!-- Language Dropdown Selector -->
         <div class="lang-dropdown">
           <button class="lang-btn" id="lang-toggle-btn" aria-label="Select Language">
             <span id="current-lang-code" class="lang-code-text">EN</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
           </button>
           <div class="lang-menu" id="lang-menu">
-            <button class="lang-opt active" data-lang="en"><img src="https://flagcdn.com/w20/us.png" alt="EN" width="20"> English</button>
-            <button class="lang-opt" data-lang="ar"><img src="https://flagcdn.com/w20/sa.png" alt="AR" width="20"> العربية</button>
-            <button class="lang-opt" data-lang="ru"><img src="https://flagcdn.com/w20/ru.png" alt="RU" width="20"> Русский</button>
-            <button class="lang-opt" data-lang="es"><img src="https://flagcdn.com/w20/es.png" alt="ES" width="20"> Español</button>
+            <button class="lang-opt active" data-lang="en"><img src="https://flagcdn.com/w20/us.png" alt="EN" width="18"> English</button>
+            <button class="lang-opt" data-lang="ar"><img src="https://flagcdn.com/w20/sa.png" alt="AR" width="18"> العربية</button>
+            <button class="lang-opt" data-lang="ru"><img src="https://flagcdn.com/w20/ru.png" alt="RU" width="18"> Русский</button>
+            <button class="lang-opt" data-lang="es"><img src="https://flagcdn.com/w20/es.png" alt="ES" width="18"> Español</button>
           </div>
         </div>
       </div>
@@ -58,55 +58,47 @@
     <main class="main-viewport">
       <!-- TAB: DASHBOARD -->
       <section class="tab-page active" id="tab-dashboard">
-        <div class="dashboard-grid">
-          <!-- Column 1: League Overview & Recent Tournament -->
-          <div class="dash-col">
-            <!-- Hero League Summary Card -->
-            <div class="note-card">
-              <div class="card-title-bar">
-                <div class="card-title" data-i18n="league_record">League Overview</div>
-                <span id="hero-winrate-badge">0.0% WR</span>
-              </div>
-
-              <div class="metric-grid">
-                <div class="metric-box">
-                  <div class="metric-val green" id="hero-wins">0</div>
-                  <div class="metric-lbl" data-i18n="wins">Wins</div>
-                </div>
-                <div class="metric-box">
-                  <div class="metric-val" id="hero-draws">0</div>
-                  <div class="metric-lbl" data-i18n="draws">Draws</div>
-                </div>
-                <div class="metric-box">
-                  <div class="metric-val red" id="hero-losses">0</div>
-                  <div class="metric-lbl" data-i18n="losses">Losses</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Recent Match Note -->
-            <div class="note-card">
-              <div class="card-title" data-i18n="recent_tournament">Recent Tournament</div>
-              <div id="recent-match-container">
-                <div style="text-align:center; padding:16px;" class="hand-text" data-i18n="loading">Loading...</div>
-              </div>
-            </div>
+        <!-- Hero League Summary Card -->
+        <div class="note-card">
+          <div class="card-title-bar">
+            <div class="card-title" data-i18n="league_record">League Overview</div>
+            <span id="hero-winrate-badge">0.0% WR</span>
           </div>
 
-          <!-- Column 2: Top Scorers (FC Mobile Player Cards) & Flagged -->
-          <div class="dash-col">
-            <!-- Top Scorer List -->
-            <div class="note-card">
-              <div class="card-title" data-i18n="top_performers">Top Scorers</div>
-              <div id="top-performers-container" class="fc-player-cards-list"></div>
+          <div class="metric-grid">
+            <div class="metric-box">
+              <div class="metric-val green" id="hero-wins">0</div>
+              <div class="metric-lbl" data-i18n="wins">Wins</div>
             </div>
-
-            <!-- Flagged List -->
-            <div class="note-card" id="flagged-card-box" style="display:none;">
-              <div class="card-title" style="color: var(--loss-crimson);" data-i18n="flagged_players">Flagged Review</div>
-              <div id="flagged-players-list"></div>
+            <div class="metric-box">
+              <div class="metric-val" id="hero-draws">0</div>
+              <div class="metric-lbl" data-i18n="draws">Draws</div>
+            </div>
+            <div class="metric-box">
+              <div class="metric-val red" id="hero-losses">0</div>
+              <div class="metric-lbl" data-i18n="losses">Losses</div>
             </div>
           </div>
+        </div>
+
+        <!-- Recent Tournament Card -->
+        <div class="note-card">
+          <div class="card-title" data-i18n="recent_tournament">Recent Tournament</div>
+          <div id="recent-match-container" style="margin-top: 10px;">
+            <div style="text-align:center; padding:16px;" class="hand-text" data-i18n="loading">Loading...</div>
+          </div>
+        </div>
+
+        <!-- Top Scorers Card -->
+        <div class="note-card">
+          <div class="card-title" data-i18n="top_performers">Top Scorers</div>
+          <div id="top-performers-container" class="fc-player-cards-list" style="margin-top: 10px;"></div>
+        </div>
+
+        <!-- Flagged List -->
+        <div class="note-card" id="flagged-card-box" style="display:none;">
+          <div class="card-title" style="color: var(--ucl-loss);" data-i18n="flagged_players">Flagged Review</div>
+          <div id="flagged-players-list" style="margin-top: 10px;"></div>
         </div>
       </section>
 

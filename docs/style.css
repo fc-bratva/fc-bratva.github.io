@@ -1,6 +1,6 @@
 /* =========================================================
-   FC BRATVA — CINEMATIC DATA HUB & ESPORTS TRACKER
-   FC Mobile OVR System + God of War Cinematic Atmosphere
+   FC BRATVA — OFFICIAL CHAMPIONS LEAGUE (UCL) BROADCAST THEME
+   Clean, Symmetrical, Authoritative, Zero-Glow Elite Design
    ========================================================= */
 
 *, *::before, *::after {
@@ -10,70 +10,50 @@
 }
 
 :root {
-  /* Obsidian & Amethyst Color Spectrum */
-  --bg-abyss: #07040e;
-  --bg-card: rgba(18, 10, 34, 0.92);
-  --bg-card-hover: rgba(30, 16, 56, 0.96);
-  --bg-tile: rgba(14, 7, 26, 0.88);
-  --bg-tile-hover: rgba(26, 13, 48, 0.95);
+  /* Official UEFA Champions League Navy Palette */
+  --ucl-abyss: #020819;
+  --ucl-navy: #051138;
+  --ucl-card: #0a173d;
+  --ucl-card-hover: #0e1e4a;
+  --ucl-tile: #06112d;
+  --ucl-border: rgba(0, 180, 255, 0.15);
+  --ucl-border-hover: rgba(0, 212, 255, 0.45);
   
-  /* Cyber Gold & Neon Accents */
-  --gold-prime: #f6c851;
-  --gold-light: #fff3a8;
-  --gold-dark: #b8860b;
-  --gold-glow: rgba(246, 200, 81, 0.45);
-  --gold-gradient: linear-gradient(135deg, #fff3a8 0%, #f6c851 50%, #b8860b 100%);
+  /* Primary & Accent Colors */
+  --ucl-cyan: #00d4ff;
+  --ucl-white: #ffffff;
+  --ucl-slate: #8ea3c7;
+  --ucl-muted: #5e7399;
   
-  --violet-glow: #a855f7;
-  --violet-deep: #3b0764;
-  --border-pixel: rgba(168, 85, 247, 0.28);
-  --border-glow: rgba(246, 200, 81, 0.7);
+  /* Clean Status Colors (No Blurs) */
+  --ucl-win: #00e676;
+  --ucl-loss: #ff3b5c;
+  --ucl-draw: #ffb300;
   
-  /* Status Colors */
-  --win-emerald: #00f59b;
-  --loss-crimson: #ff3366;
-  --draw-amber: #f59e0b;
+  /* Typography */
+  --font-main: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  /* Typography Colors */
-  --text-pure: #ffffff;
-  --text-body: #e2e8f0;
-  --text-muted: #94a3b8;
-  --text-subtle: #64748b;
-  
-  /* Typefaces */
-  --font-brand: 'Chakra Petch', 'Outfit', sans-serif;
-  --font-heading: 'Chakra Petch', 'Outfit', sans-serif;
-  --font-cinematic: 'Cinzel', 'Outfit', serif;
-  --font-score: 'Chakra Petch', 'Rajdhani', monospace;
-  --font-body: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  
-  --header-h: 115px;
-  --tabbar-h: 68px;
+  --header-h: 78px;
+  --tabbar-h: 64px;
 }
 
 /* Regional Font Overrides */
 html[lang="ar"] {
-  --font-heading: 'Cairo', sans-serif;
+  --font-main: 'Cairo', sans-serif;
   --font-body: 'Cairo', sans-serif;
-  --font-brand: 'Cairo', sans-serif;
-  --font-cinematic: 'Cairo', sans-serif;
-}
-html[lang="ru"] {
-  --font-heading: 'Chakra Petch', sans-serif;
-  --font-body: 'Plus Jakarta Sans', sans-serif;
-  --font-brand: 'Chakra Petch', sans-serif;
 }
 
 html {
   font-size: 16px;
-  background-color: var(--bg-abyss);
+  background-color: var(--ucl-abyss);
   color-scheme: dark;
 }
 
 body {
-  background: radial-gradient(circle at 50% -12%, #22123f 0%, #0f071c 45%, #050209 100%);
+  background: radial-gradient(circle at 50% 0%, #07153b 0%, #030a1e 50%, #01040f 100%);
   background-attachment: fixed;
-  color: var(--text-body);
+  color: var(--ucl-white);
   font-family: var(--font-body);
   min-height: 100dvh;
   overflow-x: hidden;
@@ -81,19 +61,27 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Cinematic Atmospheric Vignette */
-body::before {
-  content: '';
+/* Fullscreen Background 3D Flag Canvas */
+.bg-3d-canvas-container {
   position: fixed;
-  inset: 0;
-  background: radial-gradient(circle at center, transparent 45%, rgba(0, 0, 0, 0.8) 100%);
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
-  z-index: 1;
+  z-index: 0;
+  opacity: 0.18;
+  overflow: hidden;
+}
+.bg-3d-canvas-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
 }
 
-/* Responsive Widescreen Command Center Container */
+/* Clean Centered Command Center App Wrapper */
 #app {
-  max-width: 1040px;
+  max-width: 680px;
   margin: 0 auto;
   min-height: 100dvh;
   position: relative;
@@ -104,29 +92,11 @@ body::before {
 .content-wrapper {
   position: relative;
   z-index: 2;
-  padding: 0 20px;
+  padding: 0 16px;
   flex: 1;
 }
 
-/* --- Real-Time 3D Fabric Flag Background Canvas --- */
-.bg-3d-canvas-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  pointer-events: none;
-  z-index: 0;
-  opacity: 0.32;
-  overflow: hidden;
-}
-.bg-3d-canvas-container canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-/* --- Header & Brand (50% Enlarged Majestic Presence) --- */
+/* --- Clean UCL Header --- */
 .app-header {
   position: sticky;
   top: 0;
@@ -134,25 +104,25 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 0;
+  padding: 10px 0;
   min-height: var(--header-h);
-  background: rgba(8, 4, 15, 0.9);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(168, 85, 247, 0.25);
-  margin-bottom: 22px;
+  background: rgba(3, 10, 30, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--ucl-border);
+  margin-bottom: 18px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 14px;
 }
 
-/* 50% Bigger 3D Waving Fabric Flag (108px) */
+/* Header Flag Logo */
 .brand-flag-3d {
-  width: 108px;
-  height: 108px;
+  width: 58px;
+  height: 58px;
   position: relative;
   cursor: pointer;
   background: transparent;
@@ -161,13 +131,7 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s;
   flex-shrink: 0;
-  filter: drop-shadow(0 10px 28px rgba(168, 85, 247, 0.45));
-}
-.brand-flag-3d:hover {
-  transform: scale(1.08) rotate(1deg);
-  filter: drop-shadow(0 14px 36px rgba(168, 85, 247, 0.7));
 }
 .brand-flag-3d canvas {
   width: 100% !important;
@@ -178,10 +142,9 @@ body::before {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 6px 20px rgba(168, 85, 247, 0.45));
 }
 
-/* 50% Bigger Crisp White Brand Title */
+/* Pristine UCL Header Typography */
 .brand-details {
   display: flex;
   flex-direction: column;
@@ -189,99 +152,95 @@ body::before {
 }
 
 .brand-text-white {
-  font-family: var(--font-brand);
-  font-size: 2.15rem;
-  font-weight: 900;
-  letter-spacing: 1px;
+  font-family: var(--font-main);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
   color: #ffffff;
   text-transform: uppercase;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.9), 0 0 30px rgba(168, 85, 247, 0.4);
+  white-space: nowrap;
 }
 
 .brand-sub-text {
-  font-family: var(--font-score);
-  font-size: 0.85rem;
-  font-weight: 800;
-  color: #a390c4;
-  letter-spacing: 3px;
+  font-family: var(--font-main);
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ucl-cyan);
+  letter-spacing: 2px;
   text-transform: uppercase;
-  margin-top: 3px;
+  margin-top: 2px;
 }
 
 .header-right {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
-/* Tactical Audio Toggle Button */
+/* Sleek UCL Header Action Buttons */
 .audio-btn {
-  background: rgba(26, 14, 48, 0.9);
-  border: 1px solid var(--border-pixel);
-  padding: 10px 14px;
-  color: var(--text-pure);
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  width: 38px;
+  height: 38px;
+  color: var(--ucl-white);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 10px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: transform 0.2s, background 0.2s, border-color 0.2s, opacity 0.2s;
+  border-radius: 50%;
+  transition: border-color 0.15s, background 0.15s;
   user-select: none;
-  line-height: 1;
 }
 .audio-btn:hover {
-  transform: scale(1.06);
-  border-color: var(--gold-prime);
-  background: rgba(42, 22, 76, 0.95);
-  box-shadow: 0 0 14px rgba(246, 200, 81, 0.45);
+  border-color: var(--ucl-cyan);
+  background: var(--ucl-card-hover);
 }
 .audio-btn.muted {
   opacity: 0.45;
-  color: var(--text-muted);
+  color: var(--ucl-muted);
 }
 
-/* Tactical Language Dropdown */
+/* Language Dropdown */
 .lang-dropdown {
   position: relative;
 }
 
 .lang-btn {
-  background: rgba(26, 14, 48, 0.9);
-  border: 1px solid var(--border-pixel);
-  padding: 10px 14px;
-  font-family: var(--font-score);
-  font-weight: 800;
-  font-size: 0.95rem;
-  color: var(--gold-prime);
-  border-radius: 10px;
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  height: 38px;
+  padding: 0 12px;
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--ucl-cyan);
+  border-radius: 19px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 6px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.12);
-  transition: border-color 0.2s, background 0.2s;
+  transition: border-color 0.15s, background 0.15s;
 }
 .lang-btn:hover {
-  border-color: var(--gold-prime);
-  background: rgba(42, 22, 76, 0.95);
+  border-color: var(--ucl-cyan);
+  background: var(--ucl-card-hover);
 }
 
 .lang-menu {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + 6px);
   right: 0;
-  background: rgba(14, 7, 26, 0.98);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(168, 85, 247, 0.35);
-  border-radius: 12px;
+  background: #040d28;
+  border: 1px solid var(--ucl-border);
+  border-radius: 10px;
   padding: 6px;
   display: none;
   flex-direction: column;
-  gap: 4px;
-  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.85);
+  gap: 3px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   z-index: 200;
-  min-width: 150px;
+  min-width: 140px;
 }
 .lang-menu.show {
   display: flex;
@@ -297,12 +256,12 @@ body::before {
   gap: 8px;
   background: none;
   border: none;
-  padding: 8px 12px;
+  padding: 7px 10px;
   font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--text-body);
-  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--ucl-slate);
+  border-radius: 6px;
   cursor: pointer;
   text-align: left;
   transition: background 0.15s, color 0.15s;
@@ -311,77 +270,52 @@ body::before {
   text-align: right;
 }
 .lang-opt:hover, .lang-opt.active {
-  background: rgba(168, 85, 247, 0.25);
-  color: var(--gold-prime);
+  background: rgba(0, 212, 255, 0.12);
+  color: var(--ucl-cyan);
 }
 
-/* --- Responsive Widescreen Grid Layout --- */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 20px;
-}
-
-.dash-col {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* --- Cinematic Cards --- */
+/* --- Clean UCL Cards (Msetef M9ad) --- */
 .note-card {
-  background: linear-gradient(145deg, rgba(22, 12, 40, 0.92) 0%, rgba(10, 5, 20, 0.98) 100%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-pixel);
-  border-radius: 14px;
-  padding: 22px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  background: var(--ucl-card);
+  border: 1px solid var(--ucl-border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
   position: relative;
   overflow: hidden;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
-}
-.note-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(246, 200, 81, 0.8) 50%, transparent 100%);
-  opacity: 0.8;
+  transition: border-color 0.2s ease;
 }
 .note-card:hover {
-  border-color: rgba(168, 85, 247, 0.55);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.85), 0 0 24px rgba(168, 85, 247, 0.3);
+  border-color: var(--ucl-border-hover);
 }
 
+/* Card Header Title Bar */
 .card-title-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .card-title {
-  font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-family: var(--font-main);
+  font-size: 0.95rem;
   font-weight: 800;
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.8px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .card-title::before {
   content: '';
   display: inline-block;
-  width: 4px;
-  height: 18px;
-  background: var(--gold-gradient);
-  border-radius: 1px;
-  box-shadow: 0 0 10px var(--gold-glow);
+  width: 3px;
+  height: 14px;
+  background: var(--ucl-cyan);
+  border-radius: 2px;
 }
 
 /* Hide legacy notebook elements */
@@ -389,93 +323,200 @@ body::before {
   display: none !important;
 }
 
-/* --- Metric Grid (Pixel Stat Blocks) --- */
+/* --- Metric Grid (Symmetric 3-Column Overview) --- */
 .metric-grid {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  margin-top: 10px;
+  gap: 10px;
+  margin-top: 8px;
 }
 
 .metric-box {
-  background: var(--bg-tile);
-  border: 1px solid rgba(168, 85, 247, 0.18);
-  border-radius: 10px;
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  border-radius: 8px;
   padding: 14px 6px;
   text-align: center;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  position: relative;
-  transition: transform 0.2s, border-color 0.2s;
+  transition: border-color 0.15s, background 0.15s;
 }
 .metric-box:hover {
-  transform: translateY(-2px);
-  border-color: var(--border-glow);
+  border-color: var(--ucl-border-hover);
+  background: var(--ucl-card-hover);
 }
 
 .metric-val {
-  font-family: var(--font-score);
-  font-size: 2.8rem;
+  font-family: var(--font-main);
+  font-size: 2.2rem;
   font-weight: 800;
   line-height: 1;
-  color: var(--text-pure);
+  color: var(--ucl-white);
 }
 .metric-val.green {
-  color: var(--win-emerald);
-  text-shadow: 0 0 16px rgba(0, 245, 155, 0.6);
+  color: var(--ucl-win);
 }
 .metric-val.red {
-  color: var(--loss-crimson);
-  text-shadow: 0 0 16px rgba(255, 51, 102, 0.6);
+  color: var(--ucl-loss);
 }
 
 .metric-lbl {
-  font-size: 0.78rem;
+  font-size: 0.72rem;
   text-transform: uppercase;
-  letter-spacing: 1.2px;
-  color: var(--text-muted);
-  font-weight: 800;
-  margin-top: 2px;
-  font-family: var(--font-heading);
+  letter-spacing: 1px;
+  color: var(--ucl-slate);
+  font-weight: 700;
+  margin-top: 4px;
+  font-family: var(--font-main);
 }
 
 /* Winrate Badge */
 #hero-winrate-badge {
-  font-family: var(--font-score);
-  font-size: 1.2rem;
+  font-family: var(--font-main);
+  font-size: 0.8rem;
   font-weight: 800;
-  color: var(--gold-prime);
-  background: rgba(246, 200, 81, 0.14);
-  border: 1px solid rgba(246, 200, 81, 0.5) !important;
-  border-radius: 6px;
-  padding: 4px 12px !important;
-  text-shadow: 0 0 12px var(--gold-glow);
+  color: var(--ucl-cyan);
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  border-radius: 20px;
+  padding: 3px 10px !important;
   display: inline-block;
+  letter-spacing: 0.5px;
 }
 
-/* --- FC Mobile Player Cards System --- */
+/* --- UCL Match Fixture Card --- */
+.ucl-match-box {
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ucl-match-box:hover {
+  border-color: var(--ucl-cyan);
+  background: var(--ucl-card-hover);
+}
+
+.ucl-match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.ucl-match-teams {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ucl-team {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.ucl-team.home { text-align: left; }
+.ucl-team.away { text-align: right; }
+
+.ucl-team-name {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 1rem;
+  color: #ffffff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ucl-team.home .ucl-team-name { color: var(--ucl-cyan); }
+
+.ucl-team-score {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 2rem;
+  color: #ffffff;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.ucl-vs-badge {
+  padding: 4px 10px;
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.75rem;
+  color: var(--ucl-slate);
+  background: #0b1940;
+  border-radius: 6px;
+  border: 1px solid var(--ucl-border);
+}
+
+.gauge-wrap {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  display: flex;
+  overflow: hidden;
+  background: #091330;
+  margin: 12px 0 8px;
+}
+.gauge-fill {
+  height: 100%;
+  background: var(--ucl-cyan);
+}
+.gauge-fill-opp {
+  height: 100%;
+  background: var(--ucl-loss);
+}
+
+/* Status Badges */
+.stamp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3px 8px;
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-radius: 4px;
+  line-height: 1;
+}
+.stamp-win {
+  color: var(--ucl-win);
+  background: rgba(0, 230, 118, 0.12);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+}
+.stamp-loss {
+  color: var(--ucl-loss);
+  background: rgba(255, 59, 92, 0.12);
+  border: 1px solid rgba(255, 59, 92, 0.35);
+}
+.stamp-draw {
+  color: var(--ucl-draw);
+  background: rgba(255, 179, 0, 0.12);
+  border: 1px solid rgba(255, 179, 0, 0.35);
+}
+
+/* --- UCL Clean Player List (Msetef M9ad) --- */
 .fc-player-cards-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 }
 
 .fc-player-card {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--bg-tile);
-  border: 1px solid rgba(168, 85, 247, 0.2);
-  border-radius: 10px;
-  padding: 12px 14px;
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  border-radius: 8px;
+  padding: 10px 14px;
   cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+  transition: background 0.15s, border-color 0.15s;
 }
 .fc-player-card:hover {
-  transform: translateY(-2px);
-  background: var(--bg-tile-hover);
-  border-color: var(--violet-glow);
+  background: var(--ucl-card-hover);
+  border-color: var(--ucl-cyan);
 }
 
 .fc-card-left {
@@ -484,54 +525,37 @@ body::before {
   gap: 12px;
 }
 
-/* OVR Rating Badge (FC Mobile Shield) */
+/* Clean Rank Badges */
 .fc-ovr-badge {
-  width: 44px;
-  height: 48px;
-  background: linear-gradient(135deg, #2b1450 0%, #15092a 100%);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  background: #09173d;
+  border: 1px solid var(--ucl-border);
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-score);
+  font-family: var(--font-main);
   font-weight: 800;
-  line-height: 1;
+  font-size: 0.85rem;
+  color: var(--ucl-cyan);
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
-}
-.fc-ovr-badge .ovr-num {
-  font-size: 1.25rem;
-  color: #ffffff;
-}
-.fc-ovr-badge .ovr-lbl {
-  font-size: 0.55rem;
-  letter-spacing: 0.5px;
-  color: var(--gold-prime);
 }
 
-/* Champion Tiers OVR */
 .fc-card-gold .fc-ovr-badge {
-  background: linear-gradient(135deg, #c48924 0%, #5a3a0c 100%);
-  border-color: var(--gold-prime);
-  box-shadow: 0 0 14px rgba(246, 200, 81, 0.4);
+  background: rgba(212, 175, 55, 0.15);
+  border-color: rgba(212, 175, 55, 0.5);
+  color: #f6c851;
 }
-.fc-card-gold .fc-ovr-badge .ovr-num {
-  color: #fff8e1;
-  text-shadow: 0 0 8px rgba(246, 200, 81, 0.6);
-}
-
 .fc-card-silver .fc-ovr-badge {
-  background: linear-gradient(135deg, #787e94 0%, #2a2c38 100%);
-  border-color: #d1d5db;
-  box-shadow: 0 0 12px rgba(209, 213, 219, 0.35);
+  background: rgba(168, 178, 193, 0.15);
+  border-color: rgba(168, 178, 193, 0.5);
+  color: #e2e8f0;
 }
-
 .fc-card-bronze .fc-ovr-badge {
-  background: linear-gradient(135deg, #a05a2c 0%, #3e1e0e 100%);
-  border-color: #f97316;
-  box-shadow: 0 0 12px rgba(249, 115, 22, 0.35);
+  background: rgba(205, 127, 50, 0.15);
+  border-color: rgba(205, 127, 50, 0.5);
+  color: #f97316;
 }
 
 .fc-player-info {
@@ -541,25 +565,19 @@ body::before {
 }
 .fc-player-name {
   font-family: var(--font-body);
-  font-weight: 800;
-  font-size: 1rem;
+  font-weight: 700;
+  font-size: 0.95rem;
   color: #ffffff;
   display: flex;
   align-items: center;
   gap: 6px;
 }
-
 .fc-tier-banner {
-  font-family: var(--font-score);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: var(--text-muted);
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ucl-slate);
 }
-.fc-card-gold .fc-tier-banner { color: var(--gold-prime); }
-.fc-card-silver .fc-tier-banner { color: #d1d5db; }
-.fc-card-bronze .fc-tier-banner { color: #fdba74; }
 
 .fc-card-right {
   display: flex;
@@ -571,18 +589,18 @@ body::before {
   text-align: right;
 }
 .fc-goal-val {
-  font-family: var(--font-score);
-  font-size: 1.55rem;
+  font-family: var(--font-main);
+  font-size: 1.35rem;
   font-weight: 800;
-  color: var(--gold-prime);
+  color: var(--ucl-white);
   line-height: 1;
 }
 .fc-goal-lbl {
-  font-size: 0.68rem;
-  color: var(--text-muted);
+  font-size: 0.65rem;
+  color: var(--ucl-cyan);
   font-weight: 700;
   text-transform: uppercase;
-  font-family: var(--font-heading);
+  font-family: var(--font-main);
 }
 
 /* Turn dots [● ● ●] */
@@ -592,151 +610,75 @@ body::before {
   align-items: center;
 }
 .turn-dot {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.18);
 }
 .turn-dot.done {
-  background: var(--win-emerald);
-  box-shadow: 0 0 6px rgba(0, 245, 155, 0.7);
+  background: var(--ucl-win);
 }
 .turn-dot.missed {
-  background: var(--loss-crimson);
-  box-shadow: 0 0 6px rgba(255, 51, 102, 0.7);
-}
-
-/* Metallic Sweep Animation */
-.fc-card-gold::after, .fc-card-silver::after, .fc-card-bronze::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -150%;
-  width: 150%;
-  height: 100%;
-  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
-  transform: skewX(-25deg);
-  animation: metal-shine 3.5s infinite ease-in-out;
-  pointer-events: none;
-}
-@keyframes metal-shine {
-  0% { left: -150%; }
-  25% { left: 200%; }
-  100% { left: 200%; }
-}
-
-/* --- Match Battle Card & Gauges --- */
-.gauge-wrap {
-  width: 100%;
-  height: 10px;
-  border-radius: 5px;
-  display: flex;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
-}
-.gauge-fill {
-  height: 100%;
-  background: linear-gradient(90deg, #a855f7, #00f59b);
-  box-shadow: 0 0 12px rgba(0, 245, 155, 0.75);
-}
-.gauge-fill-opp {
-  height: 100%;
-  background: linear-gradient(90deg, #ff3366, #d90429);
-  box-shadow: 0 0 12px rgba(255, 51, 102, 0.75);
-}
-
-/* Status Stamps / Badges */
-.stamp {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 10px;
-  font-family: var(--font-heading);
-  font-weight: 800;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  border-radius: 6px;
-  line-height: 1;
-}
-.stamp-win {
-  color: var(--win-emerald);
-  background: rgba(0, 245, 155, 0.14);
-  border: 1px solid rgba(0, 245, 155, 0.45);
-  box-shadow: 0 0 12px rgba(0, 245, 155, 0.3);
-}
-.stamp-loss {
-  color: var(--loss-crimson);
-  background: rgba(255, 51, 102, 0.14);
-  border: 1px solid rgba(255, 51, 102, 0.45);
-  box-shadow: 0 0 12px rgba(255, 51, 102, 0.3);
-}
-.stamp-draw {
-  color: var(--draw-amber);
-  background: rgba(245, 158, 11, 0.14);
-  border: 1px solid rgba(245, 158, 11, 0.45);
+  background: var(--ucl-loss);
 }
 
 /* Helper Text */
 .hand-text {
   font-family: var(--font-body);
-  color: var(--text-muted);
+  color: var(--ucl-slate);
 }
 
-/* --- Search & Filter Controls --- */
+/* Search & Filter Controls */
 .search-box {
   width: 100%;
-  background: var(--bg-tile);
-  border: 1px solid var(--border-pixel);
-  border-radius: 10px;
-  padding: 14px 18px;
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  border-radius: 8px;
+  padding: 12px 16px;
   font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: var(--text-pure);
+  font-size: 0.9rem;
+  color: var(--ucl-white);
   outline: none;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  margin-bottom: 16px;
+  transition: border-color 0.15s;
+  margin-bottom: 14px;
 }
 .search-box:focus {
-  border-color: var(--violet-glow);
-  box-shadow: 0 0 16px rgba(168, 85, 247, 0.4);
+  border-color: var(--ucl-cyan);
 }
 .search-box::placeholder {
-  color: var(--text-muted);
+  color: var(--ucl-muted);
 }
 
 .filter-pills {
   display: flex;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 .filter-pill {
-  background: rgba(20, 10, 36, 0.85);
-  border: 1px solid var(--border-pixel);
-  color: var(--text-muted);
-  font-family: var(--font-heading);
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  color: var(--ucl-slate);
+  font-family: var(--font-main);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   padding: 6px 14px;
-  border-radius: 8px;
+  border-radius: 6px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.15s;
 }
 .filter-pill:hover, .filter-pill.active {
-  background: rgba(168, 85, 247, 0.3);
-  color: var(--gold-prime);
-  border-color: var(--gold-prime);
-  box-shadow: 0 0 12px rgba(246, 200, 81, 0.35);
+  background: rgba(0, 212, 255, 0.15);
+  color: var(--ucl-cyan);
+  border-color: var(--ucl-cyan);
 }
 
-/* --- Modals --- */
+/* Modals */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(4, 2, 8, 0.9);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(2, 6, 20, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   z-index: 500;
   display: none;
   justify-content: center;
@@ -747,8 +689,8 @@ body::before {
 .modal-wrapper {
   position: relative;
   width: 100%;
-  max-width: 520px;
-  max-height: 88vh;
+  max-width: 480px;
+  max-height: 85vh;
   display: flex;
   flex-direction: column;
 }
@@ -756,72 +698,59 @@ body::before {
 .modal-page {
   width: 100%;
   flex: 1;
-  background: linear-gradient(145deg, rgba(20, 10, 36, 0.96) 0%, rgba(8, 4, 16, 0.98) 100%);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(168, 85, 247, 0.4);
-  border-radius: 14px;
-  padding: 24px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.85), 0 0 30px rgba(168, 85, 247, 0.3);
+  background: #09163a;
+  border: 1px solid var(--ucl-border);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.8);
   overflow-y: auto;
   overflow-x: hidden;
-  color: var(--text-body);
+  color: var(--ucl-white);
 }
 
 .close-tape {
   position: absolute;
-  top: -12px;
-  right: -8px;
-  background: linear-gradient(135deg, #ff3366, #b80d38);
-  padding: 6px 14px;
-  font-family: var(--font-heading);
+  top: -10px;
+  right: -6px;
+  background: var(--ucl-loss);
+  padding: 5px 12px;
+  font-family: var(--font-main);
   font-weight: 800;
-  font-size: 0.8rem;
-  letter-spacing: 1px;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 6px;
+  border: none;
+  border-radius: 4px;
   cursor: pointer;
-  box-shadow: 0 4px 14px rgba(255, 51, 102, 0.5);
   z-index: 10;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: transform 0.2s;
-}
-.close-tape:hover {
-  transform: scale(1.08);
+  gap: 5px;
 }
 [dir="rtl"] .close-tape {
   right: auto;
-  left: -8px;
+  left: -6px;
 }
 
-/* --- Floating Pro Gaming Dock (Bottom Navigation) --- */
+/* Floating Clean Bottom Navigation Dock */
 .nav-bar {
   position: fixed;
   bottom: 12px;
   left: 50%;
   transform: translateX(-50%);
   width: calc(100% - 32px);
-  max-width: 540px;
+  max-width: 500px;
   height: var(--tabbar-h);
-  background: rgba(12, 6, 22, 0.94);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(168, 85, 247, 0.35);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(168, 85, 247, 0.25);
+  background: rgba(4, 12, 34, 0.96);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--ucl-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: space-around;
   align-items: center;
   z-index: 100;
   border-radius: 14px;
-  transition: background 0.3s ease, opacity 0.3s ease;
-}
-
-.nav-bar.scrolling {
-  background: rgba(12, 6, 22, 0.5);
-  border-color: rgba(168, 85, 247, 0.2);
 }
 
 .nav-item {
@@ -831,15 +760,15 @@ body::before {
   justify-content: center;
   background: none;
   border: none;
-  color: var(--text-muted);
-  font-family: var(--font-heading);
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 1px;
+  color: var(--ucl-muted);
+  font-family: var(--font-main);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  padding: 8px 14px;
+  padding: 6px 12px;
   border-radius: 8px;
-  transition: color 0.2s, transform 0.2s;
+  transition: color 0.15s;
   flex: 1;
 }
 .nav-item svg {
@@ -848,31 +777,24 @@ body::before {
   stroke: currentColor;
   stroke-width: 2;
   fill: none;
-  margin-bottom: 4px;
-  transition: stroke 0.2s, filter 0.2s;
+  margin-bottom: 3px;
+  transition: stroke 0.15s;
 }
 .nav-item:hover {
-  color: var(--violet-glow);
+  color: var(--ucl-slate);
 }
 .nav-item.active {
-  color: var(--gold-prime);
+  color: var(--ucl-cyan);
 }
 .nav-item.active svg {
-  stroke: var(--gold-prime);
-  filter: drop-shadow(0 0 10px var(--gold-glow));
+  stroke: var(--ucl-cyan);
 }
 
 /* Tab pages */
 .tab-page {
   display: none;
-  animation: fadeIn 0.25s ease forwards;
-  padding-bottom: calc(var(--tabbar-h) + 20px);
+  padding-bottom: calc(var(--tabbar-h) + 24px);
 }
 .tab-page.active {
   display: block;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
 }

@@ -870,47 +870,27 @@ function renderAll() {
 function renderPlayerCard(p, rank, customGoals, customAvg) {
   const goals = customGoals !== undefined ? customGoals : getPlayerGoals(p);
   const matches = p.matches || [];
-  const totalTurns = matches.length * 3;
   const isFlagged = p.eligibility_streak?.flagged_for_review;
 
-  let ovr = 90;
-  let tierName = "ELITE TIER";
-  let cardClass = "fc-card-elite";
+  let rankClass = '';
+  if (rank === 1) rankClass = 'fc-card-gold';
+  else if (rank === 2) rankClass = 'fc-card-silver';
+  else if (rank === 3) rankClass = 'fc-card-bronze';
 
-  if (rank === 1) {
-    ovr = 99;
-    tierName = "GOLD LEGEND";
-    cardClass = "fc-card-gold";
-  } else if (rank === 2) {
-    ovr = 97;
-    tierName = "SILVER MASTER";
-    cardClass = "fc-card-silver";
-  } else if (rank === 3) {
-    ovr = 95;
-    tierName = "BRONZE CHAMPION";
-    cardClass = "fc-card-bronze";
-  } else if (rank <= 10) {
-    ovr = 93;
-    tierName = "DIAMOND PRO";
-  }
-
-  // Turn dots calculation from recent tournament match
   const lastMatch = matches.length > 0 ? matches[matches.length - 1] : null;
   const lastTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : (lastMatch.goals_for ? 3 : 0)) : 3;
+  const avgVal = customAvg !== undefined ? customAvg : (matches.length > 0 ? (goals / matches.length).toFixed(1) : '0.0');
 
   return `
-    <div class="fc-player-card ${cardClass}" onclick="openPlayerModal('${p.player_id}')">
+    <div class="fc-player-card ${rankClass}" onclick="openPlayerModal('${p.player_id}')">
       <div class="fc-card-left">
-        <div class="fc-ovr-badge">
-          <span class="ovr-num">${ovr}</span>
-          <span class="ovr-lbl">#${rank}</span>
-        </div>
+        <div class="fc-ovr-badge">#${rank}</div>
         <div class="fc-player-info">
           <div class="fc-player-name">
             ${escapeHTML(p.display_name)}
-            ${isFlagged ? '<span class="stamp stamp-loss" style="font-size:0.6rem; padding: 2px 6px;">FLAG</span>' : ''}
+            ${isFlagged ? '<span class="stamp stamp-loss" style="font-size:0.6rem; padding: 1px 4px;">FLAG</span>' : ''}
           </div>
-          <div class="fc-tier-banner">${tierName} • ${matches.length} ${t('matches')}</div>
+          <div class="fc-tier-banner">${matches.length} ${t('matches')} • ${avgVal} ${t('avg_goals')}</div>
         </div>
       </div>
       <div class="fc-card-right">
@@ -955,34 +935,31 @@ function renderDashboard() {
     const oppPct = totalGoals > 0 ? ((tItem.opponent_total_goals / totalGoals) * 100).toFixed(1) : 50;
 
     recentBox.innerHTML = `
-      <div style="cursor: pointer; padding: 4px;" onclick="openTournamentModal('${tItem.tournament_id}')">
-        <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 14px;">
-          <div style="text-align: center; flex: 1;">
-            <div class="username" style="font-size: 1.15rem; color: var(--gold-prime); font-weight: 800;">Братва</div>
-            <div style="font-size: 2.3rem; font-family: var(--font-score); font-weight: 900; color: #ffffff; text-shadow: 0 0 16px rgba(246, 200, 81, 0.45);">${tItem.our_total_goals}</div>
+      <div class="ucl-match-box" onclick="openTournamentModal('${tItem.tournament_id}')">
+        <div class="ucl-match-header">
+          <span class="stamp ${stampClass}">${tItem.result ? tItem.result.toUpperCase() : 'IN PROGRESS'}</span>
+          <span class="hand-text" style="font-size: 0.8rem; font-weight: 600;">${tItem.date}</span>
+        </div>
+        <div class="ucl-match-teams">
+          <div class="ucl-team home">
+            <div class="ucl-team-name">Братва</div>
+            <div class="ucl-team-score">${tItem.our_total_goals}</div>
           </div>
-          <div style="font-family: var(--font-heading); font-weight: 800; color: var(--gold-prime); font-size: 0.9rem; background: rgba(246, 200, 81, 0.14); border: 1px solid rgba(246, 200, 81, 0.4); border-radius: 6px; padding: 3px 12px; letter-spacing: 1px;">VS</div>
-          <div style="text-align: center; flex: 1;">
-            <div class="username" style="font-size: 1.15rem; color: var(--text-secondary); max-width: 140px; margin: 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(tItem.opponent_league)}</div>
-            <div style="font-size: 2.3rem; font-family: var(--font-score); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
+          <div class="ucl-vs-badge">VS</div>
+          <div class="ucl-team away">
+            <div class="ucl-team-name">${escapeHTML(tItem.opponent_league)}</div>
+            <div class="ucl-team-score">${tItem.opponent_total_goals}</div>
           </div>
         </div>
-
-        <!-- Power Goal Gauge -->
-        <div class="gauge-wrap" style="margin: 12px 0;">
+        <div class="gauge-wrap">
           <div class="gauge-fill" style="width: ${ourPct}%;"></div>
           <div class="gauge-fill-opp" style="width: ${oppPct}%;"></div>
-        </div>
-
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 8px;">
-          <span class="stamp ${stampClass}">${tItem.result ? tItem.result : 'In Progress'}</span>
-          <span class="hand-text" style="color:var(--text-muted); font-size: 0.85rem; font-weight: 700;">${tItem.date}</span>
         </div>
       </div>
     `;
   }
 
-  // Top performers FC Mobile Cards
+  // Top performers FC Cards
   const topContainer = document.getElementById('top-performers-container');
   const sortedPlayers = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
   const top3 = sortedPlayers.slice(0, 3);
@@ -999,7 +976,7 @@ function renderDashboard() {
   if (flagged.length > 0) {
     flaggedBox.style.display = 'block';
     flaggedList.innerHTML = flagged.map(p => `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 8px; margin-bottom: 6px; cursor:pointer;" onclick="openPlayerModal('${p.player_id}')">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; background: rgba(255, 59, 92, 0.08); border: 1px solid rgba(255, 59, 92, 0.25); border-radius: 6px; margin-bottom: 6px; cursor:pointer;" onclick="openPlayerModal('${p.player_id}')">
         <span class="username">${escapeHTML(p.display_name)}</span>
         <span class="stamp stamp-loss">${p.eligibility_streak.current_fail_streak} FAILS</span>
       </div>
@@ -1014,23 +991,23 @@ function renderTournaments() {
   container.innerHTML = state.tournaments.map(tItem => {
     const stampClass = tItem.result === 'win' ? 'stamp-win' : tItem.result === 'loss' ? 'stamp-loss' : 'stamp-draw';
     return `
-      <div style="background: var(--bg-tile); border: 1px solid rgba(168, 85, 247, 0.22); border-radius: 12px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s;" onclick="openTournamentModal('${tItem.tournament_id}')">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+      <div class="ucl-match-box" style="margin-bottom: 10px;" onclick="openTournamentModal('${tItem.tournament_id}')">
+        <div class="ucl-match-header">
           <div style="display: flex; align-items: center; gap: 8px;">
-            <span class="stamp ${stampClass}">${tItem.result || 'In Progress'}</span>
-            <span class="hand-text" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">${tItem.date}</span>
+            <span class="stamp ${stampClass}">${tItem.result ? tItem.result.toUpperCase() : 'IN PROGRESS'}</span>
+            <span class="hand-text" style="font-size: 0.8rem; font-weight: 600;">${tItem.date}</span>
           </div>
-          <span style="font-family: var(--font-score); font-weight: 800; font-size: 0.85rem; color: var(--gold-prime); background: rgba(246, 200, 81, 0.12); padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(246, 200, 81, 0.35);">${tItem.format || '32v32'}</span>
+          <span style="font-family: var(--font-main); font-weight: 700; font-size: 0.8rem; color: var(--ucl-slate);">${tItem.format || '32v32'}</span>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="flex: 1; text-align: left;">
-            <div style="font-weight: 800; font-size: 1.05rem; color: var(--gold-prime); margin-bottom: 2px; word-break: break-word;">Братва</div>
-            <div style="font-family: var(--font-score); font-weight: 900; font-size: 1.45rem; color: #ffffff;">${tItem.our_total_goals}</div>
+        <div class="ucl-match-teams">
+          <div class="ucl-team home">
+            <div class="ucl-team-name">Братва</div>
+            <div class="ucl-team-score">${tItem.our_total_goals}</div>
           </div>
-          <div style="width: 38px; text-align: center; font-family: var(--font-heading); font-weight: 800; color: var(--gold-prime); font-size: 0.85rem; background: rgba(246,200,81,0.12); border-radius: 6px; padding: 3px 0;">VS</div>
-          <div style="flex: 1; text-align: right;">
-            <div style="font-weight: 800; font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2px; word-break: break-word;">${escapeHTML(tItem.opponent_league)}</div>
-            <div style="font-family: var(--font-score); font-weight: 900; font-size: 1.45rem; color: #ffffff;">${tItem.opponent_total_goals}</div>
+          <div class="ucl-vs-badge">VS</div>
+          <div class="ucl-team away">
+            <div class="ucl-team-name">${escapeHTML(tItem.opponent_league)}</div>
+            <div class="ucl-team-score">${tItem.opponent_total_goals}</div>
           </div>
         </div>
       </div>
