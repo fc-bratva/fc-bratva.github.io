@@ -189,7 +189,7 @@ const I18N = {
 const DATA_PATHS = ['./league-data', '../league-data', 'league-data'];
 let activePath = './league-data';
 
-// --- Sound Manager (Web Audio API) ---
+// --- Sound Manager (Web Audio API - Studio Grade UI Haptics) ---
 const SoundManager = {
   ctx: null,
   init() {
@@ -202,70 +202,66 @@ const SoundManager = {
     }
   },
 
-  // Realistic, fast crisp mechanical mouse click
+  // Apple/Studio-grade crisp tactile click
   playClick() {
     if (!this.ctx) this.init();
     if (!this.ctx) return;
     try {
       const now = this.ctx.currentTime;
 
-      // Layer 1: High crisp mechanical snap
-      const osc1 = this.ctx.createOscillator();
-      const gain1 = this.ctx.createGain();
-      osc1.type = 'triangle';
-      osc1.frequency.setValueAtTime(2200, now);
-      osc1.frequency.exponentialRampToValueAtTime(420, now + 0.009);
-      gain1.gain.setValueAtTime(0.09, now);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.009);
-      osc1.connect(gain1);
-      gain1.connect(this.ctx.destination);
-      osc1.start(now);
-      osc1.stop(now + 0.01);
+      // Crisp transient micro-tick
+      const osc = this.ctx.createOscillator();
+      const gain = this.ctx.createGain();
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(1400, now);
+      osc.frequency.exponentialRampToValueAtTime(400, now + 0.008);
 
-      // Layer 2: Subtle tactile thud
-      const osc2 = this.ctx.createOscillator();
-      const gain2 = this.ctx.createGain();
-      osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(260, now);
-      osc2.frequency.exponentialRampToValueAtTime(70, now + 0.014);
-      gain2.gain.setValueAtTime(0.07, now);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.014);
-      osc2.connect(gain2);
-      gain2.connect(this.ctx.destination);
-      osc2.start(now);
-      osc2.stop(now + 0.015);
+      gain.gain.setValueAtTime(0.045, now);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.008);
+
+      osc.connect(gain);
+      gain.connect(this.ctx.destination);
+      osc.start(now);
+      osc.stop(now + 0.009);
     } catch (e) {}
   },
 
-  // Aerodynamic crystal / ice tab slide sound effect
+  // Premium studio tactile glass/haptic impulse for tabs (Muted, mature, luxury mechanical feel)
   playTabSlide() {
     if (!this.ctx) this.init();
     if (!this.ctx) return;
     try {
       const now = this.ctx.currentTime;
-      const osc = this.ctx.createOscillator();
-      const gain = this.ctx.createGain();
-      const filter = this.ctx.createBiquadFilter();
 
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(420, now);
-      osc.frequency.exponentialRampToValueAtTime(1050, now + 0.04);
-      osc.frequency.exponentialRampToValueAtTime(650, now + 0.09);
+      // Layer 1: Subtle acoustic glass tap (high dampened transient)
+      const osc1 = this.ctx.createOscillator();
+      const gain1 = this.ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(880, now);
+      osc1.frequency.exponentialRampToValueAtTime(320, now + 0.012);
 
-      filter.type = 'bandpass';
-      filter.frequency.setValueAtTime(850, now);
-      filter.Q.value = 3.5;
+      gain1.gain.setValueAtTime(0.04, now);
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.012);
 
-      gain.gain.setValueAtTime(0.001, now);
-      gain.gain.linearRampToValueAtTime(0.05, now + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.09);
+      osc1.connect(gain1);
+      gain1.connect(this.ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.013);
 
-      osc.connect(filter);
-      filter.connect(gain);
-      gain.connect(this.ctx.destination);
+      // Layer 2: Deep dampened sub-haptic bump (feels like physical hardware)
+      const osc2 = this.ctx.createOscillator();
+      const gain2 = this.ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(110, now);
+      osc2.frequency.exponentialRampToValueAtTime(45, now + 0.018);
 
-      osc.start(now);
-      osc.stop(now + 0.1);
+      gain2.gain.setValueAtTime(0.07, now);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.018);
+
+      osc2.connect(gain2);
+      gain2.connect(this.ctx.destination);
+      osc2.start(now);
+      osc2.stop(now + 0.02);
     } catch (e) {}
   }
 };
