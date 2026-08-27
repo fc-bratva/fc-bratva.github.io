@@ -753,6 +753,30 @@ body.immersive-mode .bg-3d-canvas-container {
 }
 
 /* Solid 3D Silk Square Fabric Rank Badges */
+.fc-silk-square-badge {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  object-fit: cover;
+  flex-shrink: 0;
+  display: block;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+  border: 1.5px solid rgba(96, 165, 250, 0.55);
+  background: #0c1e3d;
+}
+.fc-card-gold .fc-silk-square-badge {
+  border-color: rgba(255, 235, 130, 0.85);
+  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.45);
+}
+.fc-card-silver .fc-silk-square-badge {
+  border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 14px rgba(200, 214, 230, 0.4);
+}
+.fc-card-bronze .fc-silk-square-badge {
+  border-color: rgba(255, 195, 145, 0.85);
+  box-shadow: 0 4px 14px rgba(176, 101, 53, 0.45);
+}
+
 .fc-ovr-badge {
   width: 38px;
   height: 38px;
@@ -763,130 +787,11 @@ body.immersive-mode .bg-3d-canvas-container {
   flex-shrink: 0;
   position: relative;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.65);
-}
-
-/* Micro Silk Weave Diagonal Lines Overlay */
-.fc-ovr-badge::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(255, 255, 255, 0.05) 0px,
-    rgba(255, 255, 255, 0.05) 1px,
-    transparent 1px,
-    transparent 4px
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Silk Bevel Rim Sheen (Top highlight) */
-.fc-ovr-badge::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.65), transparent);
-  pointer-events: none;
-  z-index: 2;
-}
-
-/* --- Tier 1: 1st Gold Silk Square --- */
-.fc-silk-gold {
-  background: radial-gradient(circle at 35% 30%, #fff099 0%, #d4af37 45%, #7a5c10 100%);
-  border: 1.5px solid rgba(255, 235, 130, 0.85);
-  box-shadow: 
-    0 4px 14px rgba(212, 175, 55, 0.4),
-    inset 0 1px 2px rgba(255, 255, 255, 0.75),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.6);
-}
-.silk-num-gold {
-  position: relative;
-  z-index: 3;
-  font-family: 'Times New Roman', Georgia, serif;
-  font-weight: 900;
-  font-size: 1.45rem;
-  line-height: 1;
-  color: #050505;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.75),
-    0 0 1px rgba(0, 0, 0, 0.9);
-  display: inline-block;
-  transform: translateY(-0.5px);
-}
-
-/* --- Tier 2: 2nd Silver Silk Square --- */
-.fc-silk-silver {
-  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #cfd6df 45%, #606f84 100%);
-  border: 1.5px solid rgba(255, 255, 255, 0.9);
-  box-shadow: 
-    0 4px 14px rgba(200, 214, 230, 0.35),
-    inset 0 1px 2px rgba(255, 255, 255, 0.9),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.6);
-}
-.silk-num-silver {
-  position: relative;
-  z-index: 3;
-  font-family: 'Times New Roman', Georgia, serif;
-  font-weight: 900;
-  font-size: 1.45rem;
-  line-height: 1;
-  color: #06090e;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.75),
-    0 0 1px rgba(0, 0, 0, 0.9);
-  display: inline-block;
-  transform: translateY(-0.5px);
-}
-
-/* --- Tier 3: 3rd Bronze Silk Square --- */
-.fc-silk-bronze {
-  background: radial-gradient(circle at 35% 30%, #ffd2b2 0%, #b06535 45%, #592405 100%);
-  border: 1.5px solid rgba(255, 195, 145, 0.85);
-  box-shadow: 
-    0 4px 14px rgba(176, 101, 53, 0.4),
-    inset 0 1px 2px rgba(255, 255, 255, 0.75),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.6);
-}
-.silk-num-bronze {
-  position: relative;
-  z-index: 3;
-  font-family: 'Times New Roman', Georgia, serif;
-  font-weight: 900;
-  font-size: 1.45rem;
-  line-height: 1;
-  color: #0b0401;
-  text-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.75),
-    0 0 1px rgba(0, 0, 0, 0.9);
-  display: inline-block;
-  transform: translateY(-0.5px);
-}
-
-/* --- Tier 4+: Competitor Dark Blue Silk Square --- */
-.fc-silk-competitor {
-  background: radial-gradient(circle at 35% 30%, #1e3a8a 0%, #0c1e3d 50%, #040915 100%);
-  border: 1.5px solid rgba(96, 165, 250, 0.55);
-  box-shadow: 
-    0 4px 14px rgba(12, 30, 61, 0.7),
-    inset 0 1px 2px rgba(147, 197, 253, 0.45),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.7);
-}
-.silk-num-competitor {
-  position: relative;
-  z-index: 3;
+  background: #0c1e3d;
+  color: #ffffff;
   font-family: var(--font-main);
   font-weight: 800;
   font-size: 0.95rem;
-  line-height: 1;
-  color: #ffffff;
-  text-shadow: 0 2px 5px rgba(0, 0, 0, 0.95);
-  display: inline-block;
-  letter-spacing: -0.3px;
 }
 
 .fc-player-info {

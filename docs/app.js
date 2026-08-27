@@ -1134,26 +1134,137 @@ function renderAll() {
   renderLeaderboard();
 }
 
+/* ==========================================================================
+   SOLID 3D SILK SQUARE FABRIC BADGES PROCEDURAL GENERATOR
+   Exact configuration from Three.js Silk Square Architecture
+   ========================================================================== */
+const TIER_BADGE_CONFIGS = {
+  gold: { number: "1", materialColor: 0xd4af37 },
+  silver: { number: "2", materialColor: 0xcfd6df },
+  bronze: { number: "3", materialColor: 0xb06535 },
+  competitor: { number: null, materialColor: 0x0c1e3d }
+};
+
+const badgeDataUrlCache = {};
+
+function getTierBadgeDataUrl(rank) {
+  if (badgeDataUrlCache[rank]) return badgeDataUrlCache[rank];
+
+  let tierKey = 'competitor';
+  if (rank === 1) tierKey = 'gold';
+  else if (rank === 2) tierKey = 'silver';
+  else if (rank === 3) tierKey = 'bronze';
+
+  const cfg = TIER_BADGE_CONFIGS[tierKey];
+  if (typeof document === 'undefined' || !document.createElement) return '';
+
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return '';
+
+  // Convert hex color to RGB
+  const hex = cfg.materialColor;
+  const r = (hex >> 16) & 255;
+  const g = (hex >> 8) & 255;
+  const b = hex & 255;
+
+  // Base silk color gradient for organic depth
+  const grad = ctx.createRadialGradient(128, 128, 15, 128, 128, 150);
+  grad.addColorStop(0, `rgb(${Math.min(255, r + 28)}, ${Math.min(255, g + 28)}, ${Math.min(255, b + 28)})`);
+  grad.addColorStop(0.7, `rgb(${r}, ${g}, ${b})`);
+  grad.addColorStop(1, `rgb(${Math.max(0, r - 35)}, ${Math.max(0, g - 35)}, ${Math.max(0, b - 35)})`);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 256, 256);
+
+  // Microscopic woven silk diagonal sheen
+  ctx.strokeStyle = `rgba(255, 255, 255, 0.045)`;
+  ctx.lineWidth = 1;
+  for (let i = -256; i < 512; i += 3) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i + 256, 256);
+    ctx.stroke();
+  }
+
+  // 1st, 2nd, 3rd: Solid bold black velvet Roman numerals
+  if (cfg.number) {
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '900 166px "Times New Roman", Georgia, serif';
+
+    // 1. Soft ambient cloth contact shadow behind the bold black number
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
+    ctx.shadowBlur = 8;
+    ctx.shadowOffsetX = 2;
+    ctx.shadowOffsetY = 3;
+    ctx.fillStyle = '#050505';
+    ctx.fillText(cfg.number, 128, 130);
+
+    // 2. Main Pitch Black Velvet/Silk Print
+    const blackGrad = ctx.createLinearGradient(128, 40, 128, 220);
+    blackGrad.addColorStop(0.0, '#1c1c1c');
+    blackGrad.addColorStop(0.3, '#0b0b0b');
+    blackGrad.addColorStop(0.85, '#040404');
+    blackGrad.addColorStop(1.0, '#000000');
+
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = blackGrad;
+    ctx.fillText(cfg.number, 128, 128);
+
+    // 3. Micro-edge definition for woven depth
+    ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)';
+    ctx.lineWidth = 1.5;
+    ctx.strokeText(cfg.number, 128, 128);
+
+    // 4. Ultra-fine top light rim highlight
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
+    ctx.lineWidth = 0.8;
+    ctx.strokeText(cfg.number, 128, 127);
+
+    ctx.restore();
+  } else {
+    // 4th, 5th, 6th...: Bold crisp white numerals (NO #)
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '800 115px "Outfit", "Inter", sans-serif';
+
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetX = 1;
+    ctx.shadowOffsetY = 3;
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(String(rank), 128, 130);
+
+    ctx.shadowColor = 'transparent';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(String(rank), 128, 128);
+
+    ctx.restore();
+  }
+
+  const url = canvas.toDataURL('image/png');
+  badgeDataUrlCache[rank] = url;
+  return url;
+}
+
 function renderPlayerCard(p, rank, customGoals, customAvg) {
   const goals = customGoals !== undefined ? customGoals : getPlayerGoals(p);
   const matches = p.matches || [];
   const isFlagged = p.eligibility_streak?.flagged_for_review;
 
   let rankClass = '';
-  let badgeHTML = '';
+  if (rank === 1) rankClass = 'fc-card-gold';
+  else if (rank === 2) rankClass = 'fc-card-silver';
+  else if (rank === 3) rankClass = 'fc-card-bronze';
 
-  if (rank === 1) {
-    rankClass = 'fc-card-gold';
-    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-gold" title="1st Place - Gold Champion"><span class="silk-num-gold">1</span></div>`;
-  } else if (rank === 2) {
-    rankClass = 'fc-card-silver';
-    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-silver" title="2nd Place - Silver Runner-up"><span class="silk-num-silver">2</span></div>`;
-  } else if (rank === 3) {
-    rankClass = 'fc-card-bronze';
-    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-bronze" title="3rd Place - Bronze Podium"><span class="silk-num-bronze">3</span></div>`;
-  } else {
-    badgeHTML = `<div class="fc-ovr-badge fc-silk-badge fc-silk-competitor" title="Rank ${rank}"><span class="silk-num-competitor">${rank}</span></div>`;
-  }
+  const badgeUrl = getTierBadgeDataUrl(rank);
+  const badgeHTML = badgeUrl 
+    ? `<img src="${badgeUrl}" class="fc-silk-square-badge" alt="Rank ${rank}" />` 
+    : `<div class="fc-ovr-badge">${rank}</div>`;
 
   const lastMatch = matches.length > 0 ? matches[matches.length - 1] : null;
   const lastTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : (lastMatch.goals_for ? 3 : 0)) : 3;
