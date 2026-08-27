@@ -367,13 +367,13 @@ const Flag3DManager = {
     this.bgScene.add(this.bgMesh);
   },
 
-  // Header 3D Flag Emblem
+  // Header 3D Flag Emblem (50% Bigger: 108px)
   initHeaderFlag() {
     const container = document.getElementById('flag-3d-header');
     if (!container || !this.texture) return;
 
-    const width = container.clientWidth || 72;
-    const height = container.clientHeight || 72;
+    const width = container.clientWidth || 108;
+    const height = container.clientHeight || 108;
 
     this.headerScene = new THREE.Scene();
     this.headerCamera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
@@ -559,8 +559,8 @@ const Flag3DManager = {
       if (this.headerRenderer && this.headerCamera) {
         const container = document.getElementById('flag-3d-header');
         if (container) {
-          const w = container.clientWidth || 72;
-          const h = container.clientHeight || 72;
+          const w = container.clientWidth || 108;
+          const h = container.clientHeight || 108;
           this.headerCamera.aspect = w / h;
           this.headerCamera.updateProjectionMatrix();
           this.headerRenderer.setSize(w, h);
@@ -881,6 +881,67 @@ function renderAll() {
   renderLeaderboard();
 }
 
+function renderPlayerCard(p, rank, customGoals, customAvg) {
+  const goals = customGoals !== undefined ? customGoals : getPlayerGoals(p);
+  const matches = p.matches || [];
+  const totalTurns = matches.length * 3;
+  const isFlagged = p.eligibility_streak?.flagged_for_review;
+
+  let ovr = 90;
+  let tierName = "ELITE TIER";
+  let cardClass = "fc-card-elite";
+
+  if (rank === 1) {
+    ovr = 99;
+    tierName = "GOLD LEGEND";
+    cardClass = "fc-card-gold";
+  } else if (rank === 2) {
+    ovr = 97;
+    tierName = "SILVER MASTER";
+    cardClass = "fc-card-silver";
+  } else if (rank === 3) {
+    ovr = 95;
+    tierName = "BRONZE CHAMPION";
+    cardClass = "fc-card-bronze";
+  } else if (rank <= 10) {
+    ovr = 93;
+    tierName = "DIAMOND PRO";
+  }
+
+  // Turn dots calculation from recent tournament match
+  const lastMatch = matches.length > 0 ? matches[matches.length - 1] : null;
+  const lastTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : (lastMatch.goals_for ? 3 : 0)) : 3;
+
+  return `
+    <div class="fc-player-card ${cardClass}" onclick="openPlayerModal('${p.player_id}')">
+      <div class="fc-card-left">
+        <div class="fc-ovr-badge">
+          <span class="ovr-num">${ovr}</span>
+          <span class="ovr-lbl">#${rank}</span>
+        </div>
+        <div class="fc-player-info">
+          <div class="fc-player-name">
+            ${escapeHTML(p.display_name)}
+            ${isFlagged ? '<span class="stamp stamp-loss" style="font-size:0.6rem; padding: 2px 6px;">FLAG</span>' : ''}
+          </div>
+          <div class="fc-tier-banner">${tierName} • ${matches.length} ${t('matches')}</div>
+        </div>
+      </div>
+      <div class="fc-card-right">
+        <div class="fc-turn-dots" title="${lastTurns}/3 turns completed">
+          <span class="turn-dot ${lastTurns >= 1 ? 'done' : 'missed'}"></span>
+          <span class="turn-dot ${lastTurns >= 2 ? 'done' : 'missed'}"></span>
+          <span class="turn-dot ${lastTurns >= 3 ? 'done' : 'missed'}"></span>
+        </div>
+        <div class="fc-goal-stat">
+          <div class="fc-goal-val">${goals}</div>
+          <div class="fc-goal-lbl">${t('goals')}</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 function renderDashboard() {
   const completed = state.tournaments.filter(t => t.status === 'complete');
   const wins = completed.filter(t => t.result === 'win').length;
@@ -897,66 +958,52 @@ function renderDashboard() {
   // Recent match
   const recentBox = document.getElementById('recent-match-container');
   if (state.tournaments.length === 0) {
-    recentBox.innerHTML = `<div style="text-align:center; padding:12px;" class="hand-text">${t('loading')}</div>`;
+    recentBox.innerHTML = `<div style="text-align:center; padding:16px;" class="hand-text">${t('loading')}</div>`;
   } else {
     const tItem = state.tournaments[0];
     const stampClass = tItem.result === 'win' ? 'stamp-win' : tItem.result === 'loss' ? 'stamp-loss' : 'stamp-draw';
     
-    // Calculate Goal Gauge Percentages
+    // Goal Gauge Percentages
     const totalGoals = (tItem.our_total_goals || 0) + (tItem.opponent_total_goals || 0);
     const ourPct = totalGoals > 0 ? ((tItem.our_total_goals / totalGoals) * 100).toFixed(1) : 50;
     const oppPct = totalGoals > 0 ? ((tItem.opponent_total_goals / totalGoals) * 100).toFixed(1) : 50;
 
     recentBox.innerHTML = `
       <div style="cursor: pointer; padding: 4px;" onclick="openTournamentModal('${tItem.tournament_id}')">
-        <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 14px;">
           <div style="text-align: center; flex: 1;">
-            <div class="username" style="font-size: 1.15rem; color: var(--gold-main); font-weight: 800;">Братва</div>
-            <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff; text-shadow: 0 0 12px rgba(255, 209, 92, 0.4);">${tItem.our_total_goals}</div>
+            <div class="username" style="font-size: 1.15rem; color: var(--gold-prime); font-weight: 800;">Братва</div>
+            <div style="font-size: 2.3rem; font-family: var(--font-score); font-weight: 900; color: #ffffff; text-shadow: 0 0 16px rgba(246, 200, 81, 0.45);">${tItem.our_total_goals}</div>
           </div>
-          <div style="font-family: var(--font-heading); font-weight: 800; color: var(--gold-main); font-size: 0.9rem; background: rgba(255, 209, 92, 0.12); border: 1px solid rgba(255, 209, 92, 0.35); border-radius: 6px; padding: 3px 10px; letter-spacing: 1px;">VS</div>
+          <div style="font-family: var(--font-heading); font-weight: 800; color: var(--gold-prime); font-size: 0.9rem; background: rgba(246, 200, 81, 0.14); border: 1px solid rgba(246, 200, 81, 0.4); border-radius: 6px; padding: 3px 12px; letter-spacing: 1px;">VS</div>
           <div style="text-align: center; flex: 1;">
-            <div class="username" style="font-size: 1.15rem; color: var(--text-secondary); max-width: 130px; margin: 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(tItem.opponent_league)}</div>
-            <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
+            <div class="username" style="font-size: 1.15rem; color: var(--text-secondary); max-width: 140px; margin: 0 auto; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${escapeHTML(tItem.opponent_league)}</div>
+            <div style="font-size: 2.3rem; font-family: var(--font-score); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
           </div>
         </div>
 
         <!-- Power Goal Gauge -->
-        <div class="gauge-wrap" style="height: 10px; margin: 12px 0;">
+        <div class="gauge-wrap" style="margin: 12px 0;">
           <div class="gauge-fill" style="width: ${ourPct}%;"></div>
           <div class="gauge-fill-opp" style="width: ${oppPct}%;"></div>
         </div>
 
         <div style="display:flex; justify-content:space-between; align-items:center; margin-top: 8px;">
           <span class="stamp ${stampClass}">${tItem.result ? tItem.result : 'In Progress'}</span>
-          <span class="hand-text" style="color:var(--text-muted); font-size: 0.85rem; font-weight: 600;">${tItem.date}</span>
+          <span class="hand-text" style="color:var(--text-muted); font-size: 0.85rem; font-weight: 700;">${tItem.date}</span>
         </div>
       </div>
     `;
   }
 
-  // Top performers
-  const topTbody = document.getElementById('top-performers-tbody');
+  // Top performers FC Mobile Cards
+  const topContainer = document.getElementById('top-performers-container');
   const sortedPlayers = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
   const top3 = sortedPlayers.slice(0, 3);
 
-  topTbody.innerHTML = top3.map((p, idx) => {
-    let rowClass = "sketch-row";
-    if (idx === 0) rowClass += " metal-row metal-gold";
-    else if (idx === 1) rowClass += " metal-row metal-silver";
-    else if (idx === 2) rowClass += " metal-row metal-bronze";
-
-    return `
-    <tr class="${rowClass}" onclick="openPlayerModal('${p.player_id}')">
-      <td style="font-family: var(--font-score); font-weight: 800; font-size: 1rem;">
-        #${idx + 1}
-      </td>
-      <td class="username">${escapeHTML(p.display_name)}</td>
-      <td style="text-align:right; font-weight:800; font-family: var(--font-score); font-size: 1.1rem; color: var(--gold-main);">${getPlayerGoals(p)}</td>
-      <td style="text-align:right; color:var(--text-muted); font-weight:600;">${p.matches ? p.matches.length : 0}</td>
-    </tr>
-    `;
-  }).join('');
+  if (topContainer) {
+    topContainer.innerHTML = top3.map((p, idx) => renderPlayerCard(p, idx + 1)).join('');
+  }
 
   // Flagged Section
   const flaggedBox = document.getElementById('flagged-card-box');
@@ -966,7 +1013,7 @@ function renderDashboard() {
   if (flagged.length > 0) {
     flaggedBox.style.display = 'block';
     flaggedList.innerHTML = flagged.map(p => `
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid rgba(255, 56, 96, 0.3); cursor:pointer;" onclick="openPlayerModal('${p.player_id}')">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 12px; background: rgba(255, 51, 102, 0.1); border: 1px solid rgba(255, 51, 102, 0.3); border-radius: 8px; margin-bottom: 6px; cursor:pointer;" onclick="openPlayerModal('${p.player_id}')">
         <span class="username">${escapeHTML(p.display_name)}</span>
         <span class="stamp stamp-loss">${p.eligibility_streak.current_fail_streak} FAILS</span>
       </div>
@@ -981,23 +1028,23 @@ function renderTournaments() {
   container.innerHTML = state.tournaments.map(tItem => {
     const stampClass = tItem.result === 'win' ? 'stamp-win' : tItem.result === 'loss' ? 'stamp-loss' : 'stamp-draw';
     return `
-      <div style="background: rgba(18, 10, 36, 0.7); border: 1px solid rgba(157, 78, 221, 0.2); border-radius: 12px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s;" onclick="openTournamentModal('${tItem.tournament_id}')">
+      <div style="background: var(--bg-tile); border: 1px solid rgba(168, 85, 247, 0.22); border-radius: 12px; padding: 14px; margin-bottom: 12px; cursor: pointer; transition: transform 0.2s, border-color 0.2s;" onclick="openTournamentModal('${tItem.tournament_id}')">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span class="stamp ${stampClass}">${tItem.result || 'In Progress'}</span>
-            <span class="hand-text" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">${tItem.date}</span>
+            <span class="hand-text" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 700;">${tItem.date}</span>
           </div>
-          <span style="font-family: var(--font-heading); font-weight: 700; font-size: 0.8rem; color: var(--gold-main); background: rgba(255, 209, 92, 0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255, 209, 92, 0.25);">${tItem.format || '32v32'}</span>
+          <span style="font-family: var(--font-score); font-weight: 800; font-size: 0.85rem; color: var(--gold-prime); background: rgba(246, 200, 81, 0.12); padding: 3px 10px; border-radius: 6px; border: 1px solid rgba(246, 200, 81, 0.35);">${tItem.format || '32v32'}</span>
         </div>
         <div style="display: flex; justify-content: space-between; align-items: center;">
           <div style="flex: 1; text-align: left;">
-            <div style="font-weight: 700; font-size: 1rem; color: var(--gold-main); margin-bottom: 2px; word-break: break-word;">Братва</div>
-            <div style="font-family: var(--font-score); font-weight: 800; font-size: 1.35rem; color: #ffffff;">${tItem.our_total_goals}</div>
+            <div style="font-weight: 800; font-size: 1.05rem; color: var(--gold-prime); margin-bottom: 2px; word-break: break-word;">Братва</div>
+            <div style="font-family: var(--font-score); font-weight: 900; font-size: 1.45rem; color: #ffffff;">${tItem.our_total_goals}</div>
           </div>
-          <div style="width: 36px; text-align: center; font-family: var(--font-heading); font-weight: 800; color: var(--gold-main); font-size: 0.8rem; background: rgba(255,209,92,0.12); border-radius: 4px; padding: 2px 0;">VS</div>
+          <div style="width: 38px; text-align: center; font-family: var(--font-heading); font-weight: 800; color: var(--gold-prime); font-size: 0.85rem; background: rgba(246,200,81,0.12); border-radius: 6px; padding: 3px 0;">VS</div>
           <div style="flex: 1; text-align: right;">
-            <div style="font-weight: 700; font-size: 1rem; color: var(--text-secondary); margin-bottom: 2px; word-break: break-word;">${escapeHTML(tItem.opponent_league)}</div>
-            <div style="font-family: var(--font-score); font-weight: 800; font-size: 1.35rem; color: #ffffff;">${tItem.opponent_total_goals}</div>
+            <div style="font-weight: 800; font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2px; word-break: break-word;">${escapeHTML(tItem.opponent_league)}</div>
+            <div style="font-family: var(--font-score); font-weight: 900; font-size: 1.45rem; color: #ffffff;">${tItem.opponent_total_goals}</div>
           </div>
         </div>
       </div>
@@ -1013,24 +1060,17 @@ function setupSearch() {
 }
 
 function renderRoster() {
-  const tbody = document.getElementById('roster-tbody');
-  let list = state.players;
+  const cardsContainer = document.getElementById('roster-cards-container');
+  let list = [...state.players];
 
   if (state.searchQuery) {
     list = list.filter(p => p.display_name.toLowerCase().includes(state.searchQuery));
   }
   list.sort((a, b) => a.display_name.localeCompare(b.display_name));
 
-  tbody.innerHTML = list.map(p => `
-    <tr class="sketch-row" onclick="openPlayerModal('${p.player_id}')">
-      <td class="username">
-        ${escapeHTML(p.display_name)}
-        ${p.eligibility_streak?.flagged_for_review ? ' <span class="stamp stamp-loss" style="font-size:0.6rem;">FLAG</span>' : ''}
-      </td>
-      <td style="text-align:center; font-family: var(--font-hand);">${p.matches ? p.matches.length : 0}</td>
-      <td style="text-align:right; font-family: system-ui, -apple-system, sans-serif; font-weight:bold;">${getPlayerGoals(p)}</td>
-    </tr>
-  `).join('');
+  if (cardsContainer) {
+    cardsContainer.innerHTML = list.map((p, idx) => renderPlayerCard(p, idx + 1)).join('');
+  }
 }
 
 function setupFilterControls() {
@@ -1045,7 +1085,7 @@ function setupFilterControls() {
 }
 
 function renderLeaderboard() {
-  const tbody = document.getElementById('leaderboard-tbody');
+  const cardsContainer = document.getElementById('leaderboard-cards-container');
   const windowDays = state.leaderboardWindow;
 
   let list = state.players.map(p => {
@@ -1067,23 +1107,12 @@ function renderLeaderboard() {
 
   list.sort((a, b) => b.goals - a.goals);
 
-  tbody.innerHTML = list.map((item, idx) => {
-    let rowClass = "sketch-row";
-    if (idx === 0) rowClass += " metal-row metal-gold";
-    else if (idx === 1) rowClass += " metal-row metal-silver";
-    else if (idx === 2) rowClass += " metal-row metal-bronze";
-
-    return `
-    <tr class="${rowClass}" onclick="openPlayerModal('${item.player_id}')">
-      <td style="font-family: system-ui, -apple-system, sans-serif; font-weight: bold;">
-        #${idx + 1}
-      </td>
-      <td class="username">${escapeHTML(item.display_name)}</td>
-      <td style="text-align:right; font-family: system-ui, -apple-system, sans-serif; font-weight:bold; color: var(--pencil-blue);">${item.goals}</td>
-      <td style="text-align:right; font-family: var(--font-hand); color:var(--pencil-light);">${item.avg}</td>
-    </tr>
-    `;
-  }).join('');
+  if (cardsContainer) {
+    cardsContainer.innerHTML = list.map((item, idx) => {
+      const p = state.players.find(pl => pl.player_id === item.player_id) || item;
+      return renderPlayerCard(p, idx + 1, item.goals, item.avg);
+    }).join('');
+  }
 }
 
 // --- Player Detail Modal ---
