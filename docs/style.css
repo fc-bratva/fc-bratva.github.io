@@ -738,6 +738,8 @@ body.immersive-mode .bg-3d-canvas-container {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
 
 /* Clean Rank Badges */
@@ -777,6 +779,8 @@ body.immersive-mode .bg-3d-canvas-container {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
+  overflow: hidden;
 }
 .fc-player-name {
   font-family: var(--font-body);
@@ -786,22 +790,54 @@ body.immersive-mode .bg-3d-canvas-container {
   display: flex;
   align-items: center;
   gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .fc-tier-banner {
   font-family: var(--font-main);
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--ucl-slate);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .fc-card-right {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Turn dots [● ● ●] with Fixed Width for Razor-Sharp Vertical Alignment */
+.fc-turn-dots {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  flex-shrink: 0;
+}
+.turn-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  flex-shrink: 0;
+}
+.turn-dot.done {
+  background: var(--ucl-win);
+}
+.turn-dot.missed {
+  background: var(--ucl-loss);
 }
 
 .fc-goal-stat {
+  width: 52px;
   text-align: right;
+  flex-shrink: 0;
 }
 .fc-goal-val {
   font-family: var(--font-main);
@@ -816,25 +852,6 @@ body.immersive-mode .bg-3d-canvas-container {
   font-weight: 700;
   text-transform: uppercase;
   font-family: var(--font-main);
-}
-
-/* Turn dots [● ● ●] */
-.fc-turn-dots {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-.turn-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.18);
-}
-.turn-dot.done {
-  background: var(--ucl-win);
-}
-.turn-dot.missed {
-  background: var(--ucl-loss);
 }
 
 /* Helper Text */
