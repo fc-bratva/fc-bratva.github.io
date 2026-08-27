@@ -62,7 +62,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Fullscreen Background 3D Flag Canvas (Clearly Visible through Translucent Layers) */
+/* Fullscreen Background 3D Flag Canvas */
 .bg-3d-canvas-container {
   position: fixed;
   top: 0;
@@ -73,6 +73,7 @@ body {
   z-index: 0;
   opacity: 0.55;
   overflow: hidden;
+  transition: opacity 0.5s ease;
 }
 .bg-3d-canvas-container canvas {
   width: 100% !important;
@@ -88,6 +89,7 @@ body {
   position: relative;
   display: flex;
   flex-direction: column;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .content-wrapper {
@@ -118,6 +120,8 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
+  cursor: pointer;
+  user-select: none;
 }
 
 /* Original Resource Logo (Static & Crisp) */
@@ -266,6 +270,23 @@ body {
   color: var(--ucl-cyan);
 }
 
+/* --- Immersive Mode (Triggered by Upper Bar Logo — Zero Blackout) --- */
+body.immersive-mode {
+  overflow: hidden !important;
+  touch-action: none !important;
+  user-select: none;
+}
+body.immersive-mode #app {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: scale(0.96);
+}
+body.immersive-mode .bg-3d-canvas-container {
+  opacity: 0.95 !important;
+  pointer-events: auto !important;
+  touch-action: none !important;
+}
+
 /* --- Translucent UCL Cards (Frosted Glass) --- */
 .note-card {
   background: var(--ucl-card);
@@ -292,6 +313,27 @@ body {
   margin-bottom: 14px;
 }
 
+.card-title {
+  font-family: var(--font-main);
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.card-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 14px;
+  background: var(--ucl-cyan);
+  border-radius: 2px;
+}
+
+/* Full View Button */
 .watch-overview-btn {
   display: inline-flex;
   align-items: center;
@@ -314,7 +356,7 @@ body {
   transform: scale(1.05);
 }
 
-/* Fullscreen Cinematic 3D Showcase */
+/* --- Fullscreen Cinematic 3D Showcase (Full View) --- */
 .cinematic-overlay {
   position: fixed;
   inset: 0;
@@ -443,26 +485,6 @@ body {
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
 }
 
-/* --- Immersive Mode (Triggered by Upper Bar Logo) --- */
-body.immersive-mode {
-  overflow: hidden !important;
-  touch-action: none !important;
-  user-select: none;
-}
-#app {
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-body.immersive-mode #app {
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: scale(0.96);
-}
-body.immersive-mode .bg-3d-canvas-container {
-  opacity: 0.95 !important;
-  pointer-events: auto !important;
-  touch-action: none !important;
-}
-
 .cinematic-mvp-tag {
   font-family: var(--font-main);
   font-size: 0.68rem;
@@ -505,26 +527,6 @@ body.immersive-mode .bg-3d-canvas-container {
 @keyframes pulseDot {
   0%, 100% { opacity: 0.4; transform: scale(0.9); }
   50% { opacity: 1; transform: scale(1.3); }
-}
-
-.card-title {
-  font-family: var(--font-main);
-  font-size: 0.95rem;
-  font-weight: 800;
-  color: #ffffff;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.card-title::before {
-  content: '';
-  display: inline-block;
-  width: 3px;
-  height: 14px;
-  background: var(--ucl-cyan);
-  border-radius: 2px;
 }
 
 /* --- Metric Grid (Symmetric 3-Column Overview) --- */
