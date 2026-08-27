@@ -1136,7 +1136,7 @@ function renderAll() {
 
 /* ==========================================================================
    SOLID 3D SILK SQUARE FABRIC BADGES PROCEDURAL GENERATOR
-   Exact configuration from Three.js Silk Square Architecture
+   Exact configuration from Three.js Silk Square Architecture (Original High Quality)
    ========================================================================== */
 const TIER_BADGE_CONFIGS = {
   gold: { number: "1", materialColor: 0xd4af37 },
@@ -1159,8 +1159,8 @@ function getTierBadgeDataUrl(rank) {
   if (typeof document === 'undefined' || !document.createElement) return '';
 
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 256;
+  canvas.width = 1024;
+  canvas.height = 1024;
   const ctx = canvas.getContext('2d');
   if (!ctx) return '';
 
@@ -1171,20 +1171,20 @@ function getTierBadgeDataUrl(rank) {
   const b = hex & 255;
 
   // Base silk color gradient for organic depth
-  const grad = ctx.createRadialGradient(128, 128, 15, 128, 128, 150);
-  grad.addColorStop(0, `rgb(${Math.min(255, r + 28)}, ${Math.min(255, g + 28)}, ${Math.min(255, b + 28)})`);
+  const grad = ctx.createRadialGradient(512, 512, 50, 512, 512, 600);
+  grad.addColorStop(0, `rgb(${Math.min(255, r + 25)}, ${Math.min(255, g + 25)}, ${Math.min(255, b + 25)})`);
   grad.addColorStop(0.7, `rgb(${r}, ${g}, ${b})`);
   grad.addColorStop(1, `rgb(${Math.max(0, r - 35)}, ${Math.max(0, g - 35)}, ${Math.max(0, b - 35)})`);
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 256, 256);
+  ctx.fillRect(0, 0, 1024, 1024);
 
   // Microscopic woven silk diagonal sheen
-  ctx.strokeStyle = `rgba(255, 255, 255, 0.045)`;
+  ctx.strokeStyle = `rgba(255, 255, 255, 0.035)`;
   ctx.lineWidth = 1;
-  for (let i = -256; i < 512; i += 3) {
+  for (let i = -1024; i < 2048; i += 8) {
     ctx.beginPath();
     ctx.moveTo(i, 0);
-    ctx.lineTo(i + 256, 256);
+    ctx.lineTo(i + 1024, 1024);
     ctx.stroke();
   }
 
@@ -1193,18 +1193,18 @@ function getTierBadgeDataUrl(rank) {
     ctx.save();
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '900 166px "Times New Roman", Georgia, serif';
+    ctx.font = '900 665px "Times New Roman", Georgia, serif';
 
     // 1. Soft ambient cloth contact shadow behind the bold black number
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.75)';
-    ctx.shadowBlur = 8;
-    ctx.shadowOffsetX = 2;
-    ctx.shadowOffsetY = 3;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
+    ctx.shadowBlur = 22;
+    ctx.shadowOffsetX = 5;
+    ctx.shadowOffsetY = 8;
     ctx.fillStyle = '#050505';
-    ctx.fillText(cfg.number, 128, 130);
+    ctx.fillText(cfg.number, 512, 517);
 
     // 2. Main Pitch Black Velvet/Silk Print
-    const blackGrad = ctx.createLinearGradient(128, 40, 128, 220);
+    const blackGrad = ctx.createLinearGradient(512, 150, 512, 875);
     blackGrad.addColorStop(0.0, '#1c1c1c');
     blackGrad.addColorStop(0.3, '#0b0b0b');
     blackGrad.addColorStop(0.85, '#040404');
@@ -1212,17 +1212,17 @@ function getTierBadgeDataUrl(rank) {
 
     ctx.shadowColor = 'transparent';
     ctx.fillStyle = blackGrad;
-    ctx.fillText(cfg.number, 128, 128);
+    ctx.fillText(cfg.number, 512, 512);
 
-    // 3. Micro-edge definition for woven depth
+    // 3. Subtle micro-edge definition for woven depth
     ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)';
-    ctx.lineWidth = 1.5;
-    ctx.strokeText(cfg.number, 128, 128);
+    ctx.lineWidth = 4;
+    ctx.strokeText(cfg.number, 512, 512);
 
-    // 4. Ultra-fine top light rim highlight
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.14)';
-    ctx.lineWidth = 0.8;
-    ctx.strokeText(cfg.number, 128, 127);
+    // 4. Ultra-fine top light rim highlight (1px soft sheen over the black number)
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
+    ctx.lineWidth = 1.25;
+    ctx.strokeText(cfg.number, 512, 511);
 
     ctx.restore();
   } else {
@@ -1230,18 +1230,18 @@ function getTierBadgeDataUrl(rank) {
     ctx.save();
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '800 115px "Outfit", "Inter", sans-serif';
+    ctx.font = '800 480px "Outfit", "Inter", sans-serif';
 
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
-    ctx.shadowBlur = 10;
-    ctx.shadowOffsetX = 1;
-    ctx.shadowOffsetY = 3;
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
+    ctx.shadowBlur = 24;
+    ctx.shadowOffsetX = 3;
+    ctx.shadowOffsetY = 6;
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(String(rank), 128, 130);
+    ctx.fillText(String(rank), 512, 518);
 
     ctx.shadowColor = 'transparent';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(String(rank), 128, 128);
+    ctx.fillText(String(rank), 512, 512);
 
     ctx.restore();
   }

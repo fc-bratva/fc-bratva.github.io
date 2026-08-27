@@ -752,46 +752,37 @@ body.immersive-mode .bg-3d-canvas-container {
   min-width: 0;
 }
 
-/* Solid 3D Silk Square Fabric Rank Badges */
+/* Solid 3D Silk Square Fabric Rank Badges (Pure Square, Sharp Edges, Original Quality) */
 .fc-silk-square-badge {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none;
   object-fit: cover;
   flex-shrink: 0;
   display: block;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-  border: 1.5px solid rgba(96, 165, 250, 0.55);
-  background: #0c1e3d;
-}
-.fc-card-gold .fc-silk-square-badge {
-  border-color: rgba(255, 235, 130, 0.85);
-  box-shadow: 0 4px 14px rgba(212, 175, 55, 0.45);
-}
-.fc-card-silver .fc-silk-square-badge {
-  border-color: rgba(255, 255, 255, 0.9);
-  box-shadow: 0 4px 14px rgba(200, 214, 230, 0.4);
-}
-.fc-card-bronze .fc-silk-square-badge {
-  border-color: rgba(255, 195, 145, 0.85);
-  box-shadow: 0 4px 14px rgba(176, 101, 53, 0.45);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85);
+  background: #000000;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .fc-ovr-badge {
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 0 !important;
+  border: none !important;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
   position: relative;
-  overflow: hidden;
   background: #0c1e3d;
   color: #ffffff;
   font-family: var(--font-main);
   font-weight: 800;
-  font-size: 0.95rem;
+  font-size: 1.1rem;
 }
 
 .fc-player-info {
