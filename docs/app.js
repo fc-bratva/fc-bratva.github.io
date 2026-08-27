@@ -320,18 +320,18 @@ const Flag3DManager = {
     this.headerRenderer.setSize(width, height);
     this.headerRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     this.headerRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.headerRenderer.toneMappingExposure = 1.25;
+    this.headerRenderer.toneMappingExposure = 1.0;
     container.innerHTML = '';
     container.appendChild(this.headerRenderer.domElement);
 
-    // 3D Lighting for fabric folds
-    const ambient = new THREE.AmbientLight(0xffffff, 1.1);
+    // Pure neutral 3D lighting (no color tinting)
+    const ambient = new THREE.AmbientLight(0xffffff, 1.4);
     this.headerScene.add(ambient);
-    const dir1 = new THREE.DirectionalLight(0xffeedd, 1.5);
-    dir1.position.set(4, 4, 3);
+    const dir1 = new THREE.DirectionalLight(0xffffff, 0.6);
+    dir1.position.set(3, 4, 3);
     this.headerScene.add(dir1);
-    const dir2 = new THREE.DirectionalLight(0x9d4edd, 1.0);
-    dir2.position.set(-4, -2, 2);
+    const dir2 = new THREE.DirectionalLight(0xffffff, 0.3);
+    dir2.position.set(-3, -2, 2);
     this.headerScene.add(dir2);
 
     // Accurate aspect ratio (1440 x 1416)
@@ -346,8 +346,8 @@ const Flag3DManager = {
     const material = new THREE.MeshStandardMaterial({
       map: this.texture,
       side: THREE.DoubleSide,
-      roughness: 0.3,
-      metalness: 0.15,
+      roughness: 0.65,
+      metalness: 0.0,
       transparent: true,
       alphaTest: 0.05
     });
@@ -376,17 +376,17 @@ const Flag3DManager = {
       this.modalRenderer.setSize(width, height);
       this.modalRenderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       this.modalRenderer.toneMapping = THREE.ACESFilmicToneMapping;
-      this.modalRenderer.toneMappingExposure = 1.25;
+      this.modalRenderer.toneMappingExposure = 1.0;
       container.innerHTML = '';
       container.appendChild(this.modalRenderer.domElement);
 
-      const ambient = new THREE.AmbientLight(0xffffff, 1.0);
+      const ambient = new THREE.AmbientLight(0xffffff, 1.4);
       this.modalScene.add(ambient);
-      const dir1 = new THREE.DirectionalLight(0xffeedd, 1.6);
-      dir1.position.set(5, 5, 4);
+      const dir1 = new THREE.DirectionalLight(0xffffff, 0.7);
+      dir1.position.set(4, 4, 3);
       this.modalScene.add(dir1);
-      const dir2 = new THREE.DirectionalLight(0x9d4edd, 1.1);
-      dir2.position.set(-5, -3, 3);
+      const dir2 = new THREE.DirectionalLight(0xffffff, 0.3);
+      dir2.position.set(-4, -2, 2);
       this.modalScene.add(dir2);
 
       const aspect = 1416 / 1440;
@@ -400,8 +400,8 @@ const Flag3DManager = {
       const material = new THREE.MeshStandardMaterial({
         map: this.texture,
         side: THREE.DoubleSide,
-        roughness: 0.35,
-        metalness: 0.15,
+        roughness: 0.65,
+        metalness: 0.0,
         transparent: true,
         alphaTest: 0.05
       });
