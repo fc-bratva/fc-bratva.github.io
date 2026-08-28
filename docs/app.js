@@ -1190,8 +1190,8 @@ function renderAll() {
 }
 
 /* ==========================================================================
-   LIVE 3D SILK SQUARE FABRIC BADGES (REAL THREE.JS WEBGL CLOTH WAVE ENGINE)
-   Exact scene, lighting, texture generator & harmonic wave physics from specification
+   LIVE 3D SILK SQUARE FABRIC BADGES (1st GOLD, 2nd SILVER, 3rd BRONZE ONLY)
+   Optimized for ultra-fast 60/120 FPS performance (Zero Lag)
    ========================================================================== */
 const SilkBadges3DManager = {
   initialized: false,
@@ -1205,7 +1205,6 @@ const SilkBadges3DManager = {
       this.createMaster('gold', 13938487, '1', 16772560, 16773846, 13404160, 0.32, 0.55);
       this.createMaster('silver', 13620959, '2', 15463160, 16317180, 8162209, 0.28, 0.60);
       this.createMaster('bronze', 11560245, '3', 16768976, 16769744, 9058313, 0.34, 0.52);
-      this.createMaster('competitor', 794173, null, 9684477, 14412542, 1920728, 0.38, 0.45);
 
       this.startLoop();
     } catch (e) {
@@ -1214,7 +1213,7 @@ const SilkBadges3DManager = {
   },
 
   createMaster(key, hex, number, ambientHex, keyHex, rimHex, roughness, metalness) {
-    const size = 512; // 512x512 High-Definition Master Buffer
+    const size = 512;
     const canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -1269,7 +1268,7 @@ const SilkBadges3DManager = {
     }
 
     const texture = new THREE.CanvasTexture(cvs);
-    const geom = new THREE.PlaneGeometry(4.2, 4.2, 70, 70);
+    const geom = new THREE.PlaneGeometry(4.2, 4.2, 50, 50);
     const posAttr = geom.attributes.position;
     const basePos = posAttr.array.slice();
 
@@ -1299,7 +1298,7 @@ const SilkBadges3DManager = {
       requestAnimationFrame(animate);
       const t = clk.getElapsedTime();
 
-      // Update 3D silk waves on all master WebGL renderers
+      // Update 3D silk waves on the 3 podium masters
       for (const key in this.masters) {
         const m = this.masters[key];
         const p = m.posAttr.array;
@@ -1314,18 +1313,19 @@ const SilkBadges3DManager = {
         m.renderer.render(m.scene, m.camera);
       }
 
-      // Blit master 3D frames to all visible card badges with high quality
+      // Blit podium 3D frames (only 3 elements per view)
       const badges = document.querySelectorAll('.fc-silk-3d-canvas');
       badges.forEach(b => {
         const rank = parseInt(b.dataset.rank, 10);
         const ctx = b.getContext('2d');
         if (!ctx) return;
 
-        let masterKey = 'competitor';
+        let masterKey = null;
         if (rank === 1) masterKey = 'gold';
         else if (rank === 2) masterKey = 'silver';
         else if (rank === 3) masterKey = 'bronze';
 
+        if (!masterKey) return;
         const master = this.masters[masterKey];
         if (!master) return;
 
@@ -1333,21 +1333,6 @@ const SilkBadges3DManager = {
         ctx.imageSmoothingQuality = 'high';
         ctx.clearRect(0, 0, b.width, b.height);
         ctx.drawImage(master.canvas, 0, 0, b.width, b.height);
-
-        // For competitor tier (4+), render crisp pure white rank number on top
-        if (rank > 3) {
-          ctx.save();
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.font = '800 80px "Outfit", "Inter", sans-serif';
-          ctx.fillStyle = '#ffffff';
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-          ctx.shadowBlur = 12;
-          ctx.shadowOffsetX = 2;
-          ctx.shadowOffsetY = 4;
-          ctx.fillText(String(rank), b.width / 2, b.height / 2 + 2);
-          ctx.restore();
-        }
       });
     };
     animate();
@@ -1362,12 +1347,18 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
   let rankClass = '';
   let badgeHTML = '';
 
-  if (rank !== null && rank !== undefined) {
-    if (rank === 1) rankClass = 'fc-card-gold';
-    else if (rank === 2) rankClass = 'fc-card-silver';
-    else if (rank === 3) rankClass = 'fc-card-bronze';
-
-    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="${rank}" width="176" height="176" title="Rank ${rank}"></canvas>`;
+  if (rank === 1) {
+    rankClass = 'fc-card-gold';
+    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="1" width="176" height="176" title="1st Place - Gold Champion"></canvas>`;
+  } else if (rank === 2) {
+    rankClass = 'fc-card-silver';
+    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="2" width="176" height="176" title="2nd Place - Silver Runner-up"></canvas>`;
+  } else if (rank === 3) {
+    rankClass = 'fc-card-bronze';
+    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="3" width="176" height="176" title="3rd Place - Bronze Podium"></canvas>`;
+  } else if (rank !== null && rank !== undefined) {
+    // Ranks 4+: Lightweight static dark blue square with crisp pure white number (Zero Lag)
+    badgeHTML = `<div class="fc-rank-badge-blue" title="Rank ${rank}">${rank}</div>`;
   } else {
     // In Roster: Clean squad initials monogram (NO rank number)
     const initials = (p.display_name || 'FC').trim().slice(0, 2).toUpperCase();
