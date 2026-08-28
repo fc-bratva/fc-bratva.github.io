@@ -752,7 +752,7 @@ body.immersive-mode .bg-3d-canvas-container {
   min-width: 0;
 }
 
-/* Live 3D Animated Silk Square Fabric Badges (Pure Square, Sharp Edges, Real Three.js Wave) */
+/* Live 3D Animated Silk Square Fabric Badges (Pure Edge-to-Edge Vector, Zero Black Contour) */
 .fc-silk-3d-canvas {
   width: 44px;
   height: 44px;
@@ -761,10 +761,29 @@ body.immersive-mode .bg-3d-canvas-container {
   outline: none;
   flex-shrink: 0;
   display: block;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85);
-  background: #000000;
+  background: transparent !important; /* Zero black contour background */
+  box-shadow: none !important;
   image-rendering: -webkit-optimize-contrast;
   image-rendering: crisp-edges;
+}
+
+/* Roster Squad Initials Avatar (No Tarttib Numbers) */
+.fc-roster-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 6px;
+  background: rgba(14, 42, 94, 0.5);
+  border: 1px solid rgba(0, 180, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.95rem;
+  color: var(--ucl-cyan);
+  flex-shrink: 0;
+  user-select: none;
+  letter-spacing: 0.5px;
 }
 
 .fc-silk-square-badge {
@@ -776,8 +795,7 @@ body.immersive-mode .bg-3d-canvas-container {
   object-fit: cover;
   flex-shrink: 0;
   display: block;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85);
-  background: #000000;
+  background: transparent !important;
 }
 
 .fc-ovr-badge {
@@ -790,7 +808,7 @@ body.immersive-mode .bg-3d-canvas-container {
   justify-content: center;
   flex-shrink: 0;
   position: relative;
-  background: #0c1e3d;
+  background: transparent;
   color: #ffffff;
   font-family: var(--font-main);
   font-weight: 800;

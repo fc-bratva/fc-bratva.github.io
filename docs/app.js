@@ -1220,8 +1220,9 @@ const SilkBadges3DManager = {
     canvas.height = size;
 
     const scene = new THREE.Scene();
+    // Distance 5.07 with FOV 45 perfectly scales the 4.2x4.2 cloth to fill 100% edge-to-edge without black gaps
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    camera.position.set(0, 0, 7.5);
+    camera.position.set(0, 0, 5.07);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: canvas });
     renderer.setSize(size, size, false);
@@ -1357,11 +1358,19 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
   const isFlagged = p.eligibility_streak?.flagged_for_review;
 
   let rankClass = '';
-  if (rank === 1) rankClass = 'fc-card-gold';
-  else if (rank === 2) rankClass = 'fc-card-silver';
-  else if (rank === 3) rankClass = 'fc-card-bronze';
+  let badgeHTML = '';
 
-  const badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="${rank}" width="96" height="96" title="Rank ${rank}"></canvas>`;
+  if (rank !== null && rank !== undefined) {
+    if (rank === 1) rankClass = 'fc-card-gold';
+    else if (rank === 2) rankClass = 'fc-card-silver';
+    else if (rank === 3) rankClass = 'fc-card-bronze';
+
+    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="${rank}" width="96" height="96" title="Rank ${rank}"></canvas>`;
+  } else {
+    // In Roster: Clean squad initials monogram (NO rank number)
+    const initials = (p.display_name || 'FC').trim().slice(0, 2).toUpperCase();
+    badgeHTML = `<div class="fc-roster-avatar" title="${escapeHTML(p.display_name)}">${escapeHTML(initials)}</div>`;
+  }
 
   const lastMatch = matches.length > 0 ? matches[matches.length - 1] : null;
   const lastTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : (lastMatch.goals_for ? 3 : 0)) : 3;
@@ -1522,7 +1531,8 @@ function renderRoster() {
     if (list.length === 0) {
       cardsContainer.innerHTML = `<div style="text-align:center; padding:24px; color:var(--ucl-slate); font-weight:600;">No players found</div>`;
     } else {
-      cardsContainer.innerHTML = list.map((p, idx) => renderPlayerCard(p, idx + 1)).join('');
+      // In Roster tab, NO tarttib (rank) numbers!
+      cardsContainer.innerHTML = list.map(p => renderPlayerCard(p, null)).join('');
     }
   }
 }
