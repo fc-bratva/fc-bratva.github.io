@@ -266,12 +266,16 @@ const SoundManager = {
   }
 };
 
-// --- Audio Manager (Background Music & Flag Flapping) ---
+// --- Audio Manager (Background Music & Flag Flapping Ambiance) ---
 const AudioManager = {
   bgMusic: null,
   flagSound: null,
-  isMuted: localStorage.getItem('fcm_audio_muted') === 'true',
+  isMusicMuted: localStorage.getItem('fcm_music_muted') === 'true',
+  targetMusicVol: 0.05,
+  flagVol: 0.25,
   initialized: false,
+  fadeInterval: null,
+  inImmersive: false,
 
   init() {
     if (this.initialized) return;
@@ -280,14 +284,18 @@ const AudioManager = {
     try {
       this.bgMusic = new Audio('assets/vaitsez-game-game-music-574073.mp3');
       this.bgMusic.loop = true;
-      this.bgMusic.volume = 0.05; // Lowered by additional 30%
+      this.bgMusic.volume = this.isMusicMuted ? 0 : this.targetMusicVol;
 
       this.flagSound = new Audio('assets/Flag Flapping Sound Effect (128kbit_AAC).m4a');
       this.flagSound.loop = true;
-      this.flagSound.volume = 0.25; // Maintained full flag flapping volume
+      this.flagSound.volume = this.flagVol;
 
-      if (!this.isMuted) {
-        this.play();
+      // Flag sound always plays in the background
+      this.flagSound.play().catch(() => {});
+
+      // Play music if not muted
+      if (!this.isMusicMuted) {
+        this.bgMusic.play().catch(() => {});
       }
     } catch (e) {
       console.warn('Audio init error:', e);
@@ -295,20 +303,54 @@ const AudioManager = {
     this.updateUI();
   },
 
-  play() {
-    this.isMuted = false;
-    localStorage.setItem('fcm_audio_muted', 'false');
-    if (this.bgMusic) this.bgMusic.play().catch(() => {});
-    if (this.flagSound) this.flagSound.play().catch(() => {});
-    this.updateUI();
+  fadeMusic(toVol, durationMs = 600) {
+    if (!this.bgMusic) return;
+    if (this.fadeInterval) {
+      clearInterval(this.fadeInterval);
+      this.fadeInterval = null;
+    }
+
+    if (toVol > 0) {
+      this.bgMusic.play().catch(() => {});
+    }
+
+    const stepMs = 25;
+    const steps = Math.max(1, durationMs / stepMs);
+    const startVol = this.bgMusic.volume;
+    const diff = toVol - startVol;
+    const stepDelta = diff / steps;
+    let stepCount = 0;
+
+    this.fadeInterval = setInterval(() => {
+      stepCount++;
+      const nextVol = startVol + stepDelta * stepCount;
+      if ((stepDelta > 0 && nextVol >= toVol) || (stepDelta < 0 && nextVol <= toVol) || stepCount >= steps) {
+        this.bgMusic.volume = Math.max(0, Math.min(1, toVol));
+        if (toVol === 0) {
+          this.bgMusic.pause();
+        }
+        clearInterval(this.fadeInterval);
+        this.fadeInterval = null;
+      } else {
+        this.bgMusic.volume = Math.max(0, Math.min(1, nextVol));
+      }
+    }, stepMs);
   },
 
-  pause() {
-    this.isMuted = true;
-    localStorage.setItem('fcm_audio_muted', 'true');
-    if (this.bgMusic) this.bgMusic.pause();
-    if (this.flagSound) this.flagSound.pause();
-    this.updateUI();
+  onEnterImmersive() {
+    this.inImmersive = true;
+    this.fadeMusic(0, 500); // Fade music out smoothly
+    if (this.flagSound) {
+      this.flagSound.volume = this.flagVol;
+      this.flagSound.play().catch(() => {}); // User hears ONLY the flag flapping
+    }
+  },
+
+  onExitImmersive() {
+    this.inImmersive = false;
+    if (!this.isMusicMuted) {
+      this.fadeMusic(this.targetMusicVol, 600); // Fade music back in
+    }
   },
 
   toggle() {
@@ -316,11 +358,17 @@ const AudioManager = {
       this.init();
       return;
     }
-    if (this.isMuted) {
-      this.play();
+    this.isMusicMuted = !this.isMusicMuted;
+    localStorage.setItem('fcm_music_muted', this.isMusicMuted ? 'true' : 'false');
+
+    if (this.isMusicMuted) {
+      this.fadeMusic(0, 400);
     } else {
-      this.pause();
+      if (!this.inImmersive) {
+        this.fadeMusic(this.targetMusicVol, 400);
+      }
     }
+    this.updateUI();
   },
 
   updateUI() {
@@ -328,8 +376,8 @@ const AudioManager = {
     if (btn) {
       const soundOnSVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>`;
       const soundMutedSVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>`;
-      btn.innerHTML = this.isMuted ? soundMutedSVG : soundOnSVG;
-      btn.classList.toggle('muted', this.isMuted);
+      btn.innerHTML = this.isMusicMuted ? soundMutedSVG : soundOnSVG;
+      btn.classList.toggle('muted', this.isMusicMuted);
     }
   }
 };
@@ -696,12 +744,14 @@ const ImmersiveMode = {
     this.active = true;
     this.touchStartTime = Date.now();
     document.body.classList.add('immersive-mode');
+    AudioManager.onEnterImmersive();
   },
 
   stop() {
     if (!this.active) return;
     this.active = false;
     document.body.classList.remove('immersive-mode');
+    AudioManager.onExitImmersive();
   }
 };
 
@@ -765,6 +815,8 @@ const CinematicDirector = {
     this.startTime = performance.now();
     if (this.currentLookAt) this.currentLookAt.set(0, 0, 0);
 
+    AudioManager.onEnterImmersive();
+
     const overlay = document.getElementById('cinematic-overlay');
     const blackout = document.getElementById('cinematic-blackout');
     const hud = document.getElementById('cinematic-hud');
@@ -788,6 +840,8 @@ const CinematicDirector = {
   stop() {
     if (!this.active) return;
     this.active = false;
+
+    AudioManager.onExitImmersive();
 
     const overlay = document.getElementById('cinematic-overlay');
     const blackout = document.getElementById('cinematic-blackout');
