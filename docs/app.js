@@ -1214,7 +1214,7 @@ const SilkBadges3DManager = {
   },
 
   createMaster(key, hex, number, ambientHex, keyHex, rimHex, roughness, metalness) {
-    const size = 256;
+    const size = 512; // 512x512 High-Definition Master Buffer
     const canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -1224,9 +1224,9 @@ const SilkBadges3DManager = {
     const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
     camera.position.set(0, 0, 5.07);
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: canvas });
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: canvas, powerPreference: 'high-performance' });
     renderer.setSize(size, size, false);
-    renderer.setPixelRatio(1);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 2, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
     renderer.toneMappingExposure = 1.05;
 
@@ -1269,7 +1269,7 @@ const SilkBadges3DManager = {
     }
 
     const texture = new THREE.CanvasTexture(cvs);
-    const geom = new THREE.PlaneGeometry(4.2, 4.2, 50, 50);
+    const geom = new THREE.PlaneGeometry(4.2, 4.2, 70, 70);
     const posAttr = geom.attributes.position;
     const basePos = posAttr.array.slice();
 
@@ -1314,7 +1314,7 @@ const SilkBadges3DManager = {
         m.renderer.render(m.scene, m.camera);
       }
 
-      // Blit master 3D frames to all visible card badges
+      // Blit master 3D frames to all visible card badges with high quality
       const badges = document.querySelectorAll('.fc-silk-3d-canvas');
       badges.forEach(b => {
         const rank = parseInt(b.dataset.rank, 10);
@@ -1329,6 +1329,8 @@ const SilkBadges3DManager = {
         const master = this.masters[masterKey];
         if (!master) return;
 
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
         ctx.clearRect(0, 0, b.width, b.height);
         ctx.drawImage(master.canvas, 0, 0, b.width, b.height);
 
@@ -1337,13 +1339,13 @@ const SilkBadges3DManager = {
           ctx.save();
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
-          ctx.font = '800 44px "Outfit", "Inter", sans-serif';
+          ctx.font = '800 80px "Outfit", "Inter", sans-serif';
           ctx.fillStyle = '#ffffff';
           ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
-          ctx.shadowBlur = 8;
-          ctx.shadowOffsetX = 1;
-          ctx.shadowOffsetY = 2;
-          ctx.fillText(String(rank), b.width / 2, b.height / 2 + 1);
+          ctx.shadowBlur = 12;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 4;
+          ctx.fillText(String(rank), b.width / 2, b.height / 2 + 2);
           ctx.restore();
         }
       });
@@ -1365,7 +1367,7 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
     else if (rank === 2) rankClass = 'fc-card-silver';
     else if (rank === 3) rankClass = 'fc-card-bronze';
 
-    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="${rank}" width="96" height="96" title="Rank ${rank}"></canvas>`;
+    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="${rank}" width="176" height="176" title="Rank ${rank}"></canvas>`;
   } else {
     // In Roster: Clean squad initials monogram (NO rank number)
     const initials = (p.display_name || 'FC').trim().slice(0, 2).toUpperCase();
