@@ -1179,6 +1179,7 @@ function switchTab(newTabName) {
   state.activeTab = newTabName;
   updateNavIndicator();
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  setTimeout(() => SilkBadges3DManager.mountAll(), 30);
 }
 
 // --- Renderers ---
@@ -1187,155 +1188,264 @@ function renderAll() {
   renderTournaments();
   renderRoster();
   renderLeaderboard();
+  setTimeout(() => SilkBadges3DManager.mountAll(), 30);
 }
 
 /* ==========================================================================
-   LIVE 3D SILK SQUARE FABRIC BADGES (1st GOLD, 2nd SILVER, 3rd BRONZE ONLY)
-   Optimized for ultra-fast 60/120 FPS performance (Zero Lag)
+   PODIUM 3D SILK ELEMENTS ENGINE (EXACT 1st GOLD, 2nd SILVER, 3rd BRONZE ARCHITECTURE)
+   High-definition ACESFilmic Tone Mapping, Normal-Map Sheen, Micro-Flutter Waves
    ========================================================================== */
+const SILK_TIERS = {
+  gold: {
+    num: "1",
+    colorHex: 0xd4af37,
+    roughness: 0.28,
+    metalness: 0.58,
+    lightColor: 0xfff2d6,
+    ambientColor: 0xffedd0,
+    rimColor: 0xcc8800
+  },
+  silver: {
+    num: "2",
+    colorHex: 0xcfd6df,
+    roughness: 0.24,
+    metalness: 0.62,
+    lightColor: 0xf8fafc,
+    ambientColor: 0xebf2f8,
+    rimColor: 0x7c8ba1
+  },
+  bronze: {
+    num: "3",
+    colorHex: 0xb06535,
+    roughness: 0.30,
+    metalness: 0.54,
+    lightColor: 0xffe2d0,
+    ambientColor: 0xffdfd0,
+    rimColor: 0x8a3809
+  }
+};
+
+function createSilkTexture(cfg, renderer) {
+  if (typeof document === 'undefined' || !document.createElement) return null;
+  const canvas = document.createElement('canvas');
+  canvas.width = 1024;
+  canvas.height = 1024;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  const hex = cfg.colorHex;
+  const r = (hex >> 16) & 255;
+  const g = (hex >> 8) & 255;
+  const b = hex & 255;
+
+  // Solid color with ultra-subtle radial contrast
+  const grad = ctx.createRadialGradient(512, 512, 50, 512, 512, 650);
+  grad.addColorStop(0, `rgb(${Math.min(255, r + 15)}, ${Math.min(255, g + 15)}, ${Math.min(255, b + 15)})`);
+  grad.addColorStop(0.8, `rgb(${r}, ${g}, ${b})`);
+  grad.addColorStop(1, `rgb(${Math.max(0, r - 25)}, ${Math.max(0, g - 25)}, ${Math.max(0, b - 25)})`);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, 1024, 1024);
+
+  // Microscopic woven sheen
+  ctx.strokeStyle = `rgba(255, 255, 255, 0.04)`;
+  ctx.lineWidth = 2;
+  for (let i = -1024; i < 2048; i += 16) {
+    ctx.beginPath();
+    ctx.moveTo(i, 0);
+    ctx.lineTo(i + 1024, 1024);
+    ctx.stroke();
+  }
+
+  // HIGH-CONTRAST BOLD BLACK VECTOR NUMERAL (1, 2, 3)
+  if (cfg.num) {
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.font = '900 680px "Times New Roman", Georgia, serif';
+
+    // Deep vector black fill
+    ctx.fillStyle = '#060606';
+    ctx.fillText(cfg.num, 512, 512);
+
+    // Razor-sharp vector stroke
+    ctx.strokeStyle = '#000000';
+    ctx.lineWidth = 6;
+    ctx.strokeText(cfg.num, 512, 512);
+
+    ctx.restore();
+  }
+
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.generateMipmaps = true;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  if (renderer && renderer.capabilities) {
+    texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  }
+  return texture;
+}
+
+function createSilkNormalMap() {
+  if (typeof document === 'undefined' || !document.createElement) return null;
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return null;
+
+  ctx.fillStyle = '#8080ff';
+  ctx.fillRect(0, 0, 256, 256);
+
+  for (let y = 0; y < 256; y += 2) {
+    ctx.fillStyle = (y % 4 === 0) ? 'rgba(135, 135, 255, 0.25)' : 'rgba(120, 120, 255, 0.25)';
+    ctx.fillRect(0, y, 256, 1);
+  }
+  const tex = new THREE.CanvasTexture(canvas);
+  tex.wrapS = THREE.RepeatWrapping;
+  tex.wrapT = THREE.RepeatWrapping;
+  tex.repeat.set(16, 16);
+  return tex;
+}
+
 const SilkBadges3DManager = {
-  initialized: false,
-  masters: {},
+  elements: [],
+  clock: null,
+  normalMap: null,
+  animating: false,
 
   init() {
-    if (this.initialized || typeof THREE === 'undefined') return;
-    this.initialized = true;
-
-    try {
-      this.createMaster('gold', 13938487, '1', 16772560, 16773846, 13404160, 0.32, 0.55);
-      this.createMaster('silver', 13620959, '2', 15463160, 16317180, 8162209, 0.28, 0.60);
-      this.createMaster('bronze', 11560245, '3', 16768976, 16769744, 9058313, 0.34, 0.52);
-
-      this.startLoop();
-    } catch (e) {
-      console.warn('SilkBadges3DManager init error:', e);
+    if (typeof THREE === 'undefined') return;
+    if (!this.normalMap) this.normalMap = createSilkNormalMap();
+    if (!this.clock) this.clock = new THREE.Clock();
+    this.mountAll();
+    if (!this.animating) {
+      this.animating = true;
+      this.renderLoop();
     }
   },
 
-  createMaster(key, hex, number, ambientHex, keyHex, rimHex, roughness, metalness) {
-    const size = 512;
-    const canvas = document.createElement('canvas');
-    canvas.width = size;
-    canvas.height = size;
+  mountAll() {
+    if (typeof THREE === 'undefined') return;
+    if (!this.normalMap) this.normalMap = createSilkNormalMap();
+    if (!this.clock) this.clock = new THREE.Clock();
 
-    const scene = new THREE.Scene();
-    // Distance 5.07 with FOV 45 perfectly scales the 4.2x4.2 cloth to fill 100% edge-to-edge without black gaps
-    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-    camera.position.set(0, 0, 5.07);
+    const viewports = document.querySelectorAll('.silk-viewport:not([data-mounted])');
+    viewports.forEach(vp => {
+      const tierKey = vp.dataset.tier;
+      const cfg = SILK_TIERS[tierKey];
+      if (!cfg) return;
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: canvas, powerPreference: 'high-performance' });
-    renderer.setSize(size, size, false);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 2, 2));
-    renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.05;
+      vp.setAttribute('data-mounted', 'true');
 
-    scene.add(new THREE.AmbientLight(ambientHex, 0.55));
-    const keyLight = new THREE.DirectionalLight(keyHex, 1.35);
-    keyLight.position.set(3.5, 4.0, 3.5);
-    scene.add(keyLight);
-    const rimLight = new THREE.DirectionalLight(rimHex, 1.0);
-    rimLight.position.set(-4.0, -2.5, 2.5);
-    scene.add(rimLight);
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+      camera.position.set(0, 0, 7.5);
 
-    // Generate Texture
-    const cvs = document.createElement('canvas');
-    cvs.width = 1024;
-    cvs.height = 1024;
-    const ctx = cvs.getContext('2d');
-    const r = (hex >> 16) & 255, g = (hex >> 8) & 255, b = hex & 255;
-    const gr = ctx.createRadialGradient(512, 512, 50, 512, 512, 600);
-    gr.addColorStop(0, 'rgb(' + (r + 25) + ',' + (g + 25) + ',' + (b + 25) + ')');
-    gr.addColorStop(0.7, 'rgb(' + r + ',' + g + ',' + b + ')');
-    gr.addColorStop(1, 'rgb(' + Math.max(0, r - 35) + ',' + Math.max(0, g - 35) + ',' + Math.max(0, b - 35) + ')');
-    ctx.fillStyle = gr;
-    ctx.fillRect(0, 0, 1024, 1024);
+      const renderer = new THREE.WebGLRenderer({
+        antialias: true,
+        alpha: true,
+        powerPreference: 'high-performance'
+      });
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 2, 2));
+      renderer.setSize(44, 44);
+      renderer.setClearColor(0x000000, 0); // 100% Transparent
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.05;
+      vp.appendChild(renderer.domElement);
 
-    if (number) {
-      ctx.save();
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.font = '900 665px "Times New Roman", Georgia, serif';
-      ctx.shadowColor = 'rgba(0,0,0,0.65)';
-      ctx.shadowBlur = 25;
-      ctx.shadowOffsetX = 6;
-      ctx.shadowOffsetY = 10;
-      ctx.fillStyle = '#050505';
-      ctx.fillText(number, 512, 520);
-      ctx.shadowColor = 'transparent';
-      ctx.fillStyle = '#040404';
-      ctx.fillText(number, 512, 512);
-      ctx.restore();
-    }
+      // Studio Lighting
+      scene.add(new THREE.AmbientLight(cfg.ambientColor, 0.6));
+      const keyL = new THREE.DirectionalLight(cfg.lightColor, 1.4);
+      keyL.position.set(3.5, 4.0, 3.5);
+      scene.add(keyL);
 
-    const texture = new THREE.CanvasTexture(cvs);
-    const geom = new THREE.PlaneGeometry(4.2, 4.2, 50, 50);
-    const posAttr = geom.attributes.position;
-    const basePos = posAttr.array.slice();
+      const rimL = new THREE.DirectionalLight(cfg.rimColor, 1.1);
+      rimL.position.set(-4.0, -2.5, 2.5);
+      scene.add(rimL);
 
-    const mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({
-      map: texture,
-      side: THREE.DoubleSide,
-      roughness: roughness,
-      metalness: metalness
-    }));
-    scene.add(mesh);
+      const geom = new THREE.PlaneGeometry(4.2, 4.2, 60, 60);
+      const posAttr = geom.attributes.position;
+      const basePos = posAttr.array.slice();
 
-    this.masters[key] = {
-      canvas,
-      scene,
-      camera,
-      renderer,
-      mesh,
-      geom,
-      posAttr,
-      basePos
-    };
+      const mat = new THREE.MeshStandardMaterial({
+        map: createSilkTexture(cfg, renderer),
+        side: THREE.DoubleSide,
+        roughness: cfg.roughness,
+        metalness: cfg.metalness,
+        normalMap: this.normalMap,
+        normalScale: new THREE.Vector2(0.05, 0.05)
+      });
+
+      const mesh = new THREE.Mesh(geom, mat);
+      scene.add(mesh);
+
+      const elementData = {
+        dom: vp,
+        scene: scene,
+        camera: camera,
+        renderer: renderer,
+        mesh: mesh,
+        geom: geom,
+        posAttr: posAttr,
+        basePos: basePos,
+        targetRotX: 0,
+        targetRotY: 0
+      };
+
+      vp.addEventListener('mousemove', (e) => {
+        const r = vp.getBoundingClientRect();
+        const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
+        const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
+        elementData.targetRotY = nx * 0.45;
+        elementData.targetRotX = ny * 0.35;
+      });
+
+      vp.addEventListener('mouseleave', () => {
+        elementData.targetRotX = 0;
+        elementData.targetRotY = 0;
+      });
+
+      this.elements.push(elementData);
+    });
   },
 
-  startLoop() {
-    const clk = new THREE.Clock();
-    const animate = () => {
-      requestAnimationFrame(animate);
-      const t = clk.getElapsedTime();
+  renderLoop() {
+    requestAnimationFrame(() => this.renderLoop());
 
-      // Update 3D silk waves on the 3 podium masters
-      for (const key in this.masters) {
-        const m = this.masters[key];
-        const p = m.posAttr.array;
-        for (let i = 0; i < p.length; i += 3) {
-          const u = m.basePos[i], v = m.basePos[i + 1];
-          const w1 = Math.sin(u * 2.2 + t * 3.4) * 0.22;
-          const w2 = Math.cos(v * 1.9 + t * 2.5) * 0.16;
-          p[i + 2] = (w1 + w2) * (0.35 + (u + 2.1) / 4.2 * 0.85);
-        }
-        m.posAttr.needsUpdate = true;
-        m.geom.computeVertexNormals();
-        m.renderer.render(m.scene, m.camera);
+    if (!this.clock) return;
+    const elapsed = this.clock.getElapsedTime();
+
+    // Clean up detached DOM elements
+    this.elements = this.elements.filter(item => {
+      if (!document.body.contains(item.dom)) {
+        if (item.renderer && item.renderer.dispose) item.renderer.dispose();
+        return false;
+      }
+      return true;
+    });
+
+    this.elements.forEach(item => {
+      item.mesh.rotation.y += (item.targetRotY - item.mesh.rotation.y) * 0.08;
+      item.mesh.rotation.x += (item.targetRotX - item.mesh.rotation.x) * 0.08;
+
+      const pos = item.posAttr.array;
+      for (let i = 0; i < pos.length; i += 3) {
+        const u = item.basePos[i];
+        const v = item.basePos[i + 1];
+
+        const wave1 = Math.sin(u * 2.2 + elapsed * 3.4) * 0.22;
+        const wave2 = Math.cos(v * 1.9 + elapsed * 2.5) * 0.16;
+        const microFlutter = Math.sin((u + v) * 4.6 + elapsed * 4.2) * 0.06;
+
+        const windWeight = (u + 2.1) / 4.2;
+        pos[i + 2] = (wave1 + wave2 + microFlutter) * (0.35 + windWeight * 0.85);
       }
 
-      // Blit podium 3D frames (only 3 elements per view)
-      const badges = document.querySelectorAll('.fc-silk-3d-canvas');
-      badges.forEach(b => {
-        const rank = parseInt(b.dataset.rank, 10);
-        const ctx = b.getContext('2d');
-        if (!ctx) return;
+      item.posAttr.needsUpdate = true;
+      item.geom.computeVertexNormals();
 
-        let masterKey = null;
-        if (rank === 1) masterKey = 'gold';
-        else if (rank === 2) masterKey = 'silver';
-        else if (rank === 3) masterKey = 'bronze';
-
-        if (!masterKey) return;
-        const master = this.masters[masterKey];
-        if (!master) return;
-
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = 'high';
-        ctx.clearRect(0, 0, b.width, b.height);
-        ctx.drawImage(master.canvas, 0, 0, b.width, b.height);
-      });
-    };
-    animate();
+      item.renderer.render(item.scene, item.camera);
+    });
   }
 };
 
@@ -1349,13 +1459,13 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
 
   if (rank === 1) {
     rankClass = 'fc-card-gold';
-    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="1" width="176" height="176" title="1st Place - Gold Champion"></canvas>`;
+    badgeHTML = `<div class="silk-viewport" data-tier="gold" title="1st Place - Gold Champion"></div>`;
   } else if (rank === 2) {
     rankClass = 'fc-card-silver';
-    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="2" width="176" height="176" title="2nd Place - Silver Runner-up"></canvas>`;
+    badgeHTML = `<div class="silk-viewport" data-tier="silver" title="2nd Place - Silver Runner-up"></div>`;
   } else if (rank === 3) {
     rankClass = 'fc-card-bronze';
-    badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="3" width="176" height="176" title="3rd Place - Bronze Podium"></canvas>`;
+    badgeHTML = `<div class="silk-viewport" data-tier="bronze" title="3rd Place - Bronze Podium"></div>`;
   } else if (rank !== null && rank !== undefined) {
     // Ranks 4+: Lightweight static dark blue square with crisp pure white number (Zero Lag)
     badgeHTML = `<div class="fc-rank-badge-blue" title="Rank ${rank}">${rank}</div>`;
@@ -1455,6 +1565,7 @@ function renderDashboard() {
 
   if (topContainer) {
     topContainer.innerHTML = top3.map((p, idx) => renderPlayerCard(p, idx + 1)).join('');
+    setTimeout(() => SilkBadges3DManager.mountAll(), 30);
   }
 
   // Flagged Section
@@ -1569,6 +1680,7 @@ function renderLeaderboard() {
       const p = state.players.find(pl => pl.player_id === item.player_id) || item;
       return renderPlayerCard(p, idx + 1, item.goals, item.avg);
     }).join('');
+    setTimeout(() => SilkBadges3DManager.mountAll(), 30);
   }
 }
 
