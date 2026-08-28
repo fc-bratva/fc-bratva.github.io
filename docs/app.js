@@ -993,8 +993,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     AudioManager.updateUI();
   }
 
-  // Initialize 3D Waving Flag, Immersive Mode & Full View Director
+  // Initialize 3D Waving Flag, Immersive Mode, Silk Badges & Full View Director
   Flag3DManager.init();
+  SilkBadges3DManager.init();
   ImmersiveMode.init();
   CinematicDirector.init();
 
@@ -1189,121 +1190,166 @@ function renderAll() {
 }
 
 /* ==========================================================================
-   SOLID 3D SILK SQUARE FABRIC BADGES PROCEDURAL GENERATOR
-   Exact configuration from Three.js Silk Square Architecture (Original High Quality)
+   LIVE 3D SILK SQUARE FABRIC BADGES (REAL THREE.JS WEBGL CLOTH WAVE ENGINE)
+   Exact scene, lighting, texture generator & harmonic wave physics from specification
    ========================================================================== */
-const TIER_BADGE_CONFIGS = {
-  gold: { number: "1", materialColor: 0xd4af37 },
-  silver: { number: "2", materialColor: 0xcfd6df },
-  bronze: { number: "3", materialColor: 0xb06535 },
-  competitor: { number: null, materialColor: 0x0c1e3d }
+const SilkBadges3DManager = {
+  initialized: false,
+  masters: {},
+
+  init() {
+    if (this.initialized || typeof THREE === 'undefined') return;
+    this.initialized = true;
+
+    try {
+      this.createMaster('gold', 13938487, '1', 16772560, 16773846, 13404160, 0.32, 0.55);
+      this.createMaster('silver', 13620959, '2', 15463160, 16317180, 8162209, 0.28, 0.60);
+      this.createMaster('bronze', 11560245, '3', 16768976, 16769744, 9058313, 0.34, 0.52);
+      this.createMaster('competitor', 794173, null, 9684477, 14412542, 1920728, 0.38, 0.45);
+
+      this.startLoop();
+    } catch (e) {
+      console.warn('SilkBadges3DManager init error:', e);
+    }
+  },
+
+  createMaster(key, hex, number, ambientHex, keyHex, rimHex, roughness, metalness) {
+    const size = 256;
+    const canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
+    camera.position.set(0, 0, 7.5);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, canvas: canvas });
+    renderer.setSize(size, size, false);
+    renderer.setPixelRatio(1);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.05;
+
+    scene.add(new THREE.AmbientLight(ambientHex, 0.55));
+    const keyLight = new THREE.DirectionalLight(keyHex, 1.35);
+    keyLight.position.set(3.5, 4.0, 3.5);
+    scene.add(keyLight);
+    const rimLight = new THREE.DirectionalLight(rimHex, 1.0);
+    rimLight.position.set(-4.0, -2.5, 2.5);
+    scene.add(rimLight);
+
+    // Generate Texture
+    const cvs = document.createElement('canvas');
+    cvs.width = 1024;
+    cvs.height = 1024;
+    const ctx = cvs.getContext('2d');
+    const r = (hex >> 16) & 255, g = (hex >> 8) & 255, b = hex & 255;
+    const gr = ctx.createRadialGradient(512, 512, 50, 512, 512, 600);
+    gr.addColorStop(0, 'rgb(' + (r + 25) + ',' + (g + 25) + ',' + (b + 25) + ')');
+    gr.addColorStop(0.7, 'rgb(' + r + ',' + g + ',' + b + ')');
+    gr.addColorStop(1, 'rgb(' + Math.max(0, r - 35) + ',' + Math.max(0, g - 35) + ',' + Math.max(0, b - 35) + ')');
+    ctx.fillStyle = gr;
+    ctx.fillRect(0, 0, 1024, 1024);
+
+    if (number) {
+      ctx.save();
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.font = '900 665px "Times New Roman", Georgia, serif';
+      ctx.shadowColor = 'rgba(0,0,0,0.65)';
+      ctx.shadowBlur = 25;
+      ctx.shadowOffsetX = 6;
+      ctx.shadowOffsetY = 10;
+      ctx.fillStyle = '#050505';
+      ctx.fillText(number, 512, 520);
+      ctx.shadowColor = 'transparent';
+      ctx.fillStyle = '#040404';
+      ctx.fillText(number, 512, 512);
+      ctx.restore();
+    }
+
+    const texture = new THREE.CanvasTexture(cvs);
+    const geom = new THREE.PlaneGeometry(4.2, 4.2, 50, 50);
+    const posAttr = geom.attributes.position;
+    const basePos = posAttr.array.slice();
+
+    const mesh = new THREE.Mesh(geom, new THREE.MeshStandardMaterial({
+      map: texture,
+      side: THREE.DoubleSide,
+      roughness: roughness,
+      metalness: metalness
+    }));
+    scene.add(mesh);
+
+    this.masters[key] = {
+      canvas,
+      scene,
+      camera,
+      renderer,
+      mesh,
+      geom,
+      posAttr,
+      basePos
+    };
+  },
+
+  startLoop() {
+    const clk = new THREE.Clock();
+    const animate = () => {
+      requestAnimationFrame(animate);
+      const t = clk.getElapsedTime();
+
+      // Update 3D silk waves on all master WebGL renderers
+      for (const key in this.masters) {
+        const m = this.masters[key];
+        const p = m.posAttr.array;
+        for (let i = 0; i < p.length; i += 3) {
+          const u = m.basePos[i], v = m.basePos[i + 1];
+          const w1 = Math.sin(u * 2.2 + t * 3.4) * 0.22;
+          const w2 = Math.cos(v * 1.9 + t * 2.5) * 0.16;
+          p[i + 2] = (w1 + w2) * (0.35 + (u + 2.1) / 4.2 * 0.85);
+        }
+        m.posAttr.needsUpdate = true;
+        m.geom.computeVertexNormals();
+        m.renderer.render(m.scene, m.camera);
+      }
+
+      // Blit master 3D frames to all visible card badges
+      const badges = document.querySelectorAll('.fc-silk-3d-canvas');
+      badges.forEach(b => {
+        const rank = parseInt(b.dataset.rank, 10);
+        const ctx = b.getContext('2d');
+        if (!ctx) return;
+
+        let masterKey = 'competitor';
+        if (rank === 1) masterKey = 'gold';
+        else if (rank === 2) masterKey = 'silver';
+        else if (rank === 3) masterKey = 'bronze';
+
+        const master = this.masters[masterKey];
+        if (!master) return;
+
+        ctx.clearRect(0, 0, b.width, b.height);
+        ctx.drawImage(master.canvas, 0, 0, b.width, b.height);
+
+        // For competitor tier (4+), render crisp pure white rank number on top
+        if (rank > 3) {
+          ctx.save();
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.font = '800 44px "Outfit", "Inter", sans-serif';
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+          ctx.shadowBlur = 8;
+          ctx.shadowOffsetX = 1;
+          ctx.shadowOffsetY = 2;
+          ctx.fillText(String(rank), b.width / 2, b.height / 2 + 1);
+          ctx.restore();
+        }
+      });
+    };
+    animate();
+  }
 };
-
-const badgeDataUrlCache = {};
-
-function getTierBadgeDataUrl(rank) {
-  if (badgeDataUrlCache[rank]) return badgeDataUrlCache[rank];
-
-  let tierKey = 'competitor';
-  if (rank === 1) tierKey = 'gold';
-  else if (rank === 2) tierKey = 'silver';
-  else if (rank === 3) tierKey = 'bronze';
-
-  const cfg = TIER_BADGE_CONFIGS[tierKey];
-  if (typeof document === 'undefined' || !document.createElement) return '';
-
-  const canvas = document.createElement('canvas');
-  canvas.width = 1024;
-  canvas.height = 1024;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return '';
-
-  // Convert hex color to RGB
-  const hex = cfg.materialColor;
-  const r = (hex >> 16) & 255;
-  const g = (hex >> 8) & 255;
-  const b = hex & 255;
-
-  // Base silk color gradient for organic depth
-  const grad = ctx.createRadialGradient(512, 512, 50, 512, 512, 600);
-  grad.addColorStop(0, `rgb(${Math.min(255, r + 25)}, ${Math.min(255, g + 25)}, ${Math.min(255, b + 25)})`);
-  grad.addColorStop(0.7, `rgb(${r}, ${g}, ${b})`);
-  grad.addColorStop(1, `rgb(${Math.max(0, r - 35)}, ${Math.max(0, g - 35)}, ${Math.max(0, b - 35)})`);
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 1024, 1024);
-
-  // Microscopic woven silk diagonal sheen
-  ctx.strokeStyle = `rgba(255, 255, 255, 0.035)`;
-  ctx.lineWidth = 1;
-  for (let i = -1024; i < 2048; i += 8) {
-    ctx.beginPath();
-    ctx.moveTo(i, 0);
-    ctx.lineTo(i + 1024, 1024);
-    ctx.stroke();
-  }
-
-  // 1st, 2nd, 3rd: Solid bold black velvet Roman numerals
-  if (cfg.number) {
-    ctx.save();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = '900 665px "Times New Roman", Georgia, serif';
-
-    // 1. Soft ambient cloth contact shadow behind the bold black number
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.65)';
-    ctx.shadowBlur = 22;
-    ctx.shadowOffsetX = 5;
-    ctx.shadowOffsetY = 8;
-    ctx.fillStyle = '#050505';
-    ctx.fillText(cfg.number, 512, 517);
-
-    // 2. Main Pitch Black Velvet/Silk Print
-    const blackGrad = ctx.createLinearGradient(512, 150, 512, 875);
-    blackGrad.addColorStop(0.0, '#1c1c1c');
-    blackGrad.addColorStop(0.3, '#0b0b0b');
-    blackGrad.addColorStop(0.85, '#040404');
-    blackGrad.addColorStop(1.0, '#000000');
-
-    ctx.shadowColor = 'transparent';
-    ctx.fillStyle = blackGrad;
-    ctx.fillText(cfg.number, 512, 512);
-
-    // 3. Subtle micro-edge definition for woven depth
-    ctx.strokeStyle = 'rgba(0, 0, 0, 0.85)';
-    ctx.lineWidth = 4;
-    ctx.strokeText(cfg.number, 512, 512);
-
-    // 4. Ultra-fine top light rim highlight (1px soft sheen over the black number)
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)';
-    ctx.lineWidth = 1.25;
-    ctx.strokeText(cfg.number, 512, 511);
-
-    ctx.restore();
-  } else {
-    // 4th, 5th, 6th...: Bold crisp white numerals (NO #)
-    ctx.save();
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.font = '800 480px "Outfit", "Inter", sans-serif';
-
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.85)';
-    ctx.shadowBlur = 24;
-    ctx.shadowOffsetX = 3;
-    ctx.shadowOffsetY = 6;
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(String(rank), 512, 518);
-
-    ctx.shadowColor = 'transparent';
-    ctx.fillStyle = '#ffffff';
-    ctx.fillText(String(rank), 512, 512);
-
-    ctx.restore();
-  }
-
-  const url = canvas.toDataURL('image/png');
-  badgeDataUrlCache[rank] = url;
-  return url;
-}
 
 function renderPlayerCard(p, rank, customGoals, customAvg) {
   const goals = customGoals !== undefined ? customGoals : getPlayerGoals(p);
@@ -1315,10 +1361,7 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
   else if (rank === 2) rankClass = 'fc-card-silver';
   else if (rank === 3) rankClass = 'fc-card-bronze';
 
-  const badgeUrl = getTierBadgeDataUrl(rank);
-  const badgeHTML = badgeUrl 
-    ? `<img src="${badgeUrl}" class="fc-silk-square-badge" alt="Rank ${rank}" />` 
-    : `<div class="fc-ovr-badge">${rank}</div>`;
+  const badgeHTML = `<canvas class="fc-silk-3d-canvas" data-rank="${rank}" width="96" height="96" title="Rank ${rank}"></canvas>`;
 
   const lastMatch = matches.length > 0 ? matches[matches.length - 1] : null;
   const lastTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : (lastMatch.goals_for ? 3 : 0)) : 3;

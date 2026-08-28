@@ -752,7 +752,21 @@ body.immersive-mode .bg-3d-canvas-container {
   min-width: 0;
 }
 
-/* Solid 3D Silk Square Fabric Rank Badges (Pure Square, Sharp Edges, Original Quality) */
+/* Live 3D Animated Silk Square Fabric Badges (Pure Square, Sharp Edges, Real Three.js Wave) */
+.fc-silk-3d-canvas {
+  width: 44px;
+  height: 44px;
+  border-radius: 0 !important;
+  border: none !important;
+  outline: none;
+  flex-shrink: 0;
+  display: block;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85);
+  background: #000000;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+}
+
 .fc-silk-square-badge {
   width: 44px;
   height: 44px;
@@ -764,8 +778,6 @@ body.immersive-mode .bg-3d-canvas-container {
   display: block;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.85);
   background: #000000;
-  image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
 }
 
 .fc-ovr-badge {
