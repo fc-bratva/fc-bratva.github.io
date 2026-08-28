@@ -1338,8 +1338,9 @@ const SilkBadges3DManager = {
       vp.setAttribute('data-mounted', 'true');
 
       const scene = new THREE.Scene();
+      // Distance 5.07 with FOV 45 perfectly scales the 4.2x4.2 cloth to fill 100% of the box
       const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
-      camera.position.set(0, 0, 7.5);
+      camera.position.set(0, 0, 5.07);
 
       const renderer = new THREE.WebGLRenderer({
         antialias: true,
@@ -1347,7 +1348,7 @@ const SilkBadges3DManager = {
         powerPreference: 'high-performance'
       });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 2, 2));
-      renderer.setSize(44, 44);
+      renderer.setSize(48, 48);
       renderer.setClearColor(0x000000, 0); // 100% Transparent
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.05;

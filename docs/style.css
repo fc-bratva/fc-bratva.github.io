@@ -752,10 +752,10 @@ body.immersive-mode .bg-3d-canvas-container {
   min-width: 0;
 }
 
-/* Isolated 3D Silk Podium Viewports (Exact Original Studio Quality) */
+/* Isolated 3D Silk Podium Viewports (Ranks 1, 2, 3 - Big & Grand Full-Bleed) */
 .silk-viewport {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   position: relative;
   background: transparent !important;
   flex-shrink: 0;
@@ -789,10 +789,10 @@ body.immersive-mode .bg-3d-canvas-container {
   letter-spacing: 0.5px;
 }
 
-/* Static Pure Square Blue Rank Badge (Ranks 4+, Zero Lag) */
+/* Static Pure Square Blue Rank Badge (Ranks 4+ - Smaller Compact Size) */
 .fc-rank-badge-blue {
-  width: 44px;
-  height: 44px;
+  width: 32px;
+  height: 32px;
   border-radius: 0 !important; /* Pure sharp square */
   background: radial-gradient(circle at 35% 30%, #1e3a8a 0%, #0c1e3d 60%, #040915 100%);
   border: 1px solid rgba(96, 165, 250, 0.4);
@@ -801,12 +801,13 @@ body.immersive-mode .bg-3d-canvas-container {
   justify-content: center;
   font-family: var(--font-main);
   font-weight: 800;
-  font-size: 1.05rem;
+  font-size: 0.92rem;
   color: #ffffff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.95);
   flex-shrink: 0;
   user-select: none;
   letter-spacing: -0.5px;
+  margin: 0 8px 0 8px; /* Balanced centering with the 48px column */
 }
 
 .fc-silk-square-badge {
