@@ -7,35 +7,36 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  border-radius: 0 !important;
 }
 
 :root {
-  /* Official UEFA Champions League Navy Palette */
-  --ucl-abyss: #020819;
-  --ucl-navy: #051138;
-  --ucl-card: rgba(6, 18, 52, 0.72);
-  --ucl-card-hover: rgba(12, 28, 72, 0.82);
-  --ucl-tile: rgba(4, 14, 40, 0.76);
-  --ucl-tile-hover: rgba(8, 22, 58, 0.86);
-  --ucl-border: rgba(0, 180, 255, 0.18);
-  --ucl-border-hover: rgba(0, 212, 255, 0.45);
+  /* FC Bratva Royal Velvet, Deep Plum & Gold Palette */
+  --ucl-abyss: #08020e;
+  --ucl-navy: #150622;
+  --ucl-card: rgba(24, 12, 36, 0.82);
+  --ucl-card-hover: rgba(36, 18, 54, 0.92);
+  --ucl-tile: rgba(16, 8, 26, 0.86);
+  --ucl-tile-hover: rgba(28, 14, 44, 0.94);
+  --ucl-border: rgba(192, 132, 252, 0.25);
+  --ucl-border-hover: rgba(216, 180, 254, 0.60);
   
-  /* Primary & Accent Colors */
-  --ucl-cyan: #00d4ff;
+  /* Primary & Accent Colors (Same brightness level as previous electric blue, shifted to Royal Vivid Purple) */
+  --ucl-cyan: #c084fc;
   --ucl-white: #ffffff;
-  --ucl-slate: #8ea3c7;
-  --ucl-muted: #5e7399;
+  --ucl-slate: #c4a5c9;
+  --ucl-muted: #826692;
   
   /* Status Colors */
   --ucl-win: #00e676;
   --ucl-loss: #ff3b5c;
-  --ucl-draw: #ffb300;
+  --ucl-draw: #ffd700;
   
   /* Typography */
   --font-main: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-body: 'Inter', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   
-  --header-h: 74px;
+  --header-h: 80px;
   --tabbar-h: 64px;
 }
 
@@ -52,7 +53,7 @@ html {
 }
 
 body {
-  background: radial-gradient(circle at 50% 0%, #07153b 0%, #030a1e 50%, #01040f 100%);
+  background: radial-gradient(circle at 50% 0%, #3a0c1b 0%, #180724 45%, #08020e 100%);
   background-attachment: fixed;
   color: var(--ucl-white);
   font-family: var(--font-body);
@@ -107,10 +108,12 @@ body {
   top: 0;
   z-index: 100;
   width: 100%;
-  background: rgba(3, 10, 30, 0.72);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--ucl-border);
+  background: #430d1c;
+  background: linear-gradient(180deg, rgba(72, 14, 30, 0.98) 0%, rgba(55, 10, 22, 0.98) 100%);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-bottom: 2px solid #ffd700;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
   margin-bottom: 18px;
 }
 
@@ -118,7 +121,7 @@ body {
   max-width: 680px;
   width: 100%;
   margin: 0 auto;
-  padding: 10px 16px;
+  padding: 8px 36px;
   min-height: var(--header-h);
   display: flex;
   align-items: center;
@@ -135,11 +138,12 @@ body {
 
 /* Original Resource Logo (Static & Crisp) */
 .brand-logo-img {
-  width: 48px;
-  height: 48px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   flex-shrink: 0;
   cursor: pointer;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
   transition: transform 0.2s ease;
 }
 .brand-logo-img:hover {
@@ -275,7 +279,7 @@ body {
   text-align: right;
 }
 .lang-opt:hover, .lang-opt.active {
-  background: rgba(0, 212, 255, 0.15);
+  background: rgba(192, 132, 252, 0.15);
   color: var(--ucl-cyan);
 }
 
@@ -354,8 +358,8 @@ body.immersive-mode .bg-3d-canvas-container {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  background: rgba(0, 212, 255, 0.12);
-  border: 1px solid rgba(0, 212, 255, 0.35);
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.35);
   color: var(--ucl-cyan);
   font-family: var(--font-main);
   font-weight: 800;
@@ -490,7 +494,7 @@ body.immersive-mode .bg-3d-canvas-container {
   background: rgba(6, 17, 45, 0.65);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  border: 1px solid rgba(192, 132, 252, 0.3);
   border-radius: 10px;
   padding: 12px 16px;
   margin-bottom: 16px;
@@ -597,8 +601,8 @@ body.immersive-mode .bg-3d-canvas-container {
   font-size: 0.8rem;
   font-weight: 800;
   color: var(--ucl-cyan);
-  background: rgba(0, 212, 255, 0.12);
-  border: 1px solid rgba(0, 212, 255, 0.3) !important;
+  background: rgba(192, 132, 252, 0.12);
+  border: 1px solid rgba(192, 132, 252, 0.3) !important;
   border-radius: 20px;
   padding: 3px 10px !important;
   display: inline-block;
@@ -774,9 +778,9 @@ body.immersive-mode .bg-3d-canvas-container {
 .fc-roster-avatar {
   width: 44px;
   height: 44px;
-  border-radius: 6px;
-  background: rgba(14, 42, 94, 0.5);
-  border: 1px solid rgba(0, 180, 255, 0.3);
+  border-radius: 0 !important;
+  background: rgba(45, 14, 60, 0.75);
+  border: 1px solid rgba(192, 132, 252, 0.35);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -793,9 +797,9 @@ body.immersive-mode .bg-3d-canvas-container {
 .fc-rank-badge-blue {
   width: 32px;
   height: 32px;
-  border-radius: 0 !important; /* Pure sharp square */
-  background: radial-gradient(circle at 35% 30%, #1e3a8a 0%, #0c1e3d 60%, #040915 100%);
-  border: 1px solid rgba(96, 165, 250, 0.4);
+  border-radius: 0 !important;
+  background: radial-gradient(circle at 35% 30%, #581c87 0%, #2e1065 60%, #120324 100%);
+  border: 1px solid rgba(192, 132, 252, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -807,7 +811,7 @@ body.immersive-mode .bg-3d-canvas-container {
   flex-shrink: 0;
   user-select: none;
   letter-spacing: -0.5px;
-  margin: 0 8px 0 8px; /* Balanced centering with the 48px column */
+  margin: 0 8px;
 }
 
 .fc-silk-square-badge {
@@ -950,7 +954,7 @@ body.immersive-mode .bg-3d-canvas-container {
   display: flex;
   gap: 4px;
   background: rgba(3, 10, 28, 0.75);
-  border: 1px solid rgba(0, 180, 255, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 10px;
   padding: 4px;
   margin-bottom: 16px;
@@ -975,9 +979,9 @@ body.immersive-mode .bg-3d-canvas-container {
   background: rgba(255, 255, 255, 0.05);
 }
 .filter-pill.active {
-  background: rgba(0, 212, 255, 0.18);
+  background: rgba(192, 132, 252, 0.18);
   color: #ffffff;
-  border-color: rgba(0, 212, 255, 0.45);
+  border-color: rgba(192, 132, 252, 0.45);
   font-weight: 800;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
@@ -1011,7 +1015,7 @@ body.immersive-mode .bg-3d-canvas-container {
   background: rgba(4, 12, 34, 0.96);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(0, 180, 255, 0.25);
+  border: 1px solid rgba(168, 85, 247, 0.25);
   border-radius: 16px;
   padding: 18px 16px;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
@@ -1101,8 +1105,8 @@ body.immersive-mode .bg-3d-canvas-container {
   color: #f97316;
 }
 .modal-tag-blue {
-  background: rgba(0, 180, 255, 0.1);
-  border: 1px solid rgba(0, 180, 255, 0.3);
+  background: rgba(168, 85, 247, 0.1);
+  border: 1px solid rgba(168, 85, 247, 0.3);
   color: var(--ucl-cyan);
 }
 .modal-tag-green {
@@ -1205,7 +1209,7 @@ body.immersive-mode .bg-3d-canvas-container {
   transition: background 0.15s;
 }
 .modal-form-col:hover, .modal-form-col.active {
-  background: rgba(0, 180, 255, 0.1);
+  background: rgba(168, 85, 247, 0.1);
 }
 
 .modal-form-score {
@@ -1255,7 +1259,7 @@ body.immersive-mode .bg-3d-canvas-container {
 /* Match Inspector Banner */
 .modal-inspector-banner {
   background: rgba(6, 16, 44, 0.7);
-  border: 1px solid rgba(0, 180, 255, 0.2);
+  border: 1px solid rgba(168, 85, 247, 0.2);
   border-radius: 8px;
   padding: 10px 12px;
   margin-bottom: 14px;
@@ -1283,7 +1287,7 @@ body.immersive-mode .bg-3d-canvas-container {
 }
 .modal-history-row:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(0, 180, 255, 0.3);
+  border-color: rgba(168, 85, 247, 0.3);
 }
 
 .close-tape {
@@ -1440,5 +1444,12 @@ body.immersive-mode .bg-3d-canvas-container {
     opacity: 0;
     filter: blur(3px);
     transform: scale(0.995);
+  }
+}
+
+
+@media (max-width: 600px) {
+  .app-header-inner {
+    padding: 8px 20px;
   }
 }
