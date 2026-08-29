@@ -73,18 +73,38 @@ const I18N = {
     stamp_played: 'PLAYED',
     vs_match: 'vs {opp}',
     broadcast_dispatch_title: 'In-Game Broadcast Dispatch',
-    broadcast_hint: 'Formatted specifically for EA FC Mobile continuous single-block chat. Tap "COPY" on any card to paste directly into in-game league chat!',
+    broadcast_hint: 'Official 4-in-1 multilingual announcements (RU, EN, AR, ES) formatted specifically for EA FC Mobile continuous chat. Tap any section to expand and copy all at once!',
     admin_panel_title: 'ADMIN RULES & CONTROLS',
     admin_panel_desc: 'Cryptographically secured with salted SHA-256. Only league administrators can unlock this section to configure league rules and kick thresholds.',
-    unlock_btn: 'UNLOCK 🔓',
-    save_recalculate: 'SAVE & RECALCULATE SYSTEM ⚡',
+    unlock_btn: 'UNLOCK',
+    save_recalculate: 'SAVE & RECALCULATE SYSTEM',
     copy_msg_btn: 'COPY MESSAGE',
     copied_toast: 'COPIED! ✓',
-    rule_max_misses: 'Max Missed Tournaments Before Kick',
+    rule_max_misses: 'Max Consecutive Misses Before Kick',
     rule_min_turns: 'Mandatory Turns Per Tournament',
     rule_min_goals: 'Minimum Goals Target (3 Turns)',
-    rule_horizon: 'Enforcement Evaluation Horizon',
-    rule_motto: 'Custom League Motto & Chat Header'
+    rule_horizon: 'Attendance Evaluation Horizon',
+    b_posting_deadline: 'POSTING DEADLINE:',
+    b_copy_4in1_btn: 'COPY 4-IN-1 MESSAGE (ALL LANGUAGES)',
+    b_copied_toast: 'COPIED TO CLIPBOARD! ✓',
+    b_title_rules: 'LEAGUE CONSTITUTION & RULES',
+    b_badge_rules: 'NOTICE / PERMANENT',
+    b_timing_rules: 'Permanent League Announcement & Periodic Member Reminder',
+    b_title_warnings: 'TOURNAMENT WARNINGS & STRIKES',
+    b_badge_warnings: 'POST-MATCH NOTICE',
+    b_timing_warnings: 'Immediately After Tournament Conclusion',
+    b_title_rally: 'MATCH DAY RALLY & CALL-TO-ARMS',
+    b_badge_rally: 'MATCH START',
+    b_timing_rally: 'At Tournament Start (Hour 0–2)',
+    b_title_weekly: 'WEEKLY PERFORMANCE REPORT',
+    b_badge_weekly: 'WEEKLY CYCLE',
+    b_timing_weekly: 'Every Sunday Before Reset',
+    b_title_monthly: 'MONTHLY LEAGUE REVIEW',
+    b_badge_monthly: 'MONTHLY CYCLE',
+    b_timing_monthly: 'End of Monthly Season Cycle',
+    b_title_mvp: 'MATCH MVP & SPOTLIGHT SHOUTOUT',
+    b_badge_mvp: 'VICTORY LOG',
+    b_timing_mvp: 'Immediately Following Match Victory'
   },
   ar: {
     dir: 'rtl',
@@ -155,18 +175,38 @@ const I18N = {
     stamp_played: 'لعب',
     vs_match: 'ضد {opp}',
     broadcast_dispatch_title: 'مركز رسائل الشات للعبة',
-    broadcast_hint: 'مخصصة بالكامل لشات لعبة EA FC Mobile بدون تقطيع. اضغط "نسخ الرسالة" للصقها مباشرة في شات الدوري!',
+    broadcast_hint: 'رسائل موحدة بـ 4 لغات (الروسية، الإنجليزية، العربية، الإسبانية) مخصصة لشات EA FC Mobile. اضغط على أي قسم لفتحه ونسخ الرسالة كاملة!',
     admin_panel_title: 'لوحة تحكم القوانين للمشرفين',
     admin_panel_desc: 'محمية بتشفير SHA-256. المشرفون فقط يمكنهم فتح هذه اللوحة لتعديل قوانين الدوري وشروط الطرد.',
-    unlock_btn: 'فتح القفل 🔓',
-    save_recalculate: 'حفظ وإعادة حساب النظام ⚡',
+    unlock_btn: 'فتح القفل',
+    save_recalculate: 'حفظ وإعادة حساب النظام',
     copy_msg_btn: 'نسخ الرسالة',
     copied_toast: 'تم النسخ! ✓',
-    rule_max_misses: 'الحد الأقصى للغياب قبل الطرد',
+    rule_max_misses: 'الحد الأقصى للغياب المتتالي قبل الطرد',
     rule_min_turns: 'الأشواط الإلزامية في كل بطولة',
-    rule_min_goals: 'الحد الأدنى للأهداف المطلوبة',
-    rule_horizon: 'فترة تقييم الأداء',
-    rule_motto: 'شعار الدوري ورأس الرسائل'
+    rule_min_goals: 'الهدف الأدنى للأهداف المطلوبة',
+    rule_horizon: 'فترة تقييم الحضور والأداء',
+    b_posting_deadline: 'موعد النشر في الشات:',
+    b_copy_4in1_btn: 'نسخ الرسالة الموحدة (4 لغات معاً)',
+    b_copied_toast: 'تم النسخ بنجاح! ✓',
+    b_title_rules: 'دستور وقوانين الدوري',
+    b_badge_rules: 'إعلان دائم',
+    b_timing_rules: 'إعلان دائم في الدوري وتذكير دوري للأعضاء',
+    b_title_warnings: 'إنذارات وعقوبات البطولة',
+    b_badge_warnings: 'تنبيه بعد المباراة',
+    b_timing_warnings: 'مباشرة بعد نهاية كل بطولة',
+    b_title_rally: 'نداء بدء المباراة للمشاركة',
+    b_badge_rally: 'بداية البطولة',
+    b_timing_rally: 'مع انطلاق البطولة (الساعة 0–2)',
+    b_title_weekly: 'التقرير الأسبوعي للأداء',
+    b_badge_weekly: 'الحصاد الأسبوعي',
+    b_timing_weekly: 'كل يوم أحد قبل إعادة التعيين',
+    b_title_monthly: 'الحصاد الشهري للدوري',
+    b_badge_monthly: 'الحصاد الشهري',
+    b_timing_monthly: 'نهاية كل دورة شهرية',
+    b_title_mvp: 'نجوم المباراة وأفضل هداف',
+    b_badge_mvp: 'سجل الانتصار',
+    b_timing_mvp: 'مباشرة بعد تحقيق الفوز في المباراة'
   },
   ru: {
     dir: 'ltr',
@@ -237,18 +277,38 @@ const I18N = {
     stamp_played: 'СЫГРАНО',
     vs_match: 'против {opp}',
     broadcast_dispatch_title: 'Генератор сообщений для чата',
-    broadcast_hint: 'Специально для непрерывного чата EA FC Mobile. Нажмите «СКОПИРОВАТЬ», чтобы вставить в чат лиги!',
+    broadcast_hint: 'Официальные сообщения 4-в-1 (RU, EN, AR, ES) для чата EA FC Mobile. Нажмите на любой раздел, чтобы развернуть и скопировать всё сразу!',
     admin_panel_title: 'ПАНЕЛЬ УПРАВЛЕНИЯ ПРАВИЛАМИ',
     admin_panel_desc: 'Защищено шифрованием SHA-256. Только админы лиги могут настраивать правила и пороги исключения.',
-    unlock_btn: 'РАЗБЛОКИРОВАТЬ 🔓',
-    save_recalculate: 'СОХРАНИТЬ И ПЕРЕСЧИТАТЬ СИСТЕМУ ⚡',
+    unlock_btn: 'РАЗБЛОКИРОВАТЬ',
+    save_recalculate: 'СОХРАНИТЬ И ПЕРЕСЧИТАТЬ СИСТЕМУ',
     copy_msg_btn: 'СКОПИРОВАТЬ',
     copied_toast: 'СКОПИРОВАНО! ✓',
-    rule_max_misses: 'Макс. пропусков до исключения',
+    rule_max_misses: 'Макс. пропусков подряд до исключения',
     rule_min_turns: 'Обязательно ходов за турнир',
     rule_min_goals: 'Минимум голов за турнир',
     rule_horizon: 'Период оценки активности',
-    rule_motto: 'Девиз лиги и заголовок чата'
+    b_posting_deadline: 'ВРЕМЯ ПУБЛИКАЦИИ В ЧАТЕ:',
+    b_copy_4in1_btn: 'СКОПИРОВАТЬ 4-В-1 (ВСЕ ЯЗЫКИ)',
+    b_copied_toast: 'СКОПИРОВАНО В БУФЕР! ✓',
+    b_title_rules: 'УСТАВ И ПРАВИЛА ЛИГИ',
+    b_badge_rules: 'ПОСТОЯННО',
+    b_timing_rules: 'Постоянное объявление и регулярное напоминание',
+    b_title_warnings: 'ПРЕДУПРЕЖДЕНИЯ И СТРАЙКИ',
+    b_badge_warnings: 'ПОСЛЕ МАТЧА',
+    b_timing_warnings: 'Сразу после завершения турнира',
+    b_title_rally: 'БОЕВОЙ КЛИЧ НА ТУРНИР',
+    b_badge_rally: 'СТАРТ МАТЧА',
+    b_timing_rally: 'На старте турнира (0–2 час)',
+    b_title_weekly: 'НЕДЕЛЬНЫЙ ОТЧЕТ ЛИГИ',
+    b_badge_weekly: 'НЕДЕЛЬНЫЙ ЦИКЛ',
+    b_timing_weekly: 'Каждое воскресенье перед сбросом',
+    b_title_monthly: 'МЕСЯЧНЫЙ ИТОГ ЛИГИ',
+    b_badge_monthly: 'МЕСЯЧНЫЙ ЦИКЛ',
+    b_timing_monthly: 'В конце месячного сезона',
+    b_title_mvp: 'ЛУЧШИЕ ИГРОКИ МАТЧА (MVP)',
+    b_badge_mvp: 'ПОБЕДНЫЙ ЛОГ',
+    b_timing_mvp: 'Сразу после победы в матче'
   },
   es: {
     dir: 'ltr',
@@ -319,18 +379,38 @@ const I18N = {
     stamp_played: 'JUGADO',
     vs_match: 'vs {opp}',
     broadcast_dispatch_title: 'Despacho de Mensajes para el Chat',
-    broadcast_hint: '¡Formateado específicamente para el chat continuo de EA FC Mobile! Toca "COPIAR MENSAJE" para pegarlo en el chat de la liga.',
+    broadcast_hint: 'Anuncios oficiales 4 en 1 (RU, EN, AR, ES) formateados para el chat de EA FC Mobile. ¡Toca cualquier sección para abrirla y copiarla al instante!',
     admin_panel_title: 'PANEL DE CONTROL DE REGLAS',
     admin_panel_desc: 'Protegido con SHA-256. Solo los administradores pueden configurar las reglas y expulsiones.',
-    unlock_btn: 'DESBLOQUEAR 🔓',
-    save_recalculate: 'GUARDAR Y RECALCULAR SISTEMA ⚡',
+    unlock_btn: 'DESBLOQUEAR',
+    save_recalculate: 'GUARDAR Y RECALCULAR SISTEMA',
     copy_msg_btn: 'COPIAR MENSAJE',
     copied_toast: '¡COPIADO! ✓',
-    rule_max_misses: 'Máx. torneos perdidos antes de expulsión',
+    rule_max_misses: 'Máx. torneos consecutivos perdidos antes de expulsión',
     rule_min_turns: 'Turnos obligatorios por torneo',
     rule_min_goals: 'Objetivo mínimo de goles',
-    rule_horizon: 'Periodo de evaluación',
-    rule_motto: 'Lema de la liga y encabezado'
+    rule_horizon: 'Periodo de evaluación de asistencia',
+    b_posting_deadline: 'MOMENTO DE PUBLICACIÓN:',
+    b_copy_4in1_btn: 'COPIAR MENSAJE 4 EN 1 (TODOS LOS IDIOMAS)',
+    b_copied_toast: '¡COPIADO AL PORTAPAPELES! ✓',
+    b_title_rules: 'CONSTITUCIÓN Y REGLAS DE LA LIGA',
+    b_badge_rules: 'AVISO PERMANENTE',
+    b_timing_rules: 'Anuncio permanente y recordatorio periódico',
+    b_title_warnings: 'SANCIONES Y ADVERTENCIAS',
+    b_badge_warnings: 'AVISO TRAS PARTIDO',
+    b_timing_warnings: 'Inmediatamente después de finalizar el torneo',
+    b_title_rally: 'LLAMADA A LA BATALLA DEL PARTIDO',
+    b_badge_rally: 'INICIO DE PARTIDO',
+    b_timing_rally: 'Al iniciar el torneo (hora 0–2)',
+    b_title_weekly: 'REPORTE SEMANAL DE RENDIMIENTO',
+    b_badge_weekly: 'CICLO SEMANAL',
+    b_timing_weekly: 'Cada domingo antes del reinicio',
+    b_title_monthly: 'RESUMEN MENSUAL DE LA LIGA',
+    b_badge_monthly: 'CICLO MENSUAL',
+    b_timing_monthly: 'Al final del ciclo mensual de temporada',
+    b_title_mvp: 'JUGADORES DESTACADOS Y MVP',
+    b_badge_mvp: 'REGISTRO DE VICTORIA',
+    b_timing_mvp: 'Inmediatamente tras la victoria'
   }
 };
 
@@ -2750,44 +2830,44 @@ const BroadcastGenerator = {
     return [
       {
         id: 'rules',
-        title: 'LEAGUE CONSTITUTION & RULES',
-        badge: 'NOTICE / PERMANENT',
-        timing: 'Permanent League Announcement & Periodic Member Reminder',
+        title: t('b_title_rules'),
+        badge: t('b_badge_rules'),
+        timing: t('b_timing_rules'),
         text: textRules
       },
       {
         id: 'warnings',
-        title: 'TOURNAMENT WARNINGS & STRIKES',
-        badge: 'POST-MATCH NOTICE',
-        timing: 'Immediately After Tournament Conclusion',
+        title: t('b_title_warnings'),
+        badge: t('b_badge_warnings'),
+        timing: t('b_timing_warnings'),
         text: textWarnings
       },
       {
         id: 'rally',
-        title: 'MATCH DAY RALLY & CALL-TO-ARMS',
-        badge: 'MATCH START',
-        timing: 'At Tournament Start (Hour 0–2)',
+        title: t('b_title_rally'),
+        badge: t('b_badge_rally'),
+        timing: t('b_timing_rally'),
         text: textRally
       },
       {
         id: 'weekly',
-        title: 'WEEKLY PERFORMANCE REPORT',
-        badge: 'WEEKLY CYCLE',
-        timing: 'Every Sunday Before Reset',
+        title: t('b_title_weekly'),
+        badge: t('b_badge_weekly'),
+        timing: t('b_timing_weekly'),
         text: textWeekly
       },
       {
         id: 'monthly',
-        title: 'MONTHLY LEAGUE REVIEW',
-        badge: 'MONTHLY CYCLE',
-        timing: 'End of Monthly Season Cycle',
+        title: t('b_title_monthly'),
+        badge: t('b_badge_monthly'),
+        timing: t('b_timing_monthly'),
         text: textMonthly
       },
       {
         id: 'mvp',
-        title: 'MATCH MVP & SPOTLIGHT SHOUTOUT',
-        badge: 'VICTORY LOG',
-        timing: 'Immediately Following Match Victory',
+        title: t('b_title_mvp'),
+        badge: t('b_badge_mvp'),
+        timing: t('b_timing_mvp'),
         text: textMVP
       }
     ];
@@ -2805,21 +2885,21 @@ const BroadcastGenerator = {
         <div class="b-accordion-card ${isOpen ? 'open' : ''}" id="bcard-${c.id}">
           <div class="b-accordion-header" onclick="BroadcastGenerator.toggleAccordion('${c.id}')">
             <div class="b-accordion-title-wrap">
-              <span class="b-accordion-title">${c.title}</span>
-              <span class="b-accordion-badge">${c.badge}</span>
+              <span class="b-accordion-title">${escapeHTML(c.title)}</span>
+              <span class="b-accordion-badge">${escapeHTML(c.badge)}</span>
             </div>
             <span class="b-accordion-arrow" id="barr-${c.id}">▼</span>
           </div>
 
           <div class="b-accordion-body" id="bbody-${c.id}" style="display: ${isOpen ? 'flex' : 'none'};">
             <div class="b-timing-bar">
-              <span class="b-timing-label">POSTING DEADLINE:</span>
-              <span class="b-timing-val">${c.timing}</span>
+              <span class="b-timing-label">${t('b_posting_deadline') || 'POSTING DEADLINE:'}</span>
+              <span class="b-timing-val">${escapeHTML(c.timing)}</span>
             </div>
             <div class="b-chat-preview-box" id="bpreview-${c.id}">${escapeHTML(c.text)}</div>
             <button class="b-copy-full-btn" onclick="BroadcastGenerator.copyMessage('${c.id}', this)">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>COPY 4-IN-1 MESSAGE (ALL LANGUAGES)</span>
+              <span>${t('b_copy_4in1_btn') || 'COPY 4-IN-1 MESSAGE (ALL LANGUAGES)'}</span>
             </button>
           </div>
         </div>
@@ -2867,7 +2947,7 @@ const BroadcastGenerator = {
     const span = btn.querySelector('span');
     const origText = span ? span.textContent : 'COPY';
     btn.classList.add('copied');
-    if (span) span.textContent = 'COPIED TO CLIPBOARD! ✓';
+    if (span) span.textContent = t('b_copied_toast') || 'COPIED TO CLIPBOARD! ✓';
     setTimeout(() => {
       btn.classList.remove('copied');
       if (span) span.textContent = origText;
