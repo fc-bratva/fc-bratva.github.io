@@ -1707,149 +1707,280 @@ function openPlayerModal(playerId) {
     } 
   };
 
-  const streak = player.eligibility_streak?.current_fail_streak || 0;
-  const isFlagged = player.eligibility_streak?.flagged_for_review;
+  // 1. Calculate overall player rank & stats
+  const sortedPlayers = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
+  const playerRank = sortedPlayers.findIndex(p => p.player_id === player.player_id) + 1;
+  const totalGoals = getPlayerGoals(player);
+  const matches = player.matches || [];
+  const matchesCount = matches.length;
+  const avgGoals = matchesCount > 0 ? (totalGoals / matchesCount).toFixed(1) : '0.0';
+  
+  let turnsTaken = 0;
+  let turnsTotal = matchesCount * 3;
+  matches.forEach(m => {
+    turnsTaken += (m.turns_played !== undefined ? m.turns_played : (m.goals_for > 0 ? 3 : 0));
+  });
+  const efficiency = turnsTotal > 0 ? Math.round((turnsTaken / turnsTotal) * 100) : 100;
 
-  let eligHTML = `<span class="hand-text" style="color: var(--pencil-green);">${t('eligibility_ok')}</span>`;
-  if (isFlagged) {
-    eligHTML = `<span class="hand-text" style="color: var(--pencil-red); font-weight: bold;">${t('eligibility_flagged')}</span>`;
-  } else if (streak > 0) {
-    eligHTML = `<span class="hand-text" style="color: var(--pencil-gold);">${t('eligibility_warn', { n: streak })}</span>`;
+  // 2. Rank Badge HTML (3D Animated Silk Badges for Top 3!)
+  let badgeHTML = '';
+  let rankSubtitle = '';
+  if (playerRank === 1) {
+    badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="gold"></div>`;
+    rankSubtitle = `<span style="background: linear-gradient(90deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">👑 #1 LEAGUE TOP SCORER</span>`;
+  } else if (playerRank === 2) {
+    badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="silver"></div>`;
+    rankSubtitle = `<span style="background: linear-gradient(90deg, #e2e8f0, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🥈 #2 RUNNER-UP</span>`;
+  } else if (playerRank === 3) {
+    badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="bronze"></div>`;
+    rankSubtitle = `<span style="background: linear-gradient(90deg, #f97316, #b45309); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🥉 #3 PODIUM FINISHER</span>`;
+  } else if (playerRank >= 4) {
+    badgeHTML = `<div class="fc-rank-badge-blue modal-header-blue">${playerRank}</div>`;
+    rankSubtitle = `<span style="color: var(--ucl-slate);">RANK #${playerRank}</span>`;
+  } else {
+    badgeHTML = `<div class="fc-roster-avatar modal-header-blue">${getMonogram(player.display_name)}</div>`;
+    rankSubtitle = `<span style="color: var(--ucl-slate);">SQUAD MEMBER</span>`;
   }
 
-  const chartData = build7DayPerformanceData(player);
+  // 3. Eligibility status
+  const streak = player.eligibility_streak?.current_fail_streak || 0;
+  const isFlagged = player.eligibility_streak?.flagged_for_review;
+  let eligPill = `<span class="modal-elig-pill" style="background: rgba(0, 230, 118, 0.12); border: 1px solid rgba(0, 230, 118, 0.4); color: var(--ucl-win);">✓ ${t('eligibility_ok')}</span>`;
+  if (isFlagged) {
+    eligPill = `<span class="modal-elig-pill" style="background: rgba(255, 59, 92, 0.15); border: 1px solid rgba(255, 59, 92, 0.6); color: var(--ucl-loss);">🚨 ${t('eligibility_flagged')}</span>`;
+  } else if (streak > 0) {
+    eligPill = `<span class="modal-elig-pill" style="background: rgba(255, 179, 0, 0.12); border: 1px solid rgba(255, 179, 0, 0.5); color: var(--ucl-draw);">⚠️ ${t('eligibility_warn', { n: streak })}</span>`;
+  }
+
+  // 4. Performance evolution data
+  const evolutionData = buildPlayerMatchEvolutionData(player);
 
   content.innerHTML = `
-    <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 16px;">
-      <div class="username" style="font-size: 1.6rem; color: var(--gold-main); font-weight: 800;">${escapeHTML(player.display_name)}</div>
-      <div style="margin-top: 4px;">${eligHTML}</div>
+    <!-- Header with 3D Silk Badge for Top 3 -->
+    <div class="modal-player-header">
+      ${badgeHTML}
+      <div class="modal-header-info">
+        <div class="modal-player-name">${escapeHTML(player.display_name)}</div>
+        <div class="modal-rank-subtitle">${rankSubtitle}</div>
+        <div style="margin-top: 4px;">${eligPill}</div>
+      </div>
     </div>
 
-    <div class="card-title">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
-      ${t('performance_chart')}
-    </div>
-    
-    <div class="chart-wrap" style="background: rgba(14, 8, 28, 0.7); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 10px; margin-bottom: 14px;">
-      ${renderSketchyChart(chartData)}
+    <!-- 4 Pro Champions League KPI Matrix -->
+    <div class="modal-kpi-grid">
+      <div class="modal-kpi-card">
+        <div class="modal-kpi-val">${totalGoals}</div>
+        <div class="modal-kpi-lbl">${t('total_goals')}</div>
+      </div>
+      <div class="modal-kpi-card">
+        <div class="modal-kpi-val">${avgGoals}</div>
+        <div class="modal-kpi-lbl">AVG G/M</div>
+      </div>
+      <div class="modal-kpi-card">
+        <div class="modal-kpi-val">${matchesCount}</div>
+        <div class="modal-kpi-lbl">${t('matches_played')}</div>
+      </div>
+      <div class="modal-kpi-card">
+        <div class="modal-kpi-val">${efficiency}%</div>
+        <div class="modal-kpi-lbl">EFFICIENCY</div>
+      </div>
     </div>
 
-    <div id="chart-point-summary" style="background: rgba(22, 12, 42, 0.9); padding: 12px; border: 1px solid var(--border-subtle); border-radius: 8px; margin-bottom: 18px;">
-      <div class="hand-text" id="summary-date-label" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">${t('click_point_hint')}</div>
-      <div class="username" id="summary-verdict-label" style="font-size: 1.05rem; margin-top: 4px;">-</div>
+    <!-- Performance Wave Visualizer -->
+    <div class="card-title-bar" style="margin-bottom: 8px;">
+      <div class="card-title" style="display:flex; align-items:center; gap:8px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ucl-cyan)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
+        <span>MATCH-BY-MATCH FORM</span>
+      </div>
+      <span class="hand-text" style="font-size: 0.75rem; color: var(--ucl-slate);">${matchesCount} Matches Logged</span>
     </div>
 
-    <div class="card-title">${t('tournament_history')}</div>
-    <div style="display: flex; flex-direction: column; gap: 6px;">
-      ${(player.matches || []).map(m => `
-        <div style="display:flex; justify-content:space-between; align-items:center; background: rgba(16, 9, 32, 0.5); border: 1px solid rgba(157, 78, 221, 0.15); border-radius: 8px; padding: 8px 12px;">
-          <span class="hand-text" style="color: var(--text-secondary); font-weight: 600;">vs ${escapeHTML(m.opponent_display_name)}</span>
-          <span style="font-family: var(--font-score); font-weight: 800; color: var(--gold-main); font-size: 1rem;">${m.goals_for} G <span class="hand-text" style="font-weight: 600; font-size: 0.75rem; color: var(--text-muted);">(${m.turns_played !== undefined ? m.turns_played : 3}/3)</span></span>
+    <div class="modal-chart-wrap">
+      ${renderPlayerEvolutionChart(evolutionData)}
+    </div>
+
+    <!-- Summary Banner for Selected Match -->
+    <div class="modal-summary-banner" id="modal-summary-banner">
+      <div>
+        <div class="hand-text" id="summary-date-label" style="color: var(--ucl-slate); font-size: 0.8rem; font-weight: 700;">${evolutionData.length > 0 ? (evolutionData[evolutionData.length - 1].dateStr + ' • vs ' + escapeHTML(evolutionData[evolutionData.length - 1].opponent)) : 'No matches'}</div>
+        <div class="username" id="summary-verdict-label" style="font-size: 1.1rem; margin-top: 3px; color: #ffffff;">
+          ${evolutionData.length > 0 ? renderVerdictBadge(evolutionData[evolutionData.length - 1]) : '-'}
         </div>
-      `).join('')}
+      </div>
+      <div id="summary-turns-badge" style="font-family: var(--font-main); font-weight: 800; font-size: 0.95rem; color: var(--ucl-cyan);">
+        ${evolutionData.length > 0 ? `${evolutionData[evolutionData.length - 1].goals} GOALS` : ''}
+      </div>
+    </div>
+
+    <!-- Tournament History Timeline -->
+    <div class="card-title" style="margin-bottom: 10px; margin-top: 14px;">${t('tournament_history')}</div>
+    <div class="modal-history-list">
+      ${matches.length === 0 ? `<div style="text-align:center; padding:16px; color:var(--ucl-slate);">No tournament history yet</div>` : matches.map(m => {
+        const isMissed = m.turns_played === 0;
+        const resultStamp = m.result === 'win' ? 'stamp-win' : (m.result === 'loss' ? 'stamp-loss' : 'stamp-draw');
+        return `
+          <div class="modal-history-row" onclick="openTournamentModal('${m.tournament_id}')" style="cursor:pointer;">
+            <div>
+              <div style="font-family: var(--font-main); font-weight: 700; font-size: 0.95rem; color: #ffffff;">vs ${escapeHTML(m.opponent_display_name)}</div>
+              <div class="hand-text" style="font-size: 0.78rem; color: var(--ucl-slate); margin-top: 2px;">${m.tournament_id.slice(0, 10)} • <span style="color: ${isMissed ? 'var(--ucl-loss)' : 'var(--ucl-win)'}; font-weight: 700;">${m.turns_played !== undefined ? m.turns_played : (m.goals_for > 0 ? 3 : 0)}/3 TURNS</span></div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <span class="stamp ${resultStamp}">${m.result ? m.result.toUpperCase() : 'PLAYED'}</span>
+              <span style="font-family: var(--font-main); font-weight: 900; color: var(--ucl-cyan); font-size: 1.15rem; min-width: 48px; text-align: right;">${m.goals_for} G</span>
+            </div>
+          </div>
+        `;
+      }).join('')}
     </div>
   `;
 
   overlay.style.display = 'flex';
   page.style.transform = 'none';
 
-  attachChartPointListeners(chartData);
+  // Mount 3D Badges in modal (for top 3!)
+  setTimeout(() => SilkBadges3DManager.mountAll(), 40);
+  attachEvolutionPointListeners(evolutionData);
 }
 
-function build7DayPerformanceData(player) {
-  const days = [];
-  const now = new Date();
-  for (let i = 6; i >= 0; i--) {
-    const d = new Date();
-    d.setDate(now.getDate() - i);
-    const dateStr = d.toISOString().split('T')[0];
-    days.push({ dateStr, dayLabel: d.toLocaleDateString(state.lang, { weekday: 'short' }), match: null, status: 'no_tournament' });
-  }
-  (player.matches || []).forEach(m => {
-    const tInfo = state.tournamentsIndex[m.tournament_id];
-    const matchDate = tInfo ? tInfo.date : null;
-    if (matchDate) {
-      const dayObj = days.find(d => d.dateStr === matchDate);
-      if (dayObj) {
-        dayObj.match = m;
-        dayObj.tournament = tInfo;
-        const goals = m.goals_for || 0;
-        const turns = m.turns_played !== undefined ? m.turns_played : 3;
-        if (turns === 0) dayObj.status = 'absent';
-        else if (goals >= 40) dayObj.status = 'legendary';
-        else if (goals >= 35) dayObj.status = 'champion';
-        else if (goals >= 30) dayObj.status = 'perfect';
-        else if (goals >= 25) dayObj.status = 'good';
-        else if (goals >= 20) dayObj.status = 'acceptable';
-        else dayObj.status = 'needs_work';
-      }
-    }
+function buildPlayerMatchEvolutionData(player) {
+  const matches = [...(player.matches || [])];
+  matches.sort((a, b) => a.tournament_id.slice(0, 10).localeCompare(b.tournament_id.slice(0, 10)));
+
+  return matches.map((m, idx) => {
+    const goals = m.goals_for || 0;
+    const turns = m.turns_played !== undefined ? m.turns_played : (goals > 0 ? 3 : 0);
+    let status = 'acceptable';
+    if (turns === 0) status = 'absent';
+    else if (goals >= 40) status = 'legendary';
+    else if (goals >= 35) status = 'champion';
+    else if (goals >= 30) status = 'perfect';
+    else if (goals >= 25) status = 'good';
+    else if (goals >= 20) status = 'acceptable';
+    else status = 'needs_work';
+
+    const shortOpponent = (m.opponent_display_name || 'Opp').slice(0, 7);
+    return {
+      index: idx,
+      match: m,
+      dateStr: m.tournament_id.slice(0, 10),
+      opponent: m.opponent_display_name || 'Opponent',
+      shortOpponent,
+      goals,
+      turns,
+      status
+    };
   });
-  return days;
 }
 
-function renderSketchyChart(daysData) {
-  const w = 320, h = 140, px = 20, py = 20;
-  const step = (w - px * 2) / (daysData.length - 1);
-  const getY = (goals) => h - py - (Math.min(Math.max(goals, 0), 40) / 40) * (h - py * 2);
+function renderPlayerEvolutionChart(data) {
+  if (!data || data.length === 0) {
+    return `<div style="text-align:center; padding:32px 16px; color:var(--ucl-slate); font-size:0.9rem;">No tournament matches to plot form wave</div>`;
+  }
 
-  const points = daysData.map((d, i) => ({ x: px + i * step, y: getY(d.match ? (d.match.goals_for||0) : 0), data: d }));
-  const pathD = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+  const w = 380, h = 150, px = 28, py = 24;
+  const count = data.length;
+  const step = count > 1 ? (w - px * 2) / (count - 1) : 0;
+  const maxGoals = 45;
+  const getY = (g) => h - py - (Math.min(Math.max(g, 0), maxGoals) / maxGoals) * (h - py * 2);
+
+  const points = data.map((d, i) => ({
+    x: count > 1 ? px + i * step : w / 2,
+    y: getY(d.goals),
+    data: d
+  }));
+
+  // Build smooth bezier curve
+  let pathD = '';
+  if (points.length === 1) {
+    pathD = `M ${px} ${points[0].y} L ${w - px} ${points[0].y}`;
+  } else {
+    pathD = `M ${points[0].x} ${points[0].y}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const p0 = points[i];
+      const p1 = points[i + 1];
+      const cpX = (p0.x + p1.x) / 2;
+      pathD += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
+    }
+  }
+
+  const areaD = points.length > 1
+    ? `${pathD} L ${points[points.length - 1].x} ${h - py} L ${points[0].x} ${h - py} Z`
+    : '';
 
   return `
-    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:100%; overflow:visible;">
+    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; overflow:visible; display:block;">
       <defs>
-        <linearGradient id="neonLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#9d4edd" />
-          <stop offset="50%" stop-color="#c77dff" />
-          <stop offset="100%" stop-color="#ffd15c" />
+        <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00e5ff" />
+          <stop offset="50%" stop-color="#00a8ff" />
+          <stop offset="100%" stop-color="#7000ff" />
         </linearGradient>
-        <linearGradient id="chartAreaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="rgba(157, 78, 221, 0.35)" />
-          <stop offset="100%" stop-color="rgba(157, 78, 221, 0.0)" />
+        <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="rgba(0, 229, 255, 0.35)" />
+          <stop offset="70%" stop-color="rgba(0, 168, 255, 0.08)" />
+          <stop offset="100%" stop-color="rgba(0, 0, 0, 0.0)" />
         </linearGradient>
+        <filter id="waveGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
       </defs>
-      <!-- Grid / Axis -->
-      <line x1="${px}" y1="${h-py}" x2="${w-px}" y2="${h-py}" stroke="rgba(157, 78, 221, 0.3)" stroke-width="1.5"/>
-      <!-- Glowing Line -->
-      <path d="${pathD}" fill="none" stroke="url(#neonLineGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="filter: drop-shadow(0 0 6px rgba(157,78,221,0.6));"/>
-      <!-- Data points -->
-      ${points.map((p, i) => `
-        <circle cx="${p.x}" cy="${p.y}" r="5" class="sketch-point" data-index="${i}" 
-                style="cursor:pointer; fill:${p.data.status==='absent' ? 'var(--loss-color)' : 'var(--gold-main)'}; stroke:var(--bg-midnight); stroke-width:2; filter: drop-shadow(0 0 6px rgba(255,209,92,0.6));" />
-        <text x="${p.x}" y="${h-4}" font-family="var(--font-heading)" font-weight="700" font-size="9" fill="var(--text-muted)" text-anchor="middle">${p.data.dayLabel}</text>
-      `).join('')}
+
+      <!-- Baseline Grid & Grid Lines -->
+      <line x1="${px}" y1="${h - py}" x2="${w - px}" y2="${h - py}" stroke="rgba(0, 212, 255, 0.2)" stroke-width="1.5" />
+      <line x1="${px}" y1="${getY(20)}" x2="${w - px}" y2="${getY(20)}" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 3" stroke-width="1" />
+      <line x1="${px}" y1="${getY(35)}" x2="${w - px}" y2="${getY(35)}" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 3" stroke-width="1" />
+
+      <!-- Area Fill -->
+      ${areaD ? `<path d="${areaD}" fill="url(#areaGrad)" />` : ''}
+
+      <!-- Glowing Curved Wave -->
+      <path d="${pathD}" fill="none" stroke="url(#waveGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#waveGlow)" />
+
+      <!-- Interactive Data Points -->
+      ${points.map((p, i) => {
+        const isAbsent = p.data.status === 'absent';
+        const ptColor = isAbsent ? '#ff3b5c' : (p.data.goals >= 35 ? '#00e5ff' : '#60a5fa');
+        return `
+          <g class="evolution-point" data-index="${i}" style="cursor: pointer;">
+            <circle cx="${p.x}" cy="${p.y}" r="8" fill="rgba(0, 229, 255, 0.15)" />
+            <circle cx="${p.x}" cy="${p.y}" r="4.5" fill="${ptColor}" stroke="#030b20" stroke-width="2" style="filter: drop-shadow(0 0 6px ${ptColor});" />
+            <text x="${p.x}" y="${p.y - 10}" font-family="var(--font-main)" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" style="text-shadow:0 2px 4px rgba(0,0,0,0.9);">${p.data.goals}G</text>
+            <text x="${p.x}" y="${h - 6}" font-family="var(--font-main)" font-weight="700" font-size="8" fill="var(--ucl-slate)" text-anchor="middle">${p.data.shortOpponent}</text>
+          </g>
+        `;
+      }).join('')}
     </svg>
   `;
 }
 
-function attachChartPointListeners(daysData) {
-  const points = document.querySelectorAll('.sketch-point');
+function renderVerdictBadge(d) {
+  let color = '#ff3b5c';
+  let label = 'NEEDS WORK';
+  if (d.status === 'absent') { color = 'var(--ucl-loss)'; label = '⚠️ MISSED TURNS (0/3)'; }
+  else if (d.status === 'legendary') { color = '#c77dff'; label = '🌟 LEGENDARY (40+G)'; }
+  else if (d.status === 'champion') { color = 'var(--ucl-cyan)'; label = '🏆 CHAMPION (35G+)'; }
+  else if (d.status === 'perfect') { color = 'var(--ucl-win)'; label = '✨ PERFECT (30G+)'; }
+  else if (d.status === 'good') { color = '#60a5fa'; label = '👍 SOLID (25G+)'; }
+  else if (d.status === 'acceptable') { color = '#94a3b8'; label = '👌 PLAYED (20G+)'; }
+
+  return `<span style="color: ${color}; font-weight: 800;">${label}</span>`;
+}
+
+function attachEvolutionPointListeners(evolutionData) {
+  const points = document.querySelectorAll('.evolution-point');
   const summaryDate = document.getElementById('summary-date-label');
   const summaryVerdict = document.getElementById('summary-verdict-label');
+  const summaryTurns = document.getElementById('summary-turns-badge');
 
   points.forEach(pt => {
     pt.addEventListener('click', () => {
-      const d = daysData[parseInt(pt.dataset.index, 10)];
-      summaryDate.textContent = `${d.dateStr} (${d.dayLabel})`;
-      if (d.status === 'no_tournament') {
-        summaryVerdict.innerHTML = `<span style="color:var(--text-muted);">${t('verdict_no_tournament')}</span>`;
-      } else if (d.status === 'absent') {
-        summaryVerdict.innerHTML = `<span style="color:var(--loss-color); font-weight:bold;">${t('verdict_absent')}</span>`;
-      } else {
-        let color = 'var(--loss-color)';
-        let verdictKey = 'verdict_needs_work';
-        if (d.status === 'legendary') { color = '#c77dff'; verdictKey = 'verdict_legendary'; }
-        else if (d.status === 'champion') { color = 'var(--gold-main)'; verdictKey = 'verdict_champion'; }
-        else if (d.status === 'perfect') { color = '#00f59b'; verdictKey = 'verdict_perfect'; }
-        else if (d.status === 'good') { color = '#60a5fa'; verdictKey = 'verdict_good'; }
-        else if (d.status === 'acceptable') { color = '#94a3b8'; verdictKey = 'verdict_acceptable'; }
-        
-        summaryVerdict.innerHTML = `
-          <span style="color:${color}; font-weight:800; font-size:1.1rem; text-shadow: 0 0 8px ${color}88;">${t(verdictKey)} (${d.match.goals_for}G)</span>
-          <div class="hand-text" style="font-size:0.85rem; color:var(--text-muted); margin-top:2px;">vs ${escapeHTML(d.match.opponent_display_name)} • ${d.match.turns_played !== undefined ? d.match.turns_played : (d.match.goals_for ? 3 : 0)}/3 ${t('turns_completed')}</div>
-        `;
-      }
+      SoundManager.playClick();
+      const d = evolutionData[parseInt(pt.dataset.index, 10)];
+      if (!d) return;
+      summaryDate.textContent = `${d.dateStr} • vs ${d.opponent}`;
+      summaryVerdict.innerHTML = renderVerdictBadge(d);
+      summaryTurns.textContent = `${d.goals} GOALS (${d.turns}/3 Turns)`;
     });
   });
 }
