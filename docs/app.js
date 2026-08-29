@@ -922,6 +922,8 @@ const CinematicDirector = {
     // Populate Frameless HUD Data
     this.populateHUD();
 
+    document.body.classList.add('cinematic-mode');
+
     if (overlay) overlay.classList.add('active');
     if (blackout) blackout.classList.add('fade-in');
     if (hud) hud.classList.remove('visible');
@@ -937,6 +939,8 @@ const CinematicDirector = {
   stop() {
     if (!this.active) return;
     this.active = false;
+
+    document.body.classList.remove('cinematic-mode');
 
     AudioManager.onExitImmersive();
 
@@ -1779,6 +1783,27 @@ function renderPlayerCard(p, rank, customGoals, customAvg) {
   `;
 }
 
+function renderOpponentLeagueName(name) {
+  const safeName = escapeHTML(name || '');
+  if (safeName.length > 11) {
+    return `
+      <div class="ucl-team-name-wrap marquee-active" title="${safeName}">
+        <div class="marquee-inner">
+          <span>${safeName}</span>
+          <span class="marquee-gap">&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+          <span>${safeName}</span>
+          <span class="marquee-gap">&nbsp;&nbsp;✦&nbsp;&nbsp;</span>
+        </div>
+      </div>
+    `;
+  }
+  return `
+    <div class="ucl-team-name-wrap" title="${safeName}">
+      <span class="ucl-team-name-static">${safeName}</span>
+    </div>
+  `;
+}
+
 function renderDashboard() {
   const completed = state.tournaments.filter(t => t.status === 'complete');
   const wins = completed.filter(t => t.result === 'win').length;
@@ -1819,7 +1844,7 @@ function renderDashboard() {
           </div>
           <div class="ucl-vs-badge">VS</div>
           <div class="ucl-team away">
-            <div class="ucl-team-name">${escapeHTML(tItem.opponent_league)}</div>
+            ${renderOpponentLeagueName(tItem.opponent_league)}
             <div class="ucl-team-score">${tItem.opponent_total_goals}</div>
           </div>
         </div>
@@ -1879,7 +1904,7 @@ function renderTournaments() {
           </div>
           <div class="ucl-vs-badge">VS</div>
           <div class="ucl-team away">
-            <div class="ucl-team-name">${escapeHTML(tItem.opponent_league)}</div>
+            ${renderOpponentLeagueName(tItem.opponent_league)}
             <div class="ucl-team-score">${tItem.opponent_total_goals}</div>
           </div>
         </div>
