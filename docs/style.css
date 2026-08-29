@@ -996,35 +996,34 @@ body.immersive-mode .bg-3d-canvas-container {
 .modal-page {
   width: 100%;
   flex: 1;
-  background: rgba(7, 18, 48, 0.94);
-  backdrop-filter: blur(28px) saturate(190%);
-  -webkit-backdrop-filter: blur(28px) saturate(190%);
-  border: 1px solid rgba(0, 212, 255, 0.35);
-  border-radius: 18px;
-  padding: 22px;
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.9), inset 0 1px 1.5px rgba(255, 255, 255, 0.3);
+  background: rgba(4, 12, 34, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(0, 180, 255, 0.25);
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
   overflow-y: auto;
   overflow-x: hidden;
   color: var(--ucl-white);
 }
 
-/* Modal Player Header with 3D Animated Silk Badge for Top 3 */
+/* Modal Player Header */
 .modal-player-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding-bottom: 18px;
-  margin-bottom: 18px;
-  border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+  gap: 14px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .modal-header-silk {
-  width: 56px !important;
-  height: 56px !important;
+  width: 52px !important;
+  height: 52px !important;
   flex-shrink: 0;
   position: relative;
   background: transparent !important;
-  filter: drop-shadow(0 4px 14px rgba(0, 212, 255, 0.4));
 }
 .modal-header-silk canvas {
   width: 100% !important;
@@ -1033,9 +1032,9 @@ body.immersive-mode .bg-3d-canvas-container {
 }
 
 .modal-header-blue {
-  width: 48px !important;
-  height: 48px !important;
-  font-size: 1.15rem !important;
+  width: 44px !important;
+  height: 44px !important;
+  font-size: 1.1rem !important;
   font-weight: 800 !important;
   flex-shrink: 0;
   margin: 0 !important;
@@ -1048,113 +1047,231 @@ body.immersive-mode .bg-3d-canvas-container {
 
 .modal-player-name {
   font-family: var(--font-main);
-  font-size: 1.6rem;
+  font-size: 1.55rem;
   font-weight: 900;
   color: #ffffff;
   letter-spacing: -0.5px;
   line-height: 1.15;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
-.modal-rank-subtitle {
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  margin-top: 4px;
+.modal-badge-pills {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.modal-tag-pill {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-}
-
-.modal-elig-pill {
-  display: inline-block;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.75rem;
-  font-weight: 700;
+  gap: 4px;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 800;
   letter-spacing: 0.4px;
-  margin-top: 4px;
+  text-transform: uppercase;
+}
+.modal-tag-gold {
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid rgba(212, 175, 55, 0.45);
+  color: #ffd700;
+}
+.modal-tag-silver {
+  background: rgba(207, 214, 223, 0.15);
+  border: 1px solid rgba(207, 214, 223, 0.45);
+  color: #e2e8f0;
+}
+.modal-tag-bronze {
+  background: rgba(176, 101, 53, 0.15);
+  border: 1px solid rgba(176, 101, 53, 0.45);
+  color: #f97316;
+}
+.modal-tag-blue {
+  background: rgba(0, 180, 255, 0.1);
+  border: 1px solid rgba(0, 180, 255, 0.3);
+  color: var(--ucl-cyan);
+}
+.modal-tag-green {
+  background: rgba(0, 230, 118, 0.1);
+  border: 1px solid rgba(0, 230, 118, 0.35);
+  color: var(--ucl-win);
+}
+.modal-tag-red {
+  background: rgba(255, 59, 92, 0.12);
+  border: 1px solid rgba(255, 59, 92, 0.4);
+  color: var(--ucl-loss);
+}
+.modal-tag-yellow {
+  background: rgba(255, 179, 0, 0.12);
+  border: 1px solid rgba(255, 179, 0, 0.4);
+  color: var(--ucl-draw);
 }
 
-/* Modal 4 KPI Matrix Grid */
+/* Modal 4 KPI Matrix Grid (Pro Broadcast Strip) */
 .modal-kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-bottom: 18px;
+  gap: 6px;
+  margin-bottom: 14px;
 }
 
 .modal-kpi-card {
-  background: rgba(4, 14, 42, 0.68);
-  border: 1px solid rgba(0, 212, 255, 0.22);
-  border-radius: 12px;
-  padding: 10px 6px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 8px 4px;
   text-align: center;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
 }
 
 .modal-kpi-val {
   font-family: var(--font-main);
-  font-weight: 900;
-  font-size: 1.18rem;
-  color: var(--ucl-cyan);
-  text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #ffffff;
   line-height: 1.1;
 }
 
 .modal-kpi-lbl {
-  font-size: 0.64rem;
+  font-size: 0.62rem;
   font-weight: 700;
   color: var(--ucl-slate);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.4px;
   margin-top: 3px;
 }
 
-/* Modal Performance Evolution Wave Chart */
-.modal-chart-wrap {
-  background: linear-gradient(180deg, rgba(8, 22, 60, 0.75) 0%, rgba(2, 8, 26, 0.95) 100%);
-  border: 1px solid rgba(0, 212, 255, 0.28);
-  border-radius: 14px;
-  padding: 16px 12px 10px;
-  margin-bottom: 14px;
-  box-shadow: inset 0 1px 1.5px rgba(255, 255, 255, 0.15), 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-.modal-summary-banner {
-  background: linear-gradient(135deg, rgba(14, 38, 96, 0.7) 0%, rgba(4, 14, 38, 0.9) 100%);
-  border: 1px solid rgba(0, 212, 255, 0.35);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 18px;
+/* Section Title Bar (Clean, Separated, Zero Overlap) */
+.modal-section-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+  margin-bottom: 8px;
+  margin-top: 12px;
+}
+.modal-section-title {
+  font-family: var(--font-main);
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: var(--ucl-slate);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal-section-meta {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ucl-muted);
 }
 
-/* Modal Tournament History Rows */
+/* Pro Performance Bar Strip */
+.modal-form-strip {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 10px;
+  padding: 12px 10px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+}
+
+.modal-form-col {
+  flex: 1;
+  min-width: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  padding: 6px 3px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+.modal-form-col:hover, .modal-form-col.active {
+  background: rgba(0, 180, 255, 0.1);
+}
+
+.modal-form-score {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.modal-bar-track {
+  width: 8px;
+  height: 52px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.modal-bar-fill {
+  width: 100%;
+  border-radius: 4px;
+  transition: height 0.3s ease;
+}
+.modal-bar-fill.win {
+  background: var(--ucl-cyan);
+}
+.modal-bar-fill.missed {
+  background: var(--ucl-loss);
+}
+.modal-bar-fill.draw {
+  background: var(--ucl-slate);
+}
+
+.modal-form-opp {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--ucl-slate);
+  text-align: center;
+  max-width: 44px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Match Inspector Banner */
+.modal-inspector-banner {
+  background: rgba(6, 16, 44, 0.7);
+  border: 1px solid rgba(0, 180, 255, 0.2);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Tournament History Rows */
 .modal-history-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .modal-history-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: rgba(5, 16, 44, 0.6);
-  border: 1px solid rgba(0, 180, 255, 0.18);
-  border-radius: 10px;
-  padding: 10px 14px;
-  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 9px 12px;
+  transition: background 0.15s, border-color 0.15s;
 }
 .modal-history-row:hover {
-  background: rgba(12, 34, 88, 0.75);
-  border-color: rgba(0, 212, 255, 0.45);
-  transform: translateX(2px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(0, 180, 255, 0.3);
 }
 
 .close-tape {

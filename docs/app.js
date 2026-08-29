@@ -1707,11 +1707,13 @@ function openPlayerModal(playerId) {
     } 
   };
 
-  // 1. Calculate overall player rank & stats
+  // 1. Calculate overall player rank & metrics
   const sortedPlayers = [...state.players].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
   const playerRank = sortedPlayers.findIndex(p => p.player_id === player.player_id) + 1;
   const totalGoals = getPlayerGoals(player);
-  const matches = player.matches || [];
+  const matches = [...(player.matches || [])];
+  // Sort chronologically
+  matches.sort((a, b) => a.tournament_id.slice(0, 10).localeCompare(b.tournament_id.slice(0, 10)));
   const matchesCount = matches.length;
   const avgGoals = matchesCount > 0 ? (totalGoals / matchesCount).toFixed(1) : '0.0';
   
@@ -1722,55 +1724,76 @@ function openPlayerModal(playerId) {
   });
   const efficiency = turnsTotal > 0 ? Math.round((turnsTaken / turnsTotal) * 100) : 100;
 
-  // 2. Rank Badge HTML (3D Animated Silk Badges for Top 3!)
+  // 2. Rank Badge & Tag Pills (Top 3 gets 3D Silk Badges!)
   let badgeHTML = '';
-  let rankSubtitle = '';
+  let rankPill = '';
   if (playerRank === 1) {
     badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="gold"></div>`;
-    rankSubtitle = `<span style="background: linear-gradient(90deg, #ffd700, #ffae00); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">👑 #1 LEAGUE TOP SCORER</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-gold">👑 #1 TOP SCORER</span>`;
   } else if (playerRank === 2) {
     badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="silver"></div>`;
-    rankSubtitle = `<span style="background: linear-gradient(90deg, #e2e8f0, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🥈 #2 RUNNER-UP</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-silver">🥈 #2 RUNNER-UP</span>`;
   } else if (playerRank === 3) {
     badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="bronze"></div>`;
-    rankSubtitle = `<span style="background: linear-gradient(90deg, #f97316, #b45309); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">🥉 #3 PODIUM FINISHER</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-bronze">🥉 #3 PODIUM</span>`;
   } else if (playerRank >= 4) {
     badgeHTML = `<div class="fc-rank-badge-blue modal-header-blue">${playerRank}</div>`;
-    rankSubtitle = `<span style="color: var(--ucl-slate);">RANK #${playerRank}</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-blue">RANK #${playerRank}</span>`;
   } else {
     badgeHTML = `<div class="fc-roster-avatar modal-header-blue">${getMonogram(player.display_name)}</div>`;
-    rankSubtitle = `<span style="color: var(--ucl-slate);">SQUAD MEMBER</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-blue">MEMBER</span>`;
   }
 
-  // 3. Eligibility status
+  // 3. Eligibility Tag Pill
   const streak = player.eligibility_streak?.current_fail_streak || 0;
   const isFlagged = player.eligibility_streak?.flagged_for_review;
-  let eligPill = `<span class="modal-elig-pill" style="background: rgba(0, 230, 118, 0.12); border: 1px solid rgba(0, 230, 118, 0.4); color: var(--ucl-win);">✓ ${t('eligibility_ok')}</span>`;
+  let eligPill = `<span class="modal-tag-pill modal-tag-green">✓ 0 FAILS • ELIGIBLE</span>`;
   if (isFlagged) {
-    eligPill = `<span class="modal-elig-pill" style="background: rgba(255, 59, 92, 0.15); border: 1px solid rgba(255, 59, 92, 0.6); color: var(--ucl-loss);">🚨 ${t('eligibility_flagged')}</span>`;
+    eligPill = `<span class="modal-tag-pill modal-tag-red">🚨 FLAGGED (${streak} FAILS)</span>`;
   } else if (streak > 0) {
-    eligPill = `<span class="modal-elig-pill" style="background: rgba(255, 179, 0, 0.12); border: 1px solid rgba(255, 179, 0, 0.5); color: var(--ucl-draw);">⚠️ ${t('eligibility_warn', { n: streak })}</span>`;
+    eligPill = `<span class="modal-tag-pill modal-tag-yellow">⚠️ ${streak} FAIL STREAK</span>`;
   }
 
-  // 4. Performance evolution data
-  const evolutionData = buildPlayerMatchEvolutionData(player);
+  // 4. Form Columns Data
+  const formData = matches.map((m, idx) => {
+    const goals = m.goals_for || 0;
+    const turns = m.turns_played !== undefined ? m.turns_played : (goals > 0 ? 3 : 0);
+    const fillClass = turns === 0 ? 'missed' : (goals >= 20 ? 'win' : 'draw');
+    const barHeightPercent = Math.max(Math.min(Math.round((goals / 42) * 100), 100), turns === 0 ? 10 : 15);
+    const shortOpp = (m.opponent_display_name || 'Opp').slice(0, 6);
+    return {
+      index: idx,
+      match: m,
+      dateStr: m.tournament_id.slice(0, 10),
+      opponent: m.opponent_display_name || 'Opponent',
+      shortOpp,
+      goals,
+      turns,
+      fillClass,
+      barHeightPercent
+    };
+  });
+
+  const latestMatch = formData.length > 0 ? formData[formData.length - 1] : null;
 
   content.innerHTML = `
-    <!-- Header with 3D Silk Badge for Top 3 -->
+    <!-- Clean Header -->
     <div class="modal-player-header">
       ${badgeHTML}
       <div class="modal-header-info">
         <div class="modal-player-name">${escapeHTML(player.display_name)}</div>
-        <div class="modal-rank-subtitle">${rankSubtitle}</div>
-        <div style="margin-top: 4px;">${eligPill}</div>
+        <div class="modal-badge-pills">
+          ${rankPill}
+          ${eligPill}
+        </div>
       </div>
     </div>
 
-    <!-- 4 Pro Champions League KPI Matrix -->
+    <!-- 4-Box Pro KPI Strip -->
     <div class="modal-kpi-grid">
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${totalGoals}</div>
-        <div class="modal-kpi-lbl">${t('total_goals')}</div>
+        <div class="modal-kpi-lbl">TOTAL GOALS</div>
       </div>
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${avgGoals}</div>
@@ -1778,7 +1801,7 @@ function openPlayerModal(playerId) {
       </div>
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${matchesCount}</div>
-        <div class="modal-kpi-lbl">${t('matches_played')}</div>
+        <div class="modal-kpi-lbl">MATCHES</div>
       </div>
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${efficiency}%</div>
@@ -1786,47 +1809,64 @@ function openPlayerModal(playerId) {
       </div>
     </div>
 
-    <!-- Performance Wave Visualizer -->
-    <div class="card-title-bar" style="margin-bottom: 8px;">
-      <div class="card-title" style="display:flex; align-items:center; gap:8px;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ucl-cyan)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 9l-5 5-4-4-5 5"/></svg>
-        <span>MATCH-BY-MATCH FORM</span>
+    <!-- Match Form Section (Zero Text Collision) -->
+    <div class="modal-section-header">
+      <div class="modal-section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+        <span>MATCH PERFORMANCE</span>
       </div>
-      <span class="hand-text" style="font-size: 0.75rem; color: var(--ucl-slate);">${matchesCount} Matches Logged</span>
+      <div class="modal-section-meta">${matchesCount} Matches Logged</div>
     </div>
 
-    <div class="modal-chart-wrap">
-      ${renderPlayerEvolutionChart(evolutionData)}
+    <!-- Pro Form Strip -->
+    <div class="modal-form-strip">
+      ${formData.length === 0 ? `<div style="padding:16px; color:var(--ucl-slate); font-size:0.85rem; width:100%; text-align:center;">No matches logged yet</div>` : formData.map(d => `
+        <div class="modal-form-col ${d === latestMatch ? 'active' : ''}" data-index="${d.index}" onclick="selectFormMatch(${d.index})">
+          <span class="modal-form-score">${d.goals}</span>
+          <div class="modal-bar-track">
+            <div class="modal-bar-fill ${d.fillClass}" style="height: ${d.barHeightPercent}%;"></div>
+          </div>
+          <span class="modal-form-opp" title="${escapeHTML(d.opponent)}">${escapeHTML(d.shortOpp)}</span>
+        </div>
+      `).join('')}
     </div>
 
-    <!-- Summary Banner for Selected Match -->
-    <div class="modal-summary-banner" id="modal-summary-banner">
+    <!-- Match Inspector Banner -->
+    <div class="modal-inspector-banner" id="modal-inspector-banner">
       <div>
-        <div class="hand-text" id="summary-date-label" style="color: var(--ucl-slate); font-size: 0.8rem; font-weight: 700;">${evolutionData.length > 0 ? (evolutionData[evolutionData.length - 1].dateStr + ' • vs ' + escapeHTML(evolutionData[evolutionData.length - 1].opponent)) : 'No matches'}</div>
-        <div class="username" id="summary-verdict-label" style="font-size: 1.1rem; margin-top: 3px; color: #ffffff;">
-          ${evolutionData.length > 0 ? renderVerdictBadge(evolutionData[evolutionData.length - 1]) : '-'}
+        <div style="font-family: var(--font-main); font-weight: 800; font-size: 0.95rem; color: #ffffff;" id="inspector-opp">
+          ${latestMatch ? `vs ${escapeHTML(latestMatch.opponent)}` : 'No Match Selected'}
+        </div>
+        <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 2px;" id="inspector-date">
+          ${latestMatch ? `${latestMatch.dateStr} • ${latestMatch.turns}/3 Turns Played` : '-'}
         </div>
       </div>
-      <div id="summary-turns-badge" style="font-family: var(--font-main); font-weight: 800; font-size: 0.95rem; color: var(--ucl-cyan);">
-        ${evolutionData.length > 0 ? `${evolutionData[evolutionData.length - 1].goals} GOALS` : ''}
+      <div style="font-family: var(--font-main); font-weight: 900; font-size: 1.15rem; color: var(--ucl-cyan);" id="inspector-score">
+        ${latestMatch ? `${latestMatch.goals} GOALS` : ''}
       </div>
     </div>
 
-    <!-- Tournament History Timeline -->
-    <div class="card-title" style="margin-bottom: 10px; margin-top: 14px;">${t('tournament_history')}</div>
+    <!-- Tournament History Section -->
+    <div class="modal-section-header">
+      <div class="modal-section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 9.5-7 10-3.5-.5-7-5-7-10V6l7-4z"></path></svg>
+        <span>TOURNAMENT HISTORY</span>
+      </div>
+    </div>
+
     <div class="modal-history-list">
-      ${matches.length === 0 ? `<div style="text-align:center; padding:16px; color:var(--ucl-slate);">No tournament history yet</div>` : matches.map(m => {
+      ${matches.length === 0 ? `<div style="padding:16px; color:var(--ucl-slate); text-align:center;">No tournament history</div>` : matches.map(m => {
         const isMissed = m.turns_played === 0;
         const resultStamp = m.result === 'win' ? 'stamp-win' : (m.result === 'loss' ? 'stamp-loss' : 'stamp-draw');
         return `
           <div class="modal-history-row" onclick="openTournamentModal('${m.tournament_id}')" style="cursor:pointer;">
             <div>
-              <div style="font-family: var(--font-main); font-weight: 700; font-size: 0.95rem; color: #ffffff;">vs ${escapeHTML(m.opponent_display_name)}</div>
-              <div class="hand-text" style="font-size: 0.78rem; color: var(--ucl-slate); margin-top: 2px;">${m.tournament_id.slice(0, 10)} • <span style="color: ${isMissed ? 'var(--ucl-loss)' : 'var(--ucl-win)'}; font-weight: 700;">${m.turns_played !== undefined ? m.turns_played : (m.goals_for > 0 ? 3 : 0)}/3 TURNS</span></div>
+              <div style="font-family: var(--font-main); font-weight: 700; font-size: 0.9rem; color: #ffffff;">vs ${escapeHTML(m.opponent_display_name)}</div>
+              <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 1px;">${m.tournament_id.slice(0, 10)} • <span style="color: ${isMissed ? 'var(--ucl-loss)' : 'var(--ucl-win)'}; font-weight: 700;">${m.turns_played !== undefined ? m.turns_played : (m.goals_for > 0 ? 3 : 0)}/3 TURNS</span></div>
             </div>
-            <div style="display:flex; align-items:center; gap:10px;">
+            <div style="display:flex; align-items:center; gap:8px;">
               <span class="stamp ${resultStamp}">${m.result ? m.result.toUpperCase() : 'PLAYED'}</span>
-              <span style="font-family: var(--font-main); font-weight: 900; color: var(--ucl-cyan); font-size: 1.15rem; min-width: 48px; text-align: right;">${m.goals_for} G</span>
+              <span style="font-family: var(--font-main); font-weight: 900; color: var(--ucl-cyan); font-size: 1.05rem; min-width: 44px; text-align: right;">${m.goals_for} G</span>
             </div>
           </div>
         `;
@@ -1834,155 +1874,33 @@ function openPlayerModal(playerId) {
     </div>
   `;
 
+  // Attach global inspector function
+  window.currentModalFormData = formData;
+
   overlay.style.display = 'flex';
   page.style.transform = 'none';
 
   // Mount 3D Badges in modal (for top 3!)
   setTimeout(() => SilkBadges3DManager.mountAll(), 40);
-  attachEvolutionPointListeners(evolutionData);
 }
 
-function buildPlayerMatchEvolutionData(player) {
-  const matches = [...(player.matches || [])];
-  matches.sort((a, b) => a.tournament_id.slice(0, 10).localeCompare(b.tournament_id.slice(0, 10)));
+function selectFormMatch(idx) {
+  SoundManager.playClick();
+  const formData = window.currentModalFormData;
+  if (!formData || !formData[idx]) return;
 
-  return matches.map((m, idx) => {
-    const goals = m.goals_for || 0;
-    const turns = m.turns_played !== undefined ? m.turns_played : (goals > 0 ? 3 : 0);
-    let status = 'acceptable';
-    if (turns === 0) status = 'absent';
-    else if (goals >= 40) status = 'legendary';
-    else if (goals >= 35) status = 'champion';
-    else if (goals >= 30) status = 'perfect';
-    else if (goals >= 25) status = 'good';
-    else if (goals >= 20) status = 'acceptable';
-    else status = 'needs_work';
+  document.querySelectorAll('.modal-form-col').forEach(col => col.classList.remove('active'));
+  const activeCol = document.querySelector(`.modal-form-col[data-index="${idx}"]`);
+  if (activeCol) activeCol.classList.add('active');
 
-    const shortOpponent = (m.opponent_display_name || 'Opp').slice(0, 7);
-    return {
-      index: idx,
-      match: m,
-      dateStr: m.tournament_id.slice(0, 10),
-      opponent: m.opponent_display_name || 'Opponent',
-      shortOpponent,
-      goals,
-      turns,
-      status
-    };
-  });
-}
+  const d = formData[idx];
+  const oppEl = document.getElementById('inspector-opp');
+  const dateEl = document.getElementById('inspector-date');
+  const scoreEl = document.getElementById('inspector-score');
 
-function renderPlayerEvolutionChart(data) {
-  if (!data || data.length === 0) {
-    return `<div style="text-align:center; padding:32px 16px; color:var(--ucl-slate); font-size:0.9rem;">No tournament matches to plot form wave</div>`;
-  }
-
-  const w = 380, h = 150, px = 28, py = 24;
-  const count = data.length;
-  const step = count > 1 ? (w - px * 2) / (count - 1) : 0;
-  const maxGoals = 45;
-  const getY = (g) => h - py - (Math.min(Math.max(g, 0), maxGoals) / maxGoals) * (h - py * 2);
-
-  const points = data.map((d, i) => ({
-    x: count > 1 ? px + i * step : w / 2,
-    y: getY(d.goals),
-    data: d
-  }));
-
-  // Build smooth bezier curve
-  let pathD = '';
-  if (points.length === 1) {
-    pathD = `M ${px} ${points[0].y} L ${w - px} ${points[0].y}`;
-  } else {
-    pathD = `M ${points[0].x} ${points[0].y}`;
-    for (let i = 0; i < points.length - 1; i++) {
-      const p0 = points[i];
-      const p1 = points[i + 1];
-      const cpX = (p0.x + p1.x) / 2;
-      pathD += ` C ${cpX} ${p0.y}, ${cpX} ${p1.y}, ${p1.x} ${p1.y}`;
-    }
-  }
-
-  const areaD = points.length > 1
-    ? `${pathD} L ${points[points.length - 1].x} ${h - py} L ${points[0].x} ${h - py} Z`
-    : '';
-
-  return `
-    <svg viewBox="0 0 ${w} ${h}" style="width:100%; height:auto; overflow:visible; display:block;">
-      <defs>
-        <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stop-color="#00e5ff" />
-          <stop offset="50%" stop-color="#00a8ff" />
-          <stop offset="100%" stop-color="#7000ff" />
-        </linearGradient>
-        <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="rgba(0, 229, 255, 0.35)" />
-          <stop offset="70%" stop-color="rgba(0, 168, 255, 0.08)" />
-          <stop offset="100%" stop-color="rgba(0, 0, 0, 0.0)" />
-        </linearGradient>
-        <filter id="waveGlow" x="-20%" y="-20%" width="140%" height="140%">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
-        </filter>
-      </defs>
-
-      <!-- Baseline Grid & Grid Lines -->
-      <line x1="${px}" y1="${h - py}" x2="${w - px}" y2="${h - py}" stroke="rgba(0, 212, 255, 0.2)" stroke-width="1.5" />
-      <line x1="${px}" y1="${getY(20)}" x2="${w - px}" y2="${getY(20)}" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 3" stroke-width="1" />
-      <line x1="${px}" y1="${getY(35)}" x2="${w - px}" y2="${getY(35)}" stroke="rgba(255, 255, 255, 0.07)" stroke-dasharray="3 3" stroke-width="1" />
-
-      <!-- Area Fill -->
-      ${areaD ? `<path d="${areaD}" fill="url(#areaGrad)" />` : ''}
-
-      <!-- Glowing Curved Wave -->
-      <path d="${pathD}" fill="none" stroke="url(#waveGrad)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#waveGlow)" />
-
-      <!-- Interactive Data Points -->
-      ${points.map((p, i) => {
-        const isAbsent = p.data.status === 'absent';
-        const ptColor = isAbsent ? '#ff3b5c' : (p.data.goals >= 35 ? '#00e5ff' : '#60a5fa');
-        return `
-          <g class="evolution-point" data-index="${i}" style="cursor: pointer;">
-            <circle cx="${p.x}" cy="${p.y}" r="8" fill="rgba(0, 229, 255, 0.15)" />
-            <circle cx="${p.x}" cy="${p.y}" r="4.5" fill="${ptColor}" stroke="#030b20" stroke-width="2" style="filter: drop-shadow(0 0 6px ${ptColor});" />
-            <text x="${p.x}" y="${p.y - 10}" font-family="var(--font-main)" font-weight="900" font-size="10" fill="#ffffff" text-anchor="middle" style="text-shadow:0 2px 4px rgba(0,0,0,0.9);">${p.data.goals}G</text>
-            <text x="${p.x}" y="${h - 6}" font-family="var(--font-main)" font-weight="700" font-size="8" fill="var(--ucl-slate)" text-anchor="middle">${p.data.shortOpponent}</text>
-          </g>
-        `;
-      }).join('')}
-    </svg>
-  `;
-}
-
-function renderVerdictBadge(d) {
-  let color = '#ff3b5c';
-  let label = 'NEEDS WORK';
-  if (d.status === 'absent') { color = 'var(--ucl-loss)'; label = '⚠️ MISSED TURNS (0/3)'; }
-  else if (d.status === 'legendary') { color = '#c77dff'; label = '🌟 LEGENDARY (40+G)'; }
-  else if (d.status === 'champion') { color = 'var(--ucl-cyan)'; label = '🏆 CHAMPION (35G+)'; }
-  else if (d.status === 'perfect') { color = 'var(--ucl-win)'; label = '✨ PERFECT (30G+)'; }
-  else if (d.status === 'good') { color = '#60a5fa'; label = '👍 SOLID (25G+)'; }
-  else if (d.status === 'acceptable') { color = '#94a3b8'; label = '👌 PLAYED (20G+)'; }
-
-  return `<span style="color: ${color}; font-weight: 800;">${label}</span>`;
-}
-
-function attachEvolutionPointListeners(evolutionData) {
-  const points = document.querySelectorAll('.evolution-point');
-  const summaryDate = document.getElementById('summary-date-label');
-  const summaryVerdict = document.getElementById('summary-verdict-label');
-  const summaryTurns = document.getElementById('summary-turns-badge');
-
-  points.forEach(pt => {
-    pt.addEventListener('click', () => {
-      SoundManager.playClick();
-      const d = evolutionData[parseInt(pt.dataset.index, 10)];
-      if (!d) return;
-      summaryDate.textContent = `${d.dateStr} • vs ${d.opponent}`;
-      summaryVerdict.innerHTML = renderVerdictBadge(d);
-      summaryTurns.textContent = `${d.goals} GOALS (${d.turns}/3 Turns)`;
-    });
-  });
+  if (oppEl) oppEl.textContent = `vs ${d.opponent}`;
+  if (dateEl) dateEl.textContent = `${d.dateStr} • ${d.turns}/3 Turns Played`;
+  if (scoreEl) scoreEl.textContent = `${d.goals} GOALS`;
 }
 
 function openTournamentModal(tId) {
