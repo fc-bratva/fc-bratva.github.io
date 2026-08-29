@@ -1311,112 +1311,75 @@ body.immersive-mode .bg-3d-canvas-container {
   left: -6px;
 }
 
-/* Floating Ultra-Premium Apple iOS Liquid Glass Panel Dock */
-.nav-bar {
+/* Production 5-Tab Sharp Silk Cloth Dock */
+.glass-tab-dock-container * {
+  border-radius: 0 !important;
+}
+.glass-tab-dock-container {
   position: fixed;
-  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
-  left: 50%;
-  transform: translateX(-50%);
-  width: calc(100% - 24px);
-  max-width: 410px;
-  height: 64px;
-  background: rgba(6, 14, 38, 0.72);
-  backdrop-filter: blur(40px) saturate(220%);
-  -webkit-backdrop-filter: blur(40px) saturate(220%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 
-    0 24px 54px rgba(0, 0, 0, 0.85),
-    0 0 24px rgba(0, 180, 255, 0.15),
-    inset 0 1px 1px rgba(255, 255, 255, 0.45);
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  z-index: 100;
-  border-radius: 34px;
-  padding: 4px;
-  user-select: none;
-}
-
-/* Apple iOS Segmented Ice Glass Pill (Active Tab Indicator) */
-.nav-indicator-ice {
-  position: absolute;
-  top: 4px;
-  bottom: 4px;
+  bottom: 0;
   left: 0;
-  width: calc(25% - 4px);
-  background: linear-gradient(135deg, rgba(0, 220, 255, 0.3) 0%, rgba(10, 42, 98, 0.65) 50%, rgba(0, 240, 255, 0.22) 100%);
-  border: 1px solid rgba(0, 235, 255, 0.85);
-  border-radius: 28px;
-  box-shadow: 
-    0 4px 20px rgba(0, 212, 255, 0.4),
-    inset 0 1px 2px rgba(255, 255, 255, 0.9),
-    inset 0 -1px 2px rgba(0, 0, 0, 0.4);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  pointer-events: none;
-  z-index: 1;
-  transform: translateX(4px);
-  transition: transform 0.28s cubic-bezier(0.18, 0.9, 0.2, 1), width 0.28s cubic-bezier(0.18, 0.9, 0.2, 1);
+  right: 0;
+  max-width: 440px;
+  margin: 0 auto;
+  z-index: 999;
+  padding: 0 10px calc(env(safe-area-inset-bottom, 0px) + 10px) 10px;
 }
-
-.nav-indicator-ice::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  left: 15%;
-  right: 15%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
-  border-radius: 1px;
-}
-
-.nav-item {
+.glass-tab-dock {
   position: relative;
-  z-index: 2;
+  width: 100%;
+  height: 64px;
+  background: linear-gradient(180deg, rgba(22, 16, 34, 0.92) 0%, rgba(10, 8, 16, 0.96) 100%);
+  backdrop-filter: blur(28px) saturate(200%);
+  -webkit-backdrop-filter: blur(28px) saturate(200%);
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  border-bottom: 2px solid #ffd700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.8), 0 18px 45px rgba(0, 0, 0, 0.95);
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  align-items: stretch;
+  overflow: visible;
+}
+.tab-btn {
+  position: relative;
+  height: 100%;
+  background: transparent;
+  border: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: none;
-  border: none;
-  color: rgba(255, 255, 255, 0.55);
-  font-family: var(--font-main);
-  font-size: 0.67rem;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  text-transform: uppercase;
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 26px;
-  transition: color 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.15s ease;
-  flex: 1;
-  height: 100%;
-  gap: 2px;
+  gap: 4px;
+  color: rgba(255, 255, 255, 0.5);
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), height 0.4s cubic-bezier(0.22, 1, 0.36, 1), color 0.25s ease;
+  transform-origin: bottom center;
+  overflow: hidden;
 }
-.nav-item:active {
-  transform: scale(0.92);
+.tab-btn:last-child { border-right: none; }
+.tab-cloth-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0; transition: opacity 0.3s ease; z-index: 1; }
+.tab-btn.active .tab-cloth-canvas { opacity: 1; }
+.tab-icon-wrap { position: relative; width: 22px; height: 22px; z-index: 4; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.75)); }
+.tab-icon-wrap svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: square; }
+.tab-label { position: relative; font-size: 8.5px; font-weight: 900; letter-spacing: 1.2px; text-transform: uppercase; z-index: 4; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85); font-family: var(--font-main); }
+.tab-badge-square { position: absolute; top: -2px; right: -2px; width: 5px; height: 5px; background: #ff3b30; border: 1px solid #140e20; }
+.tab-btn.active {
+  color: #ffd700;
+  transform: translateY(-9px);
+  height: calc(100% + 9px);
+  z-index: 10;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  border-right: 1px solid rgba(255, 255, 255, 0.22);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.6);
+  border-bottom: 2.5px solid #ffd700;
+  box-shadow: inset 0 1.5px 0 rgba(255, 255, 255, 0.35), inset 0 -2px 3px rgba(0, 0, 0, 0.5), 0 14px 30px rgba(0, 0, 0, 0.95);
 }
-.nav-item svg {
-  width: 21px;
-  height: 21px;
-  stroke: currentColor;
-  stroke-width: 2.2;
-  fill: none;
-  transition: stroke 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), filter 0.2s ease;
-}
-.nav-item:hover {
-  color: #ffffff;
-}
-.nav-item.active {
-  color: #ffffff;
-  font-weight: 800;
-  text-shadow: 0 0 12px rgba(0, 212, 255, 0.7);
-}
-.nav-item.active svg {
-  stroke: #00e5ff;
-  transform: translateY(-2px) scale(1.1);
-  filter: drop-shadow(0 2px 10px rgba(0, 229, 255, 0.9));
-}
+.tab-btn.active .tab-icon-wrap { transform: translateY(-2px) scale(1.08); filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9)); }
+.tab-btn.active svg { stroke: #ffd700; stroke-width: 2.3; }
+.tab-btn.active .tab-label { color: #ffd700; transform: scale(1.05); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.95); }
 
 /* Main Viewport & Tab Pages */
 .main-viewport {

@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2900">
+  <link rel="stylesheet" href="style.css?v=3000">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -178,6 +178,18 @@
           <div id="leaderboard-cards-container" class="fc-player-cards-list"></div>
         </div>
       </section>
+
+      <!-- TAB: UPDATES -->
+      <section class="tab-page" id="tab-updates">
+        <div class="note-card">
+          <div class="card-title" data-i18n="nav_updates">League Updates & Bulletins</div>
+          <div style="text-align:center; padding: 48px 20px; color: var(--ucl-slate);">
+            <div style="font-size: 2.5rem; margin-bottom: 14px; filter: drop-shadow(0 2px 8px rgba(0, 212, 255, 0.4));">🔔</div>
+            <div style="font-family: var(--font-main); font-weight: 800; font-size: 1.15rem; color: #ffffff; margin-bottom: 8px; letter-spacing: 0.5px;">COMMUNICATION & OFFICIAL BULLETINS</div>
+            <div style="font-size: 0.88rem; color: var(--ucl-muted); max-width: 340px; margin: 0 auto; line-height: 1.6;">Official announcements, tournament schedules, and roster notices will appear here.</div>
+          </div>
+        </div>
+      </section>
     </main>
   </div> <!-- End content-wrapper -->
 
@@ -207,26 +219,36 @@
     </div>
   </div>
 
-  <!-- Bottom Navigation Bar (Apple iOS Luxury Glass Dock) -->
-  <nav class="nav-bar">
-    <div class="nav-indicator-ice" id="nav-indicator-ice"></div>
-    <button class="nav-item active" data-tab="dashboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="3" width="7" height="7" rx="2"></rect><rect x="14" y="14" width="7" height="7" rx="2"></rect><rect x="3" y="14" width="7" height="7" rx="2"></rect></svg>
-      <span data-i18n="nav_dash">DASH</span>
-    </button>
-    <button class="nav-item" data-tab="tournaments">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path></svg>
-      <span data-i18n="nav_tournaments">MATCHES</span>
-    </button>
-    <button class="nav-item" data-tab="players">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-      <span data-i18n="nav_roster">MEMBERS</span>
-    </button>
-    <button class="nav-item" data-tab="leaderboard">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path><path d="M2 20h20"></path><circle cx="12" cy="4" r="1.5"></circle></svg>
-      <span data-i18n="nav_leaderboard">RANKS</span>
-    </button>
-  </nav>
+  <!-- Production 5-Tab Sharp Silk Cloth Dock -->
+  <div class="glass-tab-dock-container">
+    <nav class="glass-tab-dock">
+      <button class="tab-btn active" data-target="view-dash" data-tab="dashboard">
+        <canvas class="tab-cloth-canvas"></canvas>
+        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+        <span class="tab-label" data-i18n="nav_dash">DASH</span>
+      </button>
+      <button class="tab-btn" data-target="view-matches" data-tab="tournaments">
+        <canvas class="tab-cloth-canvas"></canvas>
+        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="6 2 18 2 18 6 6 6"/><path d="M19 6v6a7 7 0 0 1-14 0V6"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="7" y1="22" x2="17" y2="22"/></svg></div>
+        <span class="tab-label" data-i18n="nav_tournaments">MATCHES</span>
+      </button>
+      <button class="tab-btn" data-target="view-members" data-tab="players">
+        <canvas class="tab-cloth-canvas"></canvas>
+        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><rect x="6" y="4" width="6" height="7"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <span class="tab-label" data-i18n="nav_roster">MEMBERS</span>
+      </button>
+      <button class="tab-btn" data-target="view-ranks" data-tab="leaderboard">
+        <canvas class="tab-cloth-canvas"></canvas>
+        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M6 9H2v12h4V9z"/><path d="M14 4h-4v17h4V4z"/><path d="M22 13h-4v8h4v-8z"/></svg></div>
+        <span class="tab-label" data-i18n="nav_leaderboard">RANKS</span>
+      </button>
+      <button class="tab-btn" data-target="view-updates" data-tab="updates">
+        <canvas class="tab-cloth-canvas"></canvas>
+        <div class="tab-icon-wrap"><div class="tab-badge-square"></div><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+        <span class="tab-label" data-i18n="nav_updates">UPDATES</span>
+      </button>
+    </nav>
+  </div>
 
 </div>
 
@@ -240,6 +262,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=2900"></script>
+<script src="app.js?v=3000"></script>
 </body>
 </html>

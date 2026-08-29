@@ -31,6 +31,7 @@ const I18N = {
     nav_tournaments: 'MATCHES',
     nav_roster: 'MEMBERS',
     nav_leaderboard: 'RANKS',
+    nav_updates: 'UPDATES',
     loading: 'Loading notes...',
     performance_chart: '7-Day Trend',
     click_point_hint: '(Tap a point for details)',
@@ -98,6 +99,7 @@ const I18N = {
     nav_tournaments: 'المباريات',
     nav_roster: 'الأعضاء',
     nav_leaderboard: 'الترتيب',
+    nav_updates: 'التحديثات',
     loading: 'جاري التحميل...',
     performance_chart: 'أداء 7 أيام',
     click_point_hint: '(انقر للتفاصيل)',
@@ -165,6 +167,7 @@ const I18N = {
     nav_tournaments: 'МАТЧИ',
     nav_roster: 'УЧАСТНИКИ',
     nav_leaderboard: 'РАНГИ',
+    nav_updates: 'НОВОСТИ',
     loading: 'Загрузка...',
     performance_chart: 'Форма 7 дней',
     click_point_hint: '(Жми на точку)',
@@ -232,6 +235,7 @@ const I18N = {
     nav_tournaments: 'PARTIDOS',
     nav_roster: 'MIEMBROS',
     nav_leaderboard: 'RANGOS',
+    nav_updates: 'NOVEDADES',
     loading: 'Cargando...',
     performance_chart: 'Rendimiento 7d',
     click_point_hint: '(Toca un punto)',
@@ -1054,7 +1058,7 @@ const state = {
 };
 
 // Tabs order for animation direction
-const tabsOrder = ['dashboard', 'tournaments', 'players', 'leaderboard'];
+const tabsOrder = ['dashboard', 'tournaments', 'players', 'leaderboard', 'updates'];
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', async () => {
@@ -1235,42 +1239,133 @@ async function loadData() {
   state.tournaments.sort((a, b) => new Date(b.date) - new Date(a.date));
 }
 
-// --- Navigation Tab Switching with Sliding Ice Box & Page Drift ---
-function updateNavIndicator(activeNavBtn) {
-  if (typeof document === 'undefined' || !document.querySelector) return;
-  const indicator = document.getElementById('nav-indicator-ice');
-  const navBar = document.querySelector('.nav-bar');
-  if (!indicator || !navBar) return;
+// --- Web Audio Mouse Click Synthesizer ---
+let audioCtx = null;
+function playMouseClick() {
+  try {
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (AC) audioCtx = new AC();
+    }
+    if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+    if (!audioCtx) return;
+    const now = audioCtx.currentTime;
+    const oscSnap = audioCtx.createOscillator();
+    const gainSnap = audioCtx.createGain();
+    oscSnap.type = 'sine';
+    oscSnap.frequency.setValueAtTime(2600, now);
+    oscSnap.frequency.exponentialRampToValueAtTime(450, now + 0.007);
+    gainSnap.gain.setValueAtTime(0.5, now);
+    gainSnap.gain.exponentialRampToValueAtTime(0.001, now + 0.007);
+    oscSnap.connect(gainSnap);
+    gainSnap.connect(audioCtx.destination);
+    oscSnap.start(now);
+    oscSnap.stop(now + 0.007);
 
-  const btn = activeNavBtn || document.querySelector(`.nav-item[data-tab="${state.activeTab}"]`);
-  if (!btn || !btn.getBoundingClientRect || !navBar.getBoundingClientRect) return;
-
-  const navRect = navBar.getBoundingClientRect();
-  const btnRect = btn.getBoundingClientRect();
-  const offsetLeft = btnRect.left - navRect.left;
-  const width = btnRect.width;
-
-  indicator.style.transform = `translateX(${offsetLeft}px)`;
-  indicator.style.width = `${width}px`;
+    const oscBody = audioCtx.createOscillator();
+    const gainBody = audioCtx.createGain();
+    oscBody.type = 'triangle';
+    oscBody.frequency.setValueAtTime(420, now);
+    oscBody.frequency.exponentialRampToValueAtTime(110, now + 0.016);
+    gainBody.gain.setValueAtTime(0.35, now);
+    gainBody.gain.exponentialRampToValueAtTime(0.001, now + 0.016);
+    oscBody.connect(gainBody);
+    gainBody.connect(audioCtx.destination);
+    oscBody.start(now);
+    oscBody.stop(now + 0.016);
+  } catch (e) {}
 }
 
+// --- Production 5-Tab Sharp Silk Cloth Canvas Engine ---
+const TabClothEngine = {
+  contexts: [],
+  t: 0,
+  init() {
+    if (typeof document === 'undefined' || !document.querySelectorAll) return;
+    const canvases = document.querySelectorAll('.tab-cloth-canvas');
+    if (!canvases.length) return;
+    this.contexts = Array.from(canvases).map(c => ({ cvs: c, ctx: c.getContext('2d') }));
+    this.resize();
+    if (typeof window !== 'undefined') {
+      window.addEventListener('resize', () => this.resize());
+      setTimeout(() => this.resize(), 50);
+    }
+    this.animate();
+  },
+  resize() {
+    if (!this.contexts) return;
+    this.contexts.forEach(({ cvs }) => {
+      if (!cvs || !cvs.getBoundingClientRect) return;
+      const r = cvs.getBoundingClientRect();
+      if (r.width && r.height) { cvs.width = r.width * 2; cvs.height = r.height * 2; }
+    });
+  },
+  animate() {
+    this.t += 0.012;
+    if (typeof document !== 'undefined' && document.querySelectorAll) {
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        if (!btn.classList.contains('active') || !this.contexts[idx]) return;
+        const { cvs, ctx } = this.contexts[idx];
+        if (!cvs || !ctx) return;
+        const w = cvs.width, h = cvs.height;
+        if (!w || !h) return;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = 'rgb(123, 56, 166)';
+        ctx.fillRect(0, 0, w, h);
+        for (let i = 0; i < 4; i++) {
+          const p = ((Math.sin(this.t * 0.9 + i * 1.45) * 0.4 + 0.5) * (w + h)) - (h * 0.35);
+          const bw = w * 0.55;
+          const grad = ctx.createLinearGradient(p - bw, 0, p + bw, h);
+          grad.addColorStop(0, 'rgba(123, 56, 166, 0)');
+          grad.addColorStop(0.35, 'rgba(180, 105, 235, 0.16)');
+          grad.addColorStop(0.5, 'rgba(215, 155, 255, 0.20)');
+          grad.addColorStop(0.68, 'rgba(55, 18, 85, 0.38)');
+          grad.addColorStop(1, 'rgba(123, 56, 166, 0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, w, h);
+        }
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.025)';
+        ctx.lineWidth = 1;
+        for (let x = -h; x < w + h; x += 7) {
+          ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x + h, h); ctx.stroke();
+        }
+      });
+    }
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(() => this.animate());
+    }
+  }
+};
+
+const tabTargetMap = {
+  'view-dash': 'dashboard',
+  'view-matches': 'tournaments',
+  'view-members': 'players',
+  'view-ranks': 'leaderboard',
+  'view-updates': 'updates',
+  'dashboard': 'dashboard',
+  'tournaments': 'tournaments',
+  'players': 'players',
+  'leaderboard': 'leaderboard',
+  'updates': 'updates'
+};
+
 function setupNavigation() {
-  const navs = document.querySelectorAll('.nav-item');
-  navs.forEach(nav => {
-    nav.addEventListener('click', () => {
-      SoundManager.playTabSlide();
-      const newTab = nav.dataset.tab;
-      if (newTab === state.activeTab) return;
+  const btns = document.querySelectorAll('.tab-btn');
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      playMouseClick();
+      const targetName = tabTargetMap[btn.dataset.target] || btn.dataset.tab || 'dashboard';
+      if (targetName === state.activeTab && btn.classList.contains('active')) return;
       
-      navs.forEach(n => n.classList.remove('active'));
-      nav.classList.add('active');
-      updateNavIndicator(nav);
-      switchTab(newTab);
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      TabClothEngine.resize();
+      switchTab(targetName);
     });
   });
 
-  setTimeout(() => updateNavIndicator(), 50);
-  window.addEventListener('resize', () => updateNavIndicator());
+  TabClothEngine.init();
 }
 
 function switchTab(newTabName) {
@@ -1279,7 +1374,14 @@ function switchTab(newTabName) {
   const newPage = document.getElementById(`tab-${newTabName}`);
 
   state.activeTab = newTabName;
-  updateNavIndicator();
+  
+  if (typeof document !== 'undefined' && document.querySelectorAll) {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      const t = tabTargetMap[btn.dataset.target] || btn.dataset.tab;
+      btn.classList.toggle('active', t === newTabName);
+    });
+    TabClothEngine.resize();
+  }
 
   if (!newPage) return;
 
@@ -1311,7 +1413,9 @@ function switchTab(newTabName) {
     SilkBadges3DManager.mountAll();
   }
 
-  window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (typeof window !== 'undefined' && window.scrollTo) {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }
 
 // --- Renderers ---
