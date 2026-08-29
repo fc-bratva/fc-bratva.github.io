@@ -714,11 +714,27 @@ const Flag3DManager = {
       });
     }
 
+    let lastWidth = typeof window !== 'undefined' ? window.innerWidth : 0;
+    let lastHeight = typeof window !== 'undefined' ? window.innerHeight : 0;
+
     window.addEventListener('resize', () => {
+      const newWidth = window.innerWidth;
+      const newHeight = window.innerHeight;
+
+      // On mobile devices, vertical scrolling collapses/expands the browser URL bar, triggering resize events.
+      // Ignore vertical fluctuations unless width changed (orientation flip) or height change is drastic (> 150px).
+      const widthChanged = Math.abs(newWidth - lastWidth) > 6;
+      const heightDrastic = Math.abs(newHeight - lastHeight) > 150;
+
+      if (!widthChanged && !heightDrastic) return;
+
+      lastWidth = newWidth;
+      lastHeight = newHeight;
+
       if (this.bgRenderer && this.bgCamera) {
-        this.bgCamera.aspect = window.innerWidth / window.innerHeight;
+        this.bgCamera.aspect = newWidth / newHeight;
         this.bgCamera.updateProjectionMatrix();
-        this.bgRenderer.setSize(window.innerWidth, window.innerHeight);
+        this.bgRenderer.setSize(newWidth, newHeight);
       }
       if (this.modalActive && this.modalRenderer && this.modalCamera) {
         const container = document.getElementById('flag-modal-canvas-container');
@@ -878,6 +894,9 @@ const CinematicDirector = {
 
     const overlay = document.getElementById('cinematic-overlay');
     if (overlay) {
+      overlay.addEventListener('touchmove', (e) => { e.preventDefault(); }, { passive: false });
+      overlay.addEventListener('wheel', (e) => { e.preventDefault(); }, { passive: false });
+
       // Double tap / double click detection to exit
       overlay.addEventListener('click', (e) => {
         const now = Date.now();
@@ -923,6 +942,8 @@ const CinematicDirector = {
     this.populateHUD();
 
     document.body.classList.add('cinematic-mode');
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
 
     if (overlay) overlay.classList.add('active');
     if (blackout) blackout.classList.add('fade-in');
@@ -941,6 +962,8 @@ const CinematicDirector = {
     this.active = false;
 
     document.body.classList.remove('cinematic-mode');
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
 
     AudioManager.onExitImmersive();
 
@@ -2002,6 +2025,20 @@ function renderLeaderboard() {
   }
 }
 
+function lockModalScroll() {
+  if (typeof document !== 'undefined') {
+    if (document.body && document.body.classList) document.body.classList.add('modal-open');
+    if (document.documentElement && document.documentElement.classList) document.documentElement.classList.add('modal-open');
+  }
+}
+
+function unlockModalScroll() {
+  if (typeof document !== 'undefined') {
+    if (document.body && document.body.classList) document.body.classList.remove('modal-open');
+    if (document.documentElement && document.documentElement.classList) document.documentElement.classList.remove('modal-open');
+  }
+}
+
 // --- Player Detail Modal ---
 function openPlayerModal(playerId) {
   const player = state.players.find(p => p.player_id === playerId);
@@ -2012,14 +2049,17 @@ function openPlayerModal(playerId) {
   const page = document.getElementById('modal-page');
 
   SoundManager.playClick();
+  lockModalScroll();
 
   document.getElementById('modal-close-x').onclick = () => {
     SoundManager.playClick();
+    unlockModalScroll();
     overlay.style.display = 'none';
   };
   overlay.onclick = (e) => { 
     if (e.target === overlay) {
       SoundManager.playClick();
+      unlockModalScroll();
       overlay.style.display = 'none';
     } 
   };
@@ -2227,12 +2267,20 @@ function openTournamentModal(tId) {
   const page = document.getElementById('modal-page');
   
   SoundManager.playClick();
+  lockModalScroll();
 
   document.getElementById('modal-close-x').onclick = () => {
     SoundManager.playClick();
+    unlockModalScroll();
     overlay.style.display = 'none';
   };
-  overlay.onclick = (e) => { if (e.target === overlay) { SoundManager.playClick(); overlay.style.display = 'none'; } };
+  overlay.onclick = (e) => { 
+    if (e.target === overlay) { 
+      SoundManager.playClick(); 
+      unlockModalScroll();
+      overlay.style.display = 'none'; 
+    } 
+  };
 
   const matches = [...(tItem.matches || [])].sort((a, b) => b.goals_for - a.goals_for);
 
