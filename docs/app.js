@@ -1274,25 +1274,44 @@ function setupNavigation() {
 }
 
 function switchTab(newTabName) {
-  const oldIndex = tabsOrder.indexOf(state.activeTab);
-  const newIndex = tabsOrder.indexOf(newTabName);
-  const driftClass = newIndex >= oldIndex ? 'drift-from-right' : 'drift-from-left';
-
-  document.querySelectorAll('.tab-page').forEach(p => {
-    p.classList.remove('active', 'drift-from-right', 'drift-from-left');
-    p.style.display = 'none';
-  });
-
+  const oldTabName = state.activeTab;
+  const oldPage = document.getElementById(`tab-${oldTabName}`);
   const newPage = document.getElementById(`tab-${newTabName}`);
-  if (newPage) {
-    newPage.classList.add('active', driftClass);
-    newPage.style.display = 'block';
-  }
 
   state.activeTab = newTabName;
   updateNavIndicator();
+
+  if (!newPage) return;
+
+  if (oldPage && oldPage !== newPage && oldPage.style.display !== 'none') {
+    // Cinematic Mixed-Dissolve Crossfade Transition
+    oldPage.classList.remove('active', 'fade-in-dissolve');
+    oldPage.classList.add('fade-out-dissolve');
+
+    newPage.classList.remove('fade-out-dissolve');
+    newPage.classList.add('fade-in-dissolve');
+
+    setTimeout(() => {
+      oldPage.classList.remove('fade-out-dissolve');
+      oldPage.style.display = 'none';
+
+      newPage.classList.remove('fade-in-dissolve');
+      newPage.classList.add('active');
+      newPage.style.display = 'block';
+
+      SilkBadges3DManager.mountAll();
+    }, 200);
+  } else {
+    document.querySelectorAll('.tab-page').forEach(p => {
+      p.classList.remove('active', 'fade-in-dissolve', 'fade-out-dissolve');
+      p.style.display = 'none';
+    });
+    newPage.classList.add('active');
+    newPage.style.display = 'block';
+    SilkBadges3DManager.mountAll();
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
-  setTimeout(() => SilkBadges3DManager.mountAll(), 30);
 }
 
 // --- Renderers ---
