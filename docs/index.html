@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3400">
+  <link rel="stylesheet" href="style.css?v=3500">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -193,64 +193,63 @@
       </section>
     </main>
   </div> <!-- End content-wrapper -->
+</div> <!-- End #app -->
 
-  <!-- Modal Overlay -->
-  <div class="modal-overlay" id="player-modal">
-    <div class="modal-wrapper">
-      <button class="close-tape" id="modal-close-x" aria-label="Close"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ESC</button>
-      <div class="modal-page" id="modal-page">
-        <div id="modal-player-content"></div>
+<!-- Modal Overlay -->
+<div class="modal-overlay" id="player-modal">
+  <div class="modal-wrapper">
+    <button class="close-tape" id="modal-close-x" aria-label="Close"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ESC</button>
+    <div class="modal-page" id="modal-page">
+      <div id="modal-player-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- 3D Interactive Flag Modal -->
+<div class="modal-overlay" id="flag-modal">
+  <div class="modal-wrapper" style="max-width: 520px; height: 80vh; max-height: 580px;">
+    <button class="close-tape" id="flag-modal-close-x" aria-label="Close"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ESC</button>
+    <div class="modal-page" style="display:flex; flex-direction:column; padding: 18px 20px; overflow:hidden; height:100%;">
+      <div class="card-title" style="margin-bottom: 12px; font-size: 1.15rem;">
+        <span>БРАТВА — 3D FABRIC FLAG</span>
+      </div>
+      <div id="flag-modal-canvas-container" style="flex:1; width:100%; position:relative; border-radius:12px; overflow:hidden; background: radial-gradient(circle at center, #1c1033 0%, #080410 100%); border: 1px solid rgba(168, 85, 247, 0.25);"></div>
+      <div class="hand-text" style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:10px; font-weight:600;">
+        DRAG TO ROTATE 3D FABRIC FLAG
       </div>
     </div>
   </div>
+</div>
 
-  <!-- 3D Interactive Flag Modal -->
-  <div class="modal-overlay" id="flag-modal">
-    <div class="modal-wrapper" style="max-width: 520px; height: 80vh; max-height: 580px;">
-      <button class="close-tape" id="flag-modal-close-x" aria-label="Close"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg> ESC</button>
-      <div class="modal-page" style="display:flex; flex-direction:column; padding: 18px 20px; overflow:hidden; height:100%;">
-        <div class="card-title" style="margin-bottom: 12px; font-size: 1.15rem;">
-          <span>БРАТВА — 3D FABRIC FLAG</span>
-        </div>
-        <div id="flag-modal-canvas-container" style="flex:1; width:100%; position:relative; border-radius:12px; overflow:hidden; background: radial-gradient(circle at center, #1c1033 0%, #080410 100%); border: 1px solid rgba(168, 85, 247, 0.25);"></div>
-        <div class="hand-text" style="text-align:center; font-size:0.85rem; color:var(--text-muted); margin-top:10px; font-weight:600;">
-          DRAG TO ROTATE 3D FABRIC FLAG
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Production 5-Tab Sharp Silk Cloth Dock -->
-  <div class="glass-tab-dock-container">
-    <nav class="glass-tab-dock">
-      <button class="tab-btn active" data-target="view-dash" data-tab="dashboard">
-        <canvas class="tab-cloth-canvas"></canvas>
-        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-        <span class="tab-label" data-i18n="nav_dash">DASH</span>
-      </button>
-      <button class="tab-btn" data-target="view-matches" data-tab="tournaments">
-        <canvas class="tab-cloth-canvas"></canvas>
-        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="6 2 18 2 18 6 6 6"/><path d="M19 6v6a7 7 0 0 1-14 0V6"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="7" y1="22" x2="17" y2="22"/></svg></div>
-        <span class="tab-label" data-i18n="nav_tournaments">MATCHES</span>
-      </button>
-      <button class="tab-btn" data-target="view-members" data-tab="players">
-        <canvas class="tab-cloth-canvas"></canvas>
-        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><rect x="6" y="4" width="6" height="7"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-        <span class="tab-label" data-i18n="nav_roster">MEMBERS</span>
-      </button>
-      <button class="tab-btn" data-target="view-ranks" data-tab="leaderboard">
-        <canvas class="tab-cloth-canvas"></canvas>
-        <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M6 9H2v12h4V9z"/><path d="M14 4h-4v17h4V4z"/><path d="M22 13h-4v8h4v-8z"/></svg></div>
-        <span class="tab-label" data-i18n="nav_leaderboard">RANKS</span>
-      </button>
-      <button class="tab-btn" data-target="view-updates" data-tab="updates">
-        <canvas class="tab-cloth-canvas"></canvas>
-        <div class="tab-icon-wrap"><div class="tab-badge-square"></div><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
-        <span class="tab-label" data-i18n="nav_updates">UPDATES</span>
-      </button>
-    </nav>
-  </div>
-
+<!-- Production 5-Tab Sharp Silk Cloth Dock -->
+<div class="glass-tab-dock-container">
+  <nav class="glass-tab-dock">
+    <button class="tab-btn active" data-target="view-dash" data-tab="dashboard">
+      <canvas class="tab-cloth-canvas"></canvas>
+      <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+      <span class="tab-label" data-i18n="nav_dash">DASH</span>
+    </button>
+    <button class="tab-btn" data-target="view-matches" data-tab="tournaments">
+      <canvas class="tab-cloth-canvas"></canvas>
+      <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><polygon points="6 2 18 2 18 6 6 6"/><path d="M19 6v6a7 7 0 0 1-14 0V6"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="7" y1="22" x2="17" y2="22"/></svg></div>
+      <span class="tab-label" data-i18n="nav_tournaments">MATCHES</span>
+    </button>
+    <button class="tab-btn" data-target="view-members" data-tab="players">
+      <canvas class="tab-cloth-canvas"></canvas>
+      <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><rect x="6" y="4" width="6" height="7"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <span class="tab-label" data-i18n="nav_roster">MEMBERS</span>
+    </button>
+    <button class="tab-btn" data-target="view-ranks" data-tab="leaderboard">
+      <canvas class="tab-cloth-canvas"></canvas>
+      <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M6 9H2v12h4V9z"/><path d="M14 4h-4v17h4V4z"/><path d="M22 13h-4v8h4v-8z"/></svg></div>
+      <span class="tab-label" data-i18n="nav_leaderboard">RANKS</span>
+    </button>
+    <button class="tab-btn" data-target="view-updates" data-tab="updates">
+      <canvas class="tab-cloth-canvas"></canvas>
+      <div class="tab-icon-wrap"><div class="tab-badge-square"></div><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
+      <span class="tab-label" data-i18n="nav_updates">UPDATES</span>
+    </button>
+  </nav>
 </div>
 
 <svg style="width:0;height:0;position:absolute;">
@@ -263,6 +262,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=3400"></script>
+<script src="app.js?v=3500"></script>
 </body>
 </html>

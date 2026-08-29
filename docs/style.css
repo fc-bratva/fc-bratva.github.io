@@ -1057,13 +1057,12 @@ body.cinematic-mode .bg-3d-canvas-container {
   background: rgba(4, 2, 8, 0.88);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  z-index: 500;
+  z-index: 10000 !important;
   display: none;
   justify-content: center;
   align-items: center;
   padding: 16px;
-  overscroll-behavior: contain !important;
-  touch-action: pan-y !important;
+  pointer-events: auto !important;
 }
 
 .modal-wrapper {
@@ -1073,8 +1072,7 @@ body.cinematic-mode .bg-3d-canvas-container {
   max-height: 85vh;
   display: flex;
   flex-direction: column;
-  overscroll-behavior: contain !important;
-  -webkit-overflow-scrolling: touch;
+  z-index: 10001 !important;
 }
 
 .modal-page {
@@ -1090,17 +1088,12 @@ body.cinematic-mode .bg-3d-canvas-container {
   overflow-y: auto;
   overflow-x: hidden;
   color: var(--ucl-white);
-  overscroll-behavior: contain !important;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-y !important;
 }
 
 body.modal-open {
   overflow: hidden !important;
-  height: 100vh !important;
-  touch-action: none !important;
-}
-body.modal-open #app {
-  pointer-events: none !important;
 }
 
 /* Modal Player Header */
@@ -1371,27 +1364,29 @@ body.modal-open #app {
 
 .close-tape {
   position: absolute;
-  top: -10px;
-  right: -6px;
+  top: -12px;
+  right: 0;
   background: var(--ucl-loss);
-  padding: 5px 12px;
+  padding: 7px 16px;
   font-family: var(--font-main);
   font-weight: 800;
-  font-size: 0.75rem;
+  font-size: 0.82rem;
   letter-spacing: 0.5px;
   color: #ffffff;
   border: none;
-  border-radius: 4px;
+  border-radius: 0 !important;
   cursor: pointer;
-  z-index: 10;
+  z-index: 10005 !important;
   display: flex;
   align-items: center;
-  gap: 5px;
-  box-shadow: 0 4px 12px rgba(255, 59, 92, 0.5);
+  gap: 6px;
+  box-shadow: 0 4px 14px rgba(255, 59, 92, 0.6);
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
 }
 [dir="rtl"] .close-tape {
   right: auto;
-  left: -6px;
+  left: 0;
 }
 
 /* Production 5-Tab Sharp Silk Cloth Dock */
