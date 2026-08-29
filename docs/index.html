@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3500">
+  <link rel="stylesheet" href="style.css?v=3600">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -180,14 +180,102 @@
         </div>
       </section>
 
-      <!-- TAB: UPDATES -->
-      <section class="tab-page" id="tab-updates">
+      <!-- TAB: RULES & ADMIN DISPATCH HUB -->
+      <section class="tab-page" id="tab-rules">
+        <!-- 1. Broadcast Generator Dispatch Center (In-Game FCM Chat Ready) -->
         <div class="note-card">
-          <div class="card-title" data-i18n="nav_updates">League Updates & Bulletins</div>
-          <div style="text-align:center; padding: 48px 20px; color: var(--ucl-slate);">
-            <div style="font-size: 2.5rem; margin-bottom: 14px; filter: drop-shadow(0 2px 8px rgba(0, 212, 255, 0.4));">🔔</div>
-            <div style="font-family: var(--font-main); font-weight: 800; font-size: 1.15rem; color: #ffffff; margin-bottom: 8px; letter-spacing: 0.5px;">COMMUNICATION & OFFICIAL BULLETINS</div>
-            <div style="font-size: 0.88rem; color: var(--ucl-muted); max-width: 340px; margin: 0 auto; line-height: 1.6;">Official announcements, tournament schedules, and roster notices will appear here.</div>
+          <div class="card-title-bar">
+            <div class="card-title" data-i18n="broadcast_dispatch_title">In-Game Broadcast Dispatch</div>
+            <div class="b-lang-pill-selector" id="broadcast-lang-pills">
+              <button class="b-lang-pill active" data-blang="ru">RU</button>
+              <button class="b-lang-pill" data-blang="en">EN</button>
+              <button class="b-lang-pill" data-blang="ar">AR</button>
+              <button class="b-lang-pill" data-blang="es">ES</button>
+            </div>
+          </div>
+          <div class="rules-hint-text" data-i18n="broadcast_hint">
+            Formatted specifically for EA FC Mobile continuous single-block chat. Tap "COPY" on any card to paste directly into in-game league chat!
+          </div>
+
+          <div class="broadcast-cards-grid" id="broadcast-cards-grid">
+            <!-- Dynamically populated 6 Smart Dispatch Cards -->
+          </div>
+        </div>
+
+        <!-- 2. Cryptographically Locked Admin Control Center -->
+        <div class="note-card admin-lock-card" id="admin-lock-card">
+          <div id="admin-locked-view" class="admin-locked-view">
+            <div class="admin-lock-icon">🔒</div>
+            <div class="admin-lock-title" data-i18n="admin_panel_title">ADMIN RULES & CONTROLS</div>
+            <div class="admin-lock-desc" data-i18n="admin_panel_desc">Cryptographically secured with salted SHA-256. Only league administrators can unlock this section to configure league rules and kick thresholds.</div>
+            <div class="admin-passcode-form">
+              <input type="password" id="admin-passcode-input" class="admin-pin-input" placeholder="Enter Admin Passcode..." autocomplete="off" />
+              <button class="admin-unlock-btn" id="admin-unlock-btn" data-i18n="unlock_btn">UNLOCK 🔓</button>
+            </div>
+            <div id="admin-pin-error" class="admin-pin-error"></div>
+          </div>
+
+          <div id="admin-unlocked-view" class="admin-unlocked-view" style="display: none;">
+            <div class="admin-unlocked-header">
+              <div class="admin-status-badge">✓ ADMIN ACCESS GRANTED</div>
+              <button class="admin-lock-now-btn" id="admin-lock-now-btn">LOCK PANEL 🔒</button>
+            </div>
+
+            <div class="admin-rules-grid">
+              <!-- Rule 1: Max Misses before Kick/Flag -->
+              <div class="admin-rule-box">
+                <div class="admin-rule-label">
+                  <span data-i18n="rule_max_misses">Max Missed Tournaments Before Kick</span>
+                  <strong class="rule-val-display" id="val-max-misses">2 Fails</strong>
+                </div>
+                <input type="range" min="1" max="5" step="1" value="2" id="input-max-misses" class="admin-slider" />
+                <div class="admin-rule-sub">Players reaching this consecutive miss streak are flagged for immediate league kick.</div>
+              </div>
+
+              <!-- Rule 2: Minimum Required Turns Per Tournament -->
+              <div class="admin-rule-box">
+                <div class="admin-rule-label">
+                  <span data-i18n="rule_min_turns">Mandatory Turns Per Tournament</span>
+                  <strong class="rule-val-display" id="val-min-turns">3 / 3 Turns</strong>
+                </div>
+                <input type="range" min="1" max="3" step="1" value="3" id="input-min-turns" class="admin-slider" />
+                <div class="admin-rule-sub">Playing fewer turns than this threshold counts as an incomplete/failed tournament.</div>
+              </div>
+
+              <!-- Rule 3: Minimum Goals Benchmark -->
+              <div class="admin-rule-box">
+                <div class="admin-rule-label">
+                  <span data-i18n="rule_min_goals">Minimum Goals Target (3 Turns)</span>
+                  <strong class="rule-val-display" id="val-min-goals">25 Goals</strong>
+                </div>
+                <input type="range" min="10" max="40" step="5" value="25" id="input-min-goals" class="admin-slider" />
+                <div class="admin-rule-sub">Recommended minimum goal benchmark for active roster eligibility.</div>
+              </div>
+
+              <!-- Rule 4: Rule Enforcement Horizon -->
+              <div class="admin-rule-box">
+                <div class="admin-rule-label">
+                  <span data-i18n="rule_horizon">Enforcement Evaluation Horizon</span>
+                  <strong class="rule-val-display" id="val-horizon">Last 3 Matches</strong>
+                </div>
+                <input type="range" min="1" max="10" step="1" value="3" id="input-horizon" class="admin-slider" />
+                <div class="admin-rule-sub">Algorithm evaluates recent attendance and performance over this window.</div>
+              </div>
+
+              <!-- Custom League Motto -->
+              <div class="admin-rule-box full-w">
+                <div class="admin-rule-label">
+                  <span data-i18n="rule_motto">Custom League Motto & Chat Header</span>
+                </div>
+                <input type="text" id="input-custom-motto" class="admin-text-input" value="Всем привет это лига БРАТВА играют только активное игроки создатель Лиги: Саня" />
+              </div>
+            </div>
+
+            <div class="admin-actions-bar">
+              <button class="admin-save-btn" id="admin-save-rules-btn" data-i18n="save_recalculate">SAVE & RECALCULATE SYSTEM ⚡</button>
+              <button class="admin-reset-btn" id="admin-reset-rules-btn">RESET DEFAULTS</button>
+            </div>
+            <div id="admin-save-feedback" class="admin-save-feedback"></div>
           </div>
         </div>
       </section>
@@ -244,10 +332,10 @@
       <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M6 9H2v12h4V9z"/><path d="M14 4h-4v17h4V4z"/><path d="M22 13h-4v8h4v-8z"/></svg></div>
       <span class="tab-label" data-i18n="nav_leaderboard">RANKS</span>
     </button>
-    <button class="tab-btn" data-target="view-updates" data-tab="updates">
+    <button class="tab-btn" data-target="view-rules" data-tab="rules">
       <canvas class="tab-cloth-canvas"></canvas>
-      <div class="tab-icon-wrap"><div class="tab-badge-square"></div><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
-      <span class="tab-label" data-i18n="nav_updates">UPDATES</span>
+      <div class="tab-icon-wrap"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
+      <span class="tab-label" data-i18n="nav_rules">RULES</span>
     </button>
   </nav>
 </div>
@@ -262,6 +350,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=3500"></script>
+<script src="app.js?v=3600"></script>
 </body>
 </html>

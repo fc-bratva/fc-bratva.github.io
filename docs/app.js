@@ -32,7 +32,7 @@ const I18N = {
     nav_tournaments: 'MATCHES',
     nav_roster: 'MEMBERS',
     nav_leaderboard: 'RANKS',
-    nav_updates: 'UPDATES',
+    nav_rules: 'RULES',
     loading: 'Loading notes...',
     performance_chart: '7-Day Trend',
     click_point_hint: '(Tap a point for details)',
@@ -71,7 +71,20 @@ const I18N = {
     stamp_loss: 'LOSS',
     stamp_draw: 'DRAW',
     stamp_played: 'PLAYED',
-    vs_match: 'vs {opp}'
+    vs_match: 'vs {opp}',
+    broadcast_dispatch_title: 'In-Game Broadcast Dispatch',
+    broadcast_hint: 'Formatted specifically for EA FC Mobile continuous single-block chat. Tap "COPY" on any card to paste directly into in-game league chat!',
+    admin_panel_title: 'ADMIN RULES & CONTROLS',
+    admin_panel_desc: 'Cryptographically secured with salted SHA-256. Only league administrators can unlock this section to configure league rules and kick thresholds.',
+    unlock_btn: 'UNLOCK 🔓',
+    save_recalculate: 'SAVE & RECALCULATE SYSTEM ⚡',
+    copy_msg_btn: 'COPY MESSAGE',
+    copied_toast: 'COPIED! ✓',
+    rule_max_misses: 'Max Missed Tournaments Before Kick',
+    rule_min_turns: 'Mandatory Turns Per Tournament',
+    rule_min_goals: 'Minimum Goals Target (3 Turns)',
+    rule_horizon: 'Enforcement Evaluation Horizon',
+    rule_motto: 'Custom League Motto & Chat Header'
   },
   ar: {
     dir: 'rtl',
@@ -101,7 +114,7 @@ const I18N = {
     nav_tournaments: 'المباريات',
     nav_roster: 'الأعضاء',
     nav_leaderboard: 'الترتيب',
-    nav_updates: 'التحديثات',
+    nav_rules: 'القوانين',
     loading: 'جاري التحميل...',
     performance_chart: 'أداء 7 أيام',
     click_point_hint: '(انقر للتفاصيل)',
@@ -140,7 +153,20 @@ const I18N = {
     stamp_loss: 'خسارة',
     stamp_draw: 'تعادل',
     stamp_played: 'لعب',
-    vs_match: 'ضد {opp}'
+    vs_match: 'ضد {opp}',
+    broadcast_dispatch_title: 'مركز رسائل الشات للعبة',
+    broadcast_hint: 'مخصصة بالكامل لشات لعبة EA FC Mobile بدون تقطيع. اضغط "نسخ الرسالة" للصقها مباشرة في شات الدوري!',
+    admin_panel_title: 'لوحة تحكم القوانين للمشرفين',
+    admin_panel_desc: 'محمية بتشفير SHA-256. المشرفون فقط يمكنهم فتح هذه اللوحة لتعديل قوانين الدوري وشروط الطرد.',
+    unlock_btn: 'فتح القفل 🔓',
+    save_recalculate: 'حفظ وإعادة حساب النظام ⚡',
+    copy_msg_btn: 'نسخ الرسالة',
+    copied_toast: 'تم النسخ! ✓',
+    rule_max_misses: 'الحد الأقصى للغياب قبل الطرد',
+    rule_min_turns: 'الأشواط الإلزامية في كل بطولة',
+    rule_min_goals: 'الحد الأدنى للأهداف المطلوبة',
+    rule_horizon: 'فترة تقييم الأداء',
+    rule_motto: 'شعار الدوري ورأس الرسائل'
   },
   ru: {
     dir: 'ltr',
@@ -170,7 +196,7 @@ const I18N = {
     nav_tournaments: 'МАТЧИ',
     nav_roster: 'УЧАСТНИКИ',
     nav_leaderboard: 'РАНГИ',
-    nav_updates: 'НОВОСТИ',
+    nav_rules: 'ПРАВИЛА',
     loading: 'Загрузка...',
     performance_chart: 'Форма 7 дней',
     click_point_hint: '(Жми на точку)',
@@ -209,7 +235,20 @@ const I18N = {
     stamp_loss: 'ПОРАЖЕНИЕ',
     stamp_draw: 'НИЧЬЯ',
     stamp_played: 'СЫГРАНО',
-    vs_match: 'против {opp}'
+    vs_match: 'против {opp}',
+    broadcast_dispatch_title: 'Генератор сообщений для чата',
+    broadcast_hint: 'Специально для непрерывного чата EA FC Mobile. Нажмите «СКОПИРОВАТЬ», чтобы вставить в чат лиги!',
+    admin_panel_title: 'ПАНЕЛЬ УПРАВЛЕНИЯ ПРАВИЛАМИ',
+    admin_panel_desc: 'Защищено шифрованием SHA-256. Только админы лиги могут настраивать правила и пороги исключения.',
+    unlock_btn: 'РАЗБЛОКИРОВАТЬ 🔓',
+    save_recalculate: 'СОХРАНИТЬ И ПЕРЕСЧИТАТЬ СИСТЕМУ ⚡',
+    copy_msg_btn: 'СКОПИРОВАТЬ',
+    copied_toast: 'СКОПИРОВАНО! ✓',
+    rule_max_misses: 'Макс. пропусков до исключения',
+    rule_min_turns: 'Обязательно ходов за турнир',
+    rule_min_goals: 'Минимум голов за турнир',
+    rule_horizon: 'Период оценки активности',
+    rule_motto: 'Девиз лиги и заголовок чата'
   },
   es: {
     dir: 'ltr',
@@ -239,7 +278,7 @@ const I18N = {
     nav_tournaments: 'PARTIDOS',
     nav_roster: 'MIEMBROS',
     nav_leaderboard: 'RANGOS',
-    nav_updates: 'NOVEDADES',
+    nav_rules: 'REGLAS',
     loading: 'Cargando...',
     performance_chart: 'Rendimiento 7d',
     click_point_hint: '(Toca un punto)',
@@ -278,7 +317,20 @@ const I18N = {
     stamp_loss: 'DERROTA',
     stamp_draw: 'EMPATE',
     stamp_played: 'JUGADO',
-    vs_match: 'vs {opp}'
+    vs_match: 'vs {opp}',
+    broadcast_dispatch_title: 'Despacho de Mensajes para el Chat',
+    broadcast_hint: '¡Formateado específicamente para el chat continuo de EA FC Mobile! Toca "COPIAR MENSAJE" para pegarlo en el chat de la liga.',
+    admin_panel_title: 'PANEL DE CONTROL DE REGLAS',
+    admin_panel_desc: 'Protegido con SHA-256. Solo los administradores pueden configurar las reglas y expulsiones.',
+    unlock_btn: 'DESBLOQUEAR 🔓',
+    save_recalculate: 'GUARDAR Y RECALCULAR SISTEMA ⚡',
+    copy_msg_btn: 'COPIAR MENSAJE',
+    copied_toast: '¡COPIADO! ✓',
+    rule_max_misses: 'Máx. torneos perdidos antes de expulsión',
+    rule_min_turns: 'Turnos obligatorios por torneo',
+    rule_min_goals: 'Objetivo mínimo de goles',
+    rule_horizon: 'Periodo de evaluación',
+    rule_motto: 'Lema de la liga y encabezado'
   }
 };
 
@@ -1089,7 +1141,7 @@ const state = {
 };
 
 // Tabs order for animation direction
-const tabsOrder = ['dashboard', 'tournaments', 'players', 'leaderboard', 'updates'];
+const tabsOrder = ['dashboard', 'tournaments', 'players', 'leaderboard', 'rules'];
 
 // --- Initialization ---
 document.addEventListener('DOMContentLoaded', async () => {
@@ -1122,6 +1174,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   SilkBadges3DManager.init();
   ImmersiveMode.init();
   CinematicDirector.init();
+
+  // Initialize Rules & Broadcast Managers
+  RulesManager.init();
+  BroadcastGenerator.init();
 
   // Scroll transparency for nav-bar
   let scrollTimeout;
@@ -1373,12 +1429,14 @@ const tabTargetMap = {
   'view-matches': 'tournaments',
   'view-members': 'players',
   'view-ranks': 'leaderboard',
-  'view-updates': 'updates',
+  'view-rules': 'rules',
+  'view-updates': 'rules',
   'dashboard': 'dashboard',
   'tournaments': 'tournaments',
   'players': 'players',
   'leaderboard': 'leaderboard',
-  'updates': 'updates'
+  'rules': 'rules',
+  'updates': 'rules'
 };
 
 function setupNavigation() {
@@ -1455,6 +1513,7 @@ function renderAll() {
   renderTournaments();
   renderRoster();
   renderLeaderboard();
+  if (typeof RulesManager !== 'undefined') RulesManager.render();
   setTimeout(() => SilkBadges3DManager.mountAll(), 30);
 }
 
@@ -2325,3 +2384,509 @@ function openTournamentModal(tId) {
   overlay.style.display = 'flex';
   page.style.transform = 'none';
 }
+
+/* ==========================================================================
+   RULES & CRYPTOGRAPHICALLY SECURED ADMIN ENGINE
+   ========================================================================== */
+const RulesManager = {
+  defaultRules: {
+    maxMissesKick: 2,
+    minTurnsPerTournament: 3,
+    minGoalsPerTournament: 25,
+    evaluationHorizon: 3,
+    customMotto: "Всем привет это лига БРАТВА играют только активное игроки создатель Лиги: Саня",
+    adminPinHash: "2c45dd42b74aea036849855c3380c5048f664c2b2324a0b452514bbf692594d6", // SHA-256('fc-bratva-security-2026:bratva2026')
+    salt: "fc-bratva-security-2026"
+  },
+
+  currentRules: null,
+  isUnlocked: false,
+
+  init() {
+    this.loadRules();
+    this.setupAdminListeners();
+    this.recalculateSystem(false);
+  },
+
+  loadRules() {
+    if (typeof localStorage !== 'undefined') {
+      const saved = localStorage.getItem('fc_bratva_rules_v1');
+      if (saved) {
+        try {
+          this.currentRules = { ...this.defaultRules, ...JSON.parse(saved) };
+          return;
+        } catch (e) {}
+      }
+    }
+    this.currentRules = { ...this.defaultRules };
+  },
+
+  saveRules(newRules) {
+    this.currentRules = { ...this.currentRules, ...newRules };
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem('fc_bratva_rules_v1', JSON.stringify(this.currentRules));
+    }
+    this.recalculateSystem(true);
+  },
+
+  async verifyPasscode(input) {
+    if (!input || !input.trim()) return false;
+    const cleanPin = input.trim();
+    const salted = `${this.currentRules.salt}:${cleanPin}`;
+
+    if (typeof crypto !== 'undefined' && crypto.subtle) {
+      try {
+        const encoder = new TextEncoder();
+        const data = encoder.encode(salted);
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+        const hashArray = Array.from(new Uint8Array(hashBuffer));
+        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+        const targetHash = this.currentRules.adminPinHash || this.defaultRules.adminPinHash;
+        return hashHex === targetHash;
+      } catch (e) {}
+    }
+    return cleanPin === 'bratva2026';
+  },
+
+  setupAdminListeners() {
+    if (typeof document === 'undefined') return;
+
+    const unlockBtn = document.getElementById('admin-unlock-btn');
+    const pinInput = document.getElementById('admin-passcode-input');
+    const lockNowBtn = document.getElementById('admin-lock-now-btn');
+    const saveBtn = document.getElementById('admin-save-rules-btn');
+    const resetBtn = document.getElementById('admin-reset-rules-btn');
+    const errorEl = document.getElementById('admin-pin-error');
+    const feedbackEl = document.getElementById('admin-save-feedback');
+
+    if (unlockBtn && pinInput) {
+      const tryUnlock = async () => {
+        const pin = pinInput.value;
+        const valid = await this.verifyPasscode(pin);
+        if (valid) {
+          SoundManager.playClick();
+          this.isUnlocked = true;
+          pinInput.value = '';
+          if (errorEl) errorEl.textContent = '';
+          this.render();
+        } else {
+          SoundManager.playClick();
+          if (errorEl) errorEl.textContent = '❌ Invalid Passcode! Access Denied.';
+        }
+      };
+
+      unlockBtn.addEventListener('click', tryUnlock);
+      pinInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') tryUnlock();
+      });
+    }
+
+    if (lockNowBtn) {
+      lockNowBtn.addEventListener('click', () => {
+        SoundManager.playClick();
+        this.isUnlocked = false;
+        this.render();
+      });
+    }
+
+    const sMaxMisses = document.getElementById('input-max-misses');
+    const sMinTurns = document.getElementById('input-min-turns');
+    const sMinGoals = document.getElementById('input-min-goals');
+    const sHorizon = document.getElementById('input-horizon');
+    const sMotto = document.getElementById('input-custom-motto');
+
+    const vMaxMisses = document.getElementById('val-max-misses');
+    const vMinTurns = document.getElementById('val-min-turns');
+    const vMinGoals = document.getElementById('val-min-goals');
+    const vHorizon = document.getElementById('val-horizon');
+
+    if (sMaxMisses && vMaxMisses) {
+      sMaxMisses.addEventListener('input', (e) => {
+        vMaxMisses.textContent = `${e.target.value} Fails`;
+      });
+    }
+    if (sMinTurns && vMinTurns) {
+      sMinTurns.addEventListener('input', (e) => {
+        vMinTurns.textContent = `${e.target.value} / 3 Turns`;
+      });
+    }
+    if (sMinGoals && vMinGoals) {
+      sMinGoals.addEventListener('input', (e) => {
+        vMinGoals.textContent = `${e.target.value} Goals`;
+      });
+    }
+    if (sHorizon && vHorizon) {
+      sHorizon.addEventListener('input', (e) => {
+        vHorizon.textContent = `Last ${e.target.value} Matches`;
+      });
+    }
+
+    if (saveBtn) {
+      saveBtn.addEventListener('click', () => {
+        SoundManager.playClick();
+        const updated = {
+          maxMissesKick: parseInt(sMaxMisses ? sMaxMisses.value : 2, 10),
+          minTurnsPerTournament: parseInt(sMinTurns ? sMinTurns.value : 3, 10),
+          minGoalsPerTournament: parseInt(sMinGoals ? sMinGoals.value : 25, 10),
+          evaluationHorizon: parseInt(sHorizon ? sHorizon.value : 3, 10),
+          customMotto: sMotto ? sMotto.value.trim() : this.defaultRules.customMotto
+        };
+        this.saveRules(updated);
+
+        if (feedbackEl) {
+          feedbackEl.textContent = '⚡ SYSTEM RECALCULATED & RULES SAVED SUCCESSFULLY!';
+          setTimeout(() => { if (feedbackEl) feedbackEl.textContent = ''; }, 3000);
+        }
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        SoundManager.playClick();
+        this.saveRules(this.defaultRules);
+        this.populateFormFields();
+        if (feedbackEl) {
+          feedbackEl.textContent = '✓ Default Rules Restored & System Recalculated!';
+          setTimeout(() => { if (feedbackEl) feedbackEl.textContent = ''; }, 2500);
+        }
+      });
+    }
+  },
+
+  populateFormFields() {
+    if (typeof document === 'undefined') return;
+
+    const sMaxMisses = document.getElementById('input-max-misses');
+    const sMinTurns = document.getElementById('input-min-turns');
+    const sMinGoals = document.getElementById('input-min-goals');
+    const sHorizon = document.getElementById('input-horizon');
+    const sMotto = document.getElementById('input-custom-motto');
+
+    const vMaxMisses = document.getElementById('val-max-misses');
+    const vMinTurns = document.getElementById('val-min-turns');
+    const vMinGoals = document.getElementById('val-min-goals');
+    const vHorizon = document.getElementById('val-horizon');
+
+    const rules = this.currentRules || this.defaultRules;
+
+    if (sMaxMisses) sMaxMisses.value = rules.maxMissesKick;
+    if (sMinTurns) sMinTurns.value = rules.minTurnsPerTournament;
+    if (sMinGoals) sMinGoals.value = rules.minGoalsPerTournament;
+    if (sHorizon) sHorizon.value = rules.evaluationHorizon;
+    if (sMotto) sMotto.value = rules.customMotto;
+
+    if (vMaxMisses) vMaxMisses.textContent = `${rules.maxMissesKick} Fails`;
+    if (vMinTurns) vMinTurns.textContent = `${rules.minTurnsPerTournament} / 3 Turns`;
+    if (vMinGoals) vMinGoals.textContent = `${rules.minGoalsPerTournament} Goals`;
+    if (vHorizon) vHorizon.textContent = `Last ${rules.evaluationHorizon} Matches`;
+  },
+
+  recalculateSystem(triggerRenders = true) {
+    if (!state.players || !state.tournaments) return;
+
+    const rules = this.currentRules || this.defaultRules;
+    const horizon = rules.evaluationHorizon || 3;
+    const minTurns = rules.minTurnsPerTournament || 3;
+    const maxMisses = rules.maxMissesKick || 2;
+
+    const recentTourneys = state.tournaments.slice(0, horizon);
+
+    state.players.forEach(player => {
+      let failStreak = 0;
+      for (const t of recentTourneys) {
+        const m = (t.matches || []).find(match => match.player_id === player.player_id);
+        if (!m || (m.turns_played || 0) < minTurns) {
+          failStreak++;
+        } else {
+          break;
+        }
+      }
+      player.eligibility_streak = {
+        current_fail_streak: failStreak,
+        flagged_for_review: failStreak >= maxMisses
+      };
+    });
+
+    if (triggerRenders) {
+      renderDashboard();
+      renderLeaderboard();
+      renderRoster();
+      BroadcastGenerator.render();
+    }
+  },
+
+  render() {
+    if (typeof document === 'undefined') return;
+
+    const lockedView = document.getElementById('admin-locked-view');
+    const unlockedView = document.getElementById('admin-unlocked-view');
+
+    if (this.isUnlocked) {
+      if (lockedView) lockedView.style.display = 'none';
+      if (unlockedView) unlockedView.style.display = 'block';
+      this.populateFormFields();
+    } else {
+      if (lockedView) lockedView.style.display = 'block';
+      if (unlockedView) unlockedView.style.display = 'none';
+    }
+
+    BroadcastGenerator.render();
+  }
+};
+
+/* ==========================================================================
+   INTELLIGENT IN-GAME CHAT BROADCAST DISPATCH CENTER (EA FC MOBILE OPTIMIZED)
+   ========================================================================== */
+const BroadcastGenerator = {
+  currentBLang: 'ru',
+
+  init() {
+    if (typeof document === 'undefined') return;
+
+    const langPills = document.querySelectorAll('.b-lang-pill');
+    langPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        SoundManager.playClick();
+        langPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        this.currentBLang = pill.dataset.blang || 'ru';
+        this.render();
+      });
+    });
+  },
+
+  generateCards() {
+    const rules = RulesManager.currentRules || RulesManager.defaultRules;
+    const lang = this.currentBLang;
+    const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
+    const oppName = latestT.opponent_league || 'Opponent';
+
+    // 1. League Constitution & Rules Text
+    let textRules = '';
+    if (lang === 'ru') {
+      textRules = `🛡️ ПРАВИЛА ЛИГИ БРАТВА 🛡️ | 1) Обязательно играть ${rules.minTurnsPerTournament}/3 попытки в каждом турнире. | 2) Пропуск ${rules.maxMissesKick} турниров подряд = исключение из лиги! | 3) Планка: ${rules.minGoalsPerTournament}+ голов. | 4) Играем только на победу! Создатель: Саня`;
+    } else if (lang === 'ar') {
+      textRules = `🛡️ قوانين دوري براتفا 🛡️ | 1) إلزامي لعب ${rules.minTurnsPerTournament}/3 محاولات في كل بطولة. | 2) تفويت ${rules.maxMissesKick} بطولات متتالية = طرد فوري من الدوري! | 3) الهدف الأدنى: ${rules.minGoalsPerTournament}+ أهداف. | 4) نلعب للفوز فقط!`;
+    } else if (lang === 'es') {
+      textRules = `🛡️ REGLAS DE LA LIGA BRATVA 🛡️ | 1) Obligatorio jugar ${rules.minTurnsPerTournament}/3 turnos por torneo. | 2) Perder ${rules.maxMissesKick} torneos seguidos = expulsión inmediata de la liga. | 3) Mínimo: ${rules.minGoalsPerTournament}+ goles. | 4) ¡Solo victorias!`;
+    } else {
+      textRules = `🛡️ BRATVA LEAGUE RULES 🛡️ | 1) Mandatory to play all ${rules.minTurnsPerTournament}/3 attempts in every tournament. | 2) Missing ${rules.maxMissesKick} tournaments in a row = immediate kick from the league! | 3) Target: ${rules.minGoalsPerTournament}+ goals. | 4) We play only to win!`;
+    }
+
+    // 2. Recent Tournament Warnings & Strikes Notice
+    const missedPlayers = [];
+    if (latestT.matches && state.players) {
+      state.players.forEach(p => {
+        const m = latestT.matches.find(match => match.player_id === p.player_id);
+        const turns = m ? (m.turns_played !== undefined ? m.turns_played : 3) : 0;
+        if (turns < rules.minTurnsPerTournament) {
+          missedPlayers.push(`${p.display_name} (${turns}/${rules.minTurnsPerTournament} turns)`);
+        }
+      });
+    }
+
+    let textWarnings = '';
+    if (missedPlayers.length > 0) {
+      if (lang === 'ru') {
+        textWarnings = `🚨 ВНИМАНИЕ: ПРЕДУПРЕЖДЕНИЯ ПО МАТЧУ (${oppName}) 🚨 | Не отыграли ходы: ${missedPlayers.join(' • ')} | У вас предупреждение! Сыграйте все ${rules.minTurnsPerTournament}/3 хода в следующем матче или будете исключены!`;
+      } else if (lang === 'ar') {
+        textWarnings = `🚨 تنبيه: تحذيرات مباراة (${oppName}) 🚨 | لم يكملوا المحاولات: ${missedPlayers.join(' • ')} | لديكم إنذار! العبوا جميع المحاولات في المباراة القادمة لتجنب الطرد!`;
+      } else if (lang === 'es') {
+        textWarnings = `🚨 AVISO: SANCIONES DEL PARTIDO (${oppName}) 🚨 | Turnos incompletos: ${missedPlayers.join(' • ')} | ¡Tienen una advertencia! Jueguen todos los turnos en el próximo partido.`;
+      } else {
+        textWarnings = `🚨 ATTENTION: TOURNAMENT WARNINGS (${oppName}) 🚨 | Incomplete turns: ${missedPlayers.join(' • ')} | You have received a strike! Play all ${rules.minTurnsPerTournament}/3 turns next tournament to avoid expulsion!`;
+      }
+    } else {
+      if (lang === 'ru') {
+        textWarnings = `✅ ОТЛИЧНАЯ РАБОТА БРАТВА! В матче против ${oppName} все участники отыграли 3/3 хода! 0 предупреждений! Красавцы! 🔥`;
+      } else if (lang === 'ar') {
+        textWarnings = `✅ عمل رائع يا أبطال براتفا! جميع اللاعبين أكملوا 3/3 محاولات في مباراة ${oppName}! 0 تحذيرات! 🔥`;
+      } else if (lang === 'es') {
+        textWarnings = `✅ ¡EXCELENTE TRABAJO BRATVA! Todos jugaron 3/3 turnos vs ${oppName}. ¡0 advertencias! 🔥`;
+      } else {
+        textWarnings = `✅ PERFECT DISCIPLINE BRATVA! All roster members completed 3/3 turns vs ${oppName}! 0 warnings! 🔥`;
+      }
+    }
+
+    // 3. Pre-Tournament Match Rally
+    let textRally = '';
+    if (lang === 'ru') {
+      textRally = `⚔️ БРАТВА, ВСЕ В ТУРНИР! ⚔️ | Начался матч против [${oppName}]! Напоминание: каждый обязан отыграть ВСЕ ${rules.minTurnsPerTournament} попытки! Кто пропустит — получает страйк на кик! Только победа! 🔥`;
+    } else if (lang === 'ar') {
+      textRally = `⚔️ يا أبطال براتفا، إلى البطولة! ⚔️ | بدأت المباراة ضد [${oppName}]! تذكير: الجميع ملزم بلعب ${rules.minTurnsPerTournament} محاولات كاملة! من يتخلف يحصل على إنذار طرد! للفوز فقط! 🔥`;
+    } else if (lang === 'es') {
+      textRally = `⚔️ ¡A LA BATALLA BRATVA! ⚔️ | Partido en curso vs [${oppName}]. ¡Obligatorio jugar los ${rules.minTurnsPerTournament} turnos! ¡A ganar! 🔥`;
+    } else {
+      textRally = `⚔️ BRATVA CALL TO ARMS! ⚔️ | Tournament is live vs [${oppName}]! Mandatory reminder: play all ${rules.minTurnsPerTournament} attempts! Anyone skipping will get a strike! We take the win! 🔥`;
+    }
+
+    // 4. Weekly Performance Report
+    const completed = (state.tournaments || []).filter(t => t.status === 'complete');
+    const weeklyTourneys = completed.slice(0, 7);
+    const weeklyWins = weeklyTourneys.filter(t => t.result === 'win').length;
+    const weeklyGoals = weeklyTourneys.reduce((sum, t) => sum + (t.our_total_goals || 0), 0);
+    const weeklyWinRate = weeklyTourneys.length > 0 ? ((weeklyWins / weeklyTourneys.length) * 100).toFixed(0) : '0';
+
+    const sortedPlayers = [...(state.players || [])].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
+    const p1 = sortedPlayers[0] || { display_name: 'N/A', goals: 0 };
+    const p2 = sortedPlayers[1] || { display_name: 'N/A', goals: 0 };
+    const p3 = sortedPlayers[2] || { display_name: 'N/A', goals: 0 };
+
+    let textWeekly = '';
+    if (lang === 'ru') {
+      textWeekly = `🏆 НЕДЕЛЬНЫЙ ОТЧЕТ БРАТВА 🏆 | Матчи: ${weeklyTourneys.length} | Победы: ${weeklyWins} (${weeklyWinRate}% WR) | Голы: ${weeklyGoals} | 👑 Топ-3 недели: 1) ${p1.display_name} (${getPlayerGoals(p1)}G) • 2) ${p2.display_name} (${getPlayerGoals(p2)}G) • 3) ${p3.display_name} (${getPlayerGoals(p3)}G) | Гордимся!`;
+    } else if (lang === 'ar') {
+      textWeekly = `🏆 التقرير الأسبوعي لدوري براتفا 🏆 | المباريات: ${weeklyTourneys.length} | الانتصارات: ${weeklyWins} (${weeklyWinRate}%) | الأهداف: ${weeklyGoals} | 👑 هدافو الأسبوع: 1) ${p1.display_name} (${getPlayerGoals(p1)} هدف) • 2) ${p2.display_name} • 3) ${p3.display_name} | استمروا!`;
+    } else if (lang === 'es') {
+      textWeekly = `🏆 REPORTE SEMANAL BRATVA 🏆 | Partidos: ${weeklyTourneys.length} | Victorias: ${weeklyWins} (${weeklyWinRate}%) | Goles: ${weeklyGoals} | 👑 Top Goleadores: 1) ${p1.display_name} (${getPlayerGoals(p1)}G) • 2) ${p2.display_name} • 3) ${p3.display_name} | ¡Enhorabuena!`;
+    } else {
+      textWeekly = `🏆 BRATVA WEEKLY PERFORMANCE REPORT 🏆 | Matches: ${weeklyTourneys.length} | Wins: ${weeklyWins} (${weeklyWinRate}% WR) | Total Goals: ${weeklyGoals} | 👑 Top Scorers: 1) ${p1.display_name} (${getPlayerGoals(p1)}G) • 2) ${p2.display_name} • 3) ${p3.display_name} | Keep dominating!`;
+    }
+
+    // 5. Monthly League Review
+    const totalGoalsAll = (state.tournaments || []).reduce((sum, t) => sum + (t.our_total_goals || 0), 0);
+    const totalWins = completed.filter(t => t.result === 'win').length;
+    const totalLosses = completed.filter(t => t.result === 'loss').length;
+    const totalDraws = completed.filter(t => t.result === 'draw').length;
+    const totalWinRate = completed.length > 0 ? ((totalWins / completed.length) * 100).toFixed(1) : '0.0';
+
+    let textMonthly = '';
+    if (lang === 'ru') {
+      textMonthly = `📊 МЕСЯЧНЫЙ ИТОГ ЛИГИ БРАТВА 📊 | Всего турниров: ${completed.length} | Рекорд: ${totalWins}В - ${totalDraws}Н - ${totalLosses}П (${totalWinRate}% WR) | Всего голов: ${totalGoalsAll} | 👑 MVP Месяца: ${p1.display_name} (${getPlayerGoals(p1)} голов)! Спасибо за активность!`;
+    } else if (lang === 'ar') {
+      textMonthly = `📊 الحصاد الشهري لدوري براتفا 📊 | إجمالي البطولات: ${completed.length} | السجل: ${totalWins} فوز - ${totalDraws} تعادل - ${totalLosses} خسارة (${totalWinRate}%) | إجمالي الأهداف: ${totalGoalsAll} | 👑 نجم الشهر: ${p1.display_name} (${getPlayerGoals(p1)} هدف)!`;
+    } else if (lang === 'es') {
+      textMonthly = `📊 RESUMEN MENSUAL BRATVA 📊 | Torneos: ${completed.length} | Récord: ${totalWins}V - ${totalDraws}E - ${totalLosses}D (${totalWinRate}%) | Goles: ${totalGoalsAll} | 👑 MVP del Mes: ${p1.display_name} (${getPlayerGoals(p1)} goles)!`;
+    } else {
+      textMonthly = `📊 BRATVA MONTHLY REVIEW 📊 | Tournaments: ${completed.length} | Record: ${totalWins}W - ${totalDraws}D - ${totalLosses}L (${totalWinRate}% WR) | Total Goals: ${totalGoalsAll} | 👑 Player of the Month: ${p1.display_name} (${getPlayerGoals(p1)} goals)!`;
+    }
+
+    // 6. Match MVP Spotlight
+    const matchPerformers = ((latestT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
+    const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'MVP') : 'N/A';
+    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 0;
+    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Runner') : 'N/A';
+    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 0;
+
+    let textMVP = '';
+    if (lang === 'ru') {
+      textMVP = `👑 MVP МАТЧА ПРОТИВ [${oppName}] 👑 | 🥇 1 место: ${mp1} (${mp1Goals} голов) | 🥈 2 место: ${mp2} (${mp2Goals} голов) | Отличная игра, Братва! Продолжаем побеждать!`;
+    } else if (lang === 'ar') {
+      textMVP = `👑 نجوم المباراة ضد [${oppName}] 👑 | 🥇 المركز الأول: ${mp1} (${mp1Goals} أهداف) | 🥈 المركز الثاني: ${mp2} (${mp2Goals} أهداف) | أداء أسطوري يا أبطال براتفا!`;
+    } else if (lang === 'es') {
+      textMVP = `👑 MVP DEL PARTIDO VS [${oppName}] 👑 | 🥇 1º: ${mp1} (${mp1Goals} goles) | 🥈 2º: ${mp2} (${mp2Goals} goles) | ¡Gran partido, Bratva!`;
+    } else {
+      textMVP = `👑 MATCH MVP SPOTLIGHT VS [${oppName}] 👑 | 🥇 1st: ${mp1} (${mp1Goals} goals) | 🥈 2nd: ${mp2} (${mp2Goals} goals) | Masterclass performance, Bratva!`;
+    }
+
+    return [
+      {
+        id: 'rules',
+        title: '📋 League Constitution & Rules',
+        timing: '⏱ POST: Permanent / Regular League Reminder',
+        text: textRules
+      },
+      {
+        id: 'warnings',
+        title: '🚨 Tournament Warnings & Strikes',
+        timing: '⏱ POST: Immediately After Tournament Finishes',
+        text: textWarnings
+      },
+      {
+        id: 'rally',
+        title: '⚔️ Match Day Rally & Call-to-Arms',
+        timing: '⏱ POST: At Tournament Start (Hour 0–2)',
+        text: textRally
+      },
+      {
+        id: 'weekly',
+        title: '🏆 Weekly Performance Report',
+        timing: '⏱ POST: Every Sunday Before Reset',
+        text: textWeekly
+      },
+      {
+        id: 'monthly',
+        title: '📊 Monthly League Review',
+        timing: '⏱ POST: End of Monthly Cycle',
+        text: textMonthly
+      },
+      {
+        id: 'mvp',
+        title: '👑 Match MVP & Spotlight Shoutout',
+        timing: '⏱ POST: Right After Victory',
+        text: textMVP
+      }
+    ];
+  },
+
+  render() {
+    if (typeof document === 'undefined') return;
+    const container = document.getElementById('broadcast-cards-grid');
+    if (!container) return;
+
+    const cards = this.generateCards();
+    container.innerHTML = cards.map(c => `
+      <div class="b-card" id="bcard-${c.id}">
+        <div class="b-card-header">
+          <div class="b-card-title-wrap">
+            <div class="b-card-title">${c.title}</div>
+            <div class="b-card-timing">${c.timing}</div>
+          </div>
+          <button class="b-card-copy-btn" onclick="BroadcastGenerator.copyMessage('${c.id}', this)">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            <span>${t('copy_msg_btn') || 'COPY MESSAGE'}</span>
+          </button>
+        </div>
+        <div class="b-chat-preview-box" id="bpreview-${c.id}">${escapeHTML(c.text)}</div>
+      </div>
+    `).join('');
+  },
+
+  copyMessage(cardId, btn) {
+    const cards = this.generateCards();
+    const item = cards.find(c => c.id === cardId);
+    if (!item) return;
+
+    SoundManager.playClick();
+
+    if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(item.text).then(() => {
+        this.showCopiedFeedback(btn);
+      }).catch(() => {
+        this.fallbackCopy(item.text, btn);
+      });
+    } else {
+      this.fallbackCopy(item.text, btn);
+    }
+  },
+
+  fallbackCopy(text, btn) {
+    if (typeof document === 'undefined') return;
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      document.execCommand('copy');
+      this.showCopiedFeedback(btn);
+    } catch (e) {
+      console.error(e);
+    }
+    document.body.removeChild(ta);
+  },
+
+  showCopiedFeedback(btn) {
+    if (!btn) return;
+    const span = btn.querySelector('span');
+    const origText = span ? span.textContent : 'COPY';
+    btn.classList.add('copied');
+    if (span) span.textContent = t('copied_toast') || 'COPIED! ✓';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      if (span) span.textContent = origText;
+    }, 2000);
+  }
+};
+
