@@ -13,11 +13,11 @@
   /* Official UEFA Champions League Navy Palette */
   --ucl-abyss: #020819;
   --ucl-navy: #051138;
-  --ucl-card: rgba(8, 20, 52, 0.42);
-  --ucl-card-hover: rgba(14, 30, 74, 0.55);
-  --ucl-tile: rgba(4, 12, 34, 0.48);
-  --ucl-tile-hover: rgba(10, 24, 64, 0.6);
-  --ucl-border: rgba(0, 180, 255, 0.16);
+  --ucl-card: rgba(6, 18, 52, 0.72);
+  --ucl-card-hover: rgba(12, 28, 72, 0.82);
+  --ucl-tile: rgba(4, 14, 40, 0.76);
+  --ucl-tile-hover: rgba(8, 22, 58, 0.86);
+  --ucl-border: rgba(0, 180, 255, 0.18);
   --ucl-border-hover: rgba(0, 212, 255, 0.45);
   
   /* Primary & Accent Colors */
@@ -71,7 +71,7 @@ body {
   height: 100vh;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.55;
+  opacity: 0.18;
   overflow: hidden;
   transition: opacity 0.5s ease;
 }
@@ -948,26 +948,38 @@ body.immersive-mode .bg-3d-canvas-container {
 
 .filter-pills {
   display: flex;
-  gap: 8px;
-  margin-bottom: 14px;
+  gap: 4px;
+  background: rgba(3, 10, 28, 0.75);
+  border: 1px solid rgba(0, 180, 255, 0.2);
+  border-radius: 10px;
+  padding: 4px;
+  margin-bottom: 16px;
+  backdrop-filter: blur(16px);
 }
 .filter-pill {
-  background: var(--ucl-tile);
-  border: 1px solid var(--ucl-border);
+  flex: 1;
+  background: transparent;
+  border: 1px solid transparent;
   color: var(--ucl-slate);
   font-family: var(--font-main);
   font-weight: 700;
-  font-size: 0.8rem;
-  padding: 6px 14px;
+  font-size: 0.78rem;
+  padding: 7px 12px;
   border-radius: 6px;
   cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.15s;
+  text-align: center;
+  transition: all 0.15s ease;
 }
-.filter-pill:hover, .filter-pill.active {
-  background: rgba(0, 212, 255, 0.15);
-  color: var(--ucl-cyan);
-  border-color: var(--ucl-cyan);
+.filter-pill:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+}
+.filter-pill.active {
+  background: rgba(0, 212, 255, 0.18);
+  color: #ffffff;
+  border-color: rgba(0, 212, 255, 0.45);
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 /* Modals */
