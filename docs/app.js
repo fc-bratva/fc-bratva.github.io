@@ -2734,13 +2734,16 @@ const BroadcastGenerator = {
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
     const oppName = latestT.opponent_league || 'Opponent';
 
+    // EA FC Mobile indestructible separator: Braille Pattern Blank (\u2800) + heavy horizontal divider
+    const B_SEP = '\n⠀\n━━━━━━━━━━━━━━━━━━━━\n⠀\n';
+
     // 1. League Constitution & Rules Text (4-in-1)
     const textRules = [
       `[RU] ПРАВИЛА ЛИГИ БРАТВА: 1) Обязательно 3/3 попытки в каждом турнире. 2) Пропуск ${rules.maxMissesKick} турниров подряд = исключение без исключений. 3) Минимальная планка: ${rules.minGoalsPerTournament}+ голов.`,
-      `[EN] BRATVA LEAGUE RULES: 1) Mandatory 3/3 attempts in every tournament. 2) Missing ${rules.maxMissesKick} consecutive tournaments = permanent expulsion. 3) Minimum target: ${rules.minGoalsPerTournament}+ goals.`,
+      `[EN] БРАТВА LEAGUE RULES: 1) Mandatory 3/3 attempts in every tournament. 2) Missing ${rules.maxMissesKick} consecutive tournaments = permanent expulsion. 3) Minimum target: ${rules.minGoalsPerTournament}+ goals.`,
       `[AR] قوانين دوري БРАТВА: 1) إلزامي لعب 3/3 محاولات في كل بطولة. 2) تفويت ${rules.maxMissesKick} بطولات متتالية = طرد نهائي بدون استثناء. 3) الهدف الأدنى: ${rules.minGoalsPerTournament}+ هدف.`,
       `[ES] REGLAS DE LA LIGA БРАТВА: 1) Obligatorio 3/3 turnos por torneo. 2) Perder ${rules.maxMissesKick} torneos consecutivos = expulsión definitiva. 3) Objetivo mínimo: ${rules.minGoalsPerTournament}+ goles.`
-    ].join('\n\n');
+    ].join(B_SEP);
 
     // 2. Recent Tournament Warnings & Strikes Notice (4-in-1)
     const missedPlayers = [];
@@ -2759,26 +2762,26 @@ const BroadcastGenerator = {
       const listStr = missedPlayers.join(' | ');
       textWarnings = [
         `[RU] [!] ВНИМАНИЕ БРАТВА - ПРЕДУПРЕЖДЕНИЯ ЗА ПРОПУСК (${oppName}): Игроки с несыгранными ходами: ${listStr}. У вас 1 предупреждение из ${rules.maxMissesKick}. Отыграйте все 3/3 попытки в следующем матче или будете исключены.`,
-        `[EN] [!] BRATVA WARNING NOTICE - MISSED TURNS (${oppName}): Players with incomplete attempts: ${listStr}. Strike 1/${rules.maxMissesKick} issued. Complete all 3/3 turns next match or face immediate kick.`,
+        `[EN] [!] БРАТВА WARNING NOTICE - MISSED TURNS (${oppName}): Players with incomplete attempts: ${listStr}. Strike 1/${rules.maxMissesKick} issued. Complete all 3/3 turns next match or face immediate kick.`,
         `[AR] [!] تنبيه دوري БРАТВА - إنذارات الغياب (${oppName}): اللاعبون الذين لم يكملوا المحاولات: ${listStr}. تم تسجيل إنذار 1/${rules.maxMissesKick}. أكملوا 3/3 محاولات في المباراة القادمة لتجنب الطرد.`,
         `[ES] [!] AVISO БРАТВА - SANCIONES POR TURNOS (${oppName}): Jugadores con turnos incompletos: ${listStr}. Advertencia 1/${rules.maxMissesKick}. Jueguen los 3/3 turnos en el próximo partido o serán expulsados.`
-      ].join('\n\n');
+      ].join(B_SEP);
     } else {
       textWarnings = [
         `[RU] БРАТВА: Все игроки отыграли 3/3 попытки в последнем матче против ${oppName}. 0 нарушений. Полная дисциплина.`,
-        `[EN] BRATVA: All players completed 3/3 attempts in the last match vs ${oppName}. 0 infractions. Full discipline maintained.`,
+        `[EN] БРАТВА: All players completed 3/3 attempts in the last match vs ${oppName}. 0 infractions. Full discipline maintained.`,
         `[AR] دوري БРАТВА: جميع اللاعبين أكملوا 3/3 محاولات في المباراة الأخيرة ضد ${oppName}. 0 مخالفات. انضباط كامل.`,
-        `[ES] BRATVA: Todos los jugadores completaron 3/3 turnos en el último partido vs ${oppName}. 0 infracciones. Disciplina total.`
-      ].join('\n\n');
+        `[ES] БРАТВА: Todos los jugadores completaron 3/3 turnos en el último partido vs ${oppName}. 0 infracciones. Disciplina total.`
+      ].join(B_SEP);
     }
 
     // 3. Pre-Tournament Match Rally (4-in-1 / Zero Placeholders)
     const textRally = [
       `[RU] [!] БРАТВА - ТУРНИР НАЧАЛСЯ: Все в игру. Обязательно отыграть ВСЕ 3 попытки. Пропуск ходов = предупреждение и исключение. Играем строго на победу.`,
-      `[EN] [!] BRATVA - TOURNAMENT IS LIVE: Everyone must join. Mandatory to play ALL 3 attempts. Incomplete turns lead to warnings and removal. Focus on victory.`,
+      `[EN] [!] БРАТВА - TOURNAMENT IS LIVE: Everyone must join. Mandatory to play ALL 3 attempts. Incomplete turns lead to warnings and removal. Focus on victory.`,
       `[AR] [!] دوري БРАТВА - بدأت البطولة: على الجميع المشاركة ولعب الـ 3 محاولات كاملة. تفويت المحاولات يؤدي للإنذار والطرد. التركيز على الفوز فقط.`,
-      `[ES] [!] BRATVA - TORNEO EN MARCHA: Todos a jugar. Obligatorio completar los 3 turnos. Turnos sin jugar = advertencia y expulsión. Solo victoria.`
-    ].join('\n\n');
+      `[ES] [!] БРАТВА - TORNEO EN MARCHA: Todos a jugar. Obligatorio completar los 3 turnos. Turnos sin jugar = advertencia y expulsión. Solo victoria.`
+    ].join(B_SEP);
 
     // 4. Weekly Performance Report (4-in-1)
     const completed = (state.tournaments || []).filter(t => t.status === 'complete');
@@ -2794,10 +2797,10 @@ const BroadcastGenerator = {
 
     const textWeekly = [
       `[RU] БРАТВА - НЕДЕЛЬНЫЙ ОТЧЕТ: Матчи: ${weeklyTourneys.length} | Победы: ${weeklyWins} (${weeklyWinRate}%) | Голы: ${weeklyGoals} | Топ бомбардиры: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`,
-      `[EN] BRATVA - WEEKLY REPORT: Matches: ${weeklyTourneys.length} | Wins: ${weeklyWins} (${weeklyWinRate}%) | Goals: ${weeklyGoals} | Top Scorers: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`,
+      `[EN] БРАТВА - WEEKLY REPORT: Matches: ${weeklyTourneys.length} | Wins: ${weeklyWins} (${weeklyWinRate}%) | Goals: ${weeklyGoals} | Top Scorers: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`,
       `[AR] تقرير دوري БРАТВА الأسبوعي: المباريات: ${weeklyTourneys.length} | الانتصارات: ${weeklyWins} (${weeklyWinRate}%) | الأهداف: ${weeklyGoals} | أفضل الهدافين: 1) ${p1.display_name} (${getPlayerGoals(p1)} هدف)، 2) ${p2.display_name}، 3) ${p3.display_name}.`,
       `[ES] REPORTE SEMANAL БРАТВА: Partidos: ${weeklyTourneys.length} | Victorias: ${weeklyWins} (${weeklyWinRate}%) | Goles: ${weeklyGoals} | Máximos Goleadores: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`
-    ].join('\n\n');
+    ].join(B_SEP);
 
     // 5. Monthly League Review (4-in-1)
     const totalGoalsAll = (state.tournaments || []).reduce((sum, t) => sum + (t.our_total_goals || 0), 0);
@@ -2808,10 +2811,10 @@ const BroadcastGenerator = {
 
     const textMonthly = [
       `[RU] БРАТВА - ИТОГ МЕСЯЦА: Турниры: ${completed.length} | Рекорд: ${totalWins}W-${totalDraws}D-${totalLosses}L (${totalWinRate}%) | Голы: ${totalGoalsAll} | Лучший бомбардир сезона: ${p1.display_name} (${getPlayerGoals(p1)}G).`,
-      `[EN] BRATVA - MONTHLY REVIEW: Tournaments: ${completed.length} | Record: ${totalWins}W-${totalDraws}D-${totalLosses}L (${totalWinRate}%) | Goals: ${totalGoalsAll} | Season Top Scorer: ${p1.display_name} (${getPlayerGoals(p1)}G).`,
+      `[EN] БРАТВА - MONTHLY REVIEW: Tournaments: ${completed.length} | Record: ${totalWins}W-${totalDraws}D-${totalLosses}L (${totalWinRate}%) | Goals: ${totalGoalsAll} | Season Top Scorer: ${p1.display_name} (${getPlayerGoals(p1)}G).`,
       `[AR] الحصاد الشهري لدوري БРАТВА: البطولات: ${completed.length} | السجل: ${totalWins} فوز - ${totalDraws} تعادل - ${totalLosses} خسارة (${totalWinRate}%) | الأهداف: ${totalGoalsAll} | نجم الموسم: ${p1.display_name} (${getPlayerGoals(p1)} هدف).`,
       `[ES] RESUMEN MENSUAL БРАТВА: Torneos: ${completed.length} | Récord: ${totalWins}V-${totalDraws}E-${totalLosses}D (${totalWinRate}%) | Goles: ${totalGoalsAll} | Goleador de la Temporada: ${p1.display_name} (${getPlayerGoals(p1)}G).`
-    ].join('\n\n');
+    ].join(B_SEP);
 
     // 6. Match MVP Spotlight (4-in-1)
     const matchPerformers = ((latestT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
@@ -2822,10 +2825,10 @@ const BroadcastGenerator = {
 
     const textMVP = [
       `[RU] БРАТВА - ЛУЧШИЕ ИГРОКИ МАТЧА: 1) ${mp1} (${mp1Goals} голов), 2) ${mp2} (${mp2Goals} голов). Результат зафиксирован.`,
-      `[EN] BRATVA - MATCH TOP PERFORMERS: 1) ${mp1} (${mp1Goals} goals), 2) ${mp2} (${mp2Goals} goals). Match logged.`,
+      `[EN] БРАТВА - MATCH TOP PERFORMERS: 1) ${mp1} (${mp1Goals} goals), 2) ${mp2} (${mp2Goals} goals). Match logged.`,
       `[AR] نجوم مباراة دوري БРАТВА: 1) ${mp1} (${mp1Goals} أهداف)، 2) ${mp2} (${mp2Goals} أهداف). تم تسجيل الأداء.`,
       `[ES] DESTACADOS DEL PARTIDO БРАТВА: 1) ${mp1} (${mp1Goals} goles), 2) ${mp2} (${mp2Goals} goles). Resultado registrado.`
-    ].join('\n\n');
+    ].join(B_SEP);
 
     return [
       {
