@@ -445,6 +445,7 @@ const Flag3DManager = {
     this.bgRenderer.toneMappingExposure = 1.15;
     container.innerHTML = '';
     container.appendChild(this.bgRenderer.domElement);
+    this.bgRenderer.domElement.addEventListener('webglcontextlost', (e) => { e.preventDefault(); }, false);
 
     // Natural Clean Studio Lighting (No color tinting)
     const ambientLight = new THREE.AmbientLight(0xffffff, 1.0);
@@ -1308,51 +1309,51 @@ function createSilkNormalMap() {
 }
 
 const SilkBadges3DManager = {
-  elements: [],
+  masters: {},
+  activeViewports: [],
   clock: null,
   normalMap: null,
   animating: false,
+  initialized: false,
 
   init() {
     if (typeof THREE === 'undefined') return;
-    if (!this.normalMap) this.normalMap = createSilkNormalMap();
-    if (!this.clock) this.clock = new THREE.Clock();
-    this.mountAll();
-    if (!this.animating) {
-      this.animating = true;
-      this.renderLoop();
+    if (this.initialized) {
+      this.mountAll();
+      return;
     }
-  },
-
-  mountAll() {
-    if (typeof THREE === 'undefined') return;
+    this.initialized = true;
     if (!this.normalMap) this.normalMap = createSilkNormalMap();
     if (!this.clock) this.clock = new THREE.Clock();
 
-    const viewports = document.querySelectorAll('.silk-viewport:not([data-mounted])');
-    viewports.forEach(vp => {
-      const tierKey = vp.dataset.tier;
+    // Create EXACTLY 3 Master 3D WebGL simulation engines for the entire site
+    ['gold', 'silver', 'bronze'].forEach(tierKey => {
       const cfg = SILK_TIERS[tierKey];
       if (!cfg) return;
 
-      vp.setAttribute('data-mounted', 'true');
-
       const scene = new THREE.Scene();
-      // Distance 5.07 with FOV 45 perfectly scales the 4.2x4.2 cloth to fill 100% of the box
       const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 1000);
       camera.position.set(0, 0, 5.07);
 
+      const masterCanvas = document.createElement('canvas');
+      masterCanvas.width = 192;
+      masterCanvas.height = 192;
+
       const renderer = new THREE.WebGLRenderer({
+        canvas: masterCanvas,
         antialias: true,
         alpha: true,
         powerPreference: 'high-performance'
       });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 2, 2));
-      renderer.setSize(48, 48);
-      renderer.setClearColor(0x000000, 0); // 100% Transparent
+      renderer.setPixelRatio(1);
+      renderer.setSize(192, 192, false);
+      renderer.setClearColor(0x000000, 0);
       renderer.toneMapping = THREE.ACESFilmicToneMapping;
       renderer.toneMappingExposure = 1.05;
-      vp.appendChild(renderer.domElement);
+
+      masterCanvas.addEventListener('webglcontextlost', (e) => {
+        e.preventDefault();
+      }, false);
 
       // Studio Lighting
       scene.add(new THREE.AmbientLight(cfg.ambientColor, 0.6));
@@ -1364,7 +1365,7 @@ const SilkBadges3DManager = {
       rimL.position.set(-4.0, -2.5, 2.5);
       scene.add(rimL);
 
-      const geom = new THREE.PlaneGeometry(4.2, 4.2, 60, 60);
+      const geom = new THREE.PlaneGeometry(4.2, 4.2, 48, 48);
       const posAttr = geom.attributes.position;
       const basePos = posAttr.array.slice();
 
@@ -1380,33 +1381,61 @@ const SilkBadges3DManager = {
       const mesh = new THREE.Mesh(geom, mat);
       scene.add(mesh);
 
-      const elementData = {
-        dom: vp,
-        scene: scene,
-        camera: camera,
-        renderer: renderer,
-        mesh: mesh,
-        geom: geom,
-        posAttr: posAttr,
-        basePos: basePos,
-        targetRotX: 0,
-        targetRotY: 0
+      this.masters[tierKey] = {
+        scene,
+        camera,
+        renderer,
+        masterCanvas,
+        mesh,
+        geom,
+        posAttr,
+        basePos
       };
+    });
 
-      vp.addEventListener('mousemove', (e) => {
-        const r = vp.getBoundingClientRect();
-        const nx = ((e.clientX - r.left) / r.width - 0.5) * 2;
-        const ny = ((e.clientY - r.top) / r.height - 0.5) * 2;
-        elementData.targetRotY = nx * 0.45;
-        elementData.targetRotX = ny * 0.35;
+    this.mountAll();
+
+    if (!this.animating) {
+      this.animating = true;
+      this.renderLoop();
+    }
+  },
+
+  mountAll() {
+    if (typeof THREE === 'undefined') return;
+    if (!this.initialized) {
+      this.init();
+      return;
+    }
+
+    const viewports = document.querySelectorAll('.silk-viewport:not([data-mounted])');
+    viewports.forEach(vp => {
+      const tierKey = vp.dataset.tier;
+      if (!this.masters[tierKey]) return;
+
+      vp.setAttribute('data-mounted', 'true');
+      vp.innerHTML = '';
+
+      const targetCanvas = document.createElement('canvas');
+      targetCanvas.width = 192;
+      targetCanvas.height = 192;
+      targetCanvas.style.width = '100%';
+      targetCanvas.style.height = '100%';
+      targetCanvas.style.display = 'block';
+      vp.appendChild(targetCanvas);
+
+      const ctx = targetCanvas.getContext('2d');
+      if (ctx) {
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+      }
+
+      this.activeViewports.push({
+        dom: vp,
+        tierKey: tierKey,
+        targetCanvas: targetCanvas,
+        ctx: ctx
       });
-
-      vp.addEventListener('mouseleave', () => {
-        elementData.targetRotX = 0;
-        elementData.targetRotY = 0;
-      });
-
-      this.elements.push(elementData);
     });
   },
 
@@ -1416,23 +1445,15 @@ const SilkBadges3DManager = {
     if (!this.clock) return;
     const elapsed = this.clock.getElapsedTime();
 
-    // Clean up detached DOM elements
-    this.elements = this.elements.filter(item => {
-      if (!document.body.contains(item.dom)) {
-        if (item.renderer && item.renderer.dispose) item.renderer.dispose();
-        return false;
-      }
-      return true;
-    });
+    // 1. Update and render the 3 master 3D simulation engines
+    ['gold', 'silver', 'bronze'].forEach(tierKey => {
+      const m = this.masters[tierKey];
+      if (!m) return;
 
-    this.elements.forEach(item => {
-      item.mesh.rotation.y += (item.targetRotY - item.mesh.rotation.y) * 0.08;
-      item.mesh.rotation.x += (item.targetRotX - item.mesh.rotation.x) * 0.08;
-
-      const pos = item.posAttr.array;
+      const pos = m.posAttr.array;
       for (let i = 0; i < pos.length; i += 3) {
-        const u = item.basePos[i];
-        const v = item.basePos[i + 1];
+        const u = m.basePos[i];
+        const v = m.basePos[i + 1];
 
         const wave1 = Math.sin(u * 2.2 + elapsed * 3.4) * 0.22;
         const wave2 = Math.cos(v * 1.9 + elapsed * 2.5) * 0.16;
@@ -1442,10 +1463,22 @@ const SilkBadges3DManager = {
         pos[i + 2] = (wave1 + wave2 + microFlutter) * (0.35 + windWeight * 0.85);
       }
 
-      item.posAttr.needsUpdate = true;
-      item.geom.computeVertexNormals();
+      m.posAttr.needsUpdate = true;
+      m.geom.computeVertexNormals();
 
-      item.renderer.render(item.scene, item.camera);
+      m.renderer.render(m.scene, m.camera);
+    });
+
+    // 2. Filter out detached viewports
+    this.activeViewports = this.activeViewports.filter(item => document.body.contains(item.dom));
+
+    // 3. Fast 2D Blit to all visible viewports
+    this.activeViewports.forEach(item => {
+      const master = this.masters[item.tierKey];
+      if (master && item.ctx) {
+        item.ctx.clearRect(0, 0, item.targetCanvas.width, item.targetCanvas.height);
+        item.ctx.drawImage(master.masterCanvas, 0, 0, item.targetCanvas.width, item.targetCanvas.height);
+      }
     });
   }
 };
