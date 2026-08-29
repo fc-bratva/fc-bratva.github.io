@@ -1,0 +1,25 @@
+{
+  "player_id": "denis",
+  "display_name": "Денис",
+  "known_aliases": [],
+  "matches": [
+    {
+      "tournament_id": "2026-08-28_fc-shibankat-fan",
+      "match_index_in_tournament": 10,
+      "opponent_display_name": "FC SHIBANKAT FAN",
+      "opponent_id": "fc_shibankat_fan",
+      "goals_for": 0,
+      "goals_against": 0,
+      "result": "draw",
+      "turns_played": 3,
+      "player_display_name": "Денис",
+      "player_id": "denis"
+    }
+  ],
+  "eligibility_streak": {
+    "current_fail_streak": 0,
+    "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+    "flagged_for_review": false
+  },
+  "average_goals": 0
+}

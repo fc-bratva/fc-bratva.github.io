@@ -1,11 +1,27 @@
 {
   "abubakr": {
     "display_name": "Abubakr",
-    "known_aliases": []
+    "total_goals": 30,
+    "total_matches": 2,
+    "average_goals": 15,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
   },
   "doxibero1": {
     "display_name": "DOXIBERO1",
-    "known_aliases": []
+    "total_goals": 141,
+    "total_matches": 6,
+    "average_goals": 24,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
   },
   "doxibro": {
     "display_name": "DOXIBÉRO",
@@ -13,7 +29,15 @@
   },
   "messi": {
     "display_name": "MESSI",
-    "known_aliases": []
+    "total_goals": 0,
+    "total_matches": 4,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 4,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": true
+    }
   },
   "midhunn": {
     "display_name": "midhunn",
@@ -21,10 +45,158 @@
   },
   "mohamed_osama": {
     "display_name": "Mohamed_Osama",
-    "known_aliases": []
+    "total_goals": 103,
+    "total_matches": 6,
+    "average_goals": 17,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
   },
   "sanya": {
     "display_name": "саня",
-    "known_aliases": []
+    "total_goals": 244,
+    "total_matches": 7,
+    "average_goals": 35,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "egpet": {
+    "display_name": "Egpet",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "redhawk": {
+    "display_name": "RÈDHAWK前",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "jeniik_": {
+    "display_name": "Jeniik_",
+    "total_goals": 32,
+    "total_matches": 1,
+    "average_goals": 32,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "pitorico321456": {
+    "display_name": "Pitorico321456",
+    "total_goals": 28,
+    "total_matches": 1,
+    "average_goals": 28,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "adi": {
+    "display_name": "adi",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "bangpet": {
+    "display_name": "Bangpet",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "denis": {
+    "display_name": "Денис",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "jordan": {
+    "display_name": "jordan",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "mike": {
+    "display_name": "Mike",
+    "total_goals": 22,
+    "total_matches": 1,
+    "average_goals": 22,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "xxev1lxx": {
+    "display_name": "XxEv1lxX",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
+  },
+  "john_tony": {
+    "display_name": "John_Tony",
+    "total_goals": 0,
+    "total_matches": 1,
+    "average_goals": 0,
+    "last_tournament_date": "2026-08-28",
+    "eligibility_streak": {
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+      "flagged_for_review": false
+    }
   }
 }
