@@ -16,10 +16,14 @@ const I18N = {
     flagged_players: 'Flagged Review',
     tournament_history: 'Tournament History',
     player: 'Player',
+    player_scores: 'Player Scores',
     goals: 'G',
     matches: 'T',
     avg_goals: 'Avg',
+    avg_goals_m: 'AVG G/M',
+    efficiency: 'EFFICIENCY',
     search_placeholder: 'Search player...',
+    no_players_found: 'No players match your search',
     all_time: 'All Time',
     window_7d: '7 Days',
     window_30d: '30 Days',
@@ -39,15 +43,33 @@ const I18N = {
     verdict_legendary: 'Legendary',
     verdict_absent: 'Absent/Skipped',
     verdict_no_tournament: 'No tournament today',
-    eligibility_ok: 'Eligible (0 Fails)',
-    eligibility_warn: 'Warning ({n} Fails)',
-    eligibility_flagged: 'FLAGGED (3 Fails!)',
+    eligibility_ok: '✓ 0 FAILS • ELIGIBLE',
+    eligibility_warn: '⚠️ {n} FAIL STREAK',
+    eligibility_flagged: '🚨 FLAGGED ({n} FAILS)',
     full_view: 'FULL VIEW',
-    matches_played: 'Matches Played',
+    matches_played: 'Matches',
     win_rate: 'Win Rate',
-    total_goals: 'Total Goals',
+    total_goals: 'TOTAL GOALS',
     top_performer_spotlight: 'Top Performer',
-    double_tap_exit: 'DOUBLE-TAP OR ESC TO RETURN'
+    double_tap_exit: 'DOUBLE-TAP OR ESC TO RETURN',
+    rank_top_scorer: '👑 #1 TOP SCORER',
+    rank_runner_up: '🥈 #2 RUNNER-UP',
+    rank_podium: '🥉 #3 PODIUM',
+    rank_num: 'RANK #{n}',
+    squad_member: 'MEMBER',
+    match_performance: 'MATCH PERFORMANCE',
+    matches_logged: '{n} Matches Logged',
+    no_matches_logged: 'No matches logged yet',
+    no_match_selected: 'No Match Selected',
+    turns_played_desc: '{n}/3 Turns Played',
+    turns_played_badge: '{n}/3 TURNS',
+    goals_count: '{n} GOALS',
+    no_tournament_history: 'No tournament history yet',
+    stamp_win: 'WIN',
+    stamp_loss: 'LOSS',
+    stamp_draw: 'DRAW',
+    stamp_played: 'PLAYED',
+    vs_match: 'vs {opp}'
   },
   ar: {
     dir: 'rtl',
@@ -58,14 +80,18 @@ const I18N = {
     recent_tournament: 'آخر مباراة',
     totw_spotlight: 'أفضل اللاعبين',
     top_performers: 'الهدافين',
-    flagged_players: 'مراجعة',
+    flagged_players: 'مراجعة الغياب',
     tournament_history: 'سجل المباريات',
     player: 'اللاعب',
+    player_scores: 'أهداف اللاعبين',
     goals: 'أهداف',
     matches: 'م',
     avg_goals: 'معدل',
-    search_placeholder: 'بحث...',
-    all_time: 'الكل',
+    avg_goals_m: 'معدل الأهداف',
+    efficiency: 'نسبة المحاولات',
+    search_placeholder: 'بحث عن لاعب...',
+    no_players_found: 'لا يوجد لاعب بهذا الاسم',
+    all_time: 'كل الأوقات',
     window_7d: '7 أيام',
     window_30d: '30 يوم',
     nav_dash: 'الرئيسية',
@@ -84,15 +110,33 @@ const I18N = {
     verdict_legendary: 'أسطوري',
     verdict_absent: 'غائب',
     verdict_no_tournament: 'لا توجد بطولة',
-    eligibility_ok: 'مؤهل (0 فشل)',
-    eligibility_warn: 'تحذير ({n} فشل)',
-    eligibility_flagged: 'مراجعة (3 فشل!)',
+    eligibility_ok: '✓ 0 فشل • مؤهل',
+    eligibility_warn: '⚠️ تحذير ({n} فشل)',
+    eligibility_flagged: '🚨 مراجعة ({n} فشل!)',
     full_view: 'عرض كامل',
-    matches_played: 'المباريات الملعوبة',
+    matches_played: 'المباريات',
     win_rate: 'نسبة الفوز',
     total_goals: 'إجمالي الأهداف',
     top_performer_spotlight: 'أفضل هداف',
-    double_tap_exit: 'انقر مرتين أو اضغط ESC للعودة'
+    double_tap_exit: 'انقر مرتين أو اضغط ESC للعودة',
+    rank_top_scorer: '👑 هداف الدوري #1',
+    rank_runner_up: '🥈 وصيف الدوري #2',
+    rank_podium: '🥉 المركز الثالث #3',
+    rank_num: 'المركز #{n}',
+    squad_member: 'عضو الفريق',
+    match_performance: 'سجل أداء المباريات',
+    matches_logged: '{n} مباريات مسجلة',
+    no_matches_logged: 'لا توجد مباريات مسجلة بعد',
+    no_match_selected: 'اختر مباراة للتفاصيل',
+    turns_played_desc: '{n}/3 محاولات مكتملة',
+    turns_played_badge: '{n}/3 محاولات',
+    goals_count: '{n} أهداف',
+    no_tournament_history: 'لا يوجد سجل مباريات بعد',
+    stamp_win: 'فوز',
+    stamp_loss: 'خسارة',
+    stamp_draw: 'تعادل',
+    stamp_played: 'لعب',
+    vs_match: 'ضد {opp}'
   },
   ru: {
     dir: 'ltr',
@@ -103,13 +147,17 @@ const I18N = {
     recent_tournament: 'Последний матч',
     totw_spotlight: 'Лучшие',
     top_performers: 'Бомбардиры',
-    flagged_players: 'Проверка',
+    flagged_players: 'Проверка активности',
     tournament_history: 'История матчей',
     player: 'Игрок',
+    player_scores: 'Голы игроков',
     goals: 'Г',
     matches: 'М',
     avg_goals: 'Ср.',
-    search_placeholder: 'Поиск...',
+    avg_goals_m: 'СР. ГОЛОВ',
+    efficiency: 'АКТИВНОСТЬ',
+    search_placeholder: 'Поиск игрока...',
+    no_players_found: 'Игроки не найдены',
     all_time: 'Всё время',
     window_7d: '7 дней',
     window_30d: '30 дней',
@@ -129,15 +177,33 @@ const I18N = {
     verdict_legendary: 'Легенда',
     verdict_absent: 'Пропуск',
     verdict_no_tournament: 'Нет турнира',
-    eligibility_ok: 'Допущен (0 провалов)',
-    eligibility_warn: 'Внимание ({n} пров.)',
-    eligibility_flagged: 'БАН? (3 провала!)',
+    eligibility_ok: '✓ 0 ПРОПУСКОВ • ДОПУЩЕН',
+    eligibility_warn: '⚠️ ВНИМАНИЕ ({n} ПРОП.)',
+    eligibility_flagged: '🚨 БАН ({n} ПРОП.!)',
     full_view: 'ПОЛНЫЙ ЭКРАН',
-    matches_played: 'Сыграно матчей',
+    matches_played: 'МАТЧИ',
     win_rate: 'Процент побед',
-    total_goals: 'Всего голов',
+    total_goals: 'ВСЕГО ГОЛОВ',
     top_performer_spotlight: 'Лучший бомбардир',
-    double_tap_exit: 'ДВОЙНОЙ ТАП ИЛИ ESC ДЛЯ ВЫХОДА'
+    double_tap_exit: 'ДВОЙНОЙ ТАП ИЛИ ESC ДЛЯ ВЫХОДА',
+    rank_top_scorer: '👑 ТОП-1 БОМБАРДИР',
+    rank_runner_up: '🥈 ТОП-2 ВИЦЕ-ЛИДЕР',
+    rank_podium: '🥉 ТОП-3 ПОДИУМ',
+    rank_num: 'РАНГ #{n}',
+    squad_member: 'ИГРОК СОСТАВА',
+    match_performance: 'ФОРМА И РЕЗУЛЬТАТЫ',
+    matches_logged: 'Матчей в базе: {n}',
+    no_matches_logged: 'Нет сыгранных матчей',
+    no_match_selected: 'Выберите матч для деталей',
+    turns_played_desc: '{n}/3 ходов сыграно',
+    turns_played_badge: '{n}/3 ХОДОВ',
+    goals_count: '{n} ГОЛОВ',
+    no_tournament_history: 'История матчей отсутствует',
+    stamp_win: 'ПОБЕДА',
+    stamp_loss: 'ПОРАЖЕНИЕ',
+    stamp_draw: 'НИЧЬЯ',
+    stamp_played: 'СЫГРАНО',
+    vs_match: 'против {opp}'
   },
   es: {
     dir: 'ltr',
@@ -151,14 +217,18 @@ const I18N = {
     flagged_players: 'En Revisión',
     tournament_history: 'Historial',
     player: 'Jugador',
+    player_scores: 'Goles por Jugador',
     goals: 'Goles',
     matches: 'P',
     avg_goals: 'Prom',
-    search_placeholder: 'Buscar...',
+    avg_goals_m: 'PROM. G/P',
+    efficiency: 'EFICACIA',
+    search_placeholder: 'Buscar jugador...',
+    no_players_found: 'No se encontraron jugadores',
     all_time: 'Todo',
     window_7d: '7 Días',
     window_30d: '30 Días',
-    nav_dash: 'DASH',
+    nav_dash: 'PANEL',
     nav_tournaments: 'PARTIDOS',
     nav_roster: 'MIEMBROS',
     nav_leaderboard: 'RANGOS',
@@ -174,15 +244,33 @@ const I18N = {
     verdict_legendary: 'Legendario',
     verdict_absent: 'Ausente',
     verdict_no_tournament: 'Sin torneo',
-    eligibility_ok: 'Elegible (0 fallos)',
-    eligibility_warn: 'Aviso ({n} fallos)',
-    eligibility_flagged: 'REVISIÓN (3 fallos!)',
+    eligibility_ok: '✓ 0 FALLOS • ELEGIBLE',
+    eligibility_warn: '⚠️ AVISO ({n} FALLOS)',
+    eligibility_flagged: '🚨 REVISIÓN ({n} FALLOS!)',
     full_view: 'PANTALLA COMPLETA',
-    matches_played: 'Partidos Jugados',
+    matches_played: 'PARTIDOS',
     win_rate: 'Tasa de Victoria',
-    total_goals: 'Goles Totales',
+    total_goals: 'GOLES TOTALES',
     top_performer_spotlight: 'Goleador Estrella',
-    double_tap_exit: 'DOBLE TOQUE O ESC PARA SALIR'
+    double_tap_exit: 'DOBLE TOQUE O ESC PARA SALIR',
+    rank_top_scorer: '👑 #1 MÁXIMO GOLEADOR',
+    rank_runner_up: '🥈 #2 SUBCAMPEÓN',
+    rank_podium: '🥉 #3 PODIO',
+    rank_num: 'RANGO #{n}',
+    squad_member: 'MIEMBRO',
+    match_performance: 'RENDIMIENTO POR PARTIDO',
+    matches_logged: '{n} Partidos Registrados',
+    no_matches_logged: 'Sin partidos registrados aún',
+    no_match_selected: 'Selecciona un partido',
+    turns_played_desc: '{n}/3 Turnos Jugados',
+    turns_played_badge: '{n}/3 TURNOS',
+    goals_count: '{n} GOLES',
+    no_tournament_history: 'Sin historial de partidos aún',
+    stamp_win: 'VICTORIA',
+    stamp_loss: 'DERROTA',
+    stamp_draw: 'EMPATE',
+    stamp_played: 'JUGADO',
+    vs_match: 'vs {opp}'
   }
 };
 
@@ -1082,6 +1170,30 @@ function setLanguage(langCode) {
   renderAll();
 }
 
+function escapeHTML(str) {
+  if (!str) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function getMonogram(name) {
+  if (!name) return 'FC';
+  return name.trim().slice(0, 2).toUpperCase();
+}
+
+function getPlayerGoals(p) {
+  if (!p) return 0;
+  if (typeof p.total_goals === 'number') return p.total_goals;
+  if (Array.isArray(p.matches)) {
+    return p.matches.reduce((sum, m) => sum + (m.goals_for || 0), 0);
+  }
+  return 0;
+}
+
 function t(key, vars = {}) {
   const dict = I18N[state.lang] || I18N.en;
   let str = dict[key] || I18N.en[key] || key;
@@ -1745,7 +1857,6 @@ function openPlayerModal(playerId) {
   const playerRank = sortedPlayers.findIndex(p => p.player_id === player.player_id) + 1;
   const totalGoals = getPlayerGoals(player);
   const matches = [...(player.matches || [])];
-  // Sort chronologically
   matches.sort((a, b) => a.tournament_id.slice(0, 10).localeCompare(b.tournament_id.slice(0, 10)));
   const matchesCount = matches.length;
   const avgGoals = matchesCount > 0 ? (totalGoals / matchesCount).toFixed(1) : '0.0';
@@ -1762,29 +1873,29 @@ function openPlayerModal(playerId) {
   let rankPill = '';
   if (playerRank === 1) {
     badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="gold"></div>`;
-    rankPill = `<span class="modal-tag-pill modal-tag-gold">👑 #1 TOP SCORER</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-gold">${t('rank_top_scorer')}</span>`;
   } else if (playerRank === 2) {
     badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="silver"></div>`;
-    rankPill = `<span class="modal-tag-pill modal-tag-silver">🥈 #2 RUNNER-UP</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-silver">${t('rank_runner_up')}</span>`;
   } else if (playerRank === 3) {
     badgeHTML = `<div class="silk-viewport modal-header-silk" data-tier="bronze"></div>`;
-    rankPill = `<span class="modal-tag-pill modal-tag-bronze">🥉 #3 PODIUM</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-bronze">${t('rank_podium')}</span>`;
   } else if (playerRank >= 4) {
     badgeHTML = `<div class="fc-rank-badge-blue modal-header-blue">${playerRank}</div>`;
-    rankPill = `<span class="modal-tag-pill modal-tag-blue">RANK #${playerRank}</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-blue">${t('rank_num', { n: playerRank })}</span>`;
   } else {
     badgeHTML = `<div class="fc-roster-avatar modal-header-blue">${getMonogram(player.display_name)}</div>`;
-    rankPill = `<span class="modal-tag-pill modal-tag-blue">MEMBER</span>`;
+    rankPill = `<span class="modal-tag-pill modal-tag-blue">${t('squad_member')}</span>`;
   }
 
   // 3. Eligibility Tag Pill
   const streak = player.eligibility_streak?.current_fail_streak || 0;
   const isFlagged = player.eligibility_streak?.flagged_for_review;
-  let eligPill = `<span class="modal-tag-pill modal-tag-green">✓ 0 FAILS • ELIGIBLE</span>`;
+  let eligPill = `<span class="modal-tag-pill modal-tag-green">${t('eligibility_ok')}</span>`;
   if (isFlagged) {
-    eligPill = `<span class="modal-tag-pill modal-tag-red">🚨 FLAGGED (${streak} FAILS)</span>`;
+    eligPill = `<span class="modal-tag-pill modal-tag-red">${t('eligibility_flagged', { n: streak })}</span>`;
   } else if (streak > 0) {
-    eligPill = `<span class="modal-tag-pill modal-tag-yellow">⚠️ ${streak} FAIL STREAK</span>`;
+    eligPill = `<span class="modal-tag-pill modal-tag-yellow">${t('eligibility_warn', { n: streak })}</span>`;
   }
 
   // 4. Form Columns Data
@@ -1826,19 +1937,19 @@ function openPlayerModal(playerId) {
     <div class="modal-kpi-grid">
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${totalGoals}</div>
-        <div class="modal-kpi-lbl">TOTAL GOALS</div>
+        <div class="modal-kpi-lbl">${t('total_goals')}</div>
       </div>
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${avgGoals}</div>
-        <div class="modal-kpi-lbl">AVG G/M</div>
+        <div class="modal-kpi-lbl">${t('avg_goals_m')}</div>
       </div>
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${matchesCount}</div>
-        <div class="modal-kpi-lbl">MATCHES</div>
+        <div class="modal-kpi-lbl">${t('matches_played')}</div>
       </div>
       <div class="modal-kpi-card">
         <div class="modal-kpi-val">${efficiency}%</div>
-        <div class="modal-kpi-lbl">EFFICIENCY</div>
+        <div class="modal-kpi-lbl">${t('efficiency')}</div>
       </div>
     </div>
 
@@ -1846,14 +1957,14 @@ function openPlayerModal(playerId) {
     <div class="modal-section-header">
       <div class="modal-section-title">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
-        <span>MATCH PERFORMANCE</span>
+        <span>${t('match_performance')}</span>
       </div>
-      <div class="modal-section-meta">${matchesCount} Matches Logged</div>
+      <div class="modal-section-meta">${t('matches_logged', { n: matchesCount })}</div>
     </div>
 
     <!-- Pro Form Strip -->
     <div class="modal-form-strip">
-      ${formData.length === 0 ? `<div style="padding:16px; color:var(--ucl-slate); font-size:0.85rem; width:100%; text-align:center;">No matches logged yet</div>` : formData.map(d => `
+      ${formData.length === 0 ? `<div style="padding:16px; color:var(--ucl-slate); font-size:0.85rem; width:100%; text-align:center;">${t('no_matches_logged')}</div>` : formData.map(d => `
         <div class="modal-form-col ${d === latestMatch ? 'active' : ''}" data-index="${d.index}" onclick="selectFormMatch(${d.index})">
           <span class="modal-form-score">${d.goals}</span>
           <div class="modal-bar-track">
@@ -1868,14 +1979,14 @@ function openPlayerModal(playerId) {
     <div class="modal-inspector-banner" id="modal-inspector-banner">
       <div>
         <div style="font-family: var(--font-main); font-weight: 800; font-size: 0.95rem; color: #ffffff;" id="inspector-opp">
-          ${latestMatch ? `vs ${escapeHTML(latestMatch.opponent)}` : 'No Match Selected'}
+          ${latestMatch ? t('vs_match', { opp: escapeHTML(latestMatch.opponent) }) : t('no_match_selected')}
         </div>
         <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 2px;" id="inspector-date">
-          ${latestMatch ? `${latestMatch.dateStr} • ${latestMatch.turns}/3 Turns Played` : '-'}
+          ${latestMatch ? `${latestMatch.dateStr} • ${t('turns_played_desc', { n: latestMatch.turns })}` : '-'}
         </div>
       </div>
       <div style="font-family: var(--font-main); font-weight: 900; font-size: 1.15rem; color: var(--ucl-cyan);" id="inspector-score">
-        ${latestMatch ? `${latestMatch.goals} GOALS` : ''}
+        ${latestMatch ? t('goals_count', { n: latestMatch.goals }) : ''}
       </div>
     </div>
 
@@ -1883,23 +1994,24 @@ function openPlayerModal(playerId) {
     <div class="modal-section-header">
       <div class="modal-section-title">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l7 4v6c0 5-3.5 9.5-7 10-3.5-.5-7-5-7-10V6l7-4z"></path></svg>
-        <span>TOURNAMENT HISTORY</span>
+        <span>${t('tournament_history')}</span>
       </div>
     </div>
 
     <div class="modal-history-list">
-      ${matches.length === 0 ? `<div style="padding:16px; color:var(--ucl-slate); text-align:center;">No tournament history</div>` : matches.map(m => {
+      ${matches.length === 0 ? `<div style="padding:16px; color:var(--ucl-slate); text-align:center;">${t('no_tournament_history')}</div>` : matches.map(m => {
         const isMissed = m.turns_played === 0;
         const resultStamp = m.result === 'win' ? 'stamp-win' : (m.result === 'loss' ? 'stamp-loss' : 'stamp-draw');
+        const stampText = m.result === 'win' ? t('stamp_win') : (m.result === 'loss' ? t('stamp_loss') : (m.result === 'draw' ? t('stamp_draw') : t('stamp_played')));
         return `
           <div class="modal-history-row" onclick="openTournamentModal('${m.tournament_id}')" style="cursor:pointer;">
             <div>
-              <div style="font-family: var(--font-main); font-weight: 700; font-size: 0.9rem; color: #ffffff;">vs ${escapeHTML(m.opponent_display_name)}</div>
-              <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 1px;">${m.tournament_id.slice(0, 10)} • <span style="color: ${isMissed ? 'var(--ucl-loss)' : 'var(--ucl-win)'}; font-weight: 700;">${m.turns_played !== undefined ? m.turns_played : (m.goals_for > 0 ? 3 : 0)}/3 TURNS</span></div>
+              <div style="font-family: var(--font-main); font-weight: 700; font-size: 0.9rem; color: #ffffff;">${t('vs_match', { opp: escapeHTML(m.opponent_display_name) })}</div>
+              <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 1px;">${m.tournament_id.slice(0, 10)} • <span style="color: ${isMissed ? 'var(--ucl-loss)' : 'var(--ucl-win)'}; font-weight: 700;">${t('turns_played_badge', { n: m.turns_played !== undefined ? m.turns_played : (m.goals_for > 0 ? 3 : 0) })}</span></div>
             </div>
             <div style="display:flex; align-items:center; gap:8px;">
-              <span class="stamp ${resultStamp}">${m.result ? m.result.toUpperCase() : 'PLAYED'}</span>
-              <span style="font-family: var(--font-main); font-weight: 900; color: var(--ucl-cyan); font-size: 1.05rem; min-width: 44px; text-align: right;">${m.goals_for} G</span>
+              <span class="stamp ${resultStamp}">${stampText}</span>
+              <span style="font-family: var(--font-main); font-weight: 900; color: var(--ucl-cyan); font-size: 1.05rem; min-width: 44px; text-align: right;">${m.goals_for} ${t('goals')}</span>
             </div>
           </div>
         `;
@@ -1907,13 +2019,11 @@ function openPlayerModal(playerId) {
     </div>
   `;
 
-  // Attach global inspector function
   window.currentModalFormData = formData;
 
   overlay.style.display = 'flex';
   page.style.transform = 'none';
 
-  // Mount 3D Badges in modal (for top 3!)
   setTimeout(() => SilkBadges3DManager.mountAll(), 40);
 }
 
@@ -1931,9 +2041,9 @@ function selectFormMatch(idx) {
   const dateEl = document.getElementById('inspector-date');
   const scoreEl = document.getElementById('inspector-score');
 
-  if (oppEl) oppEl.textContent = `vs ${d.opponent}`;
-  if (dateEl) dateEl.textContent = `${d.dateStr} • ${d.turns}/3 Turns Played`;
-  if (scoreEl) scoreEl.textContent = `${d.goals} GOALS`;
+  if (oppEl) oppEl.textContent = t('vs_match', { opp: d.opponent });
+  if (dateEl) dateEl.textContent = `${d.dateStr} • ${t('turns_played_desc', { n: d.turns })}`;
+  if (scoreEl) scoreEl.textContent = t('goals_count', { n: d.goals });
 }
 
 function openTournamentModal(tId) {
@@ -1955,29 +2065,38 @@ function openTournamentModal(tId) {
   const matches = [...(tItem.matches || [])].sort((a, b) => b.goals_for - a.goals_for);
 
   content.innerHTML = `
-    <div style="border-bottom: 1px solid var(--border-subtle); padding-bottom: 10px; margin-bottom: 16px;">
-      <div class="username" style="font-size: 1.5rem; color: var(--gold-main); font-weight: 800;">vs ${escapeHTML(tItem.opponent_league)}</div>
-      <div class="hand-text" style="color: var(--text-muted); font-size: 0.85rem; font-weight: 600;">${tItem.date} • ${tItem.format || '32v32'}</div>
+    <div style="border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px; margin-bottom: 14px;">
+      <div style="font-family: var(--font-main); font-size: 1.45rem; color: #ffffff; font-weight: 800;">${t('vs_match', { opp: escapeHTML(tItem.opponent_league) })}</div>
+      <div style="color: var(--ucl-slate); font-size: 0.8rem; font-weight: 600; margin-top: 2px;">${tItem.date} • ${tItem.format || '32v32'}</div>
     </div>
 
-    <div style="display: flex; justify-content: space-around; align-items: center; background: rgba(14, 8, 28, 0.7); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 14px; margin-bottom: 18px;">
+    <div style="display: flex; justify-content: space-around; align-items: center; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; margin-bottom: 16px;">
       <div style="text-align:center; flex: 1;">
-        <div class="username" style="color: var(--gold-main); font-weight: 800;">Братва</div>
-        <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff; text-shadow: 0 0 10px rgba(255,209,92,0.4);">${tItem.our_total_goals}</div>
+        <div style="color: var(--ucl-cyan); font-weight: 800; font-size: 0.95rem;">Братва</div>
+        <div style="font-size: 2rem; font-family: var(--font-main); font-weight: 900; color: #ffffff;">${tItem.our_total_goals}</div>
       </div>
-      <div style="font-family: var(--font-heading); font-weight: 800; color: var(--gold-main); font-size: 0.85rem; background: rgba(255,209,92,0.12); padding: 3px 8px; border-radius: 6px;">VS</div>
+      <div style="font-family: var(--font-main); font-weight: 800; color: var(--ucl-slate); font-size: 0.8rem; background: rgba(255,255,255,0.05); padding: 4px 10px; border-radius: 6px;">VS</div>
       <div style="text-align:center; flex: 1;">
-        <div class="username" style="max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin: 0 auto; color: var(--text-secondary);">${escapeHTML(tItem.opponent_league)}</div>
-        <div style="font-size: 2.2rem; font-family: var(--font-score); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
+        <div style="max-width:110px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; margin: 0 auto; color: var(--ucl-slate); font-weight: 700; font-size: 0.95rem;">${escapeHTML(tItem.opponent_league)}</div>
+        <div style="font-size: 2rem; font-family: var(--font-main); font-weight: 900; color: #ffffff;">${tItem.opponent_total_goals}</div>
       </div>
     </div>
 
-    <div class="card-title">${t('player')} Scores</div>
-    <div style="display: flex; flex-direction: column; gap: 6px;">
+    <div class="modal-section-header">
+      <div class="modal-section-title">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+        <span>${t('player_scores')}</span>
+      </div>
+    </div>
+
+    <div class="modal-history-list">
       ${matches.map(m => `
-        <div class="sketch-row" style="display:flex; justify-content:space-between; align-items:center; padding: 10px 14px;" onclick="openPlayerModal('${m.player_id}')">
-          <span class="username">${escapeHTML(m.player_display_name || m.player_id)} <span class="hand-text" style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">(${m.turns_played !== undefined ? m.turns_played : 3}/3)</span></span>
-          <span style="font-family: var(--font-score); font-weight:800; color: var(--gold-main); font-size: 1.05rem;">${m.goals_for} G</span>
+        <div class="modal-history-row" style="cursor:pointer;" onclick="openPlayerModal('${m.player_id}')">
+          <div>
+            <div style="font-family: var(--font-main); font-weight: 700; font-size: 0.9rem; color: #ffffff;">${escapeHTML(m.player_display_name || m.player_id)}</div>
+            <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 1px;">${t('turns_played_badge', { n: m.turns_played !== undefined ? m.turns_played : 3 })}</div>
+          </div>
+          <span style="font-family: var(--font-main); font-weight: 900; color: var(--ucl-cyan); font-size: 1.05rem;">${m.goals_for} ${t('goals')}</span>
         </div>
       `).join('')}
     </div>
@@ -1985,13 +2104,4 @@ function openTournamentModal(tId) {
 
   overlay.style.display = 'flex';
   page.style.transform = 'none';
-}
-
-function getPlayerGoals(player) {
-  return (player.matches || []).reduce((sum, m) => sum + (m.goals_for || 0), 0);
-}
-
-function escapeHTML(str) {
-  if (!str) return '';
-  return str.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
 }
