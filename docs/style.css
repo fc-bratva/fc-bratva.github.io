@@ -1529,134 +1529,159 @@ body.modal-open {
 }
 
 /* ==========================================================================
-   RULES & ADMIN BROADCAST DISPATCH STYLING
+   RULES & ACCORDION 4-IN-1 BROADCAST DISPATCH STYLING
    ========================================================================== */
 
 .rules-hint-text {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--ucl-slate);
   margin-bottom: 16px;
-  line-height: 1.4;
-  padding: 8px 12px;
+  line-height: 1.45;
+  padding: 10px 14px;
   background: rgba(255, 255, 255, 0.03);
   border-left: 3px solid var(--ucl-cyan);
 }
 
-.b-lang-pill-selector {
-  display: flex;
-  gap: 3px;
-  background: rgba(18, 8, 28, 0.85);
-  border: 1px solid rgba(192, 132, 252, 0.3);
-  padding: 2px;
-}
-.b-lang-pill {
-  background: transparent;
-  border: none;
-  color: var(--ucl-slate);
-  font-family: var(--font-main);
-  font-weight: 800;
-  font-size: 0.72rem;
-  padding: 4px 8px;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.b-lang-pill:hover {
-  color: #ffffff;
-}
-.b-lang-pill.active {
-  background: var(--ucl-cyan);
-  color: #000000;
-  font-weight: 900;
-}
-
-.broadcast-cards-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-
-.b-card {
-  background: var(--ucl-tile);
-  border: 1px solid var(--ucl-border);
-  padding: 14px 16px;
+.broadcast-accordion-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  transition: border-color 0.2s, background 0.2s;
-  position: relative;
-}
-.b-card:hover {
-  border-color: var(--ucl-border-hover);
-  background: var(--ucl-tile-hover);
 }
 
-.b-card-header {
+.b-accordion-card {
+  background: var(--ucl-tile);
+  border: 1px solid var(--ucl-border);
+  transition: border-color 0.2s, background 0.2s;
+  overflow: hidden;
+}
+.b-accordion-card:hover {
+  border-color: var(--ucl-border-hover);
+}
+.b-accordion-card.open {
+  border-color: rgba(192, 132, 252, 0.45);
+  background: rgba(22, 10, 32, 0.9);
+}
+
+.b-accordion-header {
+  padding: 14px 16px;
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255, 255, 255, 0.02);
+  transition: background 0.15s;
+}
+.b-accordion-header:hover {
+  background: rgba(255, 255, 255, 0.05);
 }
 
-.b-card-title-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.b-card-title {
-  font-family: var(--font-main);
-  font-weight: 800;
-  font-size: 0.92rem;
-  color: #ffffff;
+.b-accordion-title-wrap {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.b-accordion-title {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: #ffffff;
+  letter-spacing: 0.5px;
   text-transform: uppercase;
 }
-.b-card-timing {
-  font-size: 0.72rem;
-  font-weight: 700;
+.b-accordion-badge {
+  font-family: var(--font-main);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  color: var(--ucl-draw);
+  background: rgba(255, 179, 0, 0.12);
+  border: 1px solid rgba(255, 179, 0, 0.3);
+  padding: 2px 8px;
+  text-transform: uppercase;
+}
+
+.b-accordion-arrow {
+  font-size: 0.75rem;
+  color: var(--ucl-cyan);
+  transition: transform 0.25s ease;
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+.b-accordion-card.open .b-accordion-arrow {
+  transform: rotate(180deg);
+  color: #ffd700;
+}
+
+.b-accordion-body {
+  padding: 14px 16px 16px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.b-timing-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  color: var(--ucl-slate);
+  background: rgba(0, 0, 0, 0.35);
+  padding: 6px 10px;
+  border-left: 2px solid var(--ucl-draw);
+}
+.b-timing-label {
+  font-weight: 800;
   color: var(--ucl-draw);
   letter-spacing: 0.5px;
 }
+.b-timing-val {
+  color: #e2e8f0;
+  font-weight: 600;
+}
 
-.b-card-copy-btn {
-  background: rgba(192, 132, 252, 0.15);
-  border: 1px solid rgba(192, 132, 252, 0.45);
+.b-chat-preview-box {
+  background: rgba(0, 0, 0, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 12px 14px;
+  font-family: monospace, sans-serif;
+  font-size: 0.82rem;
+  color: #f1f5f9;
+  line-height: 1.55;
+  word-break: break-word;
+  user-select: all;
+  border-left: 3px solid var(--ucl-cyan);
+}
+
+.b-copy-full-btn {
+  background: rgba(192, 132, 252, 0.18);
+  border: 1px solid rgba(192, 132, 252, 0.5);
   color: var(--ucl-cyan);
   font-family: var(--font-main);
-  font-weight: 800;
-  font-size: 0.75rem;
-  padding: 6px 14px;
+  font-weight: 900;
+  font-size: 0.82rem;
+  padding: 10px 16px;
   cursor: pointer;
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
   transition: all 0.15s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
+  width: 100%;
 }
-.b-card-copy-btn:hover {
+.b-copy-full-btn:hover {
   background: var(--ucl-cyan);
   color: #000000;
   border-color: var(--ucl-cyan);
 }
-.b-card-copy-btn.copied {
+.b-copy-full-btn.copied {
   background: var(--ucl-win) !important;
   color: #000000 !important;
   border-color: var(--ucl-win) !important;
-}
-
-.b-chat-preview-box {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 10px 12px;
-  font-family: monospace, sans-serif;
-  font-size: 0.82rem;
-  color: #e2e8f0;
-  line-height: 1.45;
-  word-break: break-word;
-  user-select: all;
-  border-left: 2px solid var(--ucl-cyan);
 }
 
 /* --- Admin Lock Card --- */
@@ -1669,17 +1694,20 @@ body.modal-open {
   text-align: center;
   padding: 24px 16px;
 }
-.admin-lock-icon {
-  font-size: 2.4rem;
+.admin-lock-badge-icon {
+  font-family: var(--font-main);
+  font-weight: 900;
+  font-size: 0.85rem;
+  color: #ffd700;
+  letter-spacing: 2px;
   margin-bottom: 8px;
-  filter: drop-shadow(0 2px 8px rgba(255, 215, 0, 0.4));
 }
 .admin-lock-title {
   font-family: var(--font-main);
   font-weight: 900;
   font-size: 1.15rem;
   letter-spacing: 1px;
-  color: #ffd700;
+  color: #ffffff;
   margin-bottom: 6px;
 }
 .admin-lock-desc {
@@ -1780,9 +1808,6 @@ body.modal-open {
   flex-direction: column;
   gap: 6px;
 }
-.admin-rule-box.full-w {
-  grid-column: 1 / -1;
-}
 
 .admin-rule-label {
   display: flex;
@@ -1828,21 +1853,6 @@ body.modal-open {
   background: #ffd700;
   cursor: pointer;
   border: none;
-}
-
-.admin-text-input {
-  width: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  color: #ffffff;
-  font-family: var(--font-body);
-  font-size: 0.85rem;
-  padding: 8px 12px;
-  outline: none;
-  margin-top: 4px;
-}
-.admin-text-input:focus {
-  border-color: var(--ucl-cyan);
 }
 
 .admin-actions-bar {
