@@ -24,6 +24,7 @@ const I18N = {
     efficiency: 'EFFICIENCY',
     search_placeholder: 'Search player...',
     no_players_found: 'No players match your search',
+    last_match: 'Last Match',
     all_time: 'All Time',
     window_7d: '7 Days',
     window_30d: '30 Days',
@@ -92,6 +93,7 @@ const I18N = {
     efficiency: 'نسبة المحاولات',
     search_placeholder: 'بحث عن لاعب...',
     no_players_found: 'لا يوجد لاعب بهذا الاسم',
+    last_match: 'آخر مباراة',
     all_time: 'كل الأوقات',
     window_7d: '7 أيام',
     window_30d: '30 يوم',
@@ -160,6 +162,7 @@ const I18N = {
     efficiency: 'АКТИВНОСТЬ',
     search_placeholder: 'Поиск игрока...',
     no_players_found: 'Игроки не найдены',
+    last_match: 'Последний матч',
     all_time: 'Всё время',
     window_7d: '7 дней',
     window_30d: '30 дней',
@@ -228,6 +231,7 @@ const I18N = {
     efficiency: 'EFICACIA',
     search_placeholder: 'Buscar jugador...',
     no_players_found: 'No se encontraron jugadores',
+    last_match: 'Último Partido',
     all_time: 'Todo',
     window_7d: '7 Días',
     window_30d: '30 Días',
@@ -1054,7 +1058,7 @@ const state = {
   tournaments: [],
   activeTab: 'dashboard',
   searchQuery: '',
-  leaderboardWindow: 'all'
+  leaderboardWindow: 'last'
 };
 
 // Tabs order for animation direction
@@ -1925,28 +1929,48 @@ function renderLeaderboard() {
   const cardsContainer = document.getElementById('leaderboard-cards-container');
   const windowDays = state.leaderboardWindow;
 
-  let list = state.players.map(p => {
-    let matches = p.matches || [];
-    if (windowDays !== 'all') {
-      const days = parseInt(windowDays, 10);
-      const cutoff = new Date();
-      cutoff.setDate(cutoff.getDate() - days);
-      matches = matches.filter(m => {
-        const tInfo = state.tournamentsIndex[m.tournament_id];
-        return tInfo && new Date(tInfo.date) >= cutoff;
-      });
-    }
-    if (windowDays !== 'all' && matches.length === 0) return null;
-    const goals = matches.reduce((sum, m) => sum + (m.goals_for || 0), 0);
-    const avg = matches.length > 0 ? (goals / matches.length).toFixed(1) : '0.0';
-    return { player_id: p.player_id, display_name: p.display_name, goals, avg };
-  }).filter(Boolean);
+  let list = [];
 
-  list.sort((a, b) => b.goals - a.goals);
+  if (windowDays === 'last') {
+    const latestTournament = state.tournaments[0];
+    if (latestTournament && Array.isArray(latestTournament.matches)) {
+      list = latestTournament.matches.map(m => {
+        const p = state.players.find(pl => pl.player_id === m.player_id);
+        const goals = m.goals_for || 0;
+        return {
+          player_id: m.player_id,
+          display_name: m.player_display_name || p?.display_name || m.player_id,
+          goals: goals,
+          avg: `${goals} G (${m.turns_played || 0}/3 T)`,
+          player: p
+        };
+      });
+      list.sort((a, b) => b.goals - a.goals);
+    }
+  } else {
+    list = state.players.map(p => {
+      let matches = p.matches || [];
+      if (windowDays !== 'all') {
+        const days = parseInt(windowDays, 10);
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - days);
+        matches = matches.filter(m => {
+          const tInfo = state.tournamentsIndex[m.tournament_id];
+          return tInfo && new Date(tInfo.date) >= cutoff;
+        });
+      }
+      if (windowDays !== 'all' && matches.length === 0) return null;
+      const goals = matches.reduce((sum, m) => sum + (m.goals_for || 0), 0);
+      const avg = matches.length > 0 ? (goals / matches.length).toFixed(1) : '0.0';
+      return { player_id: p.player_id, display_name: p.display_name, goals, avg, player: p };
+    }).filter(Boolean);
+
+    list.sort((a, b) => b.goals - a.goals);
+  }
 
   if (cardsContainer) {
     cardsContainer.innerHTML = list.map((item, idx) => {
-      const p = state.players.find(pl => pl.player_id === item.player_id) || item;
+      const p = item.player || state.players.find(pl => pl.player_id === item.player_id) || item;
       return renderPlayerCard(p, idx + 1, item.goals, item.avg);
     }).join('');
     setTimeout(() => SilkBadges3DManager.mountAll(), 30);

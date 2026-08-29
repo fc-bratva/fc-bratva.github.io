@@ -102,18 +102,18 @@ body {
   flex: 1;
 }
 
-/* --- Clean UCL Header (Spans 100% Edge-to-Edge of Screen) --- */
+/* --- Clean Dark Velvet Header --- */
 .app-header {
   position: sticky;
   top: 0;
   z-index: 100;
   width: 100%;
-  background: #430d1c;
-  background: linear-gradient(180deg, rgba(72, 14, 30, 0.98) 0%, rgba(55, 10, 22, 0.98) 100%);
+  background: #1e050b;
+  background: linear-gradient(180deg, rgba(34, 5, 12, 0.98) 0%, rgba(20, 3, 7, 0.98) 100%);
   backdrop-filter: blur(28px) saturate(200%);
   -webkit-backdrop-filter: blur(28px) saturate(200%);
-  border-bottom: 2px solid #ffd700;
-  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8), inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.8);
   margin-bottom: 18px;
 }
 
@@ -136,14 +136,14 @@ body {
   user-select: none;
 }
 
-/* Original Resource Logo (Static & Crisp) */
+/* Original Resource Logo (Static, Crisp, No Shadow) */
 .brand-logo-img {
   width: 60px;
   height: 60px;
   object-fit: contain;
   flex-shrink: 0;
   cursor: pointer;
-  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.7));
+  filter: none !important;
   transition: transform 0.2s ease;
 }
 .brand-logo-img:hover {
