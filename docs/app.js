@@ -2737,12 +2737,12 @@ const BroadcastGenerator = {
     // EA FC Mobile indestructible separator: Braille Pattern Blank (\u2800) + heavy horizontal divider
     const B_SEP = '\n⠀\n━━━━━━━━━━━━━━━━━━━━\n⠀\n';
 
-    // 1. League Constitution & Rules Text (4-in-1)
+    // 1. League Constitution & Rules Text (4-in-1, all 4 Admin Rules included)
     const textRules = [
-      `[RU] ПРАВИЛА ЛИГИ БРАТВА: 1) Обязательно 3/3 попытки в каждом турнире. 2) Пропуск ${rules.maxMissesKick} турниров подряд = исключение без исключений. 3) Минимальная планка: ${rules.minGoalsPerTournament}+ голов.`,
-      `[EN] БРАТВА LEAGUE RULES: 1) Mandatory 3/3 attempts in every tournament. 2) Missing ${rules.maxMissesKick} consecutive tournaments = permanent expulsion. 3) Minimum target: ${rules.minGoalsPerTournament}+ goals.`,
-      `[AR] قوانين دوري БРАТВА: 1) إلزامي لعب 3/3 محاولات في كل بطولة. 2) تفويت ${rules.maxMissesKick} بطولات متتالية = طرد نهائي بدون استثناء. 3) الهدف الأدنى: ${rules.minGoalsPerTournament}+ هدف.`,
-      `[ES] REGLAS DE LA LIGA БРАТВА: 1) Obligatorio 3/3 turnos por torneo. 2) Perder ${rules.maxMissesKick} torneos consecutivos = expulsión definitiva. 3) Objetivo mínimo: ${rules.minGoalsPerTournament}+ goles.`
+      `[RU] ПРАВИЛА ЛИГИ БРАТВА: 1) Обязательно ${rules.minTurnsPerTournament}/3 попытки в каждом турнире. 2) Пропуск ${rules.maxMissesKick} турниров подряд = исключение без исключений. 3) Минимальная планка: ${rules.minGoalsPerTournament}+ голов. 4) Оценка активности и статуса ведется по последним ${rules.evaluationHorizon} турнирам.`,
+      `[EN] БРАТВА LEAGUE RULES: 1) Mandatory ${rules.minTurnsPerTournament}/3 attempts in every tournament. 2) Missing ${rules.maxMissesKick} consecutive tournaments = permanent expulsion. 3) Minimum target: ${rules.minGoalsPerTournament}+ goals. 4) Reliability & active status evaluated across the last ${rules.evaluationHorizon} tournaments.`,
+      `[AR] قوانين دوري БРАТВА: 1) إلزامي لعب ${rules.minTurnsPerTournament}/3 محاولات في كل بطولة. 2) تفويت ${rules.maxMissesKick} بطولات متتالية = طرد نهائي بدون استثناء. 3) الهدف الأدنى: ${rules.minGoalsPerTournament}+ هدف. 4) تقييم نشاط وموثوقية اللاعبين يتم على مدار آخر ${rules.evaluationHorizon} بطولات.`,
+      `[ES] REGLAS DE LA LIGA БРАТВА: 1) Obligatorio ${rules.minTurnsPerTournament}/3 turnos por torneo. 2) Perder ${rules.maxMissesKick} torneos consecutivos = expulsión definitiva. 3) Objetivo mínimo: ${rules.minGoalsPerTournament}+ goles. 4) Estado y fiabilidad evaluados en base a los últimos ${rules.evaluationHorizon} torneos.`
     ].join(B_SEP);
 
     // 2. Recent Tournament Warnings & Strikes Notice (4-in-1)
