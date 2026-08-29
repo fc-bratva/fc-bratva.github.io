@@ -1,0 +1,25 @@
+{
+  "player_id": "vadormirea",
+  "display_name": "vadormirea",
+  "known_aliases": [],
+  "matches": [
+    {
+      "tournament_id": "2026-08-29_team-work",
+      "match_index_in_tournament": 19,
+      "opponent_display_name": "Team Work",
+      "opponent_id": "team_work",
+      "goals_for": 0,
+      "goals_against": 0,
+      "result": "draw",
+      "turns_played": 3,
+      "player_display_name": "vadormirea",
+      "player_id": "vadormirea"
+    }
+  ],
+  "eligibility_streak": {
+    "current_fail_streak": 0,
+    "last_evaluated_tournament_id": "2026-08-29_team-work",
+    "flagged_for_review": false
+  },
+  "average_goals": 0
+}

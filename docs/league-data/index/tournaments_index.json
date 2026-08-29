@@ -40,5 +40,11 @@
     "opponent_league": "FC SHIBANKAT FAN",
     "status": "complete",
     "result": "loss"
+  },
+  "2026-08-29_team-work": {
+    "date": "2026-08-29",
+    "opponent_league": "Team Work",
+    "status": "complete",
+    "result": "win"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "player_id": "tima",
+  "display_name": "Тима",
+  "known_aliases": [],
+  "matches": [
+    {
+      "tournament_id": "2026-08-29_team-work",
+      "match_index_in_tournament": 30,
+      "opponent_display_name": "Team Work",
+      "opponent_id": "team_work",
+      "goals_for": 20,
+      "goals_against": 0,
+      "result": "win",
+      "turns_played": 3,
+      "player_display_name": "Тима",
+      "player_id": "tima"
+    }
+  ],
+  "eligibility_streak": {
+    "current_fail_streak": 0,
+    "last_evaluated_tournament_id": "2026-08-29_team-work",
+    "flagged_for_review": false
+  },
+  "average_goals": 20
+}

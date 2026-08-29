@@ -74,11 +74,23 @@
       "turns_played": 0,
       "player_display_name": "DOXIBERO01",
       "player_id": "doxibero1"
+    },
+    {
+      "tournament_id": "2026-08-29_team-work",
+      "match_index_in_tournament": 31,
+      "opponent_display_name": "Team Work",
+      "opponent_id": "team_work",
+      "goals_for": 29,
+      "goals_against": 0,
+      "result": "win",
+      "turns_played": 3,
+      "player_display_name": "DOXIBERO01",
+      "player_id": "doxibero1"
     }
   ],
   "eligibility_streak": {
-    "current_fail_streak": 1,
-    "last_evaluated_tournament_id": "2026-08-28_fc-shibankat-fan",
+    "current_fail_streak": 0,
+    "last_evaluated_tournament_id": "2026-08-29_team-work",
     "flagged_for_review": false
   },
   "average_goals": 24
