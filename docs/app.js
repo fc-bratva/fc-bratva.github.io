@@ -2661,16 +2661,16 @@ const BroadcastGenerator = {
     const completed = (state.tournaments || []).filter(t => t.status === 'complete');
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
 
-    // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~01h 38m, unplayed players)
+    // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~40m, unplayed players)
     const liveRU = `[!] БРАТВА: СРОЧНО В ИГРУ!
-⏳ Осталось: ~01ч 38м | 159-181 vs РОССИЯ
+⏳ Осталось: ~40 мин | 159-181 vs РОССИЯ
 ⚠️ Должники (сыграть 3/3 немедленно):
 » RÈDHAWK前 [3/3]
 » Mohamed_Osama [3/3]
 🚫 Несыгранные ходы = КИК!`;
 
     const liveEN = `[!] БРАТВА: URGENT MATCH CALL!
-⏳ Time Left: ~01h 38m | 159-181 vs РОССИЯ
+⏳ Time Left: ~40m | 159-181 vs РОССИЯ
 ⚠️ Unplayed (Must play 3/3 now):
 » RÈDHAWK前 [3/3]
 » Mohamed_Osama [3/3]
