@@ -86,21 +86,29 @@ const I18N = {
     b_copy_ru_btn: 'COPY RUSSIAN [RU]',
     b_copy_en_btn: 'COPY ENGLISH [EN]',
     b_copied_toast: 'COPIED TO CLIPBOARD! ✓',
-    b_title_live_warning: 'LIVE MATCH FINAL WARNING (REMAINING TIME)',
+    b_title_live_warning: 'LIVE MATCH WARNING',
     b_badge_live_warning: 'LIVE URGENT',
     b_timing_live_warning: 'During Live Match Final Hours',
-    b_title_rally: 'MATCH DAY RALLY & CALL-TO-ARMS',
+    b_title_rally: 'MATCH START RALLY',
     b_badge_rally: 'MATCH START',
     b_timing_rally: 'At Tournament Start (Hour 0–2)',
-    b_title_last_review: 'LAST TOURNAMENT REVIEW & MVP RECAP',
+    b_title_last_review: 'LAST MATCH RECAP',
     b_badge_last_review: 'MATCH RECAP',
     b_timing_last_review: 'Immediately Following Tournament Conclusion',
-    b_title_warnings: 'TOURNAMENT WARNINGS & STRIKES',
+    b_title_warnings: 'STRIKES & WARNINGS',
     b_badge_warnings: 'POST-MATCH NOTICE',
     b_timing_warnings: 'Immediately After Tournament Conclusion',
-    b_title_rules: 'LEAGUE CONSTITUTION & RULES',
+    b_title_rules: 'LEAGUE RULES',
     b_badge_rules: 'NOTICE / PERMANENT',
-    b_timing_rules: 'Permanent League Announcement & Periodic Member Reminder'
+    b_timing_rules: 'Permanent League Announcement',
+    rules_modal_title: 'Official League Rules',
+    rules_modal_sub: 'Mandatory constitution & discipline policy',
+    news_modal_title: 'League Updates & News Feed',
+    news_modal_sub: 'Real-time tournament status and official feed',
+    swipe_to_edit: 'Slide to unlock edit mode',
+    edit_mode_active: 'Edit Mode Active (Unlocked)',
+    rules_btn_title: 'League Rules',
+    news_btn_title: 'League Updates'
   },
   ar: {
     dir: 'rtl',
@@ -184,21 +192,34 @@ const I18N = {
     b_copy_ru_btn: 'نسخ النص بالروسية [RU]',
     b_copy_en_btn: 'نسخ النص بالإنجليزية [EN]',
     b_copied_toast: 'تم النسخ بنجاح! ✓',
-    b_title_live_warning: 'إنذار عاجل للمباراة الحالية (الوقت المتبقي)',
+    b_title_live_warning: 'LIVE MATCH WARNING',
     b_badge_live_warning: 'مباشر وعاجل',
     b_timing_live_warning: 'خلال الساعات الأخيرة من المباراة الجارية',
-    b_title_rally: 'نداء بدء المباراة للمشاركة الكاملة',
+    b_title_rally: 'MATCH START RALLY',
     b_badge_rally: 'بداية البطولة',
     b_timing_rally: 'مع انطلاق البطولة (الساعة 0–2)',
-    b_title_last_review: 'حصاد البطولة الأخيرة ونجم المباراة (MVP)',
+    b_title_last_review: 'LAST MATCH RECAP',
     b_badge_last_review: 'ملخص المباراة',
     b_timing_last_review: 'مباشرة بعد نهاية البطولة الأخيرة',
-    b_title_warnings: 'إنذارات وعقوبات البطولة السابقة',
+    b_title_warnings: 'STRIKES & WARNINGS',
     b_badge_warnings: 'تنبيه بعد المباراة',
     b_timing_warnings: 'مباشرة بعد نهاية كل بطولة',
-    b_title_rules: 'دستور وقوانين الدوري الرسمية',
+    b_title_rules: 'LEAGUE RULES',
     b_badge_rules: 'إعلان دائم',
-    b_timing_rules: 'إعلان دائم في الدوري وتذكير دوري للأعضاء'
+    b_title_live_warning: 'إنذار المباراة الجارية',
+    b_title_rally: 'نداء بدء المباراة',
+    b_title_last_review: 'حصاد آخر مباراة',
+    b_title_warnings: 'الإنذارات والعقوبات',
+    b_title_rules: 'قوانين الدوري',
+    b_timing_rules: 'إعلان دائم في الدوري',
+    rules_modal_title: 'قوانين الدوري الرسمية',
+    rules_modal_sub: 'الدستور الرسمي ولائحة الانضباط',
+    news_modal_title: 'تحديثات وأخبار الدوري',
+    news_modal_sub: 'حالة البطولة الجارية وآخر الأخبار',
+    swipe_to_edit: 'اسحب لفتح التعديل',
+    edit_mode_active: 'وضع التعديل مفعّل (مفتوح)',
+    rules_btn_title: 'قوانين الدوري',
+    news_btn_title: 'تحديثات الدوري'
   },
   ru: {
     dir: 'ltr',
@@ -282,21 +303,34 @@ const I18N = {
     b_copy_ru_btn: 'СКОПИРОВАТЬ [RU]',
     b_copy_en_btn: 'СКОПИРОВАТЬ [EN]',
     b_copied_toast: 'СКОПИРОВАНО В БУФЕР! ✓',
-    b_title_live_warning: 'СРОЧНЫЙ ПРИЗЫВ: ТУРНИР ИДЕТ (ОСТАЛОСЬ ВРЕМЯ)',
+    b_title_live_warning: 'LIVE MATCH WARNING',
     b_badge_live_warning: 'МАТЧ ИДЕТ / СРОЧНО',
     b_timing_live_warning: 'В финальные часы идущего турнира',
-    b_title_rally: 'БОЕВОЙ КЛИЧ НА ТУРНИР',
+    b_title_rally: 'MATCH START RALLY',
     b_badge_rally: 'СТАРТ МАТЧА',
     b_timing_rally: 'На старте турнира (0–2 час)',
-    b_title_last_review: 'ОБЗОР ПОСЛЕДНЕГО ТУРНИРА И MVP',
+    b_title_last_review: 'LAST MATCH RECAP',
     b_badge_last_review: 'ОБЗОР МАТЧА',
     b_timing_last_review: 'Сразу после завершения турнира',
-    b_title_warnings: 'ПРЕДУПРЕЖДЕНИЯ И СТРАЙКИ',
+    b_title_warnings: 'STRIKES & WARNINGS',
     b_badge_warnings: 'ПОСЛЕ МАТЧА',
     b_timing_warnings: 'Сразу после завершения турнира',
-    b_title_rules: 'УСТАВ И ПРАВИЛА ЛИГИ',
+    b_title_rules: 'LEAGUE RULES',
     b_badge_rules: 'ПОСТОЯННО',
-    b_timing_rules: 'Постоянное объявление и регулярное напоминание'
+    b_title_live_warning: 'ПРЕДУПРЕЖДЕНИЕ: МАТЧ ИДЕТ',
+    b_title_rally: 'БОЕВОЙ КЛИЧ НА МАТЧ',
+    b_title_last_review: 'ОБЗОР ПОСЛЕДНЕГО МАТЧА',
+    b_title_warnings: 'ПРЕДУПРЕЖДЕНИЯ И СТРАЙКИ',
+    b_title_rules: 'ПРАВИЛА ЛИГИ',
+    b_timing_rules: 'Постоянные правила лиги',
+    rules_modal_title: 'Официальные правила лиги',
+    rules_modal_sub: 'Устав лиги и регламент дисциплины',
+    news_modal_title: 'Новости и события лиги',
+    news_modal_sub: 'Статус текущего матча и лента объявлений',
+    swipe_to_edit: 'Проведите для разблокировки',
+    edit_mode_active: 'Режим редактирования активен',
+    rules_btn_title: 'Правила лиги',
+    news_btn_title: 'Новости лиги'
   },
   es: {
     dir: 'ltr',
@@ -381,21 +415,34 @@ const I18N = {
     b_copy_ru_btn: 'COPIAR RUSO [RU]',
     b_copy_en_btn: 'COPIAR INGLÉS [EN]',
     b_copied_toast: '¡COPIADO AL PORTAPAPELES! ✓',
-    b_title_live_warning: 'AVISO URGENTE: PARTIDO EN VIVO (TIEMPO RESTANTE)',
+    b_title_live_warning: 'LIVE MATCH WARNING',
     b_badge_live_warning: 'EN VIVO / URGENTE',
     b_timing_live_warning: 'Durante las últimas horas del partido en vivo',
-    b_title_rally: 'LLAMADA A LA BATALLA DEL PARTIDO',
+    b_title_rally: 'MATCH START RALLY',
     b_badge_rally: 'INICIO DE PARTIDO',
     b_timing_rally: 'Al iniciar el torneo (hora 0–2)',
-    b_title_last_review: 'RESUMEN DEL ÚLTIMO TORNEO Y MVP',
+    b_title_last_review: 'LAST MATCH RECAP',
     b_badge_last_review: 'RESUMEN DE PARTIDO',
     b_timing_last_review: 'Inmediatamente después de finalizar el torneo',
-    b_title_warnings: 'SANCIONES Y ADVERTENCIAS',
+    b_title_warnings: 'STRIKES & WARNINGS',
     b_badge_warnings: 'AVISO TRAS PARTIDO',
     b_timing_warnings: 'Inmediatamente después de finalizar el torneo',
-    b_title_rules: 'CONSTITUCIÓN Y REGLAS DE LA LIGA',
+    b_title_rules: 'LEAGUE RULES',
     b_badge_rules: 'AVISO PERMANENTE',
-    b_timing_rules: 'Anuncio permanente y recordatorio periódico'
+    b_title_live_warning: 'AVISO: PARTIDO EN VIVO',
+    b_title_rally: 'INICIO DE PARTIDO',
+    b_title_last_review: 'RESUMEN DEL ÚLTIMO PARTIDO',
+    b_title_warnings: 'SANCIONES Y AVISOS',
+    b_title_rules: 'REGLAS DE LA LIGA',
+    b_timing_rules: 'Reglas oficiales permanentes',
+    rules_modal_title: 'Reglas Oficiales de la Liga',
+    rules_modal_sub: 'Constitución y política de disciplina',
+    news_modal_title: 'Noticias y Actualizaciones',
+    news_modal_sub: 'Estado del partido en vivo y anuncios',
+    swipe_to_edit: 'Desliza para desbloquear edición',
+    edit_mode_active: 'Modo edición activo (Desbloqueado)',
+    rules_btn_title: 'Reglas de la Liga',
+    news_btn_title: 'Noticias de la Liga'
   }
 };
 
@@ -2916,3 +2963,470 @@ ${pList}
     }, 2000);
   }
 };
+
+
+// --- Fullscreen Multilingual League Rules Modal Controller ---
+const LeagueRulesModal = {
+  isOpen: false,
+
+  open() {
+    SoundManager.playClick();
+    this.isOpen = true;
+    this.render();
+    const modal = document.getElementById('league-rules-modal');
+    if (modal) modal.classList.add('active');
+  },
+
+  close() {
+    SoundManager.playClick();
+    this.isOpen = false;
+    const modal = document.getElementById('league-rules-modal');
+    if (modal) modal.classList.remove('active');
+  },
+
+  render() {
+    const container = document.getElementById('league-rules-modal-content');
+    if (!container) return;
+
+    const rules = RulesManager.currentRules || RulesManager.defaultRules;
+    const lang = state.currentLang || 'en';
+
+    const translations = {
+      en: {
+        title: 'OFFICIAL LEAGUE RULES',
+        sub: 'Mandatory constitution & squad discipline standards',
+        r1_t: '1) Mandatory Turns',
+        r1_d: `Every player must complete all ${rules.minTurnsPerTournament}/3 attempts in every single tournament.`,
+        r2_t: '2) Strict Strike Policy',
+        r2_d: `Missing ${rules.maxMissesKick} consecutive tournaments leads to permanent expulsion without exception.`,
+        r3_t: '3) Scoring Benchmark',
+        r3_d: `Target benchmark of ${rules.minGoalsPerTournament}+ goals across 3 tournament attempts.`,
+        r4_t: '4) Activity Horizon',
+        r4_d: `Roster active reliability evaluated across the last ${rules.evaluationHorizon} tournaments.`,
+        ethos_t: 'LEAGUE PHILOSOPHY',
+        ethos_d: 'БРАТВА is built on mutual respect, 100% active discipline, and championship teamwork. We play for victory and leave zero turns unplayed.',
+        owner_sig: 'League Creator: Саня'
+      },
+      ru: {
+        title: 'ОФИЦИАЛЬНЫЕ ПРАВИЛА ЛИГИ',
+        sub: 'Устав лиги и регламент командной дисциплины',
+        r1_t: '1) Обязательные попытки',
+        r1_d: `Каждый игрок обязан отыгрывать все ${rules.minTurnsPerTournament}/3 попытки в каждом турнире.`,
+        r2_t: '2) Регламент исключения',
+        r2_d: `Пропуск ${rules.maxMissesKick} турниров подряд = исключение из лиги без исключений.`,
+        r3_t: '3) Планка результативности',
+        r3_d: `Минимальная планка: ${rules.minGoalsPerTournament}+ голов за 3 сыгранные попытки.`,
+        r4_t: '4) Период оценки активности',
+        r4_d: `Активность и надежность оцениваются по последним ${rules.evaluationHorizon} турнирам.`,
+        ethos_t: 'ФИЛОСОФИЯ ЛИГИ',
+        ethos_d: 'Лига БРАТВА держится на железной дисциплине, взаимном уважении и командной игре. Мы играем только на победу!',
+        owner_sig: 'Создатель Лиги: Саня'
+      },
+      ar: {
+        title: 'قوانين الدوري الرسمية',
+        sub: 'الدستور الرسمي ومعايير الانضباط الجماعي',
+        r1_t: '1) الأشواط الإلزامية',
+        r1_d: `إلزامي على كل لاعب لعب ${rules.minTurnsPerTournament}/3 محاولات في كل بطولة بدون استثناء.`,
+        r2_t: '2) لائحة الطرد الصارمة',
+        r2_d: `تفويت ${rules.maxMissesKick} بطولات متتالية = طرد نهائي ومباشر من الدوري.`,
+        r3_t: '3) الحد الأدنى للأهداف',
+        r3_d: `الهدف المطلوب تسجيل ${rules.minGoalsPerTournament}+ هدف في مجموع محاولات البطولة.`,
+        r4_t: '4) فترة تقييم النشاط',
+        r4_d: `يتم احتساب نشاط وموثوقية اللاعبين على مدار آخر ${rules.evaluationHorizon} بطولات.`,
+        ethos_t: 'فلسفة دوري БРАТВА',
+        ethos_d: 'دوري БРАТВА مبني على الانضباط الصارم، الاحترام المتبادل، والروح الجماعية. نلعب دائماً من أجل الفوز ولا نترك أي محاولة دون لعب.',
+        owner_sig: 'مؤسس الدوري: Саня'
+      },
+      es: {
+        title: 'REGLAS OFICIALES DE LA LIGA',
+        sub: 'Constitución oficial y estándares de disciplina',
+        r1_t: '1) Turnos obligatorios',
+        r1_d: `Obligatorio jugar los ${rules.minTurnsPerTournament}/3 turnos en cada torneo sin excepción.`,
+        r2_t: '2) Política de expulsión',
+        r2_d: `Perder ${rules.maxMissesKick} torneos consecutivos = expulsión definitiva sin excepciones.`,
+        r3_t: '3) Objetivo de goles',
+        r3_d: `Objetivo mínimo recomendado de ${rules.minGoalsPerTournament}+ goles por torneo.`,
+        r4_t: '4) Periodo de evaluación',
+        r4_d: `La fiabilidad y estado activo se evalúan en base a los últimos ${rules.evaluationHorizon} torneos.`,
+        ethos_t: 'FILOSOFÍA DE LA LIGA',
+        ethos_d: 'БРАТВА se basa en la disciplina, el respeto y el trabajo en equipo. ¡Jugamos para ganar y no dejamos turnos sin jugar!',
+        owner_sig: 'Creador de la Liga: Саня'
+      }
+    };
+
+    const c = translations[lang] || translations.en;
+
+    container.innerHTML = `
+      <div class="rules-modal-header">
+        <div class="rules-modal-badge">БРАТВА CONSTITUTION</div>
+        <h2 class="rules-modal-title">${escapeHTML(c.title)}</h2>
+        <p class="rules-modal-sub">${escapeHTML(c.sub)}</p>
+      </div>
+
+      <div class="rules-modal-grid">
+        <div class="rules-modal-tile">
+          <div class="rules-modal-tile-icon">⚽</div>
+          <div class="rules-modal-tile-content">
+            <h4>${escapeHTML(c.r1_t)}</h4>
+            <p>${escapeHTML(c.r1_d)}</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-tile danger">
+          <div class="rules-modal-tile-icon">⛔</div>
+          <div class="rules-modal-tile-content">
+            <h4>${escapeHTML(c.r2_t)}</h4>
+            <p>${escapeHTML(c.r2_d)}</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-tile">
+          <div class="rules-modal-tile-icon">⭐</div>
+          <div class="rules-modal-tile-content">
+            <h4>${escapeHTML(c.r3_t)}</h4>
+            <p>${escapeHTML(c.r3_d)}</p>
+          </div>
+        </div>
+
+        <div class="rules-modal-tile">
+          <div class="rules-modal-tile-icon">⏱️</div>
+          <div class="rules-modal-tile-content">
+            <h4>${escapeHTML(c.r4_t)}</h4>
+            <p>${escapeHTML(c.r4_d)}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rules-modal-ethos">
+        <div class="rules-modal-ethos-title">⚜️ ${escapeHTML(c.ethos_t)}</div>
+        <div class="rules-modal-ethos-body">${escapeHTML(c.ethos_d)}</div>
+        <div class="rules-modal-owner-badge">${escapeHTML(c.owner_sig)}</div>
+      </div>
+    `;
+  }
+};
+
+// --- Fullscreen Multilingual League Updates & Live News Feed Modal ---
+const LeagueNewsModal = {
+  isOpen: false,
+
+  open() {
+    SoundManager.playClick();
+    this.isOpen = true;
+    this.render();
+    const modal = document.getElementById('league-news-modal');
+    if (modal) modal.classList.add('active');
+  },
+
+  close() {
+    SoundManager.playClick();
+    this.isOpen = false;
+    const modal = document.getElementById('league-news-modal');
+    if (modal) modal.classList.remove('active');
+  },
+
+  render() {
+    const container = document.getElementById('league-news-modal-content');
+    if (!container) return;
+
+    const lang = state.currentLang || 'en';
+    const rules = RulesManager.currentRules || RulesManager.defaultRules;
+
+    const newsData = {
+      en: {
+        title: 'LEAGUE UPDATES & NEWS FEED',
+        sub: 'Real-time tournament events, notices, and match intelligence',
+        items: [
+          {
+            tag: 'LIVE TOURNAMENT',
+            tagClass: 'badge-live',
+            time: '~40m Remaining',
+            title: 'Urgent Match Battle: БРАТВА 159 - 181 РОССИЯ',
+            desc: 'The gap is only 22 goals! RÈDHAWK前 and Mohamed_Osama have 3/3 unplayed attempts. Enter the pitch immediately and secure victory!'
+          },
+          {
+            tag: 'MATCH VICTORY',
+            tagClass: 'badge-win',
+            time: 'Recent Tournament',
+            title: 'Victory: БРАТВА 225 - 144 Team Work',
+            desc: 'Dominant team performance with 100% squad discipline. Top scorers: саня (37G), Mike (33G), DOXIBÉRO (31G).'
+          },
+          {
+            tag: 'SYSTEM REGULATION',
+            tagClass: 'badge-rule',
+            time: 'Active Rule Matrix',
+            title: `Enforcement: ${rules.minTurnsPerTournament}/3 Turns Required | Strike Kick Threshold: ${rules.maxMissesKick}`,
+            desc: `Automated tracking evaluates players across the last ${rules.evaluationHorizon} tournaments with a ${rules.minGoalsPerTournament}+ goal qualification target.`
+          }
+        ]
+      },
+      ru: {
+        title: 'НОВОСТИ И СОБЫТИЯ ЛИГИ',
+        sub: 'Лента событий, статус турнира и командные сводки',
+        items: [
+          {
+            tag: 'МАТЧ ИДЕТ',
+            tagClass: 'badge-live',
+            time: 'Осталось ~40 мин',
+            title: 'Срочный матч: БРАТВА 159 - 181 РОССИЯ',
+            desc: 'Разрыв всего 22 гола! Игроки RÈDHAWK前 и Mohamed_Osama имеют по 3/3 попытки. Срочно зайдите в игру и забейте свои голы!'
+          },
+          {
+            tag: 'ПОБЕДА В МАТЧЕ',
+            tagClass: 'badge-win',
+            time: 'Прошедший турнир',
+            title: 'Победа: БРАТВА 225 - 144 Team Work',
+            desc: 'Уверенная победа и 100% явка состава. Топ бомбардиры: саня (37 голов), Mike (33 гола), DOXIBÉRO (31 гол).'
+          },
+          {
+            tag: 'РЕГЛАМЕНТ',
+            tagClass: 'badge-rule',
+            time: 'Активная система',
+            title: `Дисциплина: ${rules.minTurnsPerTournament}/3 ходов | Порог исключения: ${rules.maxMissesKick} пропусков`,
+            desc: `Автоматическая система рассчитывает статус каждого игрока по последним ${rules.evaluationHorizon} турнирам с планкой ${rules.minGoalsPerTournament}+ голов.`
+          }
+        ]
+      },
+      ar: {
+        title: 'تحديثات وأخبار دوري БРАТВА',
+        sub: 'شريط الأحداث المباشرة، حالة المباراة، والقرارات الإدارية',
+        items: [
+          {
+            tag: 'مباراة جارية',
+            tagClass: 'badge-live',
+            time: 'متبقي ~40 دقيقة',
+            title: 'معركة حاسمة: БРАТВА 159 - 181 РОССИЯ',
+            desc: 'الفارق 22 هدف فقط! اللاعبون RÈDHAWK前 و Mohamed_Osama متبقي لكل منهما 3/3 محاولات. ادخلوا للملعب وسجلوا أهدافكم لتحقيق الفوز!'
+          },
+          {
+            tag: 'فوز مستحق',
+            tagClass: 'badge-win',
+            time: 'البطولة السابقة',
+            title: 'انتصار ساحق: БРАТВА 225 - 144 Team Work',
+            desc: 'أداء جماعي رائع مع انضباط 100%. هدافو المباراة: саня (37 هدف)، Mike (33 هدف)، DOXIBÉRO (31 هدف).'
+          },
+          {
+            tag: 'نظام الانضباط',
+            tagClass: 'badge-rule',
+            time: 'القوانين الفعالة',
+            title: `الالتزام: ${rules.minTurnsPerTournament}/3 محاولات | حد الطرد: ${rules.maxMissesKick} غيابات متتالية`,
+            desc: `النظام الذكي يقيّم أداء الأعضاء عبر آخر ${rules.evaluationHorizon} مباريات بهدف أدنى ${rules.minGoalsPerTournament}+ هدف.`
+          }
+        ]
+      },
+      es: {
+        title: 'NOTICIAS Y ACTUALIZACIONES',
+        sub: 'Estado del torneo en vivo, alertas y avisos oficiales',
+        items: [
+          {
+            tag: 'PARTIDO EN VIVO',
+            tagClass: 'badge-live',
+            time: 'Quedan ~40 min',
+            title: 'Batalla en directo: БРАТВА 159 - 181 РОССИЯ',
+            desc: '¡La diferencia es de solo 22 goles! RÈDHAWK前 y Mohamed_Osama tienen 3/3 turnos pendientes. ¡Al campo a asegurar la victoria!'
+          },
+          {
+            tag: 'VICTORIA',
+            tagClass: 'badge-win',
+            time: 'Último torneo',
+            title: 'Victoria: БРАТВА 225 - 144 Team Work',
+            desc: 'Excelente rendimiento con 100% de turnos jugados. Goleadores: саня (37G), Mike (33G), DOXIBÉRO (31G).'
+          },
+          {
+            tag: 'REGLAMENTO ACTIVO',
+            tagClass: 'badge-rule',
+            time: 'Control Automático',
+            title: `Requisito: ${rules.minTurnsPerTournament}/3 turnos | Límite expulsión: ${rules.maxMissesKick} fallos`,
+            desc: `Evaluación automática en base a los últimos ${rules.evaluationHorizon} torneos con objetivo de ${rules.minGoalsPerTournament}+ goles.`
+          }
+        ]
+      }
+    };
+
+    const c = newsData[lang] || newsData.en;
+
+    container.innerHTML = `
+      <div class="news-modal-header">
+        <div class="news-modal-badge">LIVE LEAGUE FEED</div>
+        <h2 class="news-modal-title">${escapeHTML(c.title)}</h2>
+        <p class="news-modal-sub">${escapeHTML(c.sub)}</p>
+      </div>
+
+      <div class="news-feed-list">
+        ${c.items.map(item => `
+          <div class="news-feed-card">
+            <div class="news-feed-card-header">
+              <span class="news-feed-tag ${item.tagClass}">${escapeHTML(item.tag)}</span>
+              <span class="news-feed-time">${escapeHTML(item.time)}</span>
+            </div>
+            <h3 class="news-feed-item-title">${escapeHTML(item.title)}</h3>
+            <p class="news-feed-item-desc">${escapeHTML(item.desc)}</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+};
+
+// --- Admin Swipe-To-Edit Safety Lock Controller ---
+const AdminSwipeLock = {
+  isEditingUnlocked: false,
+  startX: 0,
+  currentX: 0,
+  maxDrag: 0,
+  isDragging: false,
+
+  init() {
+    const track = document.getElementById('admin-swipe-track');
+    const thumb = document.getElementById('admin-swipe-thumb');
+    if (!track || !thumb) return;
+
+    this.isEditingUnlocked = false;
+    this.updateUIState();
+
+    const handleStart = (e) => {
+      if (this.isEditingUnlocked) return;
+      this.isDragging = true;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      this.startX = clientX;
+      this.maxDrag = track.offsetWidth - thumb.offsetWidth - 8;
+      thumb.style.transition = 'none';
+    };
+
+    const handleMove = (e) => {
+      if (!this.isDragging || this.isEditingUnlocked) return;
+      const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+      let deltaX = clientX - this.startX;
+      if (deltaX < 0) deltaX = 0;
+      if (deltaX > this.maxDrag) deltaX = this.maxDrag;
+      this.currentX = deltaX;
+      thumb.style.transform = `translateX(${deltaX}px)`;
+      
+      const progress = deltaX / (this.maxDrag || 1);
+      if (progress > 0.85) {
+        this.unlockEditing();
+      }
+    };
+
+    const handleEnd = () => {
+      if (!this.isDragging) return;
+      this.isDragging = false;
+      thumb.style.transition = 'transform 0.25s ease';
+      if (!this.isEditingUnlocked) {
+        thumb.style.transform = 'translateX(0px)';
+      }
+    };
+
+    thumb.addEventListener('mousedown', handleStart);
+    window.addEventListener('mousemove', handleMove);
+    window.addEventListener('mouseup', handleEnd);
+
+    thumb.addEventListener('touchstart', handleStart, { passive: true });
+    window.addEventListener('touchmove', handleMove, { passive: true });
+    window.addEventListener('touchend', handleEnd);
+
+    // Also allow tapping thumb when unlocked to re-lock
+    thumb.addEventListener('click', () => {
+      if (this.isEditingUnlocked) {
+        this.lockEditing();
+      }
+    });
+  },
+
+  unlockEditing() {
+    this.isEditingUnlocked = true;
+    this.isDragging = false;
+    SoundManager.playSuccess();
+    const track = document.getElementById('admin-swipe-track');
+    const thumb = document.getElementById('admin-swipe-thumb');
+    const text = document.getElementById('admin-swipe-text');
+    if (track) track.classList.add('unlocked');
+    if (thumb) {
+      thumb.style.transform = `translateX(${this.maxDrag || 180}px)`;
+      thumb.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg>`;
+    }
+    if (text) text.textContent = t('edit_mode_active') || 'Edit Mode Active (Unlocked)';
+    this.updateUIState();
+  },
+
+  lockEditing() {
+    this.isEditingUnlocked = false;
+    SoundManager.playClick();
+    const track = document.getElementById('admin-swipe-track');
+    const thumb = document.getElementById('admin-swipe-thumb');
+    const text = document.getElementById('admin-swipe-text');
+    if (track) track.classList.remove('unlocked');
+    if (thumb) {
+      thumb.style.transform = 'translateX(0px)';
+      thumb.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+    }
+    if (text) text.textContent = t('swipe_to_edit') || 'Slide to unlock edit mode';
+    this.updateUIState();
+  },
+
+  updateUIState() {
+    const formBody = document.getElementById('admin-rules-form-body');
+    const saveBtn = document.getElementById('admin-save-rules-btn');
+    const resetBtn = document.getElementById('admin-reset-rules-btn');
+
+    if (formBody) {
+      if (this.isEditingUnlocked) {
+        formBody.classList.remove('disabled-edit');
+        formBody.classList.add('enabled-edit');
+      } else {
+        formBody.classList.add('disabled-edit');
+        formBody.classList.remove('enabled-edit');
+      }
+    }
+
+    if (saveBtn) saveBtn.disabled = !this.isEditingUnlocked;
+    if (resetBtn) resetBtn.disabled = !this.isEditingUnlocked;
+  }
+};
+
+// Bind Top Header Buttons and Modal Close Handlers on Load
+document.addEventListener('DOMContentLoaded', () => {
+  const rulesBtn = document.getElementById('header-rules-btn');
+  const newsBtn = document.getElementById('header-news-btn');
+
+  if (rulesBtn) rulesBtn.addEventListener('click', () => LeagueRulesModal.open());
+  if (newsBtn) newsBtn.addEventListener('click', () => LeagueNewsModal.open());
+
+  const rulesCloseBtn = document.getElementById('league-rules-modal-close-x');
+  const newsCloseBtn = document.getElementById('league-news-modal-close-x');
+
+  if (rulesCloseBtn) rulesCloseBtn.addEventListener('click', () => LeagueRulesModal.close());
+  if (newsCloseBtn) newsCloseBtn.addEventListener('click', () => LeagueNewsModal.close());
+
+  const rulesModal = document.getElementById('league-rules-modal');
+  const newsModal = document.getElementById('league-news-modal');
+
+  if (rulesModal) {
+    rulesModal.addEventListener('click', (e) => {
+      if (e.target === rulesModal) LeagueRulesModal.close();
+    });
+  }
+  if (newsModal) {
+    newsModal.addEventListener('click', (e) => {
+      if (e.target === newsModal) LeagueNewsModal.close();
+    });
+  }
+
+  // Keyboard ESC support for both modals
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (LeagueRulesModal.isOpen) LeagueRulesModal.close();
+      if (LeagueNewsModal.isOpen) LeagueNewsModal.close();
+    }
+  });
+
+  // Re-render modals on language switch
+  const originalSetLang = window.setLanguage;
+  if (typeof originalSetLang === 'function') {
+    window.setLanguage = function(lang) {
+      originalSetLang(lang);
+      if (LeagueRulesModal.isOpen) LeagueRulesModal.render();
+      if (LeagueNewsModal.isOpen) LeagueNewsModal.render();
+    };
+  }
+});
