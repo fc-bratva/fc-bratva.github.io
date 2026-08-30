@@ -86,24 +86,21 @@ const I18N = {
     b_posting_deadline: 'POSTING DEADLINE:',
     b_copy_4in1_btn: 'COPY 4-IN-1 MESSAGE (ALL LANGUAGES)',
     b_copied_toast: 'COPIED TO CLIPBOARD! ✓',
-    b_title_rules: 'LEAGUE CONSTITUTION & RULES',
-    b_badge_rules: 'NOTICE / PERMANENT',
-    b_timing_rules: 'Permanent League Announcement & Periodic Member Reminder',
-    b_title_warnings: 'TOURNAMENT WARNINGS & STRIKES',
-    b_badge_warnings: 'POST-MATCH NOTICE',
-    b_timing_warnings: 'Immediately After Tournament Conclusion',
+    b_title_live_warning: 'LIVE MATCH FINAL WARNING (REMAINING TIME)',
+    b_badge_live_warning: 'LIVE URGENT',
+    b_timing_live_warning: 'During Live Match Final Hours',
     b_title_rally: 'MATCH DAY RALLY & CALL-TO-ARMS',
     b_badge_rally: 'MATCH START',
     b_timing_rally: 'At Tournament Start (Hour 0–2)',
-    b_title_weekly: 'WEEKLY PERFORMANCE REPORT',
-    b_badge_weekly: 'WEEKLY CYCLE',
-    b_timing_weekly: 'Every Sunday Before Reset',
-    b_title_monthly: 'MONTHLY LEAGUE REVIEW',
-    b_badge_monthly: 'MONTHLY CYCLE',
-    b_timing_monthly: 'End of Monthly Season Cycle',
-    b_title_mvp: 'MATCH MVP & SPOTLIGHT SHOUTOUT',
-    b_badge_mvp: 'VICTORY LOG',
-    b_timing_mvp: 'Immediately Following Match Victory'
+    b_title_last_review: 'LAST TOURNAMENT REVIEW & MVP RECAP',
+    b_badge_last_review: 'MATCH RECAP',
+    b_timing_last_review: 'Immediately Following Tournament Conclusion',
+    b_title_warnings: 'TOURNAMENT WARNINGS & STRIKES',
+    b_badge_warnings: 'POST-MATCH NOTICE',
+    b_timing_warnings: 'Immediately After Tournament Conclusion',
+    b_title_rules: 'LEAGUE CONSTITUTION & RULES',
+    b_badge_rules: 'NOTICE / PERMANENT',
+    b_timing_rules: 'Permanent League Announcement & Periodic Member Reminder'
   },
   ar: {
     dir: 'rtl',
@@ -187,24 +184,21 @@ const I18N = {
     b_posting_deadline: 'موعد النشر في الشات:',
     b_copy_4in1_btn: 'نسخ الرسالة الموحدة (4 لغات معاً)',
     b_copied_toast: 'تم النسخ بنجاح! ✓',
-    b_title_rules: 'دستور وقوانين الدوري',
-    b_badge_rules: 'إعلان دائم',
-    b_timing_rules: 'إعلان دائم في الدوري وتذكير دوري للأعضاء',
-    b_title_warnings: 'إنذارات وعقوبات البطولة',
-    b_badge_warnings: 'تنبيه بعد المباراة',
-    b_timing_warnings: 'مباشرة بعد نهاية كل بطولة',
-    b_title_rally: 'نداء بدء المباراة للمشاركة',
+    b_title_live_warning: 'إنذار عاجل للمباراة الحالية (الوقت المتبقي)',
+    b_badge_live_warning: 'مباشر وعاجل',
+    b_timing_live_warning: 'خلال الساعات الأخيرة من المباراة الجارية',
+    b_title_rally: 'نداء بدء المباراة للمشاركة الكاملة',
     b_badge_rally: 'بداية البطولة',
     b_timing_rally: 'مع انطلاق البطولة (الساعة 0–2)',
-    b_title_weekly: 'التقرير الأسبوعي للأداء',
-    b_badge_weekly: 'الحصاد الأسبوعي',
-    b_timing_weekly: 'كل يوم أحد قبل إعادة التعيين',
-    b_title_monthly: 'الحصاد الشهري للدوري',
-    b_badge_monthly: 'الحصاد الشهري',
-    b_timing_monthly: 'نهاية كل دورة شهرية',
-    b_title_mvp: 'نجوم المباراة وأفضل هداف',
-    b_badge_mvp: 'سجل الانتصار',
-    b_timing_mvp: 'مباشرة بعد تحقيق الفوز في المباراة'
+    b_title_last_review: 'حصاد البطولة الأخيرة ونجم المباراة (MVP)',
+    b_badge_last_review: 'ملخص المباراة',
+    b_timing_last_review: 'مباشرة بعد نهاية البطولة الأخيرة',
+    b_title_warnings: 'إنذارات وعقوبات البطولة السابقة',
+    b_badge_warnings: 'تنبيه بعد المباراة',
+    b_timing_warnings: 'مباشرة بعد نهاية كل بطولة',
+    b_title_rules: 'دستور وقوانين الدوري الرسمية',
+    b_badge_rules: 'إعلان دائم',
+    b_timing_rules: 'إعلان دائم في الدوري وتذكير دوري للأعضاء'
   },
   ru: {
     dir: 'ltr',
@@ -288,24 +282,21 @@ const I18N = {
     b_posting_deadline: 'ВРЕМЯ ПУБЛИКАЦИИ В ЧАТЕ:',
     b_copy_4in1_btn: 'СКОПИРОВАТЬ 4-В-1 (ВСЕ ЯЗЫКИ)',
     b_copied_toast: 'СКОПИРОВАНО В БУФЕР! ✓',
-    b_title_rules: 'УСТАВ И ПРАВИЛА ЛИГИ',
-    b_badge_rules: 'ПОСТОЯННО',
-    b_timing_rules: 'Постоянное объявление и регулярное напоминание',
-    b_title_warnings: 'ПРЕДУПРЕЖДЕНИЯ И СТРАЙКИ',
-    b_badge_warnings: 'ПОСЛЕ МАТЧА',
-    b_timing_warnings: 'Сразу после завершения турнира',
+    b_title_live_warning: 'СРОЧНЫЙ ПРИЗЫВ: ТУРНИР ИДЕТ (ОСТАЛОСЬ ВРЕМЯ)',
+    b_badge_live_warning: 'МАТЧ ИДЕТ / СРОЧНО',
+    b_timing_live_warning: 'В финальные часы идущего турнира',
     b_title_rally: 'БОЕВОЙ КЛИЧ НА ТУРНИР',
     b_badge_rally: 'СТАРТ МАТЧА',
     b_timing_rally: 'На старте турнира (0–2 час)',
-    b_title_weekly: 'НЕДЕЛЬНЫЙ ОТЧЕТ ЛИГИ',
-    b_badge_weekly: 'НЕДЕЛЬНЫЙ ЦИКЛ',
-    b_timing_weekly: 'Каждое воскресенье перед сбросом',
-    b_title_monthly: 'МЕСЯЧНЫЙ ИТОГ ЛИГИ',
-    b_badge_monthly: 'МЕСЯЧНЫЙ ЦИКЛ',
-    b_timing_monthly: 'В конце месячного сезона',
-    b_title_mvp: 'ЛУЧШИЕ ИГРОКИ МАТЧА (MVP)',
-    b_badge_mvp: 'ПОБЕДНЫЙ ЛОГ',
-    b_timing_mvp: 'Сразу после победы в матче'
+    b_title_last_review: 'ОБЗОР ПОСЛЕДНЕГО ТУРНИРА И MVP',
+    b_badge_last_review: 'ОБЗОР МАТЧА',
+    b_timing_last_review: 'Сразу после завершения турнира',
+    b_title_warnings: 'ПРЕДУПРЕЖДЕНИЯ И СТРАЙКИ',
+    b_badge_warnings: 'ПОСЛЕ МАТЧА',
+    b_timing_warnings: 'Сразу после завершения турнира',
+    b_title_rules: 'УСТАВ И ПРАВИЛА ЛИГИ',
+    b_badge_rules: 'ПОСТОЯННО',
+    b_timing_rules: 'Постоянное объявление и регулярное напоминание'
   },
   es: {
     dir: 'ltr',
@@ -389,24 +380,21 @@ const I18N = {
     b_posting_deadline: 'MOMENTO DE PUBLICACIÓN:',
     b_copy_4in1_btn: 'COPIAR MENSAJE 4 EN 1 (TODOS LOS IDIOMAS)',
     b_copied_toast: '¡COPIADO AL PORTAPAPELES! ✓',
-    b_title_rules: 'CONSTITUCIÓN Y REGLAS DE LA LIGA',
-    b_badge_rules: 'AVISO PERMANENTE',
-    b_timing_rules: 'Anuncio permanente y recordatorio periódico',
-    b_title_warnings: 'SANCIONES Y ADVERTENCIAS',
-    b_badge_warnings: 'AVISO TRAS PARTIDO',
-    b_timing_warnings: 'Inmediatamente después de finalizar el torneo',
+    b_title_live_warning: 'AVISO URGENTE: PARTIDO EN VIVO (TIEMPO RESTANTE)',
+    b_badge_live_warning: 'EN VIVO / URGENTE',
+    b_timing_live_warning: 'Durante las últimas horas del partido en vivo',
     b_title_rally: 'LLAMADA A LA BATALLA DEL PARTIDO',
     b_badge_rally: 'INICIO DE PARTIDO',
     b_timing_rally: 'Al iniciar el torneo (hora 0–2)',
-    b_title_weekly: 'REPORTE SEMANAL DE RENDIMIENTO',
-    b_badge_weekly: 'CICLO SEMANAL',
-    b_timing_weekly: 'Cada domingo antes del reinicio',
-    b_title_monthly: 'RESUMEN MENSUAL DE LA LIGA',
-    b_badge_monthly: 'CICLO MENSUAL',
-    b_timing_monthly: 'Al final del ciclo mensual de temporada',
-    b_title_mvp: 'JUGADORES DESTACADOS Y MVP',
-    b_badge_mvp: 'REGISTRO DE VICTORIA',
-    b_timing_mvp: 'Inmediatamente tras la victoria'
+    b_title_last_review: 'RESUMEN DEL ÚLTIMO TORNEO Y MVP',
+    b_badge_last_review: 'RESUMEN DE PARTIDO',
+    b_timing_last_review: 'Inmediatamente después de finalizar el torneo',
+    b_title_warnings: 'SANCIONES Y ADVERTENCIAS',
+    b_badge_warnings: 'AVISO TRAS PARTIDO',
+    b_timing_warnings: 'Inmediatamente después de finalizar el torneo',
+    b_title_rules: 'CONSTITUCIÓN Y REGLAS DE LA LIGA',
+    b_badge_rules: 'AVISO PERMANENTE',
+    b_timing_rules: 'Anuncio permanente y recordatorio periódico'
   }
 };
 
@@ -2767,7 +2755,37 @@ const BroadcastGenerator = {
       ].join(B_SEP);
     }
 
-    // 3. Pre-Tournament Match Rally (4-in-1 / Zero Placeholders)
+    // 3. Live Match Urgent Warning & Remaining Time (4-in-1 / Active Live Tournament)
+    const textLiveWarning = [
+      `[RU] [!] БРАТВА: СРОЧНЫЙ ВЫЗОВ В ИГРУ! ДО КОНЦА ТУРНИРА ОСТАЛОСЬ ~01ч 38м!\nТекущий счет: БРАТВА 159 - 181 РОССИЯ. Разрыв всего 22 гола — мы обязаны побеждать!\nИгроки, которые ЕЩЕ НЕ СЫГРАЛИ свои попытки:\n» RÈDHAWK前 [Осталось: 3/3 попытки]\n» Mohamed_Osama [Осталось: 3/3 попытки]\nЗайдите в игру СЕЙЧАС ЖЕ и забейте все свои голы! Несыгранные попытки = исключение из лиги!`,
+      `[EN] [!] БРАТВА: URGENT MATCH CALL! ~01h 38m REMAINING ON THE CLOCK!\nCurrent Score: БРАТВА 159 - 181 РОССИЯ. Only a 22-goal gap — victory is within reach!\nPlayers who HAVE NOT played their turns yet:\n» RÈDHAWK前 [Remaining: 3/3 turns]\n» Mohamed_Osama [Remaining: 3/3 turns]\nEnter the game IMMEDIATELY and play all your attempts! Incomplete turns lead to immediate expulsion!`,
+      `[AR] [!] دوري БРАТВА: نداء عاجل جداً للمباراة! متبقي ~01 ساعة و 38 دقيقة على نهاية البطولة!\nالنتيجة الحالية: БРАТВА 159 - 181 РОССИЯ. الفارق 22 هدف فقط والفوز في متناول أيدينا!\nاللاعبون الذين لم يلعبوا محاولاتهم بعد:\n» RÈDHAWK前 [متبقي له: 3/3 محاولات]\n» Mohamed_Osama [متبقي له: 3/3 محاولات]\nادخلوا للعبة فوراً وسجلوا أهدافكم! تفويت المحاولات يؤدي إلى الطرد المباشر من الدوري!`,
+      `[ES] [!] БРАТВА: ¡LLAMADA URGENTE AL PARTIDO! ¡QUEDAN ~01h 38m PARA EL FINAL!\nMarcador actual: БРАТВА 159 - 181 РОССИЯ. ¡Solo 22 goles de diferencia, la victoria está en nuestras manos!\nJugadores que AÚN NO han jugado sus turnos:\n» RÈDHAWK前 [Pendientes: 3/3 turnos]\n» Mohamed_Osama [Pendientes: 3/3 turnos]\n¡Entren al juego INMEDIATAMENTE y jueguen todos sus turnos! ¡Los turnos sin jugar suponen expulsión directa!`
+    ].join(B_SEP);
+
+    // 4. Last Tournament Review & MVP Recap (4-in-1 / Replaces Weekly & Monthly)
+    const completed = (state.tournaments || []).filter(t => t.status === 'complete');
+    const lastT = completed[0] || {};
+    const lastOpp = lastT.opponent_league || 'Opponent';
+    const lastOurScore = lastT.our_total_goals || 0;
+    const lastOppScore = lastT.opponent_total_goals || 0;
+    const isWin = lastT.result === 'win';
+    const matchPerformers = ((lastT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
+    const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'MVP') : 'N/A';
+    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 0;
+    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Runner') : 'N/A';
+    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 0;
+    const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'Third') : 'N/A';
+    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 0;
+
+    const textLastReview = [
+      `[RU] [!] БРАТВА: ИТОГИ ПОСЛЕДНЕГО ТУРНИРА (vs ${lastOpp}) — ${isWin ? 'ПОБЕДА!' : 'МАТЧ ЗАВЕРШЕН'}\nСчет: ${lastOurScore} - ${lastOppScore} (${isWin ? 'Победа' : 'Поражение'})\n👑 Топ бомбардиры и MVP матча:\n🥇 ${mp1} (${mp1Goals} голов)\n🥈 ${mp2} (${mp2Goals} голов)\n🥉 ${mp3} (${mp3Goals} голов)\nДисциплина: 100% попыток отыграно. Отличная командная игра!`,
+      `[EN] [!] БРАТВА: LAST TOURNAMENT RECAP (vs ${lastOpp}) — ${isWin ? 'VICTORY!' : 'MATCH CONCLUDED'}\nScore: ${lastOurScore} - ${lastOppScore} (${isWin ? 'WIN' : 'LOSS'})\n👑 Match MVP & Top Scorers:\n🥇 ${mp1} (${mp1Goals} goals)\n🥈 ${mp2} (${mp2Goals} goals)\n🥉 ${mp3} (${mp3Goals} goals)\nDiscipline: 100% turns played. Great teamwork!`,
+      `[AR] [!] دوري БРАТВА: حصاد ونتيجة البطولة الأخيرة (ضد ${lastOpp}) — ${isWin ? 'فوز مستحق!' : 'نهاية المباراة'}\nالنتيجة: ${lastOurScore} - ${lastOppScore} (${isWin ? 'فوز' : 'خسارة'})\n👑 نجم المباراة وقائمة الهدافين:\n🥇 ${mp1} (${mp1Goals} هدف)\n🥈 ${mp2} (${mp2Goals} هدف)\n🥉 ${mp3} (${mp3Goals} هدف)\nالانضباط: 100% من المحاولات مكتملة. أداء جماعي قوي!`,
+      `[ES] [!] БРАТВА: ¡RESUMEN DEL ÚLTIMO TORNEO (vs ${lastOpp}) — ${isWin ? 'VICTORIA!' : 'PARTIDO FINALIZADO'}\nMarcador: ${lastOurScore} - ${lastOppScore} (${isWin ? 'Victoria' : 'Derrota'})\n👑 MVP y Máximos Goleadores:\n🥇 ${mp1} (${mp1Goals} goles)\n🥈 ${mp2} (${mp2Goals} goles)\n🥉 ${mp3} (${mp3Goals} goles)\nDisciplina: 100% de turnos completados. ¡Gran trabajo en equipo!`
+    ].join(B_SEP);
+
+    // 5. Pre-Tournament Match Rally (4-in-1 / Zero Placeholders)
     const textRally = [
       `[RU] [!] БРАТВА: ТУРНИР НАЧАЛСЯ! ВЫХОДИМ НА ПОЛЕ И ЗАБИРАЕМ ПОБЕДУ. 0 ОПРАВДАНИЙ, ОБЯЗАТЕЛЬНО 3/3 ХОДА!`,
       `[EN] [!] БРАТВА: BATTLE IS LIVE! ENTER THE PITCH AND SECURE THE WIN. 0 EXCUSES, PLAY ALL 3/3 ATTEMPTS!`,
@@ -2775,67 +2793,13 @@ const BroadcastGenerator = {
       `[ES] [!] БРАТВА: ¡EL PARTIDO ESTÁ EN MARCHA! AL CAMPO A POR LA VICTORIA. ¡CERO EXCUSAS, 3/3 TURNOS OBLIGATORIOS!`
     ].join(B_SEP);
 
-    // 4. Weekly Performance Report (4-in-1)
-    const completed = (state.tournaments || []).filter(t => t.status === 'complete');
-    const weeklyTourneys = completed.slice(0, 7);
-    const weeklyWins = weeklyTourneys.filter(t => t.result === 'win').length;
-    const weeklyGoals = weeklyTourneys.reduce((sum, t) => sum + (t.our_total_goals || 0), 0);
-    const weeklyWinRate = weeklyTourneys.length > 0 ? ((weeklyWins / weeklyTourneys.length) * 100).toFixed(0) : '0';
-
-    const sortedPlayers = [...(state.players || [])].sort((a, b) => getPlayerGoals(b) - getPlayerGoals(a));
-    const p1 = sortedPlayers[0] || { display_name: 'N/A', goals: 0 };
-    const p2 = sortedPlayers[1] || { display_name: 'N/A', goals: 0 };
-    const p3 = sortedPlayers[2] || { display_name: 'N/A', goals: 0 };
-
-    const textWeekly = [
-      `[RU] [!] БРАТВА: ВРЕМЯ ПОДВЕСТИ ИТОГИ! КТО ТАЩИЛ ЛИГУ НА СЕБЕ ЭТУ НЕДЕЛЮ?\nМатчи: ${weeklyTourneys.length} | Победы: ${weeklyWins} (${weeklyWinRate}%) | Голы: ${weeklyGoals}\n👑 Топ бомбардиры: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`,
-      `[EN] [!] БРАТВА: TIME FOR RECKONING! WHO CARRIED THE LEAGUE TO GLORY THIS WEEK?\nMatches: ${weeklyTourneys.length} | Wins: ${weeklyWins} (${weeklyWinRate}%) | Goals: ${weeklyGoals}\n👑 Top Scorers: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`,
-      `[AR] [!] دوري БРАТВА: وقت الحساب الأسبوعي! من حمل راية الدوري وحقق المجد هذا الأسبوع؟\nالمباريات: ${weeklyTourneys.length} | الانتصارات: ${weeklyWins} (${weeklyWinRate}%) | الأهداف: ${weeklyGoals}\n👑 هدافو الأسبوع: 1) ${p1.display_name} (${getPlayerGoals(p1)} هدف)، 2) ${p2.display_name}، 3) ${p3.display_name}.`,
-      `[ES] [!] БРАТВА: ¡HORA DEL BALANCE! ¿QUIÉNES LIDERARON LA LIGA ESTA SEMANA?\nPartidos: ${weeklyTourneys.length} | Victorias: ${weeklyWins} (${weeklyWinRate}%) | Goles: ${weeklyGoals}\n👑 Máximos Goleadores: 1) ${p1.display_name} (${getPlayerGoals(p1)}G), 2) ${p2.display_name} (${getPlayerGoals(p2)}G), 3) ${p3.display_name} (${getPlayerGoals(p3)}G).`
-    ].join(B_SEP);
-
-    // 5. Monthly League Review (4-in-1)
-    const totalGoalsAll = (state.tournaments || []).reduce((sum, t) => sum + (t.our_total_goals || 0), 0);
-    const totalWins = completed.filter(t => t.result === 'win').length;
-    const totalLosses = completed.filter(t => t.result === 'loss').length;
-    const totalDraws = completed.filter(t => t.result === 'draw').length;
-    const totalWinRate = completed.length > 0 ? ((totalWins / completed.length) * 100).toFixed(1) : '0.0';
-
-    const textMonthly = [
-      `[RU] БРАТВА - ИТОГ МЕСЯЦА: Турниры: ${completed.length} | Рекорд: ${totalWins}W-${totalDraws}D-${totalLosses}L (${totalWinRate}%) | Голы: ${totalGoalsAll} | Лучший бомбардир сезона: ${p1.display_name} (${getPlayerGoals(p1)}G).`,
-      `[EN] БРАТВА - MONTHLY REVIEW: Tournaments: ${completed.length} | Record: ${totalWins}W-${totalDraws}D-${totalLosses}L (${totalWinRate}%) | Goals: ${totalGoalsAll} | Season Top Scorer: ${p1.display_name} (${getPlayerGoals(p1)}G).`,
-      `[AR] الحصاد الشهري لدوري БРАТВА: البطولات: ${completed.length} | السجل: ${totalWins} فوز - ${totalDraws} تعادل - ${totalLosses} خسارة (${totalWinRate}%) | الأهداف: ${totalGoalsAll} | نجم الموسم: ${p1.display_name} (${getPlayerGoals(p1)} هدف).`,
-      `[ES] RESUMEN MENSUAL БРАТВА: Torneos: ${completed.length} | Récord: ${totalWins}V-${totalDraws}E-${totalLosses}D (${totalWinRate}%) | Goles: ${totalGoalsAll} | Goleador de la Temporada: ${p1.display_name} (${getPlayerGoals(p1)}G).`
-    ].join(B_SEP);
-
-    // 6. Match MVP Spotlight (4-in-1)
-    const matchPerformers = ((latestT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
-    const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'MVP') : 'N/A';
-    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 0;
-    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Runner') : 'N/A';
-    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 0;
-
-    const textMVP = [
-      `[RU] БРАТВА - ЛУЧШИЕ ИГРОКИ МАТЧА: 1) ${mp1} (${mp1Goals} голов), 2) ${mp2} (${mp2Goals} голов). Результат зафиксирован.`,
-      `[EN] БРАТВА - MATCH TOP PERFORMERS: 1) ${mp1} (${mp1Goals} goals), 2) ${mp2} (${mp2Goals} goals). Match logged.`,
-      `[AR] نجوم مباراة دوري БРАТВА: 1) ${mp1} (${mp1Goals} أهداف)، 2) ${mp2} (${mp2Goals} أهداف). تم تسجيل الأداء.`,
-      `[ES] DESTACADOS DEL PARTIDO БРАТВА: 1) ${mp1} (${mp1Goals} goles), 2) ${mp2} (${mp2Goals} goles). Resultado registrado.`
-    ].join(B_SEP);
-
     return [
       {
-        id: 'rules',
-        title: t('b_title_rules'),
-        badge: t('b_badge_rules'),
-        timing: t('b_timing_rules'),
-        text: textRules
-      },
-      {
-        id: 'warnings',
-        title: t('b_title_warnings'),
-        badge: t('b_badge_warnings'),
-        timing: t('b_timing_warnings'),
-        text: textWarnings
+        id: 'live_warning',
+        title: t('b_title_live_warning'),
+        badge: t('b_badge_live_warning'),
+        timing: t('b_timing_live_warning'),
+        text: textLiveWarning
       },
       {
         id: 'rally',
@@ -2845,25 +2809,25 @@ const BroadcastGenerator = {
         text: textRally
       },
       {
-        id: 'weekly',
-        title: t('b_title_weekly'),
-        badge: t('b_badge_weekly'),
-        timing: t('b_timing_weekly'),
-        text: textWeekly
+        id: 'last_review',
+        title: t('b_title_last_review'),
+        badge: t('b_badge_last_review'),
+        timing: t('b_timing_last_review'),
+        text: textLastReview
       },
       {
-        id: 'monthly',
-        title: t('b_title_monthly'),
-        badge: t('b_badge_monthly'),
-        timing: t('b_timing_monthly'),
-        text: textMonthly
+        id: 'warnings',
+        title: t('b_title_warnings'),
+        badge: t('b_badge_warnings'),
+        timing: t('b_timing_warnings'),
+        text: textWarnings
       },
       {
-        id: 'mvp',
-        title: t('b_title_mvp'),
-        badge: t('b_badge_mvp'),
-        timing: t('b_timing_mvp'),
-        text: textMVP
+        id: 'rules',
+        title: t('b_title_rules'),
+        badge: t('b_badge_rules'),
+        timing: t('b_timing_rules'),
+        text: textRules
       }
     ];
   },
