@@ -2747,7 +2747,7 @@ const BroadcastGenerator = {
     const dDivider = '----------------------------\n----------------------------';
 
     // =========================================================================
-    // 1. MATCH START RALLY (Kickoff Phase - Verified Colored: ⚔️, ⚽, ⚡, ⛔)
+    // 1. MATCH START RALLY (Kickoff Phase - Dual RU + EN)
     // =========================================================================
     const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
 ⚽ Соперник: ROYAL CHALLENGER
@@ -2766,7 +2766,7 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Countdown - Verified Colored: ⛔, ⏳)
+    // 2. LIVE MATCH WARNING (Ultra-Short: Players + Remaining Time + Quick Alert)
     // =========================================================================
     const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
 [ ⏳ | KOUSTAV_007 | 0/3 ]
@@ -2789,7 +2789,7 @@ ${dDivider}
 ${liveEN}`;
 
     // =========================================================================
-    // 3. LAST MATCH RECAP (MVP Review - Verified Colored: ⭐, ⚽, ⚡)
+    // 3. LAST MATCH RECAP (Energetic & Direct Gamer Squad Language)
     // =========================================================================
     const lastT = completed[0] || {};
     const lastOpp = lastT.opponent_league || 'РОССИЯ';
@@ -2804,31 +2804,33 @@ ${liveEN}`;
     const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'DOXIBÉRO') : 'DOXIBÉRO';
     const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 26;
 
-    const resWordRU = isWin ? 'ПОБЕДА' : 'ИТОГИ';
-    const resWordEN = isWin ? 'VICTORY' : 'RESULT';
+    const titleRU = isWin ? `⭐ БРАТВА: ПОБЕДА vs ${lastOpp}!` : `⭐ БРАТВА: МАТЧ vs ${lastOpp}!`;
+    const titleEN = isWin ? `⭐ BRATVA: BIG WIN vs ${lastOpp}!` : `⭐ BRATVA: MATCH vs ${lastOpp}!`;
+    const closingRU = isWin ? '⚡ Красавцы парни! Идем дальше за победами!' : '⚡ Красавцы за голы! В след. матче берем реванш!';
+    const closingEN = isWin ? "⚡ Awesome game boys! Let's keep winning!" : '⚡ Great goals boys! Next match we get our revenge!';
 
-    const reviewRU = `⭐ БРАТВА: ${resWordRU} vs ${lastOpp}
+    const reviewRU = `${titleRU}
 ⚽ Счет: ${lastOurScore} - ${lastOppScore}
-⭐ ТОП БОМБАРДИРЫ:
+⭐ ЛУЧШИЕ ИГРОКИ:
 [ 1 | ${mp1} | ${mp1Goals}G ]
 [ 2 | ${mp2} | ${mp2Goals}G ]
 [ 3 | ${mp3} | ${mp3Goals}G ]
-⚡ В следующий раз побеждаем!`;
+${closingRU}`;
 
-    const reviewEN = `⭐ БРАТВА: ${resWordEN} vs ${lastOpp}
+    const reviewEN = `${titleEN}
 ⚽ Score: ${lastOurScore} - ${lastOppScore}
 ⭐ TOP SCORERS:
 [ 1 | ${mp1} | ${mp1Goals}G ]
 [ 2 | ${mp2} | ${mp2Goals}G ]
 [ 3 | ${mp3} | ${mp3Goals}G ]
-⚡ Next match we conquer!`;
+${closingEN}`;
 
     const reviewCombined = `${reviewRU}
 ${dDivider}
 ${reviewEN}`;
 
     // =========================================================================
-    // 4. STRIKES & WARNINGS (Verified Colored: ⛔, ❌)
+    // 4. STRIKES & WARNINGS (Ultra-Short: Debtors + Strike Notice + Instant Rule)
     // =========================================================================
     const missedPlayers = [];
     if (lastT.matches && state.players) {
@@ -2866,7 +2868,7 @@ ${warnEN}`;
     }
 
     // =========================================================================
-    // 5. LEAGUE RULES (Verified Colored: ⚙️)
+    // 5. LEAGUE RULES (Permanent Constitution - Boxed Rules)
     // =========================================================================
     const rulesRU = `⚙️ ПРАВИЛА БРАТВА:
 [ 1 ] Обязательно 3/3 в матче
