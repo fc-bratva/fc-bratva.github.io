@@ -72,7 +72,7 @@ const I18N = {
     stamp_draw: 'DRAW',
     stamp_played: 'PLAYED',
     vs_match: 'vs {opp}',
-    broadcast_hint: 'Official in-game announcements formatted strictly within EA FC Mobile chat limits. Copy RU or EN text separately!',
+    broadcast_hint: 'Official in-game announcements formatted for EA FC Mobile. Tip: Use the "+" Announcement (📢) button in League Chat to preserve line breaks and notify all members!',
     admin_panel_title: 'ADMIN RULES & CONTROLS',
     unlock_btn: 'UNLOCK',
     save_recalculate: 'SAVE & RECALCULATE SYSTEM',
@@ -170,7 +170,7 @@ const I18N = {
     stamp_draw: 'تعادل',
     stamp_played: 'لعب',
     vs_match: 'ضد {opp}',
-    broadcast_hint: 'رسائل الشات الرسمية مهيأة لتناسب الحد الأقصى لأحرف EA FC Mobile. انسخ النص بالروسية أو الإنجليزية بشكل منفصل!',
+    broadcast_hint: 'رسائل الشات الرسمية مهيأة لتناسب إعلانات EA FC Mobile. نصيحة: استخدم زر الإعلان "+" (📢) في شات الدوري للحفاظ على الأسطر المنظمة وتنبيه جميع الأعضاء!',
     admin_panel_title: 'لوحة تحكم القوانين للمشرفين',
     unlock_btn: 'فتح القفل',
     save_recalculate: 'حفظ وإعادة حساب النظام',
@@ -268,7 +268,7 @@ const I18N = {
     stamp_draw: 'НИЧЬЯ',
     stamp_played: 'СЫГРАНО',
     vs_match: 'против {opp}',
-    broadcast_hint: 'Официальные сообщения для чата лиги с учетом лимита символов EA FC Mobile. Копируйте RU или EN текст отдельно!',
+    broadcast_hint: 'Официальные сообщения для чата лиги. Совет: отправляйте через кнопку "+" (📢 Объявление) в чате лиги для сохранения строк и оповещения всех игроков!',
     admin_panel_title: 'ПАНЕЛЬ УПРАВЛЕНИЯ ПРАВИЛАМИ',
     unlock_btn: 'РАЗБЛОКИРОВАТЬ',
     save_recalculate: 'СОХРАНИТЬ И ПЕРЕСЧИТАТЬ СИСТЕМУ',
@@ -367,7 +367,7 @@ const I18N = {
     stamp_played: 'JUGADO',
     vs_match: 'vs {opp}',
     broadcast_dispatch_title: 'Despacho de Mensajes para el Chat',
-    broadcast_hint: 'Anuncios oficiales adaptados al límite de caracteres de EA FC Mobile. ¡Copia el texto en RU o EN por separado!',
+    broadcast_hint: 'Anuncios oficiales adaptados a EA FC Mobile. ¡Consejo: Usa el botón "+" (📢 Anuncio) en el chat de la liga para mantener los saltos de línea y notificar a todos!',
     admin_panel_title: 'PANEL DE CONTROL DE REGLAS',
     unlock_btn: 'DESBLOQUEAR',
     save_recalculate: 'GUARDAR Y RECALCULAR SISTEMA',
@@ -2663,25 +2663,29 @@ const BroadcastGenerator = {
 
     // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~01h 38m, unplayed players)
     const liveRU = `[!] БРАТВА: СРОЧНО В ИГРУ!
-Осталось ~01ч 38м! Счет: 159-181 vs РОССИЯ.
-Отыграть 3/3 немедленно:
+⏳ Осталось: ~01ч 38м | 159-181 vs РОССИЯ
+⚠️ Должники (сыграть 3/3 немедленно):
 » RÈDHAWK前 [3/3]
 » Mohamed_Osama [3/3]
-Зайдите и забейте! Пропуск = КИК!`;
+🚫 Несыгранные ходы = КИК!`;
 
     const liveEN = `[!] БРАТВА: URGENT MATCH CALL!
-~01h 38m left! Score: 159-181 vs РОССИЯ.
-Must play 3/3 turns now:
+⏳ Time Left: ~01h 38m | 159-181 vs РОССИЯ
+⚠️ Unplayed (Must play 3/3 now):
 » RÈDHAWK前 [3/3]
 » Mohamed_Osama [3/3]
-Enter & score! Incomplete = KICK!`;
+🚫 Incomplete turns = KICK!`;
 
     // 2. Pre-Tournament Match Rally (Kickoff)
     const rallyRU = `[!] БРАТВА: ТУРНИР НАЧАЛСЯ!
-Все в игру, играем на победу. Обязательно отыграть ВСЕ 3/3 попытки. Пропуск ходов = кик из лиги!`;
+🔥 Выходим на поле и забираем победу!
+🎯 Обязательно сыграть ВСЕ 3/3 попытки.
+🚫 0 оправданий. Пропуск ходов = кик!`;
 
     const rallyEN = `[!] БРАТВА: TOURNAMENT IS LIVE!
-Join now and fight for the win. Mandatory 3/3 attempts for all players. Incomplete turns = kick!`;
+🔥 Enter the pitch and secure the win!
+🎯 Mandatory: complete all 3/3 attempts.
+🚫 Zero excuses. Missed turns = kick!`;
 
     // 3. Last Tournament Review & MVP Recap (vs Team Work / last completed)
     const lastT = completed[0] || {};
@@ -2698,20 +2702,16 @@ Join now and fight for the win. Mandatory 3/3 attempts for all players. Incomple
     const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 31;
 
     const reviewRU = `[!] БРАТВА: ИТОГИ vs ${lastOpp}
-${isWin ? 'ПОБЕДА' : 'МАТЧ'} (${lastOurScore}-${lastOppScore})!
-👑 Топ бомбардиры:
-1) ${mp1} (${mp1Goals}G)
-2) ${mp2} (${mp2Goals}G)
-3) ${mp3} (${mp3Goals}G)
-100% явка. Отличная работа!`;
+🏆 ПОБЕДА (${lastOurScore} - ${lastOppScore})!
+👑 Топ бомбардиры матча:
+🥇 ${mp1} (${mp1Goals}G) | 🥈 ${mp2} (${mp2Goals}G) | 🥉 ${mp3} (${mp3Goals}G)
+✅ 100% явка. Отличная командная работа!`;
 
-    const reviewEN = `[!] БРАТВА: RECAP vs ${lastOpp}
-${isWin ? 'VICTORY' : 'MATCH'} (${lastOurScore}-${lastOppScore})!
-👑 Top Scorers:
-1) ${mp1} (${mp1Goals}G)
-2) ${mp2} (${mp2Goals}G)
-3) ${mp3} (${mp3Goals}G)
-100% turns played. Great job!`;
+    const reviewEN = `[!] БРАТВА: MATCH RECAP vs ${lastOpp}
+🏆 VICTORY (${lastOurScore} - ${lastOppScore})!
+👑 Match Top Scorers:
+🥇 ${mp1} (${mp1Goals}G) | 🥈 ${mp2} (${mp2Goals}G) | 🥉 ${mp3} (${mp3Goals}G)
+✅ 100% turns played. Great teamwork!`;
 
     // 4. Recent Tournament Warnings & Strikes Notice
     const missedPlayers = [];
@@ -2729,35 +2729,41 @@ ${isWin ? 'VICTORY' : 'MATCH'} (${lastOurScore}-${lastOppScore})!
     let warnEN = '';
     if (missedPlayers.length > 0) {
       const pList = missedPlayers.join('\n');
-      warnRU = `[!] БРАТВА: ПРОПУСК ХОДОВ!
-Предупреждение (1/${rules.maxMissesKick}):
+      warnRU = `[!] БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
+⚠️ Игроки с долгами (1/${rules.maxMissesKick}):
 ${pList}
-Отыграйте 3/3 в следующем матче или кик!`;
+🎯 Отыграйте 3/3 в следующем матче!
+🚫 Повторный пропуск = исключение!`;
 
-      warnEN = `[!] БРАТВА: MISSED TURNS STRIKE (1/${rules.maxMissesKick})!
-Flagged players:
+      warnEN = `[!] БРАТВА: STRIKE NOTICE!
+⚠️ Flagged players (Strike 1/${rules.maxMissesKick}):
 ${pList}
-Play 3/3 turns next match or get kicked!`;
+🎯 Complete 3/3 turns in next match!
+🚫 Repeated miss = permanent expulsion!`;
     } else {
       warnRU = `[!] БРАТВА: 100% ДИСЦИПЛИНА!
-Все игроки отыграли 3/3 попытки. 0 нарушений. Так держать, банда!`;
+✅ Все игроки отыграли все 3/3 попытки.
+🎯 0 нарушений в прошедшем матче.
+🔥 Отличная дисциплина, так держать!`;
 
       warnEN = `[!] БРАТВА: 100% DISCIPLINE!
-All squad members completed 3/3 attempts. 0 infractions. Keep it up!`;
+✅ All squad members completed 3/3 turns.
+🎯 0 infractions recorded in match.
+🔥 Excellent discipline, keep it up!`;
     }
 
     // 5. League Constitution & Rules
     const rulesRU = `[!] ПРАВИЛА БРАТВА:
-1) 3/3 попытки обязательны в каждом турнире.
+1) Обязательно 3/3 попытки в каждом матче.
 2) Пропуск ${rules.maxMissesKick} турниров = кик.
 3) Планка: ${rules.minGoalsPerTournament}+ голов.
-4) Оценка за ${rules.evaluationHorizon} турнира.`;
+4) Оценка активности: за ${rules.evaluationHorizon} турнира.`;
 
     const rulesEN = `[!] БРАТВА RULES:
-1) Mandatory 3/3 attempts every tourney.
+1) Mandatory 3/3 attempts every match.
 2) Missing ${rules.maxMissesKick} tournaments = kick.
-3) Target: ${rules.minGoalsPerTournament}+ goals.
-4) Horizon: last ${rules.evaluationHorizon} matches.`;
+3) Scoring target: ${rules.minGoalsPerTournament}+ goals.
+4) Activity horizon: last ${rules.evaluationHorizon} matches.`;
 
     return [
       {
