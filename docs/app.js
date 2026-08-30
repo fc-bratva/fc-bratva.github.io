@@ -2744,41 +2744,48 @@ const BroadcastGenerator = {
     const rules = RulesManager.currentRules || RulesManager.defaultRules;
     const completed = (state.tournaments || []).filter(t => t.status === 'complete');
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
+    const dDivider = '----------------------------\n----------------------------';
 
     // =========================================================================
-    // 1. MATCH START RALLY (Kickoff Phase - Combined RU + EN)
+    // 1. MATCH START RALLY (Kickoff Phase - Dual RU + EN)
     // =========================================================================
     const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
-⚡ Выходим на поле и забираем победу!
-⚽ Обязательно сыграть ВСЕ 3/3 попытки.
-⛔ 0 оправданий. Пропуск ходов = кик!`;
+⚡ Выходим на поле за победой!
+⚽ Обязательно сыграть ВСЕ 3/3.
+⛔ Пропуск ходов = КИК ИЗ ЛИГИ!`;
 
     const rallyEN = `⚔️ БРАТВА: TOURNAMENT IS LIVE!
-⚡ Enter the pitch and secure the win!
-⚽ Mandatory: complete all 3/3 attempts.
-⛔ Zero excuses. Missed turns = kick!`;
+⚡ Enter the pitch for the win!
+⚽ Mandatory to play all 3/3.
+⛔ Missed turns = LEAGUE KICK!`;
 
     const rallyCombined = `${rallyRU}
------------------------
+${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Live In-Game Urgent Call for Remaining Turns)
+    // 2. LIVE MATCH WARNING (In-Game Urgent Countdown Call)
     // =========================================================================
     const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
 ⏳ До конца турнира мало времени!
-⛔ Должники (сыграйте 3/3 немедленно!):
-▶️ [Имя игрока] [Осталось: 3/3]
-❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
+⛔ Срочно сыграть 3/3 попытки:
+[ ⏳ | RÈDHAWK前 | 3/3 ]
+[ ⏳ | Mohamed_Osama | 3/3 ]
+❌ Пропуск ходов = КИК ИЗ ЛИГИ!`;
 
     const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
-⏳ Match is ending soon on the clock!
-⛔ Unplayed (Play your 3/3 turns NOW!):
-▶️ [Player Name] [Remaining: 3/3]
-❌ Incomplete turns = IMMEDIATE KICK!`;
+⏳ Match ending soon on the clock!
+⛔ Mandatory to complete 3/3 now:
+[ ⏳ | RÈDHAWK前 | 3/3 ]
+[ ⏳ | Mohamed_Osama | 3/3 ]
+❌ Incomplete turns = LEAGUE KICK!`;
+
+    const liveCombined = `${liveRU}
+${dDivider}
+${liveEN}`;
 
     // =========================================================================
-    // 3. LAST MATCH RECAP (Post-Match Score & MVP Review - Combined RU + EN)
+    // 3. LAST MATCH RECAP (Post-Match Score & MVP Review - Boxed Ranks)
     // =========================================================================
     const lastT = completed[0] || {};
     const lastOpp = lastT.opponent_league || 'РОССИЯ';
@@ -2797,21 +2804,27 @@ ${rallyEN}`;
     const resWordEN = isWin ? 'VICTORY' : 'RESULT';
 
     const reviewRU = `⭐ БРАТВА: ${resWordRU} vs ${lastOpp}
-⚽ Счет матча: ${lastOurScore} - ${lastOppScore}
-✨ Топ: 1) ${mp1} (${mp1Goals}G) 2) ${mp2} (${mp2Goals}G) 3) ${mp3} (${mp3Goals}G)
-⚡ Сделаем выводы и победим в следующем!`;
+⚽ Счет: ${lastOurScore} - ${lastOppScore}
+✨ ТОП БОМБАРДИРЫ:
+[ 1 | ${mp1} | ${mp1Goals}G ]
+[ 2 | ${mp2} | ${mp2Goals}G ]
+[ 3 | ${mp3} | ${mp3Goals}G ]
+⚡ В следующий раз побеждаем!`;
 
     const reviewEN = `⭐ БРАТВА: ${resWordEN} vs ${lastOpp}
-⚽ Match Score: ${lastOurScore} - ${lastOppScore}
-✨ Top: 1) ${mp1} (${mp1Goals}G) 2) ${mp2} (${mp2Goals}G) 3) ${mp3} (${mp3Goals}G)
-⚡ Focus up and conquer the next match!`;
+⚽ Score: ${lastOurScore} - ${lastOppScore}
+✨ TOP SCORERS:
+[ 1 | ${mp1} | ${mp1Goals}G ]
+[ 2 | ${mp2} | ${mp2Goals}G ]
+[ 3 | ${mp3} | ${mp3Goals}G ]
+⚡ Next match we conquer!`;
 
     const reviewCombined = `${reviewRU}
------------------------
+${dDivider}
 ${reviewEN}`;
 
     // =========================================================================
-    // 4. STRIKES & WARNINGS (Post-Match Strike Penalty Notice for Missed Turns)
+    // 4. STRIKES & WARNINGS (Post-Match Disciplinary Notice - Boxed Debtors)
     // =========================================================================
     const missedPlayers = [];
     if (lastT.matches && state.players) {
@@ -2819,26 +2832,29 @@ ${reviewEN}`;
         const turns = m.turns_played !== undefined ? m.turns_played : 0;
         if (turns < rules.minTurnsPerTournament) {
           const pName = m.player_display_name || ((state.players || []).find(p => p.player_id === m.player_id)?.display_name || m.player_id);
-          missedPlayers.push(`▶️ ${pName} [${turns}/${rules.minTurnsPerTournament}]`);
+          missedPlayers.push(`[ ❌ | ${pName} | ${turns}/${rules.minTurnsPerTournament} ]`);
         }
       });
     }
 
     let warnRU = '';
     let warnEN = '';
+    let warnCombined = '';
     if (missedPlayers.length > 0) {
       const pList = missedPlayers.join('\n');
       warnRU = `❗ БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
-⛔ Игроки с долгами (1/${rules.maxMissesKick}):
+⛔ Должники (Страйк 1/${rules.maxMissesKick}):
 ${pList}
-⚽ Отыграйте 3/3 в следующем матче!
-❌ Повторный пропуск = исключение!`;
+⚽ Отыграйте 3/3 в следующем матче!`;
 
       warnEN = `❗ БРАТВА: STRIKE NOTICE!
-⛔ Flagged players (Strike 1/${rules.maxMissesKick}):
+⛔ Flagged (Strike 1/${rules.maxMissesKick}):
 ${pList}
-⚽ Complete 3/3 turns in next match!
-❌ Repeated miss = permanent expulsion!`;
+⚽ Complete 3/3 in next match!`;
+
+      warnCombined = `${warnRU}
+${dDivider}
+${warnEN}`;
     } else {
       warnRU = `✅ БРАТВА: 100% ДИСЦИПЛИНА!
 ⚽ Все игроки отыграли все 3/3 попытки.
@@ -2849,25 +2865,29 @@ ${pList}
 ⚽ All squad members completed 3/3 turns.
 ✨ 0 infractions recorded in match.
 ⚡ Excellent discipline, keep it up!`;
+
+      warnCombined = `${warnRU}
+${dDivider}
+${warnEN}`;
     }
 
     // =========================================================================
-    // 5. LEAGUE RULES (Permanent Constitution - Combined RU + EN)
+    // 5. LEAGUE RULES (Permanent Constitution - Boxed Rules)
     // =========================================================================
     const rulesRU = `ℹ️ ПРАВИЛА БРАТВА:
-1) Обязательно 3/3 попытки в каждом матче.
-2) Пропуск ${rules.maxMissesKick} турниров = кик.
-3) Планка: ${rules.minGoalsPerTournament}+ голов.
-4) Оценка активности: за ${rules.evaluationHorizon} турнира.`;
+[ 1 ] Обязательно 3/3 в матче
+[ 2 ] Пропуск ${rules.maxMissesKick} турниров = кик
+[ 3 ] Планка: ${rules.minGoalsPerTournament}+ голов
+[ 4 ] Оценка за ${rules.evaluationHorizon} турнира`;
 
     const rulesEN = `ℹ️ БРАТВА RULES:
-1) Mandatory 3/3 attempts every match.
-2) Missing ${rules.maxMissesKick} tournaments = kick.
-3) Scoring target: ${rules.minGoalsPerTournament}+ goals.
-4) Activity horizon: last ${rules.evaluationHorizon} matches.`;
+[ 1 ] Mandatory 3/3 every match
+[ 2 ] Missing ${rules.maxMissesKick} tournaments = kick
+[ 3 ] Scoring target: ${rules.minGoalsPerTournament}+ goals
+[ 4 ] Evaluation: last ${rules.evaluationHorizon} matches`;
 
     const rulesCombined = `${rulesRU}
------------------------
+${dDivider}
 ${rulesEN}`;
 
     return [
@@ -2886,7 +2906,8 @@ ${rulesEN}`;
         title: t('b_title_live_warning'),
         badge: t('b_badge_live_warning'),
         timing: t('b_timing_live_warning'),
-        is_combined: false,
+        is_combined: true,
+        text_combined: liveCombined,
         text_ru: liveRU,
         text_en: liveEN
       },
@@ -2905,7 +2926,8 @@ ${rulesEN}`;
         title: t('b_title_warnings'),
         badge: t('b_badge_warnings'),
         timing: t('b_timing_warnings'),
-        is_combined: false,
+        is_combined: true,
+        text_combined: warnCombined,
         text_ru: warnRU,
         text_en: warnEN
       },
@@ -2946,48 +2968,18 @@ ${rulesEN}`;
               <span class="b-timing-val">${escapeHTML(c.timing)}</span>
             </div>
 
-            ${c.is_combined ? `
-              <!-- Unified Combined Dual Language Block (RU + '-----------------------' + EN) -->
-              <div class="b-lang-block combined-block" style="width: 100%;">
-                <div class="b-lang-header">
-                  <span class="b-lang-flag-title">🇷🇺 RU + 🇬🇧 EN (DUAL FORMAT)</span>
-                  <span class="b-lang-char-badge" style="background: rgba(0, 230, 118, 0.2); border-color: rgba(0, 230, 118, 0.4); color: #00e676;">${c.text_combined.length} CHARS</span>
-                </div>
-                <div class="b-chat-preview-box" id="bpreview-${c.id}-comb" style="min-height: 120px;">${escapeHTML(c.text_combined)}</div>
-                <button class="b-copy-single-btn combined-btn" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(56, 189, 248, 0.35)); border-color: rgba(168, 85, 247, 0.6);" onclick="BroadcastGenerator.copyCombinedMessage('${c.id}', this)">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                  <span style="font-weight: 800; letter-spacing: 0.5px;">${t('b_copy_combined_btn') || 'COPY DUAL MESSAGE [RU + EN]'}</span>
-                </button>
+            <!-- Unified Dual Language Block (RU + Double Line Divider + EN) -->
+            <div class="b-lang-block combined-block" style="width: 100%;">
+              <div class="b-lang-header">
+                <span class="b-lang-flag-title">🇷🇺 RU + 🇬🇧 EN (DUAL FORMAT)</span>
+                <span class="b-lang-char-badge" style="background: rgba(0, 230, 118, 0.2); border-color: rgba(0, 230, 118, 0.4); color: #00e676;">${c.text_combined.length} CHARS</span>
               </div>
-            ` : `
-              <div class="b-lang-grid">
-                <!-- Russian Block -->
-                <div class="b-lang-block">
-                  <div class="b-lang-header">
-                    <span class="b-lang-flag-title">🇷🇺 RUSSIAN (RU)</span>
-                    <span class="b-lang-char-badge">${c.text_ru.length} CHARS</span>
-                  </div>
-                  <div class="b-chat-preview-box" id="bpreview-${c.id}-ru">${escapeHTML(c.text_ru)}</div>
-                  <button class="b-copy-single-btn" onclick="BroadcastGenerator.copySingleMessage('${c.id}', 'ru', this)">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    <span>${t('b_copy_ru_btn') || 'COPY RUSSIAN [RU]'}</span>
-                  </button>
-                </div>
-
-                <!-- English Block -->
-                <div class="b-lang-block">
-                  <div class="b-lang-header">
-                    <span class="b-lang-flag-title">🇬🇧 ENGLISH (EN)</span>
-                    <span class="b-lang-char-badge">${c.text_en.length} CHARS</span>
-                  </div>
-                  <div class="b-chat-preview-box" id="bpreview-${c.id}-en">${escapeHTML(c.text_en)}</div>
-                  <button class="b-copy-single-btn" onclick="BroadcastGenerator.copySingleMessage('${c.id}', 'en', this)">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    <span>${t('b_copy_en_btn') || 'COPY ENGLISH [EN]'}</span>
-                  </button>
-                </div>
-              </div>
-            `}
+              <div class="b-chat-preview-box" id="bpreview-${c.id}-comb" style="min-height: 140px; line-height: 1.45;">${escapeHTML(c.text_combined)}</div>
+              <button class="b-copy-single-btn combined-btn" style="background: linear-gradient(135deg, rgba(168, 85, 247, 0.35), rgba(56, 189, 248, 0.35)); border-color: rgba(168, 85, 247, 0.6);" onclick="BroadcastGenerator.copyCombinedMessage('${c.id}', this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span style="font-weight: 800; letter-spacing: 0.5px;">${t('b_copy_combined_btn') || 'COPY DUAL MESSAGE [RU + EN]'}</span>
+              </button>
+            </div>
           </div>
         </div>
       `;
