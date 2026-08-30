@@ -2750,11 +2750,13 @@ const BroadcastGenerator = {
     // 1. MATCH START RALLY (Kickoff Phase - Dual RU + EN)
     // =========================================================================
     const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
+⚽ Соперник: ROYAL CHALLENGER
 ⚡ Выходим на поле за победой!
 ⚽ Обязательно сыграть ВСЕ 3/3.
 ⛔ Пропуск ходов = КИК ИЗ ЛИГИ!`;
 
     const rallyEN = `⚔️ БРАТВА: TOURNAMENT IS LIVE!
+⚽ Opponent: ROYAL CHALLENGER
 ⚡ Enter the pitch for the win!
 ⚽ Mandatory to play all 3/3.
 ⛔ Missed turns = LEAGUE KICK!`;
@@ -2764,19 +2766,28 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (In-Game Countdown - ATTENTION + NAMES FIRST!)
+    // 2. LIVE MATCH WARNING (Active vs ROYAL CHALLENGER - 205 - 0, 9 unplayed)
     // =========================================================================
     const liveHeader = `❗ ВНИМАНИЕ / ATTENTION PLEASE ❗
-[ ⏳ | RÈDHAWK前 | 3/3 ]
-[ ⏳ | Mohamed_Osama | 3/3 ]`;
+[ ⏳ | KOUSTAV_007 | 3/3 ]
+[ ⏳ | ProGamer | 3/3 ]
+[ ⏳ | Mike | 3/3 ]
+[ ⏳ | Dip | 3/3 ]
+[ ⏳ | Omar | 3/3 ]
+[ ⏳ | yazaaa_ya | 3/3 ]
+[ ⏳ | John_Tony | 3/3 ]
+[ ⏳ | MEE | 3/3 ]
+[ ⏳ | Тима | 2/3 ]`;
 
     const liveRU = `⚡ БРАТВА: СРОЧНО В ИГРУ!
-⏳ До конца турнира мало времени!
+⚽ Матч vs ROYAL CHALLENGER (205 - 0)
+⏳ До конца турнира: ~22 часа
 ⚽ Обязательно доиграйте 3/3 попытки!
 ❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
 
     const liveEN = `⚡ БРАТВА: URGENT MATCH CALL!
-⏳ Match is ending soon on the clock!
+⚽ Match vs ROYAL CHALLENGER (205 - 0)
+⏳ Time remaining: ~22 hours
 ⚽ Mandatory: play your 3/3 turns NOW!
 ❌ Incomplete turns = LEAGUE KICK!`;
 
@@ -3248,11 +3259,18 @@ const LeagueNewsModal = {
         sub: 'Real-time tournament events, notices, and match intelligence',
         items: [
           {
-            tag: 'RECENT MATCH',
+            tag: 'LIVE TOURNAMENT',
             tagClass: 'badge-live',
-            time: '2h Ago',
+            time: '~22h Remaining',
+            title: 'Active Battle: БРАТВА 205 - 0 ROYAL CHALLENGER',
+            desc: 'Dominant 205 - 0 lead (21/48 turns completed). 9 squad members have unplayed turns remaining. Complete 3/3 to secure win!'
+          },
+          {
+            tag: 'RECENT MATCH',
+            tagClass: 'badge-loss',
+            time: 'Previous Match',
             title: 'Match Concluded: БРАТВА 159 - 181 РОССИЯ',
-            desc: 'Tough battle vs РОССИЯ. Squad played 18/24 turns. Top scorers: саня (33G), Omar (27G), DOXIBÉRO (26G), Mike (26G).'
+            desc: 'Tough battle vs РОССИЯ. Top scorers: саня (33G), Omar (27G), DOXIBÉRO (26G), Mike (26G).'
           },
           {
             tag: 'PREVIOUS VICTORY',
