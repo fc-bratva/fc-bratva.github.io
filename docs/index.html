@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=5300">
+  <link rel="stylesheet" href="style.css?v=5400">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -193,36 +193,48 @@
 
       <!-- TAB: RULES & ADMIN DISPATCH HUB -->
       <section class="tab-page" id="tab-rules">
-        <!-- 1. Broadcast Generator Accordion List (4-in-1 Multilingual In-Game FCM Chat Ready) -->
-        <div class="note-card">
-          <div class="card-title-bar">
-            <div class="card-title" data-i18n="broadcast_dispatch_title">IN-GAME BROADCAST DISPATCH</div>
+        <!-- 1. Master Passcode Locked View for Entire Tab -->
+        <div class="note-card admin-lock-card" id="admin-locked-view">
+          <div class="admin-lock-badge-icon">[ ADMIN LOCK ]</div>
+          <div class="admin-lock-title" data-i18n="admin_panel_title">ADMIN DISPATCH &amp; CONTROLS</div>
+          <div class="rules-hint-text" style="text-align: center; margin-bottom: 16px;">
+            This section is restricted to League Administrators. Enter passcode to access in-game message dispatcher and rule controls.
           </div>
-          <div class="rules-hint-text" data-i18n="broadcast_hint">
-            Official 4-in-1 multilingual announcements (RU, EN, AR, ES) formatted specifically for EA FC Mobile continuous chat. Tap any section to expand and copy all at once!
+          <div class="admin-passcode-form">
+            <input type="password" id="admin-passcode-input" class="admin-pin-input" placeholder="Enter Admin Passcode..." autocomplete="off" />
+            <button class="admin-unlock-btn" id="admin-unlock-btn" data-i18n="unlock_btn">UNLOCK</button>
           </div>
-
-          <div class="broadcast-accordion-list" id="broadcast-accordion-list">
-            <!-- Dynamically populated 6 Accordion Cards with Arrow Down & 4-in-1 Content -->
-          </div>
+          <div id="admin-pin-error" class="admin-pin-error"></div>
         </div>
 
-        <!-- 2. Cryptographically Locked Admin Control Center -->
-        <div class="note-card admin-lock-card" id="admin-lock-card">
-          <div id="admin-locked-view" class="admin-locked-view">
-            <div class="admin-lock-badge-icon">[ ADMIN LOCK ]</div>
-            <div class="admin-lock-title" data-i18n="admin_panel_title">ADMIN RULES & CONTROLS</div>
-            <div class="admin-passcode-form">
-              <input type="password" id="admin-passcode-input" class="admin-pin-input" placeholder="Enter Admin Passcode..." autocomplete="off" />
-              <button class="admin-unlock-btn" id="admin-unlock-btn" data-i18n="unlock_btn">UNLOCK</button>
+        <!-- 2. Unlocked Full Tab View (Messages + Admin Controls with Swipe Lock) -->
+        <div id="admin-unlocked-view" style="display: none;">
+          <!-- Top Unlocked Header Bar -->
+          <div class="note-card" style="padding: 14px 18px; margin-bottom: 14px;">
+            <div class="admin-unlocked-header" style="margin-bottom: 0;">
+              <div class="admin-status-badge">⚡ ADMIN ACCESS GRANTED</div>
+              <button class="admin-lock-now-btn" id="admin-lock-now-btn">🔒 LOCK TAB</button>
             </div>
-            <div id="admin-pin-error" class="admin-pin-error"></div>
           </div>
 
-          <div id="admin-unlocked-view" class="admin-unlocked-view" style="display: none;">
-            <div class="admin-unlocked-header">
-              <div class="admin-status-badge">ADMIN ACCESS GRANTED</div>
-              <button class="admin-lock-now-btn" id="admin-lock-now-btn">LOCK PANEL</button>
+          <!-- Section 1: In-Game Broadcast Messages Dispatcher -->
+          <div class="note-card">
+            <div class="card-title-bar">
+              <div class="card-title" data-i18n="broadcast_dispatch_title">IN-GAME BROADCAST DISPATCH</div>
+            </div>
+            <div class="rules-hint-text" data-i18n="broadcast_hint">
+              Official announcements formatted for EA FC Mobile continuous chat. Tap any card to expand and copy RU or EN messages!
+            </div>
+
+            <div class="broadcast-accordion-list" id="broadcast-accordion-list">
+              <!-- Dynamically populated 5 Accordion Cards -->
+            </div>
+          </div>
+
+          <!-- Section 2: Admin Rule Controls (Protected with Swipe-to-Edit Slider) -->
+          <div class="note-card">
+            <div class="card-title-bar">
+              <div class="card-title" data-i18n="admin_panel_title">ADMIN RULES &amp; CONTROLS</div>
             </div>
 
             <!-- Swipe to Edit Safety Slider -->
@@ -278,7 +290,7 @@
             </div>
 
             <div class="admin-actions-bar">
-              <button class="admin-save-btn" id="admin-save-rules-btn" data-i18n="save_recalculate">SAVE & RECALCULATE SYSTEM</button>
+              <button class="admin-save-btn" id="admin-save-rules-btn" data-i18n="save_recalculate">SAVE &amp; RECALCULATE SYSTEM</button>
               <button class="admin-reset-btn" id="admin-reset-rules-btn">RESET DEFAULTS</button>
             </div>
             <div id="admin-save-feedback" class="admin-save-feedback"></div>
@@ -376,6 +388,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=5300"></script>
+<script src="app.js?v=5400"></script>
 </body>
 </html>

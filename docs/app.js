@@ -2535,6 +2535,7 @@ const RulesManager = {
       if (lockedView) lockedView.style.display = 'none';
       if (unlockedView) {
         unlockedView.style.display = 'block';
+        if (typeof BroadcastGenerator !== 'undefined') BroadcastGenerator.render();
         if (typeof AdminSwipeLock !== 'undefined') AdminSwipeLock.init();
       }
       this.populateFormFields();
