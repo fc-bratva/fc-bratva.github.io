@@ -2829,7 +2829,7 @@ ${dDivider}
 ${reviewEN}`;
 
     // =========================================================================
-    // 4. STRIKES & WARNINGS (Post-Match - ATTENTION + DEBTOR NAMES FIRST!)
+    // 4. STRIKES & WARNINGS (Ultra-Short: Debtors + Strike Notice + Instant Rule)
     // =========================================================================
     const missedPlayers = [];
     if (lastT.matches && state.players) {
@@ -2849,15 +2849,8 @@ ${reviewEN}`;
       const pList = missedPlayers.join('\n');
       const strikesHeader = `❗ ВНИМАНИЕ / ATTENTION PLEASE ❗\n${pList}`;
 
-      warnRU = `⛔ БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
-⚠️ Игроки с долгами (Страйк 1/${rules.maxMissesKick}).
-⚽ Отыграйте 3/3 в следующем матче!
-❌ Повторный пропуск = КИК ИЗ ЛИГИ!`;
-
-      warnEN = `⛔ БРАТВА: STRIKE NOTICE!
-⚠️ Flagged players (Strike 1/${rules.maxMissesKick}).
-⚽ Complete 3/3 in next tournament!
-❌ Repeated miss = PERMANENT EXPULSION!`;
+      warnRU = `⛔ Страйк 1/${rules.maxMissesKick}! Обязательно 3/3 в след. матче, иначе кик!`;
+      warnEN = `⛔ Strike 1/${rules.maxMissesKick}! Must play 3/3 in next match or get kicked!`;
 
       warnCombined = `${strikesHeader}
 ${dDivider}
@@ -2865,13 +2858,8 @@ ${warnRU}
 ${dDivider}
 ${warnEN}`;
     } else {
-      warnRU = `✅ БРАТВА: 100% ДИСЦИПЛИНА!
-⚽ Все игроки отыграли все 3/3 попытки.
-✨ 0 нарушений в прошедшем матче!`;
-
-      warnEN = `✅ БРАТВА: 100% DISCIPLINE!
-⚽ All squad members completed 3/3 turns.
-✨ 0 infractions recorded in match!`;
+      warnRU = `✅ 100% ДИСЦИПЛИНА! Все 3/3 сыграны!`;
+      warnEN = `✅ 100% DISCIPLINE! All 3/3 played!`;
 
       warnCombined = `${warnRU}
 ${dDivider}
