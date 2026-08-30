@@ -1352,13 +1352,15 @@ function autoDetectLanguage() {
 function setLanguage(langCode) {
   if (!I18N[langCode]) return;
   state.lang = langCode;
+  state.currentLang = langCode;
   localStorage.setItem('fcm_lang', langCode);
   const dict = I18N[langCode];
 
   document.documentElement.setAttribute('dir', dict.dir);
   document.documentElement.setAttribute('lang', langCode);
 
-  document.getElementById('current-lang-code').textContent = langCode.toUpperCase();
+  const langCodeEl = document.getElementById('current-lang-code');
+  if (langCodeEl) langCodeEl.textContent = langCode.toUpperCase();
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
@@ -1371,6 +1373,8 @@ function setLanguage(langCode) {
   });
 
   renderAll();
+  if (typeof LeagueRulesModal !== 'undefined' && LeagueRulesModal.isOpen) LeagueRulesModal.render();
+  if (typeof LeagueNewsModal !== 'undefined' && LeagueNewsModal.isOpen) LeagueNewsModal.render();
 }
 
 function escapeHTML(str) {
@@ -3028,7 +3032,7 @@ const LeagueRulesModal = {
     if (!container) return;
 
     const rules = RulesManager.currentRules || RulesManager.defaultRules;
-    const lang = state.currentLang || 'en';
+    const lang = state.lang || localStorage.getItem('fcm_lang') || 'en';
 
     const translations = {
       en: {
@@ -3176,7 +3180,7 @@ const LeagueNewsModal = {
     const container = document.getElementById('league-news-modal-content');
     if (!container) return;
 
-    const lang = state.currentLang || 'en';
+    const lang = state.lang || localStorage.getItem('fcm_lang') || 'en';
     const rules = RulesManager.currentRules || RulesManager.defaultRules;
 
     const newsData = {
@@ -3479,6 +3483,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 if (typeof window !== 'undefined') {
+  window.setLanguage = setLanguage;
+  window.state = state;
   window.LeagueRulesModal = LeagueRulesModal;
   window.LeagueNewsModal = LeagueNewsModal;
   window.AdminSwipeLock = AdminSwipeLock;

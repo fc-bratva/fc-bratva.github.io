@@ -2292,3 +2292,19 @@ body.modal-open {
   line-height: 1.5;
   margin: 0;
 }
+
+/* RTL Support for Rules and News Modals */
+[dir="rtl"] .rules-modal-tile,
+[dir="rtl"] .news-feed-card {
+  text-align: right;
+  direction: rtl;
+}
+[dir="rtl"] .rules-modal-tile-content h4,
+[dir="rtl"] .rules-modal-tile-content p,
+[dir="rtl"] .news-feed-item-title,
+[dir="rtl"] .news-feed-item-desc {
+  text-align: right;
+}
+[dir="rtl"] .news-feed-card-header {
+  flex-direction: row-reverse;
+}
