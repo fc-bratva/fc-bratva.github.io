@@ -1642,43 +1642,96 @@ body.modal-open {
   font-weight: 600;
 }
 
+.b-lang-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 768px) {
+  .b-lang-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.b-lang-block {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.b-lang-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.b-lang-flag-title {
+  font-family: var(--font-main);
+  font-weight: 800;
+  font-size: 0.78rem;
+  color: var(--ucl-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.b-lang-char-badge {
+  font-family: monospace, sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
 .b-chat-preview-box {
   background: rgba(0, 0, 0, 0.65);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 12px 14px;
+  padding: 10px 12px;
   font-family: monospace, sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   color: #f1f5f9;
-  line-height: 1.55;
+  line-height: 1.5;
   word-break: break-word;
   user-select: all;
   border-left: 3px solid var(--ucl-cyan);
+  flex-grow: 1;
+  min-height: 80px;
+  white-space: pre-wrap;
 }
 
-.b-copy-full-btn {
-  background: rgba(192, 132, 252, 0.18);
-  border: 1px solid rgba(192, 132, 252, 0.5);
+.b-copy-single-btn {
+  background: rgba(192, 132, 252, 0.16);
+  border: 1px solid rgba(192, 132, 252, 0.45);
   color: var(--ucl-cyan);
   font-family: var(--font-main);
-  font-weight: 900;
-  font-size: 0.82rem;
-  padding: 10px 16px;
+  font-weight: 800;
+  font-size: 0.78rem;
+  padding: 8px 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   transition: all 0.15s ease;
   width: 100%;
 }
-.b-copy-full-btn:hover {
+.b-copy-single-btn:hover {
   background: var(--ucl-cyan);
   color: #000000;
   border-color: var(--ucl-cyan);
 }
-.b-copy-full-btn.copied {
+.b-copy-single-btn.copied {
   background: var(--ucl-win) !important;
   color: #000000 !important;
   border-color: var(--ucl-win) !important;

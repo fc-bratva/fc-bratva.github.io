@@ -72,8 +72,7 @@ const I18N = {
     stamp_draw: 'DRAW',
     stamp_played: 'PLAYED',
     vs_match: 'vs {opp}',
-    broadcast_dispatch_title: 'In-Game Broadcast Dispatch',
-    broadcast_hint: 'Official 4-in-1 multilingual announcements (RU, EN, AR, ES) formatted specifically for EA FC Mobile continuous chat. Tap any section to expand and copy all at once!',
+    broadcast_hint: 'Official in-game announcements formatted strictly within EA FC Mobile chat limits. Copy RU or EN text separately!',
     admin_panel_title: 'ADMIN RULES & CONTROLS',
     unlock_btn: 'UNLOCK',
     save_recalculate: 'SAVE & RECALCULATE SYSTEM',
@@ -84,7 +83,8 @@ const I18N = {
     rule_min_goals: 'Minimum Goals Target (3 Turns)',
     rule_horizon: 'Attendance Evaluation Horizon',
     b_posting_deadline: 'POSTING DEADLINE:',
-    b_copy_4in1_btn: 'COPY 4-IN-1 MESSAGE (ALL LANGUAGES)',
+    b_copy_ru_btn: 'COPY RUSSIAN [RU]',
+    b_copy_en_btn: 'COPY ENGLISH [EN]',
     b_copied_toast: 'COPIED TO CLIPBOARD! ✓',
     b_title_live_warning: 'LIVE MATCH FINAL WARNING (REMAINING TIME)',
     b_badge_live_warning: 'LIVE URGENT',
@@ -170,8 +170,7 @@ const I18N = {
     stamp_draw: 'تعادل',
     stamp_played: 'لعب',
     vs_match: 'ضد {opp}',
-    broadcast_dispatch_title: 'مركز رسائل الشات للعبة',
-    broadcast_hint: 'رسائل موحدة بـ 4 لغات (الروسية، الإنجليزية، العربية، الإسبانية) مخصصة لشات EA FC Mobile. اضغط على أي قسم لفتحه ونسخ الرسالة كاملة!',
+    broadcast_hint: 'رسائل الشات الرسمية مهيأة لتناسب الحد الأقصى لأحرف EA FC Mobile. انسخ النص بالروسية أو الإنجليزية بشكل منفصل!',
     admin_panel_title: 'لوحة تحكم القوانين للمشرفين',
     unlock_btn: 'فتح القفل',
     save_recalculate: 'حفظ وإعادة حساب النظام',
@@ -182,7 +181,8 @@ const I18N = {
     rule_min_goals: 'الهدف الأدنى للأهداف المطلوبة',
     rule_horizon: 'فترة تقييم الحضور والأداء',
     b_posting_deadline: 'موعد النشر في الشات:',
-    b_copy_4in1_btn: 'نسخ الرسالة الموحدة (4 لغات معاً)',
+    b_copy_ru_btn: 'نسخ النص بالروسية [RU]',
+    b_copy_en_btn: 'نسخ النص بالإنجليزية [EN]',
     b_copied_toast: 'تم النسخ بنجاح! ✓',
     b_title_live_warning: 'إنذار عاجل للمباراة الحالية (الوقت المتبقي)',
     b_badge_live_warning: 'مباشر وعاجل',
@@ -268,8 +268,7 @@ const I18N = {
     stamp_draw: 'НИЧЬЯ',
     stamp_played: 'СЫГРАНО',
     vs_match: 'против {opp}',
-    broadcast_dispatch_title: 'Генератор сообщений для чата',
-    broadcast_hint: 'Официальные сообщения 4-в-1 (RU, EN, AR, ES) для чата EA FC Mobile. Нажмите на любой раздел, чтобы развернуть и скопировать всё сразу!',
+    broadcast_hint: 'Официальные сообщения для чата лиги с учетом лимита символов EA FC Mobile. Копируйте RU или EN текст отдельно!',
     admin_panel_title: 'ПАНЕЛЬ УПРАВЛЕНИЯ ПРАВИЛАМИ',
     unlock_btn: 'РАЗБЛОКИРОВАТЬ',
     save_recalculate: 'СОХРАНИТЬ И ПЕРЕСЧИТАТЬ СИСТЕМУ',
@@ -280,7 +279,8 @@ const I18N = {
     rule_min_goals: 'Минимум голов за турнир',
     rule_horizon: 'Период оценки активности',
     b_posting_deadline: 'ВРЕМЯ ПУБЛИКАЦИИ В ЧАТЕ:',
-    b_copy_4in1_btn: 'СКОПИРОВАТЬ 4-В-1 (ВСЕ ЯЗЫКИ)',
+    b_copy_ru_btn: 'СКОПИРОВАТЬ [RU]',
+    b_copy_en_btn: 'СКОПИРОВАТЬ [EN]',
     b_copied_toast: 'СКОПИРОВАНО В БУФЕР! ✓',
     b_title_live_warning: 'СРОЧНЫЙ ПРИЗЫВ: ТУРНИР ИДЕТ (ОСТАЛОСЬ ВРЕМЯ)',
     b_badge_live_warning: 'МАТЧ ИДЕТ / СРОЧНО',
@@ -367,7 +367,7 @@ const I18N = {
     stamp_played: 'JUGADO',
     vs_match: 'vs {opp}',
     broadcast_dispatch_title: 'Despacho de Mensajes para el Chat',
-    broadcast_hint: 'Anuncios oficiales 4 en 1 (RU, EN, AR, ES) formateados para el chat de EA FC Mobile. ¡Toca cualquier sección para abrirla y copiarla al instante!',
+    broadcast_hint: 'Anuncios oficiales adaptados al límite de caracteres de EA FC Mobile. ¡Copia el texto en RU o EN por separado!',
     admin_panel_title: 'PANEL DE CONTROL DE REGLAS',
     unlock_btn: 'DESBLOQUEAR',
     save_recalculate: 'GUARDAR Y RECALCULAR SISTEMA',
@@ -378,7 +378,8 @@ const I18N = {
     rule_min_goals: 'Objetivo mínimo de goles',
     rule_horizon: 'Periodo de evaluación de asistencia',
     b_posting_deadline: 'MOMENTO DE PUBLICACIÓN:',
-    b_copy_4in1_btn: 'COPIAR MENSAJE 4 EN 1 (TODOS LOS IDIOMAS)',
+    b_copy_ru_btn: 'COPIAR RUSO [RU]',
+    b_copy_en_btn: 'COPIAR INGLÉS [EN]',
     b_copied_toast: '¡COPIADO AL PORTAPAPELES! ✓',
     b_title_live_warning: 'AVISO URGENTE: PARTIDO EN VIVO (TIEMPO RESTANTE)',
     b_badge_live_warning: 'EN VIVO / URGENTE',
@@ -1577,7 +1578,7 @@ function renderAll() {
   renderTournaments();
   renderRoster();
   renderLeaderboard();
-  if (typeof RulesManager !== 'undefined') RulesManager.render();
+  if (typeof BroadcastGenerator !== 'undefined') BroadcastGenerator.render();
   setTimeout(() => SilkBadges3DManager.mountAll(), 30);
 }
 
@@ -2620,6 +2621,11 @@ const RulesManager = {
     const sMaxMisses = document.getElementById('input-max-misses');
     const sMinTurns = document.getElementById('input-min-turns');
     const sMinGoals = document.getElementById('input-min-goals');
+    const sHorizon = document.getElementById('input-horizon');
+
+    const vMaxMisses = document.getElementById('val-max-misses');
+    const vMinTurns = document.getElementById('val-min-turns');
+    const vMinGoals = document.getElementById('val-min-goals');
     const vHorizon = document.getElementById('val-horizon');
 
     const rules = this.currentRules || this.defaultRules;
@@ -2630,73 +2636,15 @@ const RulesManager = {
     if (sHorizon) sHorizon.value = rules.evaluationHorizon;
 
     if (vMaxMisses) vMaxMisses.textContent = `${rules.maxMissesKick} Fails`;
-    if (vMinTurns) vMinTurns.textContent = `${rules.minTurnsPerTournament} / 3 Turns`;
-    if (vMinGoals) vMinGoals.textContent = `${rules.minGoalsPerTournament} Goals`;
-    if (vHorizon) vHorizon.textContent = `Last ${rules.evaluationHorizon} Matches`;
-  },
-
-  recalculateSystem(triggerRenders = true) {
-    if (!state.players || !state.tournaments) return;
-
-    const rules = this.currentRules || this.defaultRules;
-    const horizon = rules.evaluationHorizon || 3;
-    const minTurns = rules.minTurnsPerTournament || 3;
-    const maxMisses = rules.maxMissesKick || 2;
-
-    const recentTourneys = state.tournaments.slice(0, horizon);
-
-    state.players.forEach(player => {
-      let failStreak = 0;
-      for (const t of recentTourneys) {
-        const m = (t.matches || []).find(match => match.player_id === player.player_id);
-        if (!m || (m.turns_played || 0) < minTurns) {
-          failStreak++;
-        } else {
-          break;
-        }
-      }
-      player.eligibility_streak = {
-        current_fail_streak: failStreak,
-        flagged_for_review: failStreak >= maxMisses
-      };
-    });
-
-    if (triggerRenders) {
-      renderDashboard();
-      renderLeaderboard();
-      renderRoster();
-      BroadcastGenerator.render();
-    }
-  },
-
-  render() {
-    if (typeof document === 'undefined') return;
-
-    const lockedView = document.getElementById('admin-locked-view');
-    const unlockedView = document.getElementById('admin-unlocked-view');
-
-    if (this.isUnlocked) {
-      if (lockedView) lockedView.style.display = 'none';
-      if (unlockedView) unlockedView.style.display = 'block';
-      this.populateFormFields();
-    } else {
-      if (lockedView) lockedView.style.display = 'block';
-      if (unlockedView) unlockedView.style.display = 'none';
-    }
-
-    BroadcastGenerator.render();
+    if (vMinTurns) vMinTurns.textContent = `${rules.minTurnsPerTournament} Turns`;
+    if (vMinGoals) vMinGoals.textContent = `${rules.minGoalsPerTournament}+ Goals`;
+    if (vHorizon) vHorizon.textContent = `${rules.evaluationHorizon} Matches`;
   }
 };
 
-/* ==========================================================================
-   INTELLIGENT 4-IN-1 MULTILINGUAL BROADCAST DISPATCH ACCORDION ENGINE
-   ========================================================================== */
+// --- In-Game Chat Broadcast Dispatcher Engine (Compact RU & EN) ---
 const BroadcastGenerator = {
-  openAccordions: new Set(['rules']), // First one open by default
-
-  init() {
-    // Accordion click handling
-  },
+  openAccordions: new Set(['live_warning']),
 
   toggleAccordion(cardId) {
     SoundManager.playClick();
@@ -2710,88 +2658,106 @@ const BroadcastGenerator = {
 
   generateCards() {
     const rules = RulesManager.currentRules || RulesManager.defaultRules;
+    const completed = (state.tournaments || []).filter(t => t.status === 'complete');
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
-    const oppName = latestT.opponent_league || 'Opponent';
 
-    // EA FC Mobile indestructible separator: Braille Pattern Blank (\u2800) + heavy horizontal divider
-    const B_SEP = '\n⠀\n━━━━━━━━━━━━━━━━━━━━\n⠀\n';
+    // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~01h 38m, unplayed players)
+    const liveRU = `[!] БРАТВА: СРОЧНО В ИГРУ!
+Осталось ~01ч 38м! Счет: 159-181 vs РОССИЯ.
+Отыграть 3/3 немедленно:
+» RÈDHAWK前 [3/3]
+» Mohamed_Osama [3/3]
+Зайдите и забейте! Пропуск = КИК!`;
 
-    // 1. League Constitution & Rules Text (4-in-1, all 4 Admin Rules included)
-    const textRules = [
-      `[RU] [!] БРАТВА: ЧИТАТЬ ВСЕМ! ЭТИ ПРАВИЛА НЕ ОБСУЖДАЮТСЯ. НАРУШЕНИЕ = КИК:\n1) Обязательно ${rules.minTurnsPerTournament}/3 попытки в каждом турнире.\n2) Пропуск ${rules.maxMissesKick} турниров подряд = исключение без исключений.\n3) Минимальная планка: ${rules.minGoalsPerTournament}+ голов.\n4) Оценка активности и статуса ведется по последним ${rules.evaluationHorizon} турнирам.`,
-      `[EN] [!] БРАТВА: MANDATORY READ! THESE RULES ARE NON-NEGOTIABLE. BREAK THEM = GET KICKED:\n1) Mandatory ${rules.minTurnsPerTournament}/3 attempts in every tournament.\n2) Missing ${rules.maxMissesKick} consecutive tournaments = permanent expulsion.\n3) Minimum target: ${rules.minGoalsPerTournament}+ goals.\n4) Reliability & active status evaluated across the last ${rules.evaluationHorizon} tournaments.`,
-      `[AR] [!] دوري БРАТВА: قراءة إلزامية للجميع! هذه القوانين غير قابلة للنقاش، المخالفة تعني الطرد المباشر:\n1) إلزامي لعب ${rules.minTurnsPerTournament}/3 محاولات في كل بطولة.\n2) تفويت ${rules.maxMissesKick} بطولات متتالية = طرد نهائي بدون استثناء.\n3) الهدف الأدنى: ${rules.minGoalsPerTournament}+ هدف.\n4) تقييم نشاط وموثوقية اللاعبين يتم على مدار آخر ${rules.evaluationHorizon} بطولات.`,
-      `[ES] [!] БРАТВА: ¡LECTURA OBLIGATORIA! ESTAS REGLAS NO SE NEGOCIAN. INCUMPLIMIENTO = EXPULSIÓN:\n1) Obligatorio ${rules.minTurnsPerTournament}/3 turnos por torneo.\n2) Perder ${rules.maxMissesKick} torneos consecutivos = expulsión definitiva.\n3) Objetivo mínimo: ${rules.minGoalsPerTournament}+ goles.\n4) Estado y fiabilidad evaluados en base a los últimos ${rules.evaluationHorizon} torneos.`
-    ].join(B_SEP);
+    const liveEN = `[!] БРАТВА: URGENT MATCH CALL!
+~01h 38m left! Score: 159-181 vs РОССИЯ.
+Must play 3/3 turns now:
+» RÈDHAWK前 [3/3]
+» Mohamed_Osama [3/3]
+Enter & score! Incomplete = KICK!`;
 
-    // 2. Recent Tournament Warnings & Strikes Notice (4-in-1 with Single Unified Player List)
+    // 2. Pre-Tournament Match Rally (Kickoff)
+    const rallyRU = `[!] БРАТВА: ТУРНИР НАЧАЛСЯ!
+Все в игру, играем на победу. Обязательно отыграть ВСЕ 3/3 попытки. Пропуск ходов = кик из лиги!`;
+
+    const rallyEN = `[!] БРАТВА: TOURNAMENT IS LIVE!
+Join now and fight for the win. Mandatory 3/3 attempts for all players. Incomplete turns = kick!`;
+
+    // 3. Last Tournament Review & MVP Recap (vs Team Work / last completed)
+    const lastT = completed[0] || {};
+    const lastOpp = lastT.opponent_league || 'Team Work';
+    const lastOurScore = lastT.our_total_goals || 225;
+    const lastOppScore = lastT.opponent_total_goals || 144;
+    const isWin = lastT.result === 'win' || (lastOurScore > lastOppScore);
+    const matchPerformers = ((lastT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
+    const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'саня') : 'саня';
+    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 37;
+    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Mike') : 'Mike';
+    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 33;
+    const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'DOXIBÉRO') : 'DOXIBÉRO';
+    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 31;
+
+    const reviewRU = `[!] БРАТВА: ИТОГИ vs ${lastOpp}
+${isWin ? 'ПОБЕДА' : 'МАТЧ'} (${lastOurScore}-${lastOppScore})!
+👑 Топ бомбардиры:
+1) ${mp1} (${mp1Goals}G)
+2) ${mp2} (${mp2Goals}G)
+3) ${mp3} (${mp3Goals}G)
+100% явка. Отличная работа!`;
+
+    const reviewEN = `[!] БРАТВА: RECAP vs ${lastOpp}
+${isWin ? 'VICTORY' : 'MATCH'} (${lastOurScore}-${lastOppScore})!
+👑 Top Scorers:
+1) ${mp1} (${mp1Goals}G)
+2) ${mp2} (${mp2Goals}G)
+3) ${mp3} (${mp3Goals}G)
+100% turns played. Great job!`;
+
+    // 4. Recent Tournament Warnings & Strikes Notice
     const missedPlayers = [];
     if (latestT.matches && state.players) {
       state.players.forEach(p => {
         const m = latestT.matches.find(match => match.player_id === p.player_id);
         const turns = m ? (m.turns_played !== undefined ? m.turns_played : 3) : 0;
         if (turns < rules.minTurnsPerTournament) {
-          missedPlayers.push(`» ${p.display_name} [${turns}/${rules.minTurnsPerTournament} turns]`);
+          missedPlayers.push(`» ${p.display_name} [${turns}/${rules.minTurnsPerTournament}]`);
         }
       });
     }
 
-    let textWarnings = '';
+    let warnRU = '';
+    let warnEN = '';
     if (missedPlayers.length > 0) {
-      const singleRoster = `[!] INFRACTIONS / СПИСОК НАРУШИТЕЛЕЙ / المخالفات:\n${missedPlayers.join('\n')}`;
-      textWarnings = [
-        `[RU] [!] БРАТВА: ЕСЛИ ТЫ В СПИСКЕ НИЖЕ — ТЫ В ШАГЕ ОТ ВЫЛЕТА! У вас предупреждение (1/${rules.maxMissesKick}). Сыграйте все ${rules.minTurnsPerTournament}/3 хода в следующем матче или будете исключены!`,
-        `[EN] [!] БРАТВА: IF YOUR NAME IS BELOW — YOU ARE ONE STEP AWAY FROM BEING KICKED! Strike (1/${rules.maxMissesKick}) logged. Complete all ${rules.minTurnsPerTournament}/3 attempts next match or face immediate kick.`,
-        `[AR] [!] دوري БРАТВА: إذا كان اسمك في القائمة أدناه — فأنت على بُعد خطوة من الطرد النهائي! تم تسجيل إنذار (1/${rules.maxMissesKick}). أكملوا ${rules.minTurnsPerTournament}/3 محاولات لتجنب الطرد.`,
-        `[ES] [!] БРАТВА: ¡SI TU NOMBRE ESTÁ ABAJO — ESTÁS A UN PASO DE SER EXPULSADO! Sanción (1/${rules.maxMissesKick}). Jueguen los ${rules.minTurnsPerTournament}/3 turnos en el próximo partido o serán expulsados.`,
-        singleRoster
-      ].join(B_SEP);
+      const pList = missedPlayers.join('\n');
+      warnRU = `[!] БРАТВА: ПРОПУСК ХОДОВ!
+Предупреждение (1/${rules.maxMissesKick}):
+${pList}
+Отыграйте 3/3 в следующем матче или кик!`;
+
+      warnEN = `[!] БРАТВА: MISSED TURNS STRIKE (1/${rules.maxMissesKick})!
+Flagged players:
+${pList}
+Play 3/3 turns next match or get kicked!`;
     } else {
-      textWarnings = [
-        `[RU] [!] БРАТВА: 100% ДИСЦИПЛИНА! Все игроки отыграли все ${rules.minTurnsPerTournament}/3 попытки в матче. 0 нарушений!`,
-        `[EN] [!] БРАТВА: 100% DISCIPLINE! All players completed all ${rules.minTurnsPerTournament}/3 attempts in the match. 0 infractions!`,
-        `[AR] [!] دوري БРАТВА: انضباط مثالي 100%! جميع اللاعبين أكملوا ${rules.minTurnsPerTournament}/3 محاولات في المباراة. 0 مخالفات!`,
-        `[ES] [!] БРАТВА: ¡DISCIPLINA 100%! Todos los jugadores completaron los ${rules.minTurnsPerTournament}/3 turnos. ¡0 infracciones!`
-      ].join(B_SEP);
+      warnRU = `[!] БРАТВА: 100% ДИСЦИПЛИНА!
+Все игроки отыграли 3/3 попытки. 0 нарушений. Так держать, банда!`;
+
+      warnEN = `[!] БРАТВА: 100% DISCIPLINE!
+All squad members completed 3/3 attempts. 0 infractions. Keep it up!`;
     }
 
-    // 3. Live Match Urgent Warning & Remaining Time (4-in-1 / Active Live Tournament)
-    const textLiveWarning = [
-      `[RU] [!] БРАТВА: СРОЧНЫЙ ВЫЗОВ В ИГРУ! ДО КОНЦА ТУРНИРА ОСТАЛОСЬ ~01ч 38м!\nТекущий счет: БРАТВА 159 - 181 РОССИЯ. Разрыв всего 22 гола — мы обязаны побеждать!\nИгроки, которые ЕЩЕ НЕ СЫГРАЛИ свои попытки:\n» RÈDHAWK前 [Осталось: 3/3 попытки]\n» Mohamed_Osama [Осталось: 3/3 попытки]\nЗайдите в игру СЕЙЧАС ЖЕ и забейте все свои голы! Несыгранные попытки = исключение из лиги!`,
-      `[EN] [!] БРАТВА: URGENT MATCH CALL! ~01h 38m REMAINING ON THE CLOCK!\nCurrent Score: БРАТВА 159 - 181 РОССИЯ. Only a 22-goal gap — victory is within reach!\nPlayers who HAVE NOT played their turns yet:\n» RÈDHAWK前 [Remaining: 3/3 turns]\n» Mohamed_Osama [Remaining: 3/3 turns]\nEnter the game IMMEDIATELY and play all your attempts! Incomplete turns lead to immediate expulsion!`,
-      `[AR] [!] دوري БРАТВА: نداء عاجل جداً للمباراة! متبقي ~01 ساعة و 38 دقيقة على نهاية البطولة!\nالنتيجة الحالية: БРАТВА 159 - 181 РОССИЯ. الفارق 22 هدف فقط والفوز في متناول أيدينا!\nاللاعبون الذين لم يلعبوا محاولاتهم بعد:\n» RÈDHAWK前 [متبقي له: 3/3 محاولات]\n» Mohamed_Osama [متبقي له: 3/3 محاولات]\nادخلوا للعبة فوراً وسجلوا أهدافكم! تفويت المحاولات يؤدي إلى الطرد المباشر من الدوري!`,
-      `[ES] [!] БРАТВА: ¡LLAMADA URGENTE AL PARTIDO! ¡QUEDAN ~01h 38m PARA EL FINAL!\nMarcador actual: БРАТВА 159 - 181 РОССИЯ. ¡Solo 22 goles de diferencia, la victoria está en nuestras manos!\nJugadores que AÚN NO han jugado sus turnos:\n» RÈDHAWK前 [Pendientes: 3/3 turnos]\n» Mohamed_Osama [Pendientes: 3/3 turnos]\n¡Entren al juego INMEDIATAMENTE y jueguen todos sus turnos! ¡Los turnos sin jugar suponen expulsión directa!`
-    ].join(B_SEP);
+    // 5. League Constitution & Rules
+    const rulesRU = `[!] ПРАВИЛА БРАТВА:
+1) 3/3 попытки обязательны в каждом турнире.
+2) Пропуск ${rules.maxMissesKick} турниров = кик.
+3) Планка: ${rules.minGoalsPerTournament}+ голов.
+4) Оценка за ${rules.evaluationHorizon} турнира.`;
 
-    // 4. Last Tournament Review & MVP Recap (4-in-1 / Replaces Weekly & Monthly)
-    const completed = (state.tournaments || []).filter(t => t.status === 'complete');
-    const lastT = completed[0] || {};
-    const lastOpp = lastT.opponent_league || 'Opponent';
-    const lastOurScore = lastT.our_total_goals || 0;
-    const lastOppScore = lastT.opponent_total_goals || 0;
-    const isWin = lastT.result === 'win';
-    const matchPerformers = ((lastT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
-    const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'MVP') : 'N/A';
-    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 0;
-    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Runner') : 'N/A';
-    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 0;
-    const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'Third') : 'N/A';
-    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 0;
-
-    const textLastReview = [
-      `[RU] [!] БРАТВА: ИТОГИ ПОСЛЕДНЕГО ТУРНИРА (vs ${lastOpp}) — ${isWin ? 'ПОБЕДА!' : 'МАТЧ ЗАВЕРШЕН'}\nСчет: ${lastOurScore} - ${lastOppScore} (${isWin ? 'Победа' : 'Поражение'})\n👑 Топ бомбардиры и MVP матча:\n🥇 ${mp1} (${mp1Goals} голов)\n🥈 ${mp2} (${mp2Goals} голов)\n🥉 ${mp3} (${mp3Goals} голов)\nДисциплина: 100% попыток отыграно. Отличная командная игра!`,
-      `[EN] [!] БРАТВА: LAST TOURNAMENT RECAP (vs ${lastOpp}) — ${isWin ? 'VICTORY!' : 'MATCH CONCLUDED'}\nScore: ${lastOurScore} - ${lastOppScore} (${isWin ? 'WIN' : 'LOSS'})\n👑 Match MVP & Top Scorers:\n🥇 ${mp1} (${mp1Goals} goals)\n🥈 ${mp2} (${mp2Goals} goals)\n🥉 ${mp3} (${mp3Goals} goals)\nDiscipline: 100% turns played. Great teamwork!`,
-      `[AR] [!] دوري БРАТВА: حصاد ونتيجة البطولة الأخيرة (ضد ${lastOpp}) — ${isWin ? 'فوز مستحق!' : 'نهاية المباراة'}\nالنتيجة: ${lastOurScore} - ${lastOppScore} (${isWin ? 'فوز' : 'خسارة'})\n👑 نجم المباراة وقائمة الهدافين:\n🥇 ${mp1} (${mp1Goals} هدف)\n🥈 ${mp2} (${mp2Goals} هدف)\n🥉 ${mp3} (${mp3Goals} هدف)\nالانضباط: 100% من المحاولات مكتملة. أداء جماعي قوي!`,
-      `[ES] [!] БРАТВА: ¡RESUMEN DEL ÚLTIMO TORNEO (vs ${lastOpp}) — ${isWin ? 'VICTORIA!' : 'PARTIDO FINALIZADO'}\nMarcador: ${lastOurScore} - ${lastOppScore} (${isWin ? 'Victoria' : 'Derrota'})\n👑 MVP y Máximos Goleadores:\n🥇 ${mp1} (${mp1Goals} goles)\n🥈 ${mp2} (${mp2Goals} goles)\n🥉 ${mp3} (${mp3Goals} goles)\nDisciplina: 100% de turnos completados. ¡Gran trabajo en equipo!`
-    ].join(B_SEP);
-
-    // 5. Pre-Tournament Match Rally (4-in-1 / Zero Placeholders)
-    const textRally = [
-      `[RU] [!] БРАТВА: ТУРНИР НАЧАЛСЯ! ВЫХОДИМ НА ПОЛЕ И ЗАБИРАЕМ ПОБЕДУ. 0 ОПРАВДАНИЙ, ОБЯЗАТЕЛЬНО 3/3 ХОДА!`,
-      `[EN] [!] БРАТВА: BATTLE IS LIVE! ENTER THE PITCH AND SECURE THE WIN. 0 EXCUSES, PLAY ALL 3/3 ATTEMPTS!`,
-      `[AR] [!] دوري БРАТВА: بدأت المعركة! ادخلوا لأرض الملعب واقتلعوا الفوز. 0 أعذار، العبوا 3/3 محاولات كاملة!`,
-      `[ES] [!] БРАТВА: ¡EL PARTIDO ESTÁ EN MARCHA! AL CAMPO A POR LA VICTORIA. ¡CERO EXCUSAS, 3/3 TURNOS OBLIGATORIOS!`
-    ].join(B_SEP);
+    const rulesEN = `[!] БРАТВА RULES:
+1) Mandatory 3/3 attempts every tourney.
+2) Missing ${rules.maxMissesKick} tournaments = kick.
+3) Target: ${rules.minGoalsPerTournament}+ goals.
+4) Horizon: last ${rules.evaluationHorizon} matches.`;
 
     return [
       {
@@ -2799,35 +2765,40 @@ const BroadcastGenerator = {
         title: t('b_title_live_warning'),
         badge: t('b_badge_live_warning'),
         timing: t('b_timing_live_warning'),
-        text: textLiveWarning
+        text_ru: liveRU,
+        text_en: liveEN
       },
       {
         id: 'rally',
         title: t('b_title_rally'),
         badge: t('b_badge_rally'),
         timing: t('b_timing_rally'),
-        text: textRally
+        text_ru: rallyRU,
+        text_en: rallyEN
       },
       {
         id: 'last_review',
         title: t('b_title_last_review'),
         badge: t('b_badge_last_review'),
         timing: t('b_timing_last_review'),
-        text: textLastReview
+        text_ru: reviewRU,
+        text_en: reviewEN
       },
       {
         id: 'warnings',
         title: t('b_title_warnings'),
         badge: t('b_badge_warnings'),
         timing: t('b_timing_warnings'),
-        text: textWarnings
+        text_ru: warnRU,
+        text_en: warnEN
       },
       {
         id: 'rules',
         title: t('b_title_rules'),
         badge: t('b_badge_rules'),
         timing: t('b_timing_rules'),
-        text: textRules
+        text_ru: rulesRU,
+        text_en: rulesEN
       }
     ];
   },
@@ -2855,32 +2826,58 @@ const BroadcastGenerator = {
               <span class="b-timing-label">${t('b_posting_deadline') || 'POSTING DEADLINE:'}</span>
               <span class="b-timing-val">${escapeHTML(c.timing)}</span>
             </div>
-            <div class="b-chat-preview-box" id="bpreview-${c.id}">${escapeHTML(c.text)}</div>
-            <button class="b-copy-full-btn" onclick="BroadcastGenerator.copyMessage('${c.id}', this)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-              <span>${t('b_copy_4in1_btn') || 'COPY 4-IN-1 MESSAGE (ALL LANGUAGES)'}</span>
-            </button>
+
+            <div class="b-lang-grid">
+              <!-- Russian Block -->
+              <div class="b-lang-block">
+                <div class="b-lang-header">
+                  <span class="b-lang-flag-title">🇷🇺 RUSSIAN (RU)</span>
+                  <span class="b-lang-char-badge">${c.text_ru.length} CHARS</span>
+                </div>
+                <div class="b-chat-preview-box" id="bpreview-${c.id}-ru">${escapeHTML(c.text_ru)}</div>
+                <button class="b-copy-single-btn" onclick="BroadcastGenerator.copySingleMessage('${c.id}', 'ru', this)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>${t('b_copy_ru_btn') || 'COPY RUSSIAN [RU]'}</span>
+                </button>
+              </div>
+
+              <!-- English Block -->
+              <div class="b-lang-block">
+                <div class="b-lang-header">
+                  <span class="b-lang-flag-title">🇬🇧 ENGLISH (EN)</span>
+                  <span class="b-lang-char-badge">${c.text_en.length} CHARS</span>
+                </div>
+                <div class="b-chat-preview-box" id="bpreview-${c.id}-en">${escapeHTML(c.text_en)}</div>
+                <button class="b-copy-single-btn" onclick="BroadcastGenerator.copySingleMessage('${c.id}', 'en', this)">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                  <span>${t('b_copy_en_btn') || 'COPY ENGLISH [EN]'}</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       `;
     }).join('');
   },
 
-  copyMessage(cardId, btn) {
+  copySingleMessage(cardId, lang, btn) {
     const cards = this.generateCards();
     const item = cards.find(c => c.id === cardId);
     if (!item) return;
 
+    const textToCopy = lang === 'ru' ? item.text_ru : item.text_en;
+    if (!textToCopy) return;
+
     SoundManager.playClick();
 
     if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(item.text).then(() => {
+      navigator.clipboard.writeText(textToCopy).then(() => {
         this.showCopiedFeedback(btn);
       }).catch(() => {
-        this.fallbackCopy(item.text, btn);
+        this.fallbackCopy(textToCopy, btn);
       });
     } else {
-      this.fallbackCopy(item.text, btn);
+      this.fallbackCopy(textToCopy, btn);
     }
   },
 
@@ -2913,4 +2910,3 @@ const BroadcastGenerator = {
     }, 2000);
   }
 };
-
