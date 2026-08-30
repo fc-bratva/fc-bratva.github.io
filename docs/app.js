@@ -2665,15 +2665,15 @@ const BroadcastGenerator = {
     const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
 ⏳ Осталось: ~40 мин | 159-181 vs РОССИЯ
 ⛔ Должники (сыграть 3/3 немедленно):
-▪️ RÈDHAWK前 [3/3]
-▪️ Mohamed_Osama [3/3]
+▶️ RÈDHAWK前 [3/3]
+▶️ Mohamed_Osama [3/3]
 ❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
 
     const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
 ⏳ Time Left: ~40m | 159-181 vs РОССИЯ
 ⛔ Unplayed (Must play 3/3 now):
-▪️ RÈDHAWK前 [3/3]
-▪️ Mohamed_Osama [3/3]
+▶️ RÈDHAWK前 [3/3]
+▶️ Mohamed_Osama [3/3]
 ❌ Incomplete turns = IMMEDIATE KICK!`;
 
     // 2. Pre-Tournament Match Rally (Kickoff)
@@ -2720,7 +2720,7 @@ const BroadcastGenerator = {
         const m = latestT.matches.find(match => match.player_id === p.player_id);
         const turns = m ? (m.turns_played !== undefined ? m.turns_played : 3) : 0;
         if (turns < rules.minTurnsPerTournament) {
-          missedPlayers.push(`▪️ ${p.display_name} [${turns}/${rules.minTurnsPerTournament}]`);
+          missedPlayers.push(`▶️ ${p.display_name} [${turns}/${rules.minTurnsPerTournament}]`);
         }
       });
     }
@@ -2753,13 +2753,13 @@ ${pList}
     }
 
     // 5. League Constitution & Rules
-    const rulesRU = `⚖️ ПРАВИЛА БРАТВА:
+    const rulesRU = `ℹ️ ПРАВИЛА БРАТВА:
 1) Обязательно 3/3 попытки в каждом матче.
 2) Пропуск ${rules.maxMissesKick} турниров = кик.
 3) Планка: ${rules.minGoalsPerTournament}+ голов.
 4) Оценка активности: за ${rules.evaluationHorizon} турнира.`;
 
-    const rulesEN = `⚖️ БРАТВА RULES:
+    const rulesEN = `ℹ️ БРАТВА RULES:
 1) Mandatory 3/3 attempts every match.
 2) Missing ${rules.maxMissesKick} tournaments = kick.
 3) Scoring target: ${rules.minGoalsPerTournament}+ goals.
