@@ -2746,19 +2746,16 @@ const BroadcastGenerator = {
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
     const dDivider = '----------------------------\n----------------------------';
 
-    // Current active opponent for rally (ROYAL CHALLENGER)
-    const currentOpponent = 'ROYAL CHALLENGER';
-
     // =========================================================================
-    // 1. MATCH START RALLY (Pure Hype & Captain Kickoff Energy)
+    // 1. MATCH START RALLY (Evergreen Zero-Edit Kickoff - Pure Hype)
     // =========================================================================
-    const rallyRU = `⚔️ В БОЙ, БРАТВА! vs ${currentOpponent}!
-⚡ Турнир начался! Заходим и забираем победу!
+    const rallyRU = `⚔️ В БОЙ, БРАТВА!
+⚡ Новый турнир начался! Заходим за легкой победой!
 ⚽ Играем сразу все 3/3 попытки!
 ⛔ Кто пропустит = сразу кик!`;
 
-    const rallyEN = `⚔️ LETS GO BRATVA! vs ${currentOpponent}!
-⚡ Tournament is live! Jump in and take the win!
+    const rallyEN = `⚔️ LETS GO БРАТВА!
+⚡ New tournament is live! Jump in for an easy win!
 ⚽ Play all 3/3 turns right away!
 ⛔ Missed turns = instant kick!`;
 
@@ -2767,7 +2764,7 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Ultra-Short: Players + Remaining Time + Quick Alert)
+    // 2. LIVE MATCH WARNING (Evergreen Zero-Edit Countdown + Unplayed List)
     // =========================================================================
     const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
 [ ⏳ | KOUSTAV_007 | 0/3 ]
@@ -2780,8 +2777,8 @@ ${rallyEN}`;
 [ ⏳ | MEE | 0/3 ]
 [ ⏳ | Тима | 1/3 ]`;
 
-    const liveRU = `⏳ Осталось ~22ч! Сыграйте 3/3 вовремя, чтобы избежать кика!`;
-    const liveEN = `⏳ ~22h left! Attack 3/3 ASAP to avoid kick!`;
+    const liveRU = `⏳ До конца турнира мало времени! Сыграйте 3/3, чтобы избежать кика!`;
+    const liveEN = `⏳ Match ending soon! Attack 3/3 ASAP to avoid kick!`;
 
     const liveCombined = `${liveHeader}
 ${dDivider}
@@ -2790,7 +2787,7 @@ ${dDivider}
 ${liveEN}`;
 
     // =========================================================================
-    // 3. LAST MATCH RECAP (Energetic & Direct Gamer Squad Language)
+    // 3. LAST MATCH RECAP (Energetic Squad Language + Boxed Ranks)
     // =========================================================================
     const lastT = completed[0] || {};
     const lastOpp = lastT.opponent_league || 'РОССИЯ';
@@ -2806,7 +2803,7 @@ ${liveEN}`;
     const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 26;
 
     const titleRU = isWin ? `⭐ БРАТВА: ПОБЕДА vs ${lastOpp}!` : `⭐ БРАТВА: МАТЧ vs ${lastOpp}!`;
-    const titleEN = isWin ? `⭐ BRATVA: BIG WIN vs ${lastOpp}!` : `⭐ BRATVA: MATCH vs ${lastOpp}!`;
+    const titleEN = isWin ? `⭐ БРАТВА: BIG WIN vs ${lastOpp}!` : `⭐ БРАТВА: MATCH vs ${lastOpp}!`;
     const closingRU = isWin ? '⚡ Красавцы парни! Идем дальше за победами!' : '⚡ Красавцы за голы! В след. матче берем реванш!';
     const closingEN = isWin ? "⚡ Awesome game boys! Let's keep winning!" : '⚡ Great goals boys! Next match we get our revenge!';
 
