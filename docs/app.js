@@ -2513,6 +2513,36 @@ const RulesManager = {
   currentRules: null,
   isUnlocked: false,
 
+  recalculateSystem(shouldRender = true) {
+    if (shouldRender) {
+      if (typeof renderDashboard === 'function') renderDashboard();
+      if (typeof renderTournaments === 'function') renderTournaments();
+      if (typeof renderRoster === 'function') renderRoster();
+      if (typeof renderLeaderboard === 'function') renderLeaderboard();
+      if (typeof BroadcastGenerator !== 'undefined') BroadcastGenerator.render();
+    }
+  },
+
+  render() {
+    if (typeof document === 'undefined') return;
+    const lockedView = document.getElementById('admin-locked-view');
+    const unlockedView = document.getElementById('admin-unlocked-view');
+    if (this.isUnlocked) {
+      if (lockedView) lockedView.style.display = 'none';
+      if (unlockedView) {
+        unlockedView.style.display = 'block';
+        if (typeof AdminSwipeLock !== 'undefined') AdminSwipeLock.init();
+      }
+      this.populateFormFields();
+    } else {
+      if (lockedView) lockedView.style.display = 'block';
+      if (unlockedView) {
+        unlockedView.style.display = 'none';
+        if (typeof AdminSwipeLock !== 'undefined') AdminSwipeLock.lockEditing();
+      }
+    }
+  },
+
   init() {
     this.loadRules();
     this.setupAdminListeners();
@@ -2692,6 +2722,7 @@ const RulesManager = {
 // --- In-Game Chat Broadcast Dispatcher Engine (Compact RU & EN) ---
 const BroadcastGenerator = {
   openAccordions: new Set(['live_warning']),
+  init() { this.render(); },
 
   toggleAccordion(cardId) {
     SoundManager.playClick();
@@ -3336,7 +3367,7 @@ const AdminSwipeLock = {
   unlockEditing() {
     this.isEditingUnlocked = true;
     this.isDragging = false;
-    SoundManager.playSuccess();
+    SoundManager.playClick();
     const track = document.getElementById('admin-swipe-track');
     const thumb = document.getElementById('admin-swipe-thumb');
     const text = document.getElementById('admin-swipe-text');
