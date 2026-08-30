@@ -2745,7 +2745,41 @@ const BroadcastGenerator = {
     const completed = (state.tournaments || []).filter(t => t.status === 'complete');
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
 
-    // 1. Last Tournament Review & MVP Recap (vs РОССИЯ / latest completed)
+    // =========================================================================
+    // 1. MATCH START RALLY (Kickoff Phase - Combined RU + EN)
+    // =========================================================================
+    const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
+⚡ Выходим на поле и забираем победу!
+⚽ Обязательно сыграть ВСЕ 3/3 попытки.
+⛔ 0 оправданий. Пропуск ходов = кик!`;
+
+    const rallyEN = `⚔️ БРАТВА: TOURNAMENT IS LIVE!
+⚡ Enter the pitch and secure the win!
+⚽ Mandatory: complete all 3/3 attempts.
+⛔ Zero excuses. Missed turns = kick!`;
+
+    const rallyCombined = `${rallyRU}
+-----------------------
+${rallyEN}`;
+
+    // =========================================================================
+    // 2. LIVE MATCH WARNING (Live In-Game Urgent Call for Remaining Turns)
+    // =========================================================================
+    const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
+⏳ До конца турнира мало времени!
+⛔ Должники (сыграйте 3/3 немедленно!):
+▶️ [Имя игрока] [Осталось: 3/3]
+❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
+
+    const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
+⏳ Match is ending soon on the clock!
+⛔ Unplayed (Play your 3/3 turns NOW!):
+▶️ [Player Name] [Remaining: 3/3]
+❌ Incomplete turns = IMMEDIATE KICK!`;
+
+    // =========================================================================
+    // 3. LAST MATCH RECAP (Post-Match Score & MVP Review - Combined RU + EN)
+    // =========================================================================
     const lastT = completed[0] || {};
     const lastOpp = lastT.opponent_league || 'РОССИЯ';
     const lastOurScore = lastT.our_total_goals || 159;
@@ -2776,39 +2810,9 @@ const BroadcastGenerator = {
 -----------------------
 ${reviewEN}`;
 
-    // 2. Pre-Tournament Match Rally (Kickoff)
-    const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
-⚡ Выходим на поле и забираем победу!
-⚽ Обязательно сыграть ВСЕ 3/3 попытки.
-⛔ 0 оправданий. Пропуск ходов = кик!`;
-
-    const rallyEN = `⚔️ БРАТВА: TOURNAMENT IS LIVE!
-⚡ Enter the pitch and secure the win!
-⚽ Mandatory: complete all 3/3 attempts.
-⛔ Zero excuses. Missed turns = kick!`;
-
-    const rallyCombined = `${rallyRU}
------------------------
-${rallyEN}`;
-
-    // 3. League Constitution & Rules
-    const rulesRU = `ℹ️ ПРАВИЛА БРАТВА:
-1) Обязательно 3/3 попытки в каждом матче.
-2) Пропуск ${rules.maxMissesKick} турниров = кик.
-3) Планка: ${rules.minGoalsPerTournament}+ голов.
-4) Оценка активности: за ${rules.evaluationHorizon} турнира.`;
-
-    const rulesEN = `ℹ️ БРАТВА RULES:
-1) Mandatory 3/3 attempts every match.
-2) Missing ${rules.maxMissesKick} tournaments = kick.
-3) Scoring target: ${rules.minGoalsPerTournament}+ goals.
-4) Activity horizon: last ${rules.evaluationHorizon} matches.`;
-
-    const rulesCombined = `${rulesRU}
------------------------
-${rulesEN}`;
-
-    // 4. Recent Tournament Warnings & Strikes Notice (RÈDHAWK前 and Mohamed_Osama missed)
+    // =========================================================================
+    // 4. STRIKES & WARNINGS (Post-Match Strike Penalty Notice for Missed Turns)
+    // =========================================================================
     const missedPlayers = [];
     if (lastT.matches && state.players) {
       lastT.matches.forEach(m => {
@@ -2847,28 +2851,26 @@ ${pList}
 ⚡ Excellent discipline, keep it up!`;
     }
 
-    // 5. Next Match / Standby
-    const liveRU = `⚔️ БРАТВА: ГОТОВНОСТЬ К БОЮ!
-⚡ Следующий турнир скоро начнется!
-⚽ Обязательно сыграть ВСЕ 3/3 попытки.
-⛔ 0 оправданий. Пропуск ходов = кик!`;
+    // =========================================================================
+    // 5. LEAGUE RULES (Permanent Constitution - Combined RU + EN)
+    // =========================================================================
+    const rulesRU = `ℹ️ ПРАВИЛА БРАТВА:
+1) Обязательно 3/3 попытки в каждом матче.
+2) Пропуск ${rules.maxMissesKick} турниров = кик.
+3) Планка: ${rules.minGoalsPerTournament}+ голов.
+4) Оценка активности: за ${rules.evaluationHorizon} турнира.`;
 
-    const liveEN = `⚔️ БРАТВА: STANDBY FOR MATCH!
-⚡ Next tournament starting soon!
-⚽ Mandatory: complete all 3/3 attempts.
-⛔ Zero excuses. Missed turns = kick!`;
+    const rulesEN = `ℹ️ БРАТВА RULES:
+1) Mandatory 3/3 attempts every match.
+2) Missing ${rules.maxMissesKick} tournaments = kick.
+3) Scoring target: ${rules.minGoalsPerTournament}+ goals.
+4) Activity horizon: last ${rules.evaluationHorizon} matches.`;
+
+    const rulesCombined = `${rulesRU}
+-----------------------
+${rulesEN}`;
 
     return [
-      {
-        id: 'last_review',
-        title: t('b_title_last_review'),
-        badge: t('b_badge_last_review'),
-        timing: t('b_timing_last_review'),
-        is_combined: true,
-        text_combined: reviewCombined,
-        text_ru: reviewRU,
-        text_en: reviewEN
-      },
       {
         id: 'rally',
         title: t('b_title_rally'),
@@ -2880,14 +2882,23 @@ ${pList}
         text_en: rallyEN
       },
       {
-        id: 'rules',
-        title: t('b_title_rules'),
-        badge: t('b_badge_rules'),
-        timing: t('b_timing_rules'),
+        id: 'live_warning',
+        title: t('b_title_live_warning'),
+        badge: t('b_badge_live_warning'),
+        timing: t('b_timing_live_warning'),
+        is_combined: false,
+        text_ru: liveRU,
+        text_en: liveEN
+      },
+      {
+        id: 'last_review',
+        title: t('b_title_last_review'),
+        badge: t('b_badge_last_review'),
+        timing: t('b_timing_last_review'),
         is_combined: true,
-        text_combined: rulesCombined,
-        text_ru: rulesRU,
-        text_en: rulesEN
+        text_combined: reviewCombined,
+        text_ru: reviewRU,
+        text_en: reviewEN
       },
       {
         id: 'warnings',
@@ -2899,13 +2910,14 @@ ${pList}
         text_en: warnEN
       },
       {
-        id: 'live_warning',
-        title: t('b_title_live_warning'),
-        badge: t('b_badge_live_warning'),
-        timing: t('b_timing_live_warning'),
-        is_combined: false,
-        text_ru: liveRU,
-        text_en: liveEN
+        id: 'rules',
+        title: t('b_title_rules'),
+        badge: t('b_badge_rules'),
+        timing: t('b_timing_rules'),
+        is_combined: true,
+        text_combined: rulesCombined,
+        text_ru: rulesRU,
+        text_en: rulesEN
       }
     ];
   },
