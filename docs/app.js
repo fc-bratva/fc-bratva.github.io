@@ -2662,30 +2662,30 @@ const BroadcastGenerator = {
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
 
     // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~40m, unplayed players)
-    const liveRU = `[!] БРАТВА: СРОЧНО В ИГРУ!
+    const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
 ⏳ Осталось: ~40 мин | 159-181 vs РОССИЯ
 ⚠️ Должники (сыграть 3/3 немедленно):
-» RÈDHAWK前 [3/3]
-» Mohamed_Osama [3/3]
-🚫 Несыгранные ходы = КИК!`;
+▪️ RÈDHAWK前 [3/3]
+▪️ Mohamed_Osama [3/3]
+⛔ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
 
-    const liveEN = `[!] БРАТВА: URGENT MATCH CALL!
+    const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
 ⏳ Time Left: ~40m | 159-181 vs РОССИЯ
 ⚠️ Unplayed (Must play 3/3 now):
-» RÈDHAWK前 [3/3]
-» Mohamed_Osama [3/3]
-🚫 Incomplete turns = KICK!`;
+▪️ RÈDHAWK前 [3/3]
+▪️ Mohamed_Osama [3/3]
+⛔ Incomplete turns = IMMEDIATE KICK!`;
 
     // 2. Pre-Tournament Match Rally (Kickoff)
-    const rallyRU = `[!] БРАТВА: ТУРНИР НАЧАЛСЯ!
-🔥 Выходим на поле и забираем победу!
-🎯 Обязательно сыграть ВСЕ 3/3 попытки.
-🚫 0 оправданий. Пропуск ходов = кик!`;
+    const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
+⚡ Выходим на поле и забираем победу!
+⚽ Обязательно сыграть ВСЕ 3/3 попытки.
+⛔ 0 оправданий. Пропуск ходов = кик!`;
 
-    const rallyEN = `[!] БРАТВА: TOURNAMENT IS LIVE!
-🔥 Enter the pitch and secure the win!
-🎯 Mandatory: complete all 3/3 attempts.
-🚫 Zero excuses. Missed turns = kick!`;
+    const rallyEN = `⚔️ БРАТВА: TOURNAMENT IS LIVE!
+⚡ Enter the pitch and secure the win!
+⚽ Mandatory: complete all 3/3 attempts.
+⛔ Zero excuses. Missed turns = kick!`;
 
     // 3. Last Tournament Review & MVP Recap (vs Team Work / last completed)
     const lastT = completed[0] || {};
@@ -2701,16 +2701,16 @@ const BroadcastGenerator = {
     const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'DOXIBÉRO') : 'DOXIBÉRO';
     const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 31;
 
-    const reviewRU = `[!] БРАТВА: ИТОГИ vs ${lastOpp}
-🏆 ПОБЕДА (${lastOurScore} - ${lastOppScore})!
-👑 Топ бомбардиры матча:
-🥇 ${mp1} (${mp1Goals}G) | 🥈 ${mp2} (${mp2Goals}G) | 🥉 ${mp3} (${mp3Goals}G)
+    const reviewRU = `⭐ БРАТВА: ИТОГИ vs ${lastOpp}
+⚽ ПОБЕДА (${lastOurScore} - ${lastOppScore})!
+✨ Топ бомбардиры матча:
+1) ${mp1} (${mp1Goals}G) | 2) ${mp2} (${mp2Goals}G) | 3) ${mp3} (${mp3Goals}G)
 ✅ 100% явка. Отличная командная работа!`;
 
-    const reviewEN = `[!] БРАТВА: MATCH RECAP vs ${lastOpp}
-🏆 VICTORY (${lastOurScore} - ${lastOppScore})!
-👑 Match Top Scorers:
-🥇 ${mp1} (${mp1Goals}G) | 🥈 ${mp2} (${mp2Goals}G) | 🥉 ${mp3} (${mp3Goals}G)
+    const reviewEN = `⭐ БРАТВА: MATCH RECAP vs ${lastOpp}
+⚽ VICTORY (${lastOurScore} - ${lastOppScore})!
+✨ Match Top Scorers:
+1) ${mp1} (${mp1Goals}G) | 2) ${mp2} (${mp2Goals}G) | 3) ${mp3} (${mp3Goals}G)
 ✅ 100% turns played. Great teamwork!`;
 
     // 4. Recent Tournament Warnings & Strikes Notice
@@ -2720,7 +2720,7 @@ const BroadcastGenerator = {
         const m = latestT.matches.find(match => match.player_id === p.player_id);
         const turns = m ? (m.turns_played !== undefined ? m.turns_played : 3) : 0;
         if (turns < rules.minTurnsPerTournament) {
-          missedPlayers.push(`» ${p.display_name} [${turns}/${rules.minTurnsPerTournament}]`);
+          missedPlayers.push(`▪️ ${p.display_name} [${turns}/${rules.minTurnsPerTournament}]`);
         }
       });
     }
@@ -2729,37 +2729,37 @@ const BroadcastGenerator = {
     let warnEN = '';
     if (missedPlayers.length > 0) {
       const pList = missedPlayers.join('\n');
-      warnRU = `[!] БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
-⚠️ Игроки с долгами (1/${rules.maxMissesKick}):
+      warnRU = `⚠️ БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
+❗ Игроки с долгами (1/${rules.maxMissesKick}):
 ${pList}
-🎯 Отыграйте 3/3 в следующем матче!
-🚫 Повторный пропуск = исключение!`;
+⚽ Отыграйте 3/3 в следующем матче!
+⛔ Повторный пропуск = исключение!`;
 
-      warnEN = `[!] БРАТВА: STRIKE NOTICE!
-⚠️ Flagged players (Strike 1/${rules.maxMissesKick}):
+      warnEN = `⚠️ БРАТВА: STRIKE NOTICE!
+❗ Flagged players (Strike 1/${rules.maxMissesKick}):
 ${pList}
-🎯 Complete 3/3 turns in next match!
-🚫 Repeated miss = permanent expulsion!`;
+⚽ Complete 3/3 turns in next match!
+⛔ Repeated miss = permanent expulsion!`;
     } else {
-      warnRU = `[!] БРАТВА: 100% ДИСЦИПЛИНА!
-✅ Все игроки отыграли все 3/3 попытки.
-🎯 0 нарушений в прошедшем матче.
-🔥 Отличная дисциплина, так держать!`;
+      warnRU = `✅ БРАТВА: 100% ДИСЦИПЛИНА!
+⚽ Все игроки отыграли все 3/3 попытки.
+✨ 0 нарушений в прошедшем матче.
+⚡ Отличная дисциплина, так держать!`;
 
-      warnEN = `[!] БРАТВА: 100% DISCIPLINE!
-✅ All squad members completed 3/3 turns.
-🎯 0 infractions recorded in match.
-🔥 Excellent discipline, keep it up!`;
+      warnEN = `✅ БРАТВА: 100% DISCIPLINE!
+⚽ All squad members completed 3/3 turns.
+✨ 0 infractions recorded in match.
+⚡ Excellent discipline, keep it up!`;
     }
 
     // 5. League Constitution & Rules
-    const rulesRU = `[!] ПРАВИЛА БРАТВА:
+    const rulesRU = `⚖️ ПРАВИЛА БРАТВА:
 1) Обязательно 3/3 попытки в каждом матче.
 2) Пропуск ${rules.maxMissesKick} турниров = кик.
 3) Планка: ${rules.minGoalsPerTournament}+ голов.
 4) Оценка активности: за ${rules.evaluationHorizon} турнира.`;
 
-    const rulesEN = `[!] БРАТВА RULES:
+    const rulesEN = `⚖️ БРАТВА RULES:
 1) Mandatory 3/3 attempts every match.
 2) Missing ${rules.maxMissesKick} tournaments = kick.
 3) Scoring target: ${rules.minGoalsPerTournament}+ goals.
