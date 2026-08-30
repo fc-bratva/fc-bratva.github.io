@@ -2764,14 +2764,16 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Urgent Countdown - Shared Player List at Bottom)
+    // 2. LIVE MATCH WARNING (In-Game Countdown Urgent Call with Clear Directive)
     // =========================================================================
     const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
 ⏳ До конца турнира мало времени!
-❌ Пропуск ходов = КИК ИЗ ЛИГИ!`;
+⚽ Обязательно доиграйте 3/3 попытки!
+❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
 
     const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
 ⏳ Match is ending soon on the clock!
+⚽ Mandatory: play your 3/3 turns NOW!
 ❌ Incomplete turns = LEAGUE KICK!`;
 
     const liveNames = `[ ⏳ | RÈDHAWK前 | 3/3 ]
@@ -2823,7 +2825,7 @@ ${dDivider}
 ${reviewEN}`;
 
     // =========================================================================
-    // 4. STRIKES & WARNINGS (Post-Match - Shared Player List at Bottom)
+    // 4. STRIKES & WARNINGS (Post-Match Disciplinary Notice with Directive)
     // =========================================================================
     const missedPlayers = [];
     if (lastT.matches && state.players) {
@@ -2842,12 +2844,14 @@ ${reviewEN}`;
     if (missedPlayers.length > 0) {
       const pList = missedPlayers.join('\n');
       warnRU = `❗ БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
-⛔ Игроки с долгами (Страйк 1/${rules.maxMissesKick}).
-⚽ Отыграйте 3/3 в следующем матче!`;
+⛔ Должники (Страйк 1/${rules.maxMissesKick}).
+⚽ Отыграйте 3/3 в следующем матче!
+❌ Повторный пропуск = КИК ИЗ ЛИГИ!`;
 
       warnEN = `❗ БРАТВА: STRIKE NOTICE!
 ⛔ Flagged players (Strike 1/${rules.maxMissesKick}).
-⚽ Complete 3/3 in next match!`;
+⚽ Complete 3/3 in next tournament!
+❌ Repeated miss = PERMANENT EXPULSION!`;
 
       warnCombined = `${warnRU}
 ${dDivider}
