@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=6500">
+  <link rel="stylesheet" href="style.css?v=6600">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -252,9 +252,9 @@
               <div class="admin-rule-box">
                 <div class="admin-rule-label">
                   <span data-i18n="rule_max_misses">Max Consecutive Misses Before Kick</span>
-                  <strong class="rule-val-display" id="val-max-misses">2 Fails</strong>
+                  <strong class="rule-val-display" id="val-max-misses">3 Fails</strong>
                 </div>
-                <input type="range" min="1" max="5" step="1" value="2" id="input-max-misses" class="admin-slider" />
+                <input type="range" min="1" max="5" step="1" value="3" id="input-max-misses" class="admin-slider" />
                 <div class="admin-rule-sub">Players reaching this consecutive miss streak are flagged for immediate league kick.</div>
               </div>
 
@@ -272,9 +272,9 @@
               <div class="admin-rule-box">
                 <div class="admin-rule-label">
                   <span data-i18n="rule_min_goals">Minimum Goals Target (3 Turns)</span>
-                  <strong class="rule-val-display" id="val-min-goals">25 Goals</strong>
+                  <strong class="rule-val-display" id="val-min-goals">20+ Goals</strong>
                 </div>
-                <input type="range" min="10" max="40" step="5" value="25" id="input-min-goals" class="admin-slider" />
+                <input type="range" min="10" max="40" step="5" value="20" id="input-min-goals" class="admin-slider" />
                 <div class="admin-rule-sub">Recommended minimum goal benchmark for active roster qualification.</div>
               </div>
 
@@ -388,6 +388,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=6500"></script>
+<script src="app.js?v=6600"></script>
 </body>
 </html>

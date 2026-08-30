@@ -2507,9 +2507,9 @@ function openTournamentModal(tId) {
    ========================================================================== */
 const RulesManager = {
   defaultRules: {
-    maxMissesKick: 2,
+    maxMissesKick: 3,
     minTurnsPerTournament: 3,
-    minGoalsPerTournament: 25,
+    minGoalsPerTournament: 20,
     evaluationHorizon: 3,
     adminPinHash: "2c45dd42b74aea036849855c3380c5048f664c2b2324a0b452514bbf692594d6", // SHA-256('fc-bratva-security-2026:bratva2026')
     salt: "fc-bratva-security-2026"
@@ -2671,9 +2671,9 @@ const RulesManager = {
       saveBtn.addEventListener('click', () => {
         SoundManager.playClick();
         const updated = {
-          maxMissesKick: parseInt(sMaxMisses ? sMaxMisses.value : 2, 10),
+          maxMissesKick: parseInt(sMaxMisses ? sMaxMisses.value : 3, 10),
           minTurnsPerTournament: parseInt(sMinTurns ? sMinTurns.value : 3, 10),
-          minGoalsPerTournament: parseInt(sMinGoals ? sMinGoals.value : 25, 10),
+          minGoalsPerTournament: parseInt(sMinGoals ? sMinGoals.value : 20, 10),
           evaluationHorizon: parseInt(sHorizon ? sHorizon.value : 3, 10)
         };
         this.saveRules(updated);
