@@ -2664,17 +2664,17 @@ const BroadcastGenerator = {
     // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~40m, unplayed players)
     const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
 ⏳ Осталось: ~40 мин | 159-181 vs РОССИЯ
-⚠️ Должники (сыграть 3/3 немедленно):
+⛔ Должники (сыграть 3/3 немедленно):
 ▪️ RÈDHAWK前 [3/3]
 ▪️ Mohamed_Osama [3/3]
-⛔ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
+❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
 
     const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
 ⏳ Time Left: ~40m | 159-181 vs РОССИЯ
-⚠️ Unplayed (Must play 3/3 now):
+⛔ Unplayed (Must play 3/3 now):
 ▪️ RÈDHAWK前 [3/3]
 ▪️ Mohamed_Osama [3/3]
-⛔ Incomplete turns = IMMEDIATE KICK!`;
+❌ Incomplete turns = IMMEDIATE KICK!`;
 
     // 2. Pre-Tournament Match Rally (Kickoff)
     const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
@@ -2729,17 +2729,17 @@ const BroadcastGenerator = {
     let warnEN = '';
     if (missedPlayers.length > 0) {
       const pList = missedPlayers.join('\n');
-      warnRU = `⚠️ БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
-❗ Игроки с долгами (1/${rules.maxMissesKick}):
+      warnRU = `❗ БРАТВА: ПРЕДУПРЕЖДЕНИЕ!
+⛔ Игроки с долгами (1/${rules.maxMissesKick}):
 ${pList}
 ⚽ Отыграйте 3/3 в следующем матче!
-⛔ Повторный пропуск = исключение!`;
+❌ Повторный пропуск = исключение!`;
 
-      warnEN = `⚠️ БРАТВА: STRIKE NOTICE!
-❗ Flagged players (Strike 1/${rules.maxMissesKick}):
+      warnEN = `❗ БРАТВА: STRIKE NOTICE!
+⛔ Flagged players (Strike 1/${rules.maxMissesKick}):
 ${pList}
 ⚽ Complete 3/3 turns in next match!
-⛔ Repeated miss = permanent expulsion!`;
+❌ Repeated miss = permanent expulsion!`;
     } else {
       warnRU = `✅ БРАТВА: 100% ДИСЦИПЛИНА!
 ⚽ Все игроки отыграли все 3/3 попытки.
