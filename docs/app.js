@@ -2744,20 +2744,16 @@ const BroadcastGenerator = {
     const completed = (state.tournaments || []).filter(t => t.status === 'complete');
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
 
-    // 1. Live Match Final Warning (Active vs РОССИЯ, remaining time ~40m, unplayed players)
-    const liveRU = `❗ БРАТВА: СРОЧНО В ИГРУ!
-⏳ Осталось: ~40 мин | 159-181 vs РОССИЯ
-⛔ Должники (сыграть 3/3 немедленно):
-▶️ RÈDHAWK前 [3/3]
-▶️ Mohamed_Osama [3/3]
-❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
+    // 1. Next Match / Live Match Call
+    const liveRU = `⚔️ БРАТВА: ГОТОВНОСТЬ К БОЮ!
+⚡ Следующий турнир скоро начнется!
+⚽ Обязательно сыграть ВСЕ 3/3 попытки.
+⛔ 0 оправданий. Пропуск ходов = кик!`;
 
-    const liveEN = `❗ БРАТВА: URGENT MATCH CALL!
-⏳ Time Left: ~40m | 159-181 vs РОССИЯ
-⛔ Unplayed (Must play 3/3 now):
-▶️ RÈDHAWK前 [3/3]
-▶️ Mohamed_Osama [3/3]
-❌ Incomplete turns = IMMEDIATE KICK!`;
+    const liveEN = `⚔️ БРАТВА: STANDBY FOR MATCH!
+⚡ Next tournament starting soon!
+⚽ Mandatory: complete all 3/3 attempts.
+⛔ Zero excuses. Missed turns = kick!`;
 
     // 2. Pre-Tournament Match Rally (Kickoff)
     const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
@@ -2770,40 +2766,43 @@ const BroadcastGenerator = {
 ⚽ Mandatory: complete all 3/3 attempts.
 ⛔ Zero excuses. Missed turns = kick!`;
 
-    // 3. Last Tournament Review & MVP Recap (vs Team Work / last completed)
+    // 3. Last Tournament Review & MVP Recap (vs РОССИЯ / latest completed)
     const lastT = completed[0] || {};
-    const lastOpp = lastT.opponent_league || 'Team Work';
-    const lastOurScore = lastT.our_total_goals || 225;
-    const lastOppScore = lastT.opponent_total_goals || 144;
+    const lastOpp = lastT.opponent_league || 'РОССИЯ';
+    const lastOurScore = lastT.our_total_goals || 159;
+    const lastOppScore = lastT.opponent_total_goals || 181;
     const isWin = lastT.result === 'win' || (lastOurScore > lastOppScore);
     const matchPerformers = ((lastT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
     const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'саня') : 'саня';
-    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 37;
-    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Mike') : 'Mike';
-    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 33;
+    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 33;
+    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Omar') : 'Omar';
+    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 27;
     const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'DOXIBÉRO') : 'DOXIBÉRO';
-    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 31;
+    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 26;
 
-    const reviewRU = `⭐ БРАТВА: ИТОГИ vs ${lastOpp}
-⚽ ПОБЕДА (${lastOurScore} - ${lastOppScore})!
+    const resWordRU = isWin ? 'ПОБЕДА' : 'ИТОГИ';
+    const resWordEN = isWin ? 'VICTORY' : 'RESULT';
+
+    const reviewRU = `⭐ БРАТВА: ${resWordRU} vs ${lastOpp}
+⚽ Счет матча: ${lastOurScore} - ${lastOppScore}
 ✨ Топ бомбардиры матча:
 1) ${mp1} (${mp1Goals}G) | 2) ${mp2} (${mp2Goals}G) | 3) ${mp3} (${mp3Goals}G)
-✅ 100% явка. Отличная командная работа!`;
+⚡ Сделаем выводы и победим в следующем!`;
 
-    const reviewEN = `⭐ БРАТВА: MATCH RECAP vs ${lastOpp}
-⚽ VICTORY (${lastOurScore} - ${lastOppScore})!
-✨ Match Top Scorers:
+    const reviewEN = `⭐ БРАТВА: ${resWordEN} vs ${lastOpp}
+⚽ Match Score: ${lastOurScore} - ${lastOppScore}
+✨ Top match scorers:
 1) ${mp1} (${mp1Goals}G) | 2) ${mp2} (${mp2Goals}G) | 3) ${mp3} (${mp3Goals}G)
-✅ 100% turns played. Great teamwork!`;
+⚡ Focus up and conquer the next match!`;
 
-    // 4. Recent Tournament Warnings & Strikes Notice
+    // 4. Recent Tournament Warnings & Strikes Notice (RÈDHAWK前 and Mohamed_Osama missed)
     const missedPlayers = [];
-    if (latestT.matches && state.players) {
-      state.players.forEach(p => {
-        const m = latestT.matches.find(match => match.player_id === p.player_id);
-        const turns = m ? (m.turns_played !== undefined ? m.turns_played : 3) : 0;
+    if (lastT.matches && state.players) {
+      lastT.matches.forEach(m => {
+        const turns = m.turns_played !== undefined ? m.turns_played : 0;
         if (turns < rules.minTurnsPerTournament) {
-          missedPlayers.push(`▶️ ${p.display_name} [${turns}/${rules.minTurnsPerTournament}]`);
+          const pName = m.player_display_name || ((state.players || []).find(p => p.player_id === m.player_id)?.display_name || m.player_id);
+          missedPlayers.push(`▶️ ${pName} [${turns}/${rules.minTurnsPerTournament}]`);
         }
       });
     }
@@ -2850,22 +2849,6 @@ ${pList}
 
     return [
       {
-        id: 'live_warning',
-        title: t('b_title_live_warning'),
-        badge: t('b_badge_live_warning'),
-        timing: t('b_timing_live_warning'),
-        text_ru: liveRU,
-        text_en: liveEN
-      },
-      {
-        id: 'rally',
-        title: t('b_title_rally'),
-        badge: t('b_badge_rally'),
-        timing: t('b_timing_rally'),
-        text_ru: rallyRU,
-        text_en: rallyEN
-      },
-      {
         id: 'last_review',
         title: t('b_title_last_review'),
         badge: t('b_badge_last_review'),
@@ -2880,6 +2863,22 @@ ${pList}
         timing: t('b_timing_warnings'),
         text_ru: warnRU,
         text_en: warnEN
+      },
+      {
+        id: 'rally',
+        title: t('b_title_rally'),
+        badge: t('b_badge_rally'),
+        timing: t('b_timing_rally'),
+        text_ru: rallyRU,
+        text_en: rallyEN
+      },
+      {
+        id: 'live_warning',
+        title: t('b_title_live_warning'),
+        badge: t('b_badge_live_warning'),
+        timing: t('b_timing_live_warning'),
+        text_ru: liveRU,
+        text_en: liveEN
       },
       {
         id: 'rules',
@@ -3190,16 +3189,16 @@ const LeagueNewsModal = {
         sub: 'Real-time tournament events, notices, and match intelligence',
         items: [
           {
-            tag: 'LIVE TOURNAMENT',
+            tag: 'RECENT MATCH',
             tagClass: 'badge-live',
-            time: '~40m Remaining',
-            title: 'Urgent Match Battle: БРАТВА 159 - 181 РОССИЯ',
-            desc: 'The gap is only 22 goals! RÈDHAWK前 and Mohamed_Osama have 3/3 unplayed attempts. Enter the pitch immediately and secure victory!'
+            time: '2h Ago',
+            title: 'Match Concluded: БРАТВА 159 - 181 РОССИЯ',
+            desc: 'Tough battle vs РОССИЯ. Squad played 18/24 turns. Top scorers: саня (33G), Omar (27G), DOXIBÉRO (26G), Mike (26G).'
           },
           {
-            tag: 'MATCH VICTORY',
+            tag: 'PREVIOUS VICTORY',
             tagClass: 'badge-win',
-            time: 'Recent Tournament',
+            time: 'Previous Tournament',
             title: 'Victory: БРАТВА 225 - 144 Team Work',
             desc: 'Dominant team performance with 100% squad discipline. Top scorers: саня (37G), Mike (33G), DOXIBÉRO (31G).'
           },
@@ -3486,6 +3485,8 @@ document.addEventListener('DOMContentLoaded', () => {
 if (typeof window !== 'undefined') {
   window.setLanguage = setLanguage;
   window.state = state;
+  window.BroadcastGenerator = BroadcastGenerator;
+  window.RulesManager = RulesManager;
   window.LeagueRulesModal = LeagueRulesModal;
   window.LeagueNewsModal = LeagueNewsModal;
   window.AdminSwipeLock = AdminSwipeLock;

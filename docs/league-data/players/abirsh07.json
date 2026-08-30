@@ -14,6 +14,18 @@
       "turns_played": 3,
       "player_display_name": "Abirsh07",
       "player_id": "abirsh07"
+    },
+    {
+      "tournament_id": "2026-08-30_rossiya",
+      "match_index_in_tournament": 6,
+      "opponent_display_name": "РОССИЯ",
+      "opponent_id": "rossiya",
+      "goals_for": 24,
+      "goals_against": 0,
+      "result": "win",
+      "turns_played": 3,
+      "player_display_name": "Abirsh07",
+      "player_id": "abirsh07"
     }
   ],
   "eligibility_streak": {

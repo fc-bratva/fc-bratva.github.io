@@ -46,5 +46,11 @@
     "opponent_league": "Team Work",
     "status": "complete",
     "result": "win"
+  },
+  "2026-08-30_rossiya": {
+    "date": "2026-08-30",
+    "opponent_league": "РОССИЯ",
+    "status": "complete",
+    "result": "loss"
   }
 }

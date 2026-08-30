@@ -74,6 +74,18 @@
       "turns_played": 3,
       "player_display_name": "DOXIBÉRO",
       "player_id": "doxibro"
+    },
+    {
+      "tournament_id": "2026-08-30_rossiya",
+      "match_index_in_tournament": 3,
+      "opponent_display_name": "РОССИЯ",
+      "opponent_id": "rossiya",
+      "goals_for": 26,
+      "goals_against": 0,
+      "result": "win",
+      "turns_played": 3,
+      "player_display_name": "DOXIBÉRO",
+      "player_id": "doxibro"
     }
   ],
   "eligibility_streak": {
