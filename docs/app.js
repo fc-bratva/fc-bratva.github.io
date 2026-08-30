@@ -2747,7 +2747,7 @@ const BroadcastGenerator = {
     const dDivider = '----------------------------\n----------------------------';
 
     // =========================================================================
-    // 1. MATCH START RALLY (Kickoff Phase - Dual RU + EN)
+    // 1. MATCH START RALLY (Kickoff Phase - Verified Colored: ⚔️, ⚽, ⚡, ⛔)
     // =========================================================================
     const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
 ⚽ Соперник: ROYAL CHALLENGER
@@ -2766,10 +2766,9 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Ultra-Short: Players + Remaining Time + Quick Alert)
-    // Note: Attempt notation is reversed from game Limit: (3 - limit) = played turns
+    // 2. LIVE MATCH WARNING (Countdown - Verified Colored: ⛔, ⏳)
     // =========================================================================
-    const liveHeader = `❗ ВНИМАНИЕ / ATTENTION PLEASE ❗
+    const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
 [ ⏳ | KOUSTAV_007 | 0/3 ]
 [ ⏳ | ProGamer | 0/3 ]
 [ ⏳ | Mike | 0/3 ]
@@ -2790,7 +2789,7 @@ ${dDivider}
 ${liveEN}`;
 
     // =========================================================================
-    // 3. LAST MATCH RECAP (Post-Match Score & MVP Review - Boxed Ranks)
+    // 3. LAST MATCH RECAP (MVP Review - Verified Colored: ⭐, ⚽, ⚡)
     // =========================================================================
     const lastT = completed[0] || {};
     const lastOpp = lastT.opponent_league || 'РОССИЯ';
@@ -2810,7 +2809,7 @@ ${liveEN}`;
 
     const reviewRU = `⭐ БРАТВА: ${resWordRU} vs ${lastOpp}
 ⚽ Счет: ${lastOurScore} - ${lastOppScore}
-✨ ТОП БОМБАРДИРЫ:
+⭐ ТОП БОМБАРДИРЫ:
 [ 1 | ${mp1} | ${mp1Goals}G ]
 [ 2 | ${mp2} | ${mp2Goals}G ]
 [ 3 | ${mp3} | ${mp3Goals}G ]
@@ -2818,7 +2817,7 @@ ${liveEN}`;
 
     const reviewEN = `⭐ БРАТВА: ${resWordEN} vs ${lastOpp}
 ⚽ Score: ${lastOurScore} - ${lastOppScore}
-✨ TOP SCORERS:
+⭐ TOP SCORERS:
 [ 1 | ${mp1} | ${mp1Goals}G ]
 [ 2 | ${mp2} | ${mp2Goals}G ]
 [ 3 | ${mp3} | ${mp3Goals}G ]
@@ -2829,7 +2828,7 @@ ${dDivider}
 ${reviewEN}`;
 
     // =========================================================================
-    // 4. STRIKES & WARNINGS (Ultra-Short: Debtors + Strike Notice + Instant Rule)
+    // 4. STRIKES & WARNINGS (Verified Colored: ⛔, ❌)
     // =========================================================================
     const missedPlayers = [];
     if (lastT.matches && state.players) {
@@ -2847,7 +2846,7 @@ ${reviewEN}`;
     let warnCombined = '';
     if (missedPlayers.length > 0) {
       const pList = missedPlayers.join('\n');
-      const strikesHeader = `❗ ВНИМАНИЕ / ATTENTION PLEASE ❗\n${pList}`;
+      const strikesHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔\n${pList}`;
 
       warnRU = `⛔ Страйк 1/${rules.maxMissesKick}! Обязательно 3/3 в след. матче, иначе кик!`;
       warnEN = `⛔ Strike 1/${rules.maxMissesKick}! Must play 3/3 in next match or get kicked!`;
@@ -2867,15 +2866,15 @@ ${warnEN}`;
     }
 
     // =========================================================================
-    // 5. LEAGUE RULES (Permanent Constitution - Boxed Rules)
+    // 5. LEAGUE RULES (Verified Colored: ⚙️)
     // =========================================================================
-    const rulesRU = `ℹ️ ПРАВИЛА БРАТВА:
+    const rulesRU = `⚙️ ПРАВИЛА БРАТВА:
 [ 1 ] Обязательно 3/3 в матче
 [ 2 ] Пропуск ${rules.maxMissesKick} турниров = кик
 [ 3 ] Планка: ${rules.minGoalsPerTournament}+ голов
 [ 4 ] Оценка за ${rules.evaluationHorizon} турнира`;
 
-    const rulesEN = `ℹ️ БРАТВА RULES:
+    const rulesEN = `⚙️ БРАТВА RULES:
 [ 1 ] Mandatory 3/3 every match
 [ 2 ] Missing ${rules.maxMissesKick} tournaments = kick
 [ 3 ] Scoring target: ${rules.minGoalsPerTournament}+ goals
