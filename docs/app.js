@@ -2746,20 +2746,21 @@ const BroadcastGenerator = {
     const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : {};
     const dDivider = '----------------------------\n----------------------------';
 
-    // =========================================================================
-    // 1. MATCH START RALLY (Kickoff Phase - Dual RU + EN)
-    // =========================================================================
-    const rallyRU = `⚔️ БРАТВА: ТУРНИР НАЧАЛСЯ!
-⚽ Соперник: ROYAL CHALLENGER
-⚡ Выходим на поле за победой!
-⚽ Обязательно сыграть ВСЕ 3/3.
-⛔ Пропуск ходов = КИК ИЗ ЛИГИ!`;
+    // Current active opponent for rally (ROYAL CHALLENGER)
+    const currentOpponent = 'ROYAL CHALLENGER';
 
-    const rallyEN = `⚔️ БРАТВА: TOURNAMENT IS LIVE!
-⚽ Opponent: ROYAL CHALLENGER
-⚡ Enter the pitch for the win!
-⚽ Mandatory to play all 3/3.
-⛔ Missed turns = LEAGUE KICK!`;
+    // =========================================================================
+    // 1. MATCH START RALLY (Pure Hype & Captain Kickoff Energy)
+    // =========================================================================
+    const rallyRU = `⚔️ В БОЙ, БРАТВА! vs ${currentOpponent}!
+⚡ Турнир начался! Заходим и забираем победу!
+⚽ Играем сразу все 3/3 попытки!
+⛔ Кто пропустит = сразу кик!`;
+
+    const rallyEN = `⚔️ LETS GO BRATVA! vs ${currentOpponent}!
+⚡ Tournament is live! Jump in and take the win!
+⚽ Play all 3/3 turns right away!
+⛔ Missed turns = instant kick!`;
 
     const rallyCombined = `${rallyRU}
 ${dDivider}
