@@ -3005,14 +3005,22 @@ const LeagueRulesModal = {
     this.isOpen = true;
     this.render();
     const modal = document.getElementById('league-rules-modal');
-    if (modal) modal.classList.add('active');
+    if (modal) {
+      modal.style.display = 'flex';
+      modal.classList.add('active');
+    }
+    if (typeof lockModalScroll === 'function') lockModalScroll();
   },
 
   close() {
     SoundManager.playClick();
     this.isOpen = false;
     const modal = document.getElementById('league-rules-modal');
-    if (modal) modal.classList.remove('active');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.remove('active');
+    }
+    if (typeof unlockModalScroll === 'function') unlockModalScroll();
   },
 
   render() {
@@ -3146,14 +3154,22 @@ const LeagueNewsModal = {
     this.isOpen = true;
     this.render();
     const modal = document.getElementById('league-news-modal');
-    if (modal) modal.classList.add('active');
+    if (modal) {
+      modal.style.display = 'flex';
+      modal.classList.add('active');
+    }
+    if (typeof lockModalScroll === 'function') lockModalScroll();
   },
 
   close() {
     SoundManager.playClick();
     this.isOpen = false;
     const modal = document.getElementById('league-news-modal');
-    if (modal) modal.classList.remove('active');
+    if (modal) {
+      modal.style.display = 'none';
+      modal.classList.remove('active');
+    }
+    if (typeof unlockModalScroll === 'function') unlockModalScroll();
   },
 
   render() {
@@ -3461,3 +3477,9 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   }
 });
+
+if (typeof window !== 'undefined') {
+  window.LeagueRulesModal = LeagueRulesModal;
+  window.LeagueNewsModal = LeagueNewsModal;
+  window.AdminSwipeLock = AdminSwipeLock;
+}
