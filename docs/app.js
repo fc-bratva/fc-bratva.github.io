@@ -2766,30 +2766,22 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Active vs ROYAL CHALLENGER - 205 - 0, 9 unplayed)
+    // 2. LIVE MATCH WARNING (Ultra-Short: Players + Remaining Time + Quick Alert)
+    // Note: Attempt notation is reversed from game Limit: (3 - limit) = played turns
     // =========================================================================
     const liveHeader = `❗ ВНИМАНИЕ / ATTENTION PLEASE ❗
-[ ⏳ | KOUSTAV_007 | 3/3 ]
-[ ⏳ | ProGamer | 3/3 ]
-[ ⏳ | Mike | 3/3 ]
-[ ⏳ | Dip | 3/3 ]
-[ ⏳ | Omar | 3/3 ]
-[ ⏳ | yazaaa_ya | 3/3 ]
-[ ⏳ | John_Tony | 3/3 ]
-[ ⏳ | MEE | 3/3 ]
-[ ⏳ | Тима | 2/3 ]`;
+[ ⏳ | KOUSTAV_007 | 0/3 ]
+[ ⏳ | ProGamer | 0/3 ]
+[ ⏳ | Mike | 0/3 ]
+[ ⏳ | Dip | 0/3 ]
+[ ⏳ | Omar | 0/3 ]
+[ ⏳ | yazaaa_ya | 0/3 ]
+[ ⏳ | John_Tony | 0/3 ]
+[ ⏳ | MEE | 0/3 ]
+[ ⏳ | Тима | 1/3 ]`;
 
-    const liveRU = `⚡ БРАТВА: СРОЧНО В ИГРУ!
-⚽ Матч vs ROYAL CHALLENGER (205 - 0)
-⏳ До конца турнира: ~22 часа
-⚽ Обязательно доиграйте 3/3 попытки!
-❌ Несыгранные ходы = КИК ИЗ ЛИГИ!`;
-
-    const liveEN = `⚡ БРАТВА: URGENT MATCH CALL!
-⚽ Match vs ROYAL CHALLENGER (205 - 0)
-⏳ Time remaining: ~22 hours
-⚽ Mandatory: play your 3/3 turns NOW!
-❌ Incomplete turns = LEAGUE KICK!`;
+    const liveRU = `⏳ Осталось ~22ч! Сыграйте 3/3 вовремя, чтобы избежать кика!`;
+    const liveEN = `⏳ ~22h left! Attack 3/3 ASAP to avoid kick!`;
 
     const liveCombined = `${liveHeader}
 ${dDivider}
