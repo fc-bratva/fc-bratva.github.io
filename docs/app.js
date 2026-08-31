@@ -2764,18 +2764,12 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Evergreen Zero-Edit Countdown + Unplayed List)
+    // 2. LIVE MATCH WARNING (Only 3 remaining unplayed players: Dip, John_Tony, MEE)
     // =========================================================================
     const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
-[ ⏳ | KOUSTAV_007 | 0/3 ]
-[ ⏳ | ProGamer | 0/3 ]
-[ ⏳ | Mike | 0/3 ]
 [ ⏳ | Dip | 0/3 ]
-[ ⏳ | Omar | 0/3 ]
-[ ⏳ | yazaaa_ya | 0/3 ]
 [ ⏳ | John_Tony | 0/3 ]
-[ ⏳ | MEE | 0/3 ]
-[ ⏳ | Тима | 1/3 ]`;
+[ ⏳ | MEE | 0/3 ]`;
 
     const liveRU = `⏳ До конца турнира мало времени! Сыграйте 3/3, чтобы избежать кика!`;
     const liveEN = `⏳ Match ending soon! Attack 3/3 ASAP to avoid kick!`;
