@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800;900&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=7100">
+  <link rel="stylesheet" href="style.css?v=7200">
   <!-- Three.js CDN for 3D Fabric Flag Animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 </head>
@@ -231,7 +231,40 @@
             </div>
           </div>
 
-          <!-- Section 2: Admin Rule Controls (Protected with Swipe-to-Edit Slider) -->
+          
+          <!-- Section 2: Squad Lineup Advisor (Best 8 / 16 / 32 Recommendations) -->
+          <div class="note-card" style="margin-bottom: 24px;">
+            <div class="card-title-bar">
+              <div class="card-title" data-i18n="lineup_advisor_title" style="display:flex; align-items:center; gap:8px;">
+                <span>🎯 SQUAD LINEUP ADVISOR</span>
+                <span class="badge badge-gold" style="font-size:0.7rem; padding:2px 8px;">AI RECOMMENDER</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 14px; margin-bottom: 16px;">
+              <div class="lineup-tab-buttons" style="display: flex; gap: 8px; flex-wrap: wrap;">
+                <button type="button" class="lineup-size-btn active" id="lineup-btn-8" onclick="LineupAdvisor.setSize(8)">⭐ BEST 8 (8v8)</button>
+                <button type="button" class="lineup-size-btn" id="lineup-btn-16" onclick="LineupAdvisor.setSize(16)">⚡ BEST 16 (16v16)</button>
+                <button type="button" class="lineup-size-btn" id="lineup-btn-32" onclick="LineupAdvisor.setSize(32)">🛡️ BEST 32 (32v32)</button>
+              </div>
+              <div style="font-size: 0.8rem; color: var(--ucl-slate); margin-top: 8px;" id="lineup-desc-text">
+                Recommended highest-performing active starters based on form, goals, and 100% attendance.
+              </div>
+            </div>
+
+            <div id="lineup-roster-container" class="lineup-roster-grid" style="display: flex; flex-direction: column; gap: 8px;">
+              <!-- Dynamically populated roster list -->
+            </div>
+
+            <div style="margin-top: 16px;">
+              <button type="button" class="b-copy-single-btn combined-btn" style="background: linear-gradient(135deg, rgba(234, 179, 8, 0.35), rgba(168, 85, 247, 0.35)); border-color: rgba(234, 179, 8, 0.6);" onclick="LineupAdvisor.copyLineup(this)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span id="lineup-copy-btn-text" style="font-weight: 800; letter-spacing: 0.5px;">COPY TOP 8 SQUAD SELECTION [RU + EN]</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Section 3: Admin Rule Controls (Protected with Swipe-to-Edit Slider) -->
           <div class="note-card">
             <div class="card-title-bar">
               <div class="card-title" data-i18n="admin_panel_title">ADMIN RULES &amp; CONTROLS</div>
@@ -388,6 +421,6 @@
   </defs>
 </svg>
 
-<script src="app.js?v=7100"></script>
+<script src="app.js?v=7200"></script>
 </body>
 </html>

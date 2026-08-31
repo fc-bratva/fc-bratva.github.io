@@ -1631,6 +1631,7 @@ function renderAll() {
   renderRoster();
   renderLeaderboard();
   if (typeof BroadcastGenerator !== 'undefined') BroadcastGenerator.render();
+        if (typeof LineupAdvisor !== 'undefined') LineupAdvisor.render();
   setTimeout(() => SilkBadges3DManager.mountAll(), 30);
 }
 
@@ -3541,3 +3542,149 @@ if (typeof window !== 'undefined') {
   window.LeagueNewsModal = LeagueNewsModal;
   window.AdminSwipeLock = AdminSwipeLock;
 }
+
+
+// --- Squad Lineup Advisor Engine (Best 8 / 16 / 32 Selection) ---
+const LineupAdvisor = {
+  currentSize: 8,
+
+  init() {
+    this.render();
+  },
+
+  setSize(size) {
+    SoundManager.playClick();
+    this.currentSize = size;
+    ['8', '16', '32'].forEach(s => {
+      const btn = document.getElementById('lineup-btn-' + s);
+      if (btn) {
+        if (parseInt(s, 10) === size) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+
+    const copyBtnText = document.getElementById('lineup-copy-btn-text');
+    if (copyBtnText) {
+      copyBtnText.textContent = `COPY TOP ${size} SQUAD SELECTION [RU + EN]`;
+    }
+
+    this.render();
+  },
+
+  getRankedPlayers() {
+    const players = (state.players || []).slice();
+    const latestT = (state.tournaments && state.tournaments[0]) ? state.tournaments[0] : null;
+
+    return players.map(p => {
+      const lastMatch = latestT && latestT.matches ? latestT.matches.find(m => m.player_id === p.player_id) : null;
+      const lastMatchGoals = lastMatch ? (lastMatch.goals_for || 0) : null;
+      const lastMatchTurns = lastMatch ? (lastMatch.turns_played !== undefined ? lastMatch.turns_played : 0) : null;
+      
+      const totalMatches = p.matches ? p.matches.length : (p.total_matches || 0);
+      const totalGoals = p.matches ? p.matches.reduce((sum, m) => sum + (m.goals_for || 0), 0) : (p.total_goals || 0);
+      const avgGoals = totalMatches > 0 ? (totalGoals / totalMatches) : 0;
+      const failStreak = p.eligibility_streak?.current_fail_streak || 0;
+
+      // Power Score algorithm:
+      // Weight 1: Latest Match Goals (high weight)
+      // Weight 2: Average Goals (stability)
+      // Penalty: Fail Streak (severe penalty if missing turns)
+      let powerScore = 0;
+      if (lastMatch && lastMatchTurns >= 3 && lastMatchGoals > 0) {
+        powerScore += lastMatchGoals * 2.0;
+      }
+      powerScore += avgGoals * 1.5;
+      if (failStreak > 0) {
+        powerScore -= failStreak * 50; // heavily penalize debtor
+      }
+      if (lastMatchGoals === 0 && lastMatchTurns >= 3) {
+        powerScore -= 30; // penalize 0-goal completion
+      }
+
+      return {
+        player_id: p.player_id,
+        display_name: p.display_name,
+        ovr: p.ovr || (lastMatch ? lastMatch.ovr : 125),
+        lastMatchGoals,
+        lastMatchTurns,
+        avgGoals: Math.round(avgGoals),
+        totalGoals,
+        totalMatches,
+        failStreak,
+        powerScore
+      };
+    }).sort((a, b) => b.powerScore - a.powerScore);
+  },
+
+  generateMessageText(size = this.currentSize) {
+    const ranked = this.getRankedPlayers().slice(0, size);
+    const dDivider = '----------------------------\n----------------------------';
+
+    const pLines = ranked.map((p, idx) => {
+      const gText = p.lastMatchGoals !== null ? `${p.lastMatchGoals}G` : `${p.avgGoals}G`;
+      return `[ ${idx + 1} | ${p.display_name} | ${gText} ]`;
+    }).join('\n');
+
+    const ruHeader = `⭐ БРАТВА: СОСТАВ НА ТУРНИР (ТОП ${size}) ⭐\n${pLines}\n⚡ Заходим и забираем победу!`;
+    const enHeader = `⭐ БРАТВА: TOURNAMENT ROSTER (TOP ${size}) ⭐\n${pLines}\n⚡ Jump in for the victory!`;
+
+    return `${ruHeader}\n${dDivider}\n${enHeader}`;
+  },
+
+  render() {
+    if (typeof document === 'undefined') return;
+    const container = document.getElementById('lineup-roster-container');
+    if (!container) return;
+
+    const ranked = this.getRankedPlayers().slice(0, this.currentSize);
+    if (ranked.length === 0) {
+      container.innerHTML = '<div style="color:var(--ucl-slate); padding:10px;">Loading player statistics...</div>';
+      return;
+    }
+
+    container.innerHTML = ranked.map((p, idx) => {
+      const isTop3 = idx < 3;
+      const badgeClass = isTop3 ? 'top-3' : '';
+      const recentGoalsStr = p.lastMatchGoals !== null ? `Last: ${p.lastMatchGoals}G` : 'No recent';
+      const statusBadge = p.failStreak > 0
+        ? '<span class="badge badge-loss" style="font-size:0.7rem;">DEBTOR</span>'
+        : (isTop3
+            ? '<span class="badge badge-gold" style="font-size:0.7rem;">MVP STARTER</span>'
+            : (idx < 8
+                ? '<span class="badge badge-win" style="font-size:0.7rem;">TOP 8 STARTER</span>'
+                : '<span class="badge badge-live" style="font-size:0.7rem;">ROSTER</span>'));
+
+      return `
+        <div class="lineup-player-row">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <div class="lineup-rank-badge ${badgeClass}">#${idx + 1}</div>
+            <div>
+              <div style="font-weight: 800; font-size: 0.95rem; color: #fff;">${escapeHTML(p.display_name)}</div>
+              <div style="font-size: 0.75rem; color: var(--ucl-slate); margin-top: 1px;">
+                OVR ${p.ovr} &bull; Avg ${p.avgGoals}G &bull; ${recentGoalsStr}
+              </div>
+            </div>
+          </div>
+          <div>${statusBadge}</div>
+        </div>
+      `;
+    }).join('');
+  },
+
+  copyLineup(btn) {
+    SoundManager.playClick();
+    const text = this.generateMessageText();
+    navigator.clipboard.writeText(text).then(() => {
+      const oldHtml = btn.innerHTML;
+      btn.innerHTML = `<span style="font-weight: 800; color: #00e676;">✓ COPIED TOP ${this.currentSize} ROSTER!</span>`;
+      setTimeout(() => { btn.innerHTML = oldHtml; }, 2500);
+    }).catch(() => {
+      alert('Failed to copy to clipboard!');
+    });
+  }
+};
+
+if (typeof window !== "undefined") { window.LineupAdvisor = LineupAdvisor; }

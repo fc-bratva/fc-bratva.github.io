@@ -26,6 +26,18 @@
       "turns_played": 0,
       "player_display_name": "John_Tony",
       "player_id": "john_tony"
+    },
+    {
+      "tournament_id": "2026-08-31_royal-challenger",
+      "match_index_in_tournament": 12,
+      "opponent_display_name": "ROYAL CHALLENGER",
+      "opponent_id": "royal_challenger",
+      "goals_for": 0,
+      "goals_against": 0,
+      "result": "loss",
+      "turns_played": 0,
+      "player_display_name": "John_Tony",
+      "player_id": "john_tony"
     }
   ],
   "eligibility_streak": {

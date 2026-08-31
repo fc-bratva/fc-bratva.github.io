@@ -1,0 +1,19 @@
+{
+  "player_id": "progamer",
+  "display_name": "ProGamer",
+  "known_aliases": [],
+  "matches": [
+    {
+      "tournament_id": "2026-08-31_royal-challenger",
+      "match_index_in_tournament": 6,
+      "opponent_display_name": "ROYAL CHALLENGER",
+      "opponent_id": "royal_challenger",
+      "goals_for": 29,
+      "goals_against": 0,
+      "result": "loss",
+      "turns_played": 3,
+      "player_display_name": "ProGamer",
+      "player_id": "progamer"
+    }
+  ]
+}

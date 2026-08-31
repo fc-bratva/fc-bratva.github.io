@@ -26,6 +26,18 @@
       "turns_played": 3,
       "player_display_name": "Abirsh07",
       "player_id": "abirsh07"
+    },
+    {
+      "tournament_id": "2026-08-31_royal-challenger",
+      "match_index_in_tournament": 10,
+      "opponent_display_name": "ROYAL CHALLENGER",
+      "opponent_id": "royal_challenger",
+      "goals_for": 26,
+      "goals_against": 0,
+      "result": "loss",
+      "turns_played": 3,
+      "player_display_name": "Abirsh07",
+      "player_id": "abirsh07"
     }
   ],
   "eligibility_streak": {

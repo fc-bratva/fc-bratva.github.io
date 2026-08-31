@@ -38,6 +38,18 @@
       "turns_played": 3,
       "player_display_name": "Mike",
       "player_id": "mike"
+    },
+    {
+      "tournament_id": "2026-08-31_royal-challenger",
+      "match_index_in_tournament": 7,
+      "opponent_display_name": "ROYAL CHALLENGER",
+      "opponent_id": "royal_challenger",
+      "goals_for": 28,
+      "goals_against": 0,
+      "result": "loss",
+      "turns_played": 3,
+      "player_display_name": "Mike",
+      "player_id": "mike"
     }
   ],
   "eligibility_streak": {

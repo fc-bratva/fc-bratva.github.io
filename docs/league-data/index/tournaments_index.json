@@ -52,5 +52,13 @@
     "opponent_league": "РОССИЯ",
     "status": "complete",
     "result": "loss"
+  },
+  "2026-08-31_royal-challenger": {
+    "date": "2026-08-31",
+    "opponent_league": "ROYAL CHALLENGER",
+    "our_total_goals": 334,
+    "opponent_total_goals": 381,
+    "result": "loss",
+    "status": "complete"
   }
 }
