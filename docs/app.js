@@ -2748,24 +2748,32 @@ const BroadcastGenerator = {
     const dDivider = '----------------------------\n----------------------------';
 
     // =========================================================================
-    // 1. MATCH START RALLY (Evergreen Zero-Edit Kickoff - Pure Hype)
+    // 1. TOURNAMENT SQUAD CALL (Kickoff Lineup Roster - Names on Top)
     // =========================================================================
-    const rallyRU = `⚔️ В БОЙ, БРАТВА!
-⚡ Новый турнир начался! Заходим за легкой победой!
-⚽ Играем сразу все 3/3 попытки!
-⛔ Кто пропустит = сразу кик!`;
+    const activeParticipants = [];
+    if (latestT && latestT.matches) {
+      latestT.matches.forEach(m => {
+        const pName = m.player_display_name || ((state.players || []).find(p => p.player_id === m.player_id)?.display_name || m.player_id);
+        activeParticipants.push(`[ ⚽ | ${pName} | 3/3 ]`);
+      });
+    }
 
-    const rallyEN = `⚔️ LETS GO БРАТВА!
-⚡ New tournament is live! Jump in for an easy win!
-⚽ Play all 3/3 turns right away!
-⛔ Missed turns = instant kick!`;
+    const lineupList = activeParticipants.length > 0
+      ? activeParticipants.join('\n')
+      : `[ ⚽ | саня | 3/3 ]\n[ ⚽ | Slothx8 | 3/3 ]\n[ ⚽ | DOXIBÉRO | 3/3 ]\n[ ⚽ | DOXIBERO1 | 3/3 ]`;
 
-    const rallyCombined = `${rallyRU}
+    const rallyHeader = `⭐ СОСТАВ НА ТУРНИР / STARTING LINEUP ⭐\n${lineupList}`;
+    const rallyRU = `⚔️ В БОЙ, БРАТВА! Состав выше — заходите и сыграйте 3/3!`;
+    const rallyEN = `⚔️ LETS GO БРАТВА! Lineup above — enter & play your 3/3!`;
+
+    const rallyCombined = `${rallyHeader}
+${dDivider}
+${rallyRU}
 ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Active vs ITALIANI F.C - 4 unplayed players)
+    // 2. LIVE MATCH WARNING (Active Match Countdown + Unplayed List)
     // =========================================================================
     const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
 [ ⏳ | KOUSTAV_007 | 0/3 ]
@@ -2786,17 +2794,17 @@ ${liveEN}`;
     // 3. LAST MATCH RECAP (Energetic Squad Language + Boxed Ranks)
     // =========================================================================
     const lastT = completed[0] || {};
-    const lastOpp = lastT.opponent_league || 'ROYAL CHALLENGER';
-    const lastOurScore = lastT.our_total_goals || 334;
-    const lastOppScore = lastT.opponent_total_goals || 381;
+    const lastOpp = lastT.opponent_league || 'ITALIANI F.C';
+    const lastOurScore = lastT.our_total_goals || 119;
+    const lastOppScore = lastT.opponent_total_goals || 216;
     const isWin = lastT.result === 'win' || (lastOurScore > lastOppScore);
     const matchPerformers = ((lastT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
     const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'саня') : 'саня';
-    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 39;
+    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 33;
     const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Slothx8') : 'Slothx8';
     const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 30;
     const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'DOXIBÉRO') : 'DOXIBÉRO';
-    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 30;
+    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 28;
 
     const titleRU = isWin ? `⭐ БРАТВА: ПОБЕДА vs ${lastOpp}!` : `⭐ БРАТВА: МАТЧ vs ${lastOpp}!`;
     const titleEN = isWin ? `⭐ БРАТВА: BIG WIN vs ${lastOpp}!` : `⭐ БРАТВА: MATCH vs ${lastOpp}!`;
@@ -2883,8 +2891,8 @@ ${rulesEN}`;
     return [
       {
         id: 'rally',
-        title: t('b_title_rally'),
-        badge: t('b_badge_rally'),
+        title: t('b_title_rally') || '1. SQUAD LINEUP CALL',
+        badge: t('b_badge_rally') || 'KICKOFF',
         timing: t('b_timing_rally'),
         is_combined: true,
         text_combined: rallyCombined,
