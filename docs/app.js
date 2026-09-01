@@ -2765,12 +2765,13 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Only 3 remaining unplayed players: Dip, John_Tony, MEE)
+    // 2. LIVE MATCH WARNING (Active vs ITALIANI F.C - 4 unplayed players)
     // =========================================================================
     const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
-[ ⏳ | Dip | 0/3 ]
-[ ⏳ | John_Tony | 0/3 ]
-[ ⏳ | MEE | 0/3 ]`;
+[ ⏳ | KOUSTAV_007 | 0/3 ]
+[ ⏳ | ProGamer | 0/3 ]
+[ ⏳ | Omar | 0/3 ]
+[ ⏳ | Mike | 0/3 ]`;
 
     const liveRU = `⏳ До конца турнира мало времени! Сыграйте 3/3, чтобы избежать кика!`;
     const liveEN = `⏳ Match ending soon! Attack 3/3 ASAP to avoid kick!`;
@@ -2785,17 +2786,17 @@ ${liveEN}`;
     // 3. LAST MATCH RECAP (Energetic Squad Language + Boxed Ranks)
     // =========================================================================
     const lastT = completed[0] || {};
-    const lastOpp = lastT.opponent_league || 'РОССИЯ';
-    const lastOurScore = lastT.our_total_goals || 159;
-    const lastOppScore = lastT.opponent_total_goals || 181;
+    const lastOpp = lastT.opponent_league || 'ROYAL CHALLENGER';
+    const lastOurScore = lastT.our_total_goals || 334;
+    const lastOppScore = lastT.opponent_total_goals || 381;
     const isWin = lastT.result === 'win' || (lastOurScore > lastOppScore);
     const matchPerformers = ((lastT.matches || []).slice()).sort((a, b) => (b.goals_for || 0) - (a.goals_for || 0));
     const mp1 = matchPerformers[0] ? ((state.players || []).find(p => p.player_id === matchPerformers[0].player_id)?.display_name || 'саня') : 'саня';
-    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 33;
-    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Omar') : 'Omar';
-    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 27;
+    const mp1Goals = matchPerformers[0] ? matchPerformers[0].goals_for : 39;
+    const mp2 = matchPerformers[1] ? ((state.players || []).find(p => p.player_id === matchPerformers[1].player_id)?.display_name || 'Slothx8') : 'Slothx8';
+    const mp2Goals = matchPerformers[1] ? matchPerformers[1].goals_for : 30;
     const mp3 = matchPerformers[2] ? ((state.players || []).find(p => p.player_id === matchPerformers[2].player_id)?.display_name || 'DOXIBÉRO') : 'DOXIBÉRO';
-    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 26;
+    const mp3Goals = matchPerformers[2] ? matchPerformers[2].goals_for : 30;
 
     const titleRU = isWin ? `⭐ БРАТВА: ПОБЕДА vs ${lastOpp}!` : `⭐ БРАТВА: МАТЧ vs ${lastOpp}!`;
     const titleEN = isWin ? `⭐ БРАТВА: BIG WIN vs ${lastOpp}!` : `⭐ БРАТВА: MATCH vs ${lastOpp}!`;
@@ -3235,9 +3236,9 @@ const LeagueNewsModal = {
           {
             tag: 'LIVE TOURNAMENT',
             tagClass: 'badge-live',
-            time: '~22h Remaining',
-            title: 'Active Battle: БРАТВА 205 - 0 ROYAL CHALLENGER',
-            desc: 'Dominant 205 - 0 lead (21/48 turns completed). 9 squad members have unplayed turns remaining. Complete 3/3 to secure win!'
+            time: '~3h 50m Remaining',
+            title: 'Active Match: БРАТВА 119 - 151 ITALIANI F.C',
+            desc: 'Tense 8v8 battle vs ITALIANI F.C (12/24 turns played). 4 squad members (KOUSTAV_007, ProGamer, Omar, Mike) need to play 3/3 NOW!'
           },
           {
             tag: 'RECENT MATCH',
