@@ -13,25 +13,25 @@
   },
   "doxibero1": {
     "display_name": "DOXIBERO1",
-    "total_goals": 219,
-    "total_matches": 9,
-    "average_goals": 24,
-    "last_tournament_date": "2026-08-31",
+    "total_goals": 247,
+    "total_matches": 10,
+    "average_goals": 25,
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
       "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
   "doxibro": {
     "display_name": "DOXIBÉRO",
-    "total_goals": 252,
-    "total_matches": 8,
-    "average_goals": 32,
-    "last_tournament_date": "2026-08-31",
+    "total_goals": 280,
+    "total_matches": 9,
+    "average_goals": 31,
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
       "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
@@ -73,13 +73,13 @@
   },
   "sanya": {
     "display_name": "саня",
-    "total_goals": 352,
-    "total_matches": 10,
+    "total_goals": 385,
+    "total_matches": 11,
     "average_goals": 35,
-    "last_tournament_date": "2026-08-31",
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
       "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
@@ -182,12 +182,12 @@
   "mike": {
     "display_name": "Mike",
     "total_goals": 107,
-    "total_matches": 4,
-    "average_goals": 27,
-    "last_tournament_date": "2026-08-31",
+    "total_matches": 5,
+    "average_goals": 21,
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
-      "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
@@ -362,12 +362,12 @@
   "koustav_007": {
     "display_name": "KOUSTAV_007",
     "total_goals": 58,
-    "total_matches": 2,
-    "average_goals": 29,
-    "last_tournament_date": "2026-08-31",
+    "total_matches": 3,
+    "average_goals": 19,
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
-      "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
@@ -434,36 +434,36 @@
   "omar": {
     "display_name": "Omar",
     "total_goals": 49,
-    "total_matches": 2,
-    "average_goals": 25,
-    "last_tournament_date": "2026-08-31",
+    "total_matches": 3,
+    "average_goals": 16,
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
-      "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
   "slothx8": {
     "display_name": "Slothx8",
-    "total_goals": 30,
-    "total_matches": 1,
+    "total_goals": 60,
+    "total_matches": 2,
     "average_goals": 30,
-    "last_tournament_date": "2026-08-31",
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
       "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },
   "progamer": {
     "display_name": "ProGamer",
     "total_goals": 29,
-    "total_matches": 1,
-    "average_goals": 29,
-    "last_tournament_date": "2026-08-31",
+    "total_matches": 2,
+    "average_goals": 15,
+    "last_tournament_date": "2026-09-01",
     "eligibility_streak": {
-      "current_fail_streak": 0,
-      "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
+      "current_fail_streak": 1,
+      "last_evaluated_tournament_id": "2026-09-01_italiani-fc",
       "flagged_for_review": false
     }
   },

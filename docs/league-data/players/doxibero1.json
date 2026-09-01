@@ -110,6 +110,18 @@
       "turns_played": 3,
       "player_display_name": "DOXIBERO1",
       "player_id": "doxibero1"
+    },
+    {
+      "tournament_id": "2026-09-01_italiani-fc",
+      "match_index_in_tournament": 7,
+      "opponent_display_name": "ITALIANI F.C",
+      "opponent_id": "italiani_fc",
+      "goals_for": 28,
+      "goals_against": 0,
+      "result": "loss",
+      "turns_played": 3,
+      "player_display_name": "DOXIBERO1",
+      "player_id": "doxibero1"
     }
   ],
   "eligibility_streak": {
