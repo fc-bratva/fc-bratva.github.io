@@ -2748,19 +2748,16 @@ const BroadcastGenerator = {
     const dDivider = '----------------------------\n----------------------------';
 
     // =========================================================================
-    // 1. TOURNAMENT SQUAD CALL (Kickoff Lineup Roster - Names on Top)
+    // 1. TOURNAMENT SQUAD CALL (Active vs Bayern 2 Monique - 8 Starters)
     // =========================================================================
-    const activeParticipants = [];
-    if (latestT && latestT.matches) {
-      latestT.matches.forEach(m => {
-        const pName = m.player_display_name || ((state.players || []).find(p => p.player_id === m.player_id)?.display_name || m.player_id);
-        activeParticipants.push(`[ ⚽ | ${pName} | 3/3 ]`);
-      });
-    }
-
-    const lineupList = activeParticipants.length > 0
-      ? activeParticipants.join('\n')
-      : `[ ⚽ | саня | 3/3 ]\n[ ⚽ | Slothx8 | 3/3 ]\n[ ⚽ | DOXIBÉRO | 3/3 ]\n[ ⚽ | DOXIBERO1 | 3/3 ]`;
+    const lineupList = `[ ⚽ | саня | 3/3 ]
+[ ⚽ | Mohamed_Osama | 3/3 ]
+[ ⚽ | RÈDHAWK前 | 3/3 ]
+[ ⚽ | Rogelio | 3/3 ]
+[ ⚽ | Abirsh07 | 3/3 ]
+[ ⚽ | DOXIBÉRO | 3/3 ]
+[ ⚽ | Тима | 3/3 ]
+[ ⚽ | DOXIBERO1 | 3/3 ]`;
 
     const rallyHeader = `⭐ СОСТАВ НА ТУРНИР / STARTING LINEUP ⭐\n${lineupList}`;
     const rallyRU = `⚔️ В БОЙ, БРАТВА! Состав выше — заходите и сыграйте 3/3!`;
@@ -2773,13 +2770,17 @@ ${dDivider}
 ${rallyEN}`;
 
     // =========================================================================
-    // 2. LIVE MATCH WARNING (Active Match Countdown + Unplayed List)
+    // 2. LIVE MATCH WARNING (Active Match Countdown + 8 Starters with 0/3)
     // =========================================================================
     const liveHeader = `⛔ ВНИМАНИЕ / ATTENTION PLEASE ⛔
-[ ⏳ | KOUSTAV_007 | 0/3 ]
-[ ⏳ | ProGamer | 0/3 ]
-[ ⏳ | Omar | 0/3 ]
-[ ⏳ | Mike | 0/3 ]`;
+[ ⏳ | саня | 0/3 ]
+[ ⏳ | Mohamed_Osama | 0/3 ]
+[ ⏳ | RÈDHAWK前 | 0/3 ]
+[ ⏳ | Rogelio | 0/3 ]
+[ ⏳ | Abirsh07 | 0/3 ]
+[ ⏳ | DOXIBÉRO | 0/3 ]
+[ ⏳ | Тима | 0/3 ]
+[ ⏳ | DOXIBERO1 | 0/3 ]`;
 
     const liveRU = `⏳ До конца турнира мало времени! Сыграйте 3/3, чтобы избежать кика!`;
     const liveEN = `⏳ Match ending soon! Attack 3/3 ASAP to avoid kick!`;
@@ -2891,7 +2892,7 @@ ${rulesEN}`;
     return [
       {
         id: 'rally',
-        title: t('b_title_rally') || '1. SQUAD LINEUP CALL',
+        title: t('b_title_rally') || '1. STARTING LINEUP CALL',
         badge: t('b_badge_rally') || 'KICKOFF',
         timing: t('b_timing_rally'),
         is_combined: true,
@@ -3244,9 +3245,9 @@ const LeagueNewsModal = {
           {
             tag: 'LIVE TOURNAMENT',
             tagClass: 'badge-live',
-            time: '~3h 50m Remaining',
-            title: 'Active Match: БРАТВА 119 - 151 ITALIANI F.C',
-            desc: 'Tense 8v8 battle vs ITALIANI F.C (12/24 turns played). 4 squad members (KOUSTAV_007, ProGamer, Omar, Mike) need to play 3/3 NOW!'
+            time: '~24h Remaining',
+            title: 'Active Match: БРАТВА 0 - 0 Bayern 2 Monique',
+            desc: '8v8 tournament kicked off vs Bayern 2 Monique. Selected 8 starters: саня, Mohamed_Osama, RÈDHAWK前, Rogelio, Abirsh07, DOXIBÉRO, Тима, DOXIBERO1.'
           },
           {
             tag: 'RECENT MATCH',

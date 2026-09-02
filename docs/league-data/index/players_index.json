@@ -478,5 +478,17 @@
       "last_evaluated_tournament_id": "2026-08-31_royal-challenger",
       "flagged_for_review": false
     }
+  },
+  "rogelio": {
+    "display_name": "Rogelio",
+    "total_goals": 0,
+    "total_matches": 0,
+    "average_goals": 0,
+    "last_tournament_date": "2026-09-02",
+    "eligibility_streak": {
+      "current_fail_streak": 0,
+      "last_evaluated_tournament_id": null,
+      "flagged_for_review": false
+    }
   }
 }
